@@ -20,6 +20,10 @@ public class Vector2i {
 		return "[Vector2i: "+x+" | "+y+"]";
 	}
 	
+	public Vector2f toFloat() {
+		return new Vector2f(x,y);
+	}
+	
 	public Vector2i add(Vector2i v) {return add(v.x,v.y);}
 	public Vector2i add(int x, int y) {
 		return new Vector2i(this.x+x,this.y+y);
