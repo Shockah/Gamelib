@@ -1,6 +1,6 @@
 package pl.shockah.glib.geom;
 
-public class Vector2f {
+public class Vector2f implements IVector {
 	public final float x, y;
 	
 	public Vector2f() {
@@ -22,6 +22,9 @@ public class Vector2f {
 	
 	public Vector2i toInt() {
 		return new Vector2i((int)x,(int)y);
+	}
+	public Vector2d toDouble() {
+		return new Vector2d(x,y);
 	}
 	
 	public Vector2f add(Vector2f v) {return add(v.x,v.y);}
