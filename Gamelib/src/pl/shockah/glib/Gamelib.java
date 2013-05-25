@@ -1,8 +1,6 @@
 package pl.shockah.glib;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import pl.shockah.glib.room.Room;
@@ -27,9 +25,9 @@ public final class Gamelib {
 		
 		if (fullscreen) {
 			try {
-				List<DisplayMode> modes = Arrays.asList(Display.getAvailableDisplayModes());
-				Collections.sort(modes,new BestDisplayModeComparator(width,height));
-				DisplayMode newMode = modes.get(modes.size()-1);
+				DisplayMode[] modes = Display.getAvailableDisplayModes();
+				Arrays.sort(modes,0,modes.length-1,new BestDisplayModeComparator(width,height));
+				DisplayMode newMode = modes[modes.length-1];
 				if (newMode.getWidth() != width || newMode.getHeight() != height) throw new RuntimeException("Failed to find a suitable "+width+"x"+height+" display mode.");
 				cachedDisplayMode = newMode;
 			} catch (Exception e) {e.printStackTrace();}
