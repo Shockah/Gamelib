@@ -4,11 +4,19 @@ import java.util.Arrays;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
+import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.room.Room;
 
-public final class Gamelib {
-	public static Gamelib me = null;
+public final class Gamelib<G extends IGame> {
+	@SuppressWarnings("rawtypes") public static Gamelib me = null;
 	public static DisplayMode originalDisplayMode;
+	
+	public static <G extends IGame> Gamelib<G> make(Class<G> cls) {
+		try {
+			return new Gamelib<G>(cls.newInstance());
+		} catch (Exception e) {e.printStackTrace();}
+		return null;
+	}
 	
 	public final class Capabilities {
 		private boolean multisample = true, alpha = true, stencil = true;
@@ -37,9 +45,16 @@ public final class Gamelib {
 	}
 	
 	public final Capabilities capabilities = new Capabilities();
+	public final G game;
+	public final Delta delta = new Delta();
 	protected boolean cachedFullscreen = false;
 	protected DisplayMode cachedDisplayMode = null;
 	protected Room room;
+	protected boolean isRunning = false;
+	
+	private Gamelib(G game) {
+		this.game = game;
+	}
 	
 	public void setDisplayMode(int width, int height) {
 		setDisplayMode(width,height,cachedFullscreen);
@@ -74,39 +89,57 @@ public final class Gamelib {
 		if (windowTitle == null) windowTitle = "";
 		Display.setTitle(windowTitle);
 		
-		try {
-			Display.create(new PixelFormat(8,8,8,4));
-		} catch (Exception e1) {
-			Display.destroy();
+		if (!tryCreatingDisplay(new PixelFormat(8,8,8,4))) {
 			capabilities.setMultisampleSupport(false);
-			try {
-				Display.create(new PixelFormat(8,8,8));
-			} catch (Exception e2) {
-				Display.destroy();
-				capabilities.setStencilSupport(false);
-				try {
-					Display.create(new PixelFormat(8,8,0));
-				} catch (Exception e3) {
-					Display.destroy();
-					capabilities.setAlphaSupport(false);
-					try {
-						Display.create(new PixelFormat());
-					} catch (Exception e4) {
-						Display.destroy();
-						throw new RuntimeException("Couldn't create display.");
-					}
-				}
-			}
+			if (!tryCreatingDisplay(new PixelFormat(8,8,8,4))) {}
 		}
+		
+		tryCreatingDisplay();
 		capabilities.lock();
 		
 		room = firstRoom;
 		GLHelper.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+		
+		isRunning = true;
+		delta.update();
+		gameLoop();
+		Display.destroy();
+	}
+	
+	private void tryCreatingDisplay() {
+		if (tryCreatingDisplay(new PixelFormat(8,8,8,4))) return;
+		capabilities.setMultisampleSupport(false);
+		
+		if (tryCreatingDisplay(new PixelFormat(8,8,8))) return;
+		capabilities.setStencilSupport(false);
+		
+		if (tryCreatingDisplay(new PixelFormat(8,8,0))) return;
+		capabilities.setAlphaSupport(false);
+		
+		if (tryCreatingDisplay(new PixelFormat())) return;
+		throw new RuntimeException("Couldn't create display.");
+	}
+	private boolean tryCreatingDisplay(PixelFormat format) {
+		try {
+			Display.create(format);
+			return true;
+		} catch (Exception e) {
+			Display.destroy();
+			return false;
+		}
 	}
 	
 	protected void gameLoop() {
-		
+		while (isRunning) {
+			if (Display.isCloseRequested()) isRunning = false;
+			game.gameLoop();
+			Display.update();
+			double dlt = delta.update();
+			try {
+				Thread.sleep((long)((1d/room.getFPS()-dlt)*1000)); //TODO: make it more accurate (store parts of seconds left to sleep)
+			} catch (Exception e) {e.printStackTrace();}
+		}
 	}
 	
 	public void handle(Throwable t) {
