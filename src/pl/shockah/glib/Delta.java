@@ -4,20 +4,31 @@ import org.lwjgl.Sys;
 
 public final class Delta {
 	private long lastFrame;
-	private double delta;
+	private long delta;
+	private long timeLeft = 0;
 	
 	public Delta() {
 		lastFrame = Sys.getTime();
 	}
 	
-	public double getDelta() {
+	public long getDelta() {
 		return delta;
+	}
+	public long getTimeLeft() {
+		return timeLeft;
+	}
+	public void subTimeLeft(long sub) {
+		timeLeft -= sub;
+	}
+	public void resetTimeLeft() {
+		timeLeft = 0;
 	}
 	
 	public double update() {
 		long time = Sys.getTime();
-		int delta = (int)(time-lastFrame);
-		lastFrame = time;
-		return this.delta = 1d*delta/Sys.getTimerResolution();
+		System.out.println(">>> "+time);
+		delta = time-lastFrame;
+		timeLeft += delta;
+		return delta;
 	}
 }

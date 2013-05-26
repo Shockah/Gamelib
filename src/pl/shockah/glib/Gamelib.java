@@ -4,16 +4,19 @@ import java.util.Arrays;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
-import pl.shockah.glib.logic.IGame;
+import pl.shockah.glib.logic.Game;
 import pl.shockah.glib.room.Room;
 
-public final class Gamelib<G extends IGame> {
+public final class Gamelib<G extends Game<G>> {
 	@SuppressWarnings("rawtypes") public static Gamelib me = null;
 	public static DisplayMode originalDisplayMode;
 	
-	public static <G extends IGame> Gamelib<G> make(Class<G> cls) {
+	public static <G extends Game<G>> Gamelib<G> make(Class<G> cls) {
 		try {
-			return new Gamelib<G>(cls.newInstance());
+			G inst = cls.newInstance();
+			Gamelib<G> glib = new Gamelib<G>(inst);
+			inst.setGamelib(glib);
+			return glib;
 		} catch (Exception e) {e.printStackTrace();}
 		return null;
 	}
@@ -46,7 +49,6 @@ public final class Gamelib<G extends IGame> {
 	
 	public final Capabilities capabilities = new Capabilities();
 	public final G game;
-	public final Delta delta = new Delta();
 	protected boolean cachedFullscreen = false;
 	protected DisplayMode cachedDisplayMode = null;
 	protected Room room;
@@ -60,6 +62,7 @@ public final class Gamelib<G extends IGame> {
 		setDisplayMode(width,height,cachedFullscreen);
 	}
 	public void setDisplayMode(int width, int height, boolean fullscreen) {
+		if (cachedDisplayMode == null) cachedDisplayMode = originalDisplayMode;
 		if (width == cachedDisplayMode.getWidth() && height == cachedDisplayMode.getHeight() && fullscreen == cachedFullscreen) return;
 		
 		if (fullscreen) {
@@ -89,11 +92,6 @@ public final class Gamelib<G extends IGame> {
 		if (windowTitle == null) windowTitle = "";
 		Display.setTitle(windowTitle);
 		
-		if (!tryCreatingDisplay(new PixelFormat(8,8,8,4))) {
-			capabilities.setMultisampleSupport(false);
-			if (!tryCreatingDisplay(new PixelFormat(8,8,8,4))) {}
-		}
-		
 		tryCreatingDisplay();
 		capabilities.lock();
 		
@@ -102,7 +100,7 @@ public final class Gamelib<G extends IGame> {
 		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		
 		isRunning = true;
-		delta.update();
+		Display.sync(room.getFPS());
 		gameLoop();
 		Display.destroy();
 	}
@@ -132,13 +130,9 @@ public final class Gamelib<G extends IGame> {
 	
 	protected void gameLoop() {
 		while (isRunning) {
-			if (Display.isCloseRequested()) isRunning = false;
 			game.gameLoop();
+			if (Display.isCloseRequested()) isRunning = false;
 			Display.update();
-			double dlt = delta.update();
-			try {
-				Thread.sleep((long)((1d/room.getFPS()-dlt)*1000)); //TODO: make it more accurate (store parts of seconds left to sleep)
-			} catch (Exception e) {e.printStackTrace();}
 		}
 	}
 	
