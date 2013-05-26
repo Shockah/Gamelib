@@ -5,16 +5,16 @@ import pl.shockah.glib.geom.vector.Vector2d;
 public class EntityRenderable extends EntityBase implements Comparable<EntityRenderable> {
 	private float depth = 0;
 	
-	public int compareTo(EntityRenderable er) {
+	public final int compareTo(EntityRenderable er) {
 		if (depth == er.depth) return 0;
 		return depth < er.depth ? -1 : 1;
 	}
 	
-	public void create(Vector2d pos) {
+	public final void create(Vector2d pos) {
 		super.create(pos);
 		Game.me.renderableAdd.add(this);
 	}
-	public void destroy() {
+	public final void destroy() {
 		Game.me.renderableRemove.add(this);
 		super.destroy();
 	}
@@ -28,7 +28,7 @@ public class EntityRenderable extends EntityBase implements Comparable<EntityRen
 		Game.me.renderableAdd.add(this);
 	}
 	
-	public void render() {
+	public final void render() {
 		onRender();
 	}
 	protected void onRender() {}
