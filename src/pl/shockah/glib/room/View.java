@@ -1,6 +1,6 @@
 package pl.shockah.glib.room;
 
-import pl.shockah.glib.geom.Vector2i;
+import pl.shockah.glib.geom.vector.Vector2i;
 
 public final class View {
 	public Vector2i

@@ -102,7 +102,6 @@ public final class Gamelib<G extends Game<G>> {
 		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		
 		isRunning = true;
-		Display.sync(room.getFPS());
 		gameLoop();
 		Display.destroy();
 	}
@@ -135,6 +134,7 @@ public final class Gamelib<G extends Game<G>> {
 			game.gameLoop();
 			if (Display.isCloseRequested()) isRunning = false;
 			Display.update();
+			Display.sync(room.getFPS());
 		}
 	}
 	

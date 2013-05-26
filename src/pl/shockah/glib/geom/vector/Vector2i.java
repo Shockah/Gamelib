@@ -1,4 +1,4 @@
-package pl.shockah.glib.geom;
+package pl.shockah.glib.geom.vector;
 
 public class Vector2i implements IVector {
 	public final int x, y;
