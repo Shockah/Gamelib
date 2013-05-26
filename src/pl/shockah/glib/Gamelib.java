@@ -13,12 +13,14 @@ public final class Gamelib<G extends Game<G>> {
 	
 	public static <G extends Game<G>> Gamelib<G> make(Class<G> cls) {
 		try {
-			G inst = cls.newInstance();
-			Gamelib<G> glib = new Gamelib<G>(inst);
-			inst.setGamelib(glib);
-			return glib;
+			return make(cls.newInstance());
 		} catch (Exception e) {e.printStackTrace();}
 		return null;
+	}
+	public static <G extends Game<G>> Gamelib<G> make(G inst) {
+		Gamelib<G> glib = new Gamelib<G>(inst);
+		inst.setGamelib(glib);
+		return glib;
 	}
 	
 	public final class Capabilities {
