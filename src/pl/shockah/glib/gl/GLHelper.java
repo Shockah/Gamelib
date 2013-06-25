@@ -1,6 +1,7 @@
-package pl.shockah.glib;
+package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.BlendMode;
 
 public final class GLHelper {
 	public static void initDisplay(int width, int height) {

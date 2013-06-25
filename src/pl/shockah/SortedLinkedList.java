@@ -48,7 +48,7 @@ public class SortedLinkedList<E> extends LinkedList<E> {
 		return true;
 	}
 	public Object clone() {
-		SortedLinkedList<E> ret = new SortedLinkedList<E>();
+		SortedLinkedList<E> ret = new SortedLinkedList<>();
 		for (E e : this) ret.add(e);
 		return ret;
 	}

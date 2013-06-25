@@ -4,6 +4,7 @@ import java.util.Arrays;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
+import pl.shockah.glib.gl.GLHelper;
 import pl.shockah.glib.logic.Game;
 import pl.shockah.glib.room.Room;
 
@@ -18,7 +19,7 @@ public final class Gamelib<G extends Game<G>> {
 		return null;
 	}
 	public static <G extends Game<G>> Gamelib<G> make(G inst) {
-		Gamelib<G> glib = new Gamelib<G>(inst);
+		Gamelib<G> glib = new Gamelib<>(inst);
 		inst.setGamelib(glib);
 		return glib;
 	}
