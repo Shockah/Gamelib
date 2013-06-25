@@ -12,13 +12,13 @@ public class Game extends pl.shockah.glib.logic.Game<Game> {
 	}
 	
 	protected final List<EntityBase>
-		entities = new LinkedList<EntityBase>(),
-		entitiesAdd = new LinkedList<EntityBase>(),
-		entitiesRemove = new LinkedList<EntityBase>();
+		entities = new LinkedList<>(),
+		entitiesAdd = new LinkedList<>(),
+		entitiesRemove = new LinkedList<>();
 	protected final List<EntityRenderable>
-		renderable = new SortedLinkedList<EntityRenderable>(),
-		renderableAdd = new SortedLinkedList<EntityRenderable>(),
-		renderableRemove = new LinkedList<EntityRenderable>();
+		renderable = new SortedLinkedList<>(),
+		renderableAdd = new SortedLinkedList<>(),
+		renderableRemove = new LinkedList<>();
 	
 	public void reset() {
 		entities.clear();

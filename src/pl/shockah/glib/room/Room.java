@@ -5,7 +5,7 @@ import java.util.List;
 import pl.shockah.glib.Gamelib;
 
 public class Room {
-	protected List<View> views = new LinkedList<View>();
+	protected List<View> views = new LinkedList<>();
 	protected int fps = 60;
 	
 	public final int getFPS() {
