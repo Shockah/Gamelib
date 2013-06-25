@@ -4,10 +4,14 @@ import static org.lwjgl.opengl.GL11.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import de.matthiasmann.twl.utils.PNGDecoder;
 import pl.shockah.glib.gl.Texture;
+import de.matthiasmann.twl.utils.PNGDecoder;
 
-public class PNGTextureDataLoader extends TextureLoader {
+public class PNGTextureLoader extends TextureLoader {
+	public PNGTextureLoader(String... formats) {
+		super("PNG");
+	}
+	
 	public Texture load(InputStream is) throws IOException {
 		PNGDecoder decoder = new PNGDecoder(is);
 		

@@ -1,10 +1,28 @@
 package pl.shockah.glib.gl;
 
+import static org.lwjgl.opengl.GL11.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import pl.shockah.glib.gl.texload.TextureLoader;
 
 public class Texture {
-	public static Texture get(InputStream is) {
-		return null;
+	private static int bound = 0;
+	
+	public static Texture get(Path path) throws FileNotFoundException, IOException {
+		return get(path.toFile());
+	}
+	public static Texture get(File file) throws FileNotFoundException, IOException {
+		String[] spl = file.getName().split("\\.");
+		return get(new FileInputStream(file),spl[spl.length-1]);
+	}
+	public static Texture get(InputStream is, String format) throws IOException {
+		TextureLoader tl = TextureLoader.getTextureLoader(format);
+		if (tl == null) throw new RuntimeException("Unsupported format: "+format+".");
+		return tl.load(is);
 	}
 	
 	private final int texId;
@@ -14,5 +32,23 @@ public class Texture {
 		this.texId = texId;
 		this.width = width;
 		this.height = height;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	
+	public void bind() {
+		if (bound == texId) return;
+		glBindTexture(GL_TEXTURE_2D,texId);
+		bound = texId;
+	}
+	public void unbind() {
+		if (bound != texId) return;
+		glBindTexture(GL_TEXTURE_2D,0);
+		bound = 0;
 	}
 }
