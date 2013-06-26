@@ -1,10 +1,9 @@
-package pl.shockah.glib.gl.texload;
+package pl.shockah.glib.gl.tex;
 
 import static org.lwjgl.opengl.GL11.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
-import pl.shockah.glib.gl.Texture;
 import de.matthiasmann.twl.utils.PNGDecoder;
 
 public class PNGTextureLoader extends TextureLoader {

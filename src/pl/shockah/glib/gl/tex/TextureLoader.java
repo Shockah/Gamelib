@@ -1,11 +1,10 @@
-package pl.shockah.glib.gl.texload;
+package pl.shockah.glib.gl.tex;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import pl.shockah.glib.gl.Texture;
 
 public abstract class TextureLoader {
 	private static final List<TextureLoader> loaders = new LinkedList<>();

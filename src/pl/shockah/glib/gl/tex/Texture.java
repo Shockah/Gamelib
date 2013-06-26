@@ -1,4 +1,4 @@
-package pl.shockah.glib.gl;
+package pl.shockah.glib.gl.tex;
 
 import static org.lwjgl.opengl.GL11.*;
 import java.io.File;
@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import pl.shockah.glib.gl.texload.TextureLoader;
 
 public class Texture {
 	private static int bound = 0;
