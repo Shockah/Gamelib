@@ -27,7 +27,7 @@ public class Vector2d implements IVector {
 		return new Vector2f((float)x,(float)y);
 	}
 	
-	public Vector2d add(Vector2f v) {return add(v.x,v.y);}
+	public Vector2d add(Vector2d v) {return add(v.x,v.y);}
 	public Vector2d add(double x, double y) {
 		return new Vector2d(this.x+x,this.y+y);
 	}
@@ -37,5 +37,12 @@ public class Vector2d implements IVector {
 	public Vector2d scale(double scale) {return scale(scale,scale);}
 	public Vector2d scale(double scaleH, double scaleV) {
 		return new Vector2d(x*scaleH,y*scaleV);
+	}
+	
+	public double distanceSquared(Vector2d v) {
+		return Math.pow(v.x-x,2)+Math.pow(v.y-y,2);
+	}
+	public double distance(Vector2d v) {
+		return Math.sqrt(distanceSquared(v));
 	}
 }

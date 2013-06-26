@@ -38,4 +38,11 @@ public class Vector2i implements IVector {
 	public Vector2i scale(float scaleH, float scaleV) {
 		return new Vector2i((int)(x*scaleH),(int)(y*scaleV));
 	}
+	
+	public int distanceSquared(Vector2d v) {
+		return (int)(Math.pow(v.x-x,2)+Math.pow(v.y-y,2));
+	}
+	public int distance(Vector2d v) {
+		return (int)Math.sqrt(Math.pow(v.x-x,2)+Math.pow(v.y-y,2));
+	}
 }
