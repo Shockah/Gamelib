@@ -33,6 +33,13 @@ public class SpriteSheet extends TextureSupplier {
 	
 	public int getColumns() {return grid.length;}
 	public int getRows() {return grid[0].length;}
+	
+	//region Java-OO
+	public Image[] get(int x) {
+		return grid[x];
+	}
+	//endregion
+	
 	public Image getImage(int x, int y) {
 		return grid[x][y];
 	}

@@ -27,26 +27,26 @@ public class Vector2i implements IVector {
 		return new Vector2d(x,y);
 	}
 	
-	public Vector2i negate() {
-		return new Vector2i(-x,-y);
-	}
+	//region Java-OO
+	public Vector2i negate() {return new Vector2i(-x,-y);}
+	public Vector2i add(Vector2i v) {return add(v.x,v.y);}
+	public Vector2i subtract(Vector2i v) {return subtract(v.x,v.y);}
+	public Vector2i multiply(float scale) {return multiply(scale,scale);}
+	public Vector2i divide(int scale) {return divide(scale,scale);}
+	//endregion
+	
 	public Vector2i abs() {
 		return new Vector2i(x >= 0 ? x : -x,y >= 0 ? y : -y);
 	}
-	
-	public Vector2i add(Vector2i v) {return add(v.x,v.y);}
 	public Vector2i add(int x, int y) {
 		return new Vector2i(this.x+x,this.y+y);
 	}
-	public Vector2i subtract(Vector2i v) {return subtract(v.x,v.y);}
-	public Vector2i subtract(int x, int y) {return add(-x,-y);}
-	
-	public Vector2i multiply(float scale) {return multiply(scale,scale);}
+	public Vector2i subtract(int x, int y) {
+		return add(-x,-y);
+	}
 	public Vector2i multiply(float scaleH, float scaleV) {
 		return new Vector2i((int)(x*scaleH),(int)(y*scaleV));
 	}
-	
-	public Vector2i divide(int scale) {return divide(scale,scale);}
 	public Vector2i divide(int scaleH, int scaleV) {
 		return new Vector2i(x/scaleH,y/scaleV);
 	}
