@@ -1,6 +1,7 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.color.Color;
 
 public class Graphics {
@@ -16,7 +17,8 @@ public class Graphics {
 		
 		ts.preDraw(this);
 		glBegin(GL_QUADS);
-		internalDrawImage(0,0,ts.getWidth(),ts.getHeight(),0,0,ts.getWidth(),ts.getHeight());
+		Rectangle texRect = ts.getTextureRect();
+		internalDrawImage(0,0,(int)texRect.size.x,(int)texRect.size.y,(int)texRect.pos.x,(int)texRect.pos.y,(int)texRect.size.x,(int)texRect.size.y);
 		glEnd();
 		ts.postDraw(this);
 		

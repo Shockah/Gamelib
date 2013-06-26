@@ -3,7 +3,7 @@ package pl.shockah.glib.geom;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public class Rectangle extends Shape {
-	protected Vector2d pos, size;
+	public Vector2d pos, size;
 	
 	public Rectangle(double x, double y, double w, double h) {
 		pos = new Vector2d(x,y);
