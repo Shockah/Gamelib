@@ -161,6 +161,9 @@ public abstract class Color {
 		java.awt.Color awtc = java.awt.Color.getHSBColor(H,S,B);
 		return new ColorbImmutable(awtc.getRed(),awtc.getGreen(),awtc.getBlue());
 	}
+	public static Color fromPackedValue(int value) {
+		return new ColorbImmutable((value & 0x00FF0000) >> 16,(value & 0x0000FF00) >> 8,(value & 0x000000FF),(value & 0xFF000000) >> 24);
+	}
 	
 	public static Color alpha(Color color, float alpha) {
 		return new ColorbImmutable(color.Rf(),color.Gf(),color.Bf(),color.Af()*alpha);
