@@ -4,34 +4,24 @@ import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.gl.color.Color;
 
 public class Graphics {
-	public void draw(Image image) {draw(image,0,0);}
-	public void draw(Image image, Color color) {draw(image,0,0,color);}
-	public void draw(Image image, float x, float y) {draw(image,x,y,Color.White);}
-	public void draw(Image image, float x, float y, Color color) {
+	public void draw(TextureSupplier ts) {draw(ts,0,0);}
+	public void draw(TextureSupplier ts, Color color) {draw(ts,0,0,color);}
+	public void draw(TextureSupplier ts, float x, float y) {draw(ts,x,y,Color.White);}
+	public void draw(TextureSupplier ts, float x, float y, Color color) {
 		if (color == null) color = Color.White;
 		color.bindMe();
 		
-		image.tex.bindMe();
+		ts.getTexture().bindMe();
 		glTranslatef(x,y,0);
 		
-		if (image.rotation != 0) {
-			glTranslatef(image.centerOfRotation.x,image.centerOfRotation.y,0);
-			glRotatef(image.rotation,0f,0f,1f);
-			glTranslatef(-image.centerOfRotation.x,-image.centerOfRotation.y,0);
-		}
-		
+		ts.preDraw(this);
 		glBegin(GL_QUADS);
-		internalDrawImage(0,0,image.getWidth(),image.getHeight(),0,0,image.getWidth(),image.getHeight());
+		internalDrawImage(0,0,ts.getWidth(),ts.getHeight(),0,0,ts.getWidth(),ts.getHeight());
 		glEnd();
-		
-		if (image.rotation != 0) {
-			glTranslatef(image.centerOfRotation.x,image.centerOfRotation.y,0);
-			glRotatef(-image.rotation,0f,0f,1f);
-			glTranslatef(-image.centerOfRotation.x,-image.centerOfRotation.y,0);
-		}
+		ts.postDraw(this);
 		
 		glTranslatef(-x,-y,0);
-		image.tex.unbindMe();
+		ts.getTexture().unbindMe();
 	}
 	
 	private void internalDrawImage(float x, float y, float w, float h, float tx, float ty, float tw, float th) {
