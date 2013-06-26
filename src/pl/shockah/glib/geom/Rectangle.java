@@ -13,4 +13,13 @@ public class Rectangle extends Shape {
 		this.pos = pos;
 		this.size = size;
 	}
+	
+	public boolean collides(Shape shape) {
+		if (shape instanceof Rectangle) {
+			Rectangle rect = (Rectangle)shape;
+			Vector2d v = ((pos+size/2)-(rect.pos+rect.size/2)).abs()-(size/2+rect.size/2);
+			return v.x < 0 && v.y < 0;
+		}
+		return super.collides(shape);
+	}
 }
