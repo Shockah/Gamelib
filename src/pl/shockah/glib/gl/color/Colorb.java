@@ -26,4 +26,20 @@ public final class Colorb extends Color {
 	public float Gf() {return G()/255f;}
 	public float Bf() {return B()/255f;}
 	public float Af() {return A()/255f;}
+	
+	public void copy(Color color) {
+		r = (byte)color.R();
+		g = (byte)color.G();
+		b = (byte)color.B();
+		a = (byte)color.A();
+	}
+	
+	public Colorb alpha(float alpha) {
+		copy(alpha(this,alpha));
+		return this;
+	}
+	public Colorb lerp(Color color, float ratio) {
+		copy(lerp(this,color,ratio));
+		return this;
+	}
 }

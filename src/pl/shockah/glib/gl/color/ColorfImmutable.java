@@ -29,6 +29,17 @@ public final class ColorfImmutable extends Color {
 	public float Bf() {return b;}
 	public float Af() {return a;}
 	
+	public ColorfImmutable copy(Color color) {
+		return new ColorfImmutable(color.Rf(),color.Gf(),color.Bf(),color.Af());
+	}
+	
+	public ColorfImmutable alpha(float alpha) {
+		return alpha(this,alpha).toColorfImmutable();
+	}
+	public ColorfImmutable lerp(Color color, float ratio) {
+		return lerp(this,color,ratio).toColorfImmutable();
+	}
+	
 	public void bindMe() {
 		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
