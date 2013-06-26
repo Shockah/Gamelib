@@ -7,8 +7,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import pl.shockah.glib.IBoundable;
 
-public class Texture {
+public class Texture implements IBoundable {
 	private static int bound = 0;
 	
 	public static Texture get(Path path) throws FileNotFoundException, IOException {
@@ -22,6 +23,12 @@ public class Texture {
 		TextureLoader tl = TextureLoader.getTextureLoader(format);
 		if (tl == null) throw new RuntimeException("Unsupported format: "+format+".");
 		return tl.load(is);
+	}
+	
+	public static void unbind() {
+		if (bound == 0) return;
+		glBindTexture(GL_TEXTURE_2D,0);
+		bound = 0;
 	}
 	
 	private final int texId;
@@ -40,14 +47,13 @@ public class Texture {
 		return height;
 	}
 	
-	public void bind() {
+	public void bindMe() {
 		if (bound == texId) return;
 		glBindTexture(GL_TEXTURE_2D,texId);
 		bound = texId;
 	}
-	public void unbind() {
+	public void unbindMe() {
 		if (bound != texId) return;
-		glBindTexture(GL_TEXTURE_2D,0);
-		bound = 0;
+		unbind();
 	}
 }
