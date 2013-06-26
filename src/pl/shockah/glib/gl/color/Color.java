@@ -1,6 +1,9 @@
 package pl.shockah.glib.gl.color;
 
-public abstract class Color {
+import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.IBoundable;
+
+public abstract class Color implements IBoundable {
 	public static final Color
 		Black = new ColorbImmutable(0),
 		TransparentBlack = new ColorbImmutable(0,0),
@@ -177,6 +180,12 @@ public abstract class Color {
 		return new ColorbImmutable(R,G,B,A);
 	}
 	
+	public boolean equals(Object other) {
+		if (!(other instanceof Color)) return false;
+		Color c = (Color)other;
+		return R() == c.R() && G() == c.G() && B() == c.B() && A() == c.A();
+	}
+	
 	public abstract int R();
 	public abstract int G();
 	public abstract int B();
@@ -186,6 +195,11 @@ public abstract class Color {
 	public abstract float Gf();
 	public abstract float Bf();
 	public abstract float Af();
+	
+	public void bindMe() {
+		glColor4b((byte)R(),(byte)G(),(byte)B(),(byte)A());
+	}
+	public void unbindMe() {}
 	
 	public Colorb toColorb() {
 		if (getClass() == Colorb.class) return (Colorb)this;
