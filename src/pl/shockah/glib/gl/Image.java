@@ -11,4 +11,11 @@ public class Image {
 	public Image(Texture tex) {
 		this.tex = tex;
 	}
+	
+	public int getWidth() {
+		return tex.getWidth();
+	}
+	public int getHeight() {
+		return tex.getHeight();
+	}
 }

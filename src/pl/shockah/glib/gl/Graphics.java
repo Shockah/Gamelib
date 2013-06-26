@@ -21,7 +21,7 @@ public class Graphics {
 		}
 		
 		glBegin(GL_QUADS);
-		internalDraw(image,0,0);
+		internalDrawImage(0,0,image.getWidth(),image.getHeight(),0,0,image.getWidth(),image.getHeight());
 		glEnd();
 		
 		if (image.rotation != 0) {
@@ -34,14 +34,14 @@ public class Graphics {
 		image.tex.unbindMe();
 	}
 	
-	private void internalDraw(Image image, float x, float y) {
-		glTexCoord2f(0,0);
+	private void internalDrawImage(float x, float y, float w, float h, float tx, float ty, float tw, float th) {
+		glTexCoord2f(tx,ty);
 		glVertex2f(x,y);
-		glTexCoord2f(0,image.tex.getHeight());
-		glVertex2f(x,y+image.tex.getHeight());
-		glTexCoord2f(image.tex.getWidth(),image.tex.getHeight());
-		glVertex2f(x+image.tex.getWidth(),y+image.tex.getHeight());
-		glTexCoord2f(image.tex.getWidth(),0);
-		glVertex2f(x+image.tex.getWidth(),y);
+		glTexCoord2f(tx,ty+th);
+		glVertex2f(x,y+h);
+		glTexCoord2f(tx+tw,ty+th);
+		glVertex2f(x+w,y+h);
+		glTexCoord2f(tx+tw,ty);
+		glVertex2f(x+w,y);
 	}
 }
