@@ -6,9 +6,21 @@ public class Circle extends Shape {
 	public Vector2d pos;
 	public double radius;
 	
+	public Circle(double x, double y, double radius) {
+		pos = new Vector2d(x,y);
+		this.radius = radius;
+	}
 	public Circle(Vector2d pos, double radius) {
 		this.pos = pos;
 		this.radius = radius;
+	}
+	public Circle(Circle circle) {
+		pos = circle.pos;
+		radius = circle.radius;
+	}
+	
+	public Rectangle getBoundingBox() {
+		return new Rectangle(pos.x-radius,pos.y-radius,radius*2,radius*2);
 	}
 	
 	protected boolean collides(Shape shape, boolean secondTry) {

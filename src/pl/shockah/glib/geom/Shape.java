@@ -1,6 +1,8 @@
 package pl.shockah.glib.geom;
 
-public class Shape {
+public abstract class Shape {
+	public abstract Rectangle getBoundingBox();
+	
 	public boolean collides(Shape shape) {
 		return collides(shape,false);
 	}

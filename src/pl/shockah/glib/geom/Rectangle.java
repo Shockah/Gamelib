@@ -13,6 +13,14 @@ public class Rectangle extends Shape {
 		this.pos = pos;
 		this.size = size;
 	}
+	public Rectangle(Rectangle rect) {
+		pos = rect.pos;
+		size = rect.size;
+	}
+	
+	public Rectangle getBoundingBox() {
+		return new Rectangle(this);
+	}
 	
 	protected boolean collides(Shape shape, boolean secondTry) {
 		if (shape instanceof Rectangle) {
