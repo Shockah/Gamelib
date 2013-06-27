@@ -15,7 +15,7 @@ public class DrawQuadTest extends Room {
 	}
 	
 	protected void onSetup() {
-		fps = 2;
+		fps = 10;
 	}
 	
 	protected void onCreate() {
