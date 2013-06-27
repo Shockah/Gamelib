@@ -22,9 +22,9 @@ public class DrawPolygonTest extends Room {
 		fps = 10;
 		
 		Random rand = new Random();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			Vector2d pos = i == 0 ? new Vector2d(400,300) : p.getPoints()[p.getPointCount()-1];
-			p.addPoint(pos.add(rand.nextDouble()*64*(rand.nextBoolean() ? 1 : -1),rand.nextDouble()*64*(rand.nextBoolean() ? 1 : -1)));
+			p.addPoint(pos.add(rand.nextDouble()*128*(rand.nextBoolean() ? 1 : -1),rand.nextDouble()*128*(rand.nextBoolean() ? 1 : -1)));
 		}
 	}
 	
