@@ -1,7 +1,6 @@
 package pl.shockah.glib.gl;
 
-import static org.lwjgl.opengl.GL11.glRotatef;
-import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.gl.tex.Texture;
 

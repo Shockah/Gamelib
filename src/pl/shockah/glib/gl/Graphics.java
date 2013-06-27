@@ -5,6 +5,10 @@ import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.color.Color;
 
 public class Graphics {
+	public void setColor(Color color) {
+		color.bindMe();
+	}
+	
 	public void draw(TextureSupplier ts) {draw(ts,0,0);}
 	public void draw(TextureSupplier ts, Color color) {draw(ts,0,0,color);}
 	public void draw(TextureSupplier ts, float x, float y) {draw(ts,x,y,Color.White);}

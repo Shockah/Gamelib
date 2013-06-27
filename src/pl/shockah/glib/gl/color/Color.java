@@ -197,7 +197,7 @@ public abstract class Color implements IBoundable {
 	public abstract float Af();
 	
 	public void bindMe() {
-		glColor4b((byte)R(),(byte)G(),(byte)B(),(byte)A());
+		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
 	public void unbindMe() {}
 	

@@ -1,7 +1,5 @@
 package pl.shockah.glib.gl.color;
 
-import static org.lwjgl.opengl.GL11.*;
-
 public final class ColorfImmutable extends Color {
 	public final float r, g, b, a;
 	
@@ -38,9 +36,5 @@ public final class ColorfImmutable extends Color {
 	}
 	public ColorfImmutable lerp(Color color, float ratio) {
 		return lerp(this,color,ratio).toColorfImmutable();
-	}
-	
-	public void bindMe() {
-		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
 }

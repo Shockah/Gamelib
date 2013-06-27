@@ -1,7 +1,6 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
-import pl.shockah.glib.BlendMode;
 
 public final class GLHelper {
 	public static void initDisplay(int width, int height) {
@@ -21,7 +20,7 @@ public final class GLHelper {
 	public static void enterOrtho(int width, int height) {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0d,width,height,0d,1d,-1d);
+		glOrtho(0,width,0,height,1,-1);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glViewport(0,0,width,height);

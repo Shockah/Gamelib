@@ -1,8 +1,9 @@
 package pl.shockah.glib.logic.standard;
 
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.Graphics;
 
-public class EntityRenderable extends EntityBase implements Comparable<EntityRenderable> {
+public abstract class EntityRenderable extends EntityBase implements Comparable<EntityRenderable> {
 	private float depth = 0;
 	
 	public final int compareTo(EntityRenderable er) {
@@ -28,8 +29,8 @@ public class EntityRenderable extends EntityBase implements Comparable<EntityRen
 		Game.me.renderableAdd.add(this);
 	}
 	
-	public final void render() {
-		onRender();
+	public final void render(Graphics g) {
+		onRender(g);
 	}
-	protected void onRender() {}
+	protected void onRender(Graphics g) {}
 }

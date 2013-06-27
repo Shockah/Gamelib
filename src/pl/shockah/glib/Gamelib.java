@@ -101,6 +101,7 @@ public final class Gamelib<G extends Game<G>> {
 		room = firstRoom;
 		GLHelper.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+		room.create();
 		
 		isRunning = true;
 		gameLoop();

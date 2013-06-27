@@ -1,7 +1,5 @@
 package pl.shockah.glib.gl.color;
 
-import static org.lwjgl.opengl.GL11.*;
-
 public final class Colorf extends Color {
 	public float r, g, b, a;
 	
@@ -43,9 +41,5 @@ public final class Colorf extends Color {
 	public Colorf lerp(Color color, float ratio) {
 		copy(lerp(this,color,ratio));
 		return this;
-	}
-	
-	public void bindMe() {
-		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
 }

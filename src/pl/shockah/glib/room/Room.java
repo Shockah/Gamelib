@@ -29,7 +29,7 @@ public class Room {
 	}
 	protected void onSetup() {}
 	
-	protected final void create() {
+	public final void create() {
 		onCreate();
 	}
 	protected void onCreate() {}
