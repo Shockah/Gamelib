@@ -33,4 +33,12 @@ public class Rectangle extends Shape {
 		}
 		return super.collides(shape);
 	}
+	
+	public Polygon asPolygon() {
+		return new Polygon()
+			.addPoint(pos)
+			.addPoint(pos+size.justX())
+			.addPoint(pos+size)
+			.addPoint(pos+size.justY());
+	}
 }

@@ -33,4 +33,13 @@ public class Circle extends Shape {
 		}
 		return super.collides(shape);
 	}
+	
+	public Polygon asPolygon() {
+		return asPolygon((int)Math.ceil(Math.PI*radius/4));
+	}
+	public Polygon asPolygon(int precision) {
+		Polygon p = new Polygon();
+		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i));
+		return p;
+	}
 }

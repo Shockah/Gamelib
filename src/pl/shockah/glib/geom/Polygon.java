@@ -20,6 +20,12 @@ public class Polygon extends Shape {
 		return new Rectangle(x1,y1,x2-x1,y2-y1);
 	}
 	
+	//region Java-OO
+	public Vector2d get(int index) {
+		return points[index];
+	}
+	//endregion
+	
 	public Polygon addPoint(Vector2d point) {
 		points.add(point);
 		return this;
