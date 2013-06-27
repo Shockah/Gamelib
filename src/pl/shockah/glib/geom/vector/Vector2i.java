@@ -27,6 +27,13 @@ public class Vector2i implements IVector {
 		return new Vector2d(x,y);
 	}
 	
+	public Vector2i justX() {
+		return new Vector2i(x,0);
+	}
+	public Vector2i justY() {
+		return new Vector2i(0,y);
+	}
+	
 	//region Java-OO
 	public Vector2i negate() {return new Vector2i(-x,-y);}
 	public Vector2i add(Vector2i v) {return add(v.x,v.y);}
