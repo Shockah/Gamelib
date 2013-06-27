@@ -14,7 +14,7 @@ public class Rectangle extends Shape {
 		this.size = size;
 	}
 	
-	public boolean collides(Shape shape) {
+	protected boolean collides(Shape shape, boolean secondTry) {
 		if (shape instanceof Rectangle) {
 			Rectangle rect = (Rectangle)shape;
 			Vector2d v = ((pos+size/2)-(rect.pos+rect.size/2)).abs()-(size/2+rect.size/2);

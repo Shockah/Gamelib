@@ -11,12 +11,13 @@ public class Circle extends Shape {
 		this.radius = radius;
 	}
 	
-	public boolean collides(Shape shape) {
+	protected boolean collides(Shape shape, boolean secondTry) {
 		if (shape instanceof Circle) {
 			Circle circle = (Circle)shape;
 			return pos.distanceSquared(circle.pos) < Math.pow(radius+circle.radius,2);
 		} else if (shape instanceof Rectangle) {
-			return shape.collides(this);
+			if (secondTry) return super.collides(shape);
+			return shape.collides(this,true);
 		}
 		return super.collides(shape);
 	}
