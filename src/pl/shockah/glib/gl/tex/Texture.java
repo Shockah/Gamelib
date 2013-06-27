@@ -31,7 +31,7 @@ public class Texture implements IBoundable {
 	
 	public static void unbind() {
 		if (bound == 0) return;
-		glBindTexture(GL_TEXTURE_2D,0);
+		glDisable(GL_TEXTURE_2D);
 		bound = 0;
 	}
 	
@@ -53,6 +53,7 @@ public class Texture implements IBoundable {
 	
 	public void bindMe() {
 		if (bound == texId) return;
+		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D,texId);
 		bound = texId;
 	}

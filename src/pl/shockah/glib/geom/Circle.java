@@ -2,6 +2,7 @@ package pl.shockah.glib.geom;
 
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.Graphics;
 
 public class Circle extends Shape {
 	public Vector2d pos;
@@ -42,5 +43,12 @@ public class Circle extends Shape {
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i).add(pos));
 		return p;
+	}
+	
+	public void draw(Graphics g, boolean filled, double x, double y) {
+		asPolygon().draw(g,filled,x,y);
+	}
+	public void draw(Graphics g, boolean filled, double x, double y, int precision) {
+		asPolygon(precision).draw(g,filled,x,y);
 	}
 }

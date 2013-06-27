@@ -1,7 +1,9 @@
 package pl.shockah.glib.geom;
 
+import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.Graphics;
 
 public class Rectangle extends Shape {
 	public Vector2d pos, size;
@@ -41,5 +43,24 @@ public class Rectangle extends Shape {
 			.addPoint(pos.add(size.justX()))
 			.addPoint(pos.add(size))
 			.addPoint(pos.add(size.justY()));
+	}
+	
+	public void draw(Graphics g, boolean filled, double x, double y) {
+		g.init();
+		
+		if (filled) {
+			glTranslated(x,y,0);
+			
+			glBegin(GL_QUADS);
+			glVertex2d(pos.x+x,pos.y+y);
+			glVertex2d(pos.x+size.x+x,pos.y+y);
+			glVertex2d(pos.x+size.x+x,pos.y+size.y+y);
+			glVertex2d(pos.x+x,pos.y+size.y+y);
+			glEnd();
+			
+			glTranslatef((float)-x,(float)-y,0);
+		} else {
+			throw new UnsupportedOperationException();
+		}
 	}
 }

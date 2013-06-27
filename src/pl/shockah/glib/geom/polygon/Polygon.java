@@ -1,10 +1,12 @@
 package pl.shockah.glib.geom.polygon;
 
+import static org.lwjgl.opengl.GL11.*;
 import java.util.ArrayList;
 import java.util.List;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.Graphics;
 
 public class Polygon extends Shape {
 	protected List<Vector2d> points = new ArrayList<>();
@@ -44,6 +46,31 @@ public class Polygon extends Shape {
 	
 	public ITriangulator getTriangulator() {
 		return new NeatTriangulator();
+	}
+	
+	public void draw(Graphics g, boolean filled, double x, double y) {
+		g.init();
+		
+		if (filled) {
+			glTranslated(x,y,0);
+			
+			ITriangulator tris = getTriangulator();
+			for (Vector2d v : getPoints()) tris.addPolyPoint(new Vector2d(v.x+x,v.y+y));
+			tris.triangulate();
+			
+			glBegin(GL_TRIANGLES);
+			for (int i = 0; i < tris.getTriangleCount(); i++) {
+				for (int p = 0; p<3; p++) {
+					Vector2d v = tris.getTrianglePoint(i,p);
+					glVertex2d(v.x,v.y);
+				}
+			}
+			glEnd();
+			
+			glTranslatef((float)-x,(float)-y,0);
+		} else {
+			throw new UnsupportedOperationException();
+		}
 	}
 	
 	public static class NoHoles extends Polygon {
