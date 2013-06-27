@@ -1,6 +1,7 @@
 package pl.shockah.glib.gl.tex;
 
 import static org.lwjgl.opengl.GL11.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,11 +19,11 @@ public class Texture implements IBoundable {
 	}
 	public static Texture load(File file) throws FileNotFoundException, IOException {
 		String[] spl = file.getName().split("\\.");
-		return load(new FileInputStream(file),spl[spl.length-1].toUpperCase());
+		return load(new BufferedInputStream(new FileInputStream(file)),spl[spl.length-1].toUpperCase());
 	}
 	public static Texture load(String internalPath) throws IOException {
 		String[] spl = internalPath.split("\\.");
-		return load(Texture.class.getClassLoader().getResourceAsStream(internalPath),spl[spl.length-1].toUpperCase());
+		return load(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(internalPath)),spl[spl.length-1].toUpperCase());
 	}
 	public static Texture load(InputStream is, String format) throws IOException {
 		TextureLoader tl = TextureLoader.getTextureLoader(format);
