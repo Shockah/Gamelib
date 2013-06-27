@@ -1,5 +1,6 @@
 package pl.shockah.glib.geom;
 
+import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public class Rectangle extends Shape {

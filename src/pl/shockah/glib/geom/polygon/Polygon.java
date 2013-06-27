@@ -1,11 +1,13 @@
-package pl.shockah.glib.geom;
+package pl.shockah.glib.geom.polygon;
 
 import java.util.ArrayList;
 import java.util.List;
+import pl.shockah.glib.geom.Rectangle;
+import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public class Polygon extends Shape {
-	public List<Vector2d> points = new ArrayList<>();
+	protected List<Vector2d> points = new ArrayList<>();
 	
 	public Rectangle getBoundingBox() {
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
@@ -20,6 +22,9 @@ public class Polygon extends Shape {
 		return new Rectangle(x1,y1,x2-x1,y2-y1);
 	}
 	
+	public Polygon addPoint(double x, double y) {
+		return addPoint(new Vector2d(x,y));
+	}
 	public Polygon addPoint(Vector2d point) {
 		points.add(point);
 		return this;
@@ -27,7 +32,23 @@ public class Polygon extends Shape {
 	public Vector2d removePoint(int index) {
 		return points.remove(index);
 	}
+	public Vector2d getPoint(int index) {
+		return points.get(index);
+	}
 	public Vector2d[] getPoints() {
 		return points.toArray(new Vector2d[0]);
+	}
+	public int getPointCount() {
+		return points.size();
+	}
+	
+	public ITriangulator getTriangulator() {
+		return new NeatTriangulator();
+	}
+	
+	public static class NoHoles extends Polygon {
+		public ITriangulator getTriangulator() {
+			return new BasicTriangulator();
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package pl.shockah.glib.geom;
 
+import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public class Circle extends Shape {
@@ -38,8 +39,8 @@ public class Circle extends Shape {
 		return asPolygon((int)Math.ceil(Math.PI*radius/4));
 	}
 	public Polygon asPolygon(int precision) {
-		Polygon p = new Polygon();
-		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i));
+		Polygon p = new Polygon.NoHoles();
+		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i).add(pos));
 		return p;
 	}
 }
