@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import pl.shockah.glib.geom.vector.Vector2d;
 
+/*
+ * code taken from Slick2D - http://slick.ninjacave.com/
+ */
 public class BasicTriangulator implements ITriangulator {
 	private static final float EPSILON = 0.0000000001f;
 	private List<Vector2d> poly = new ArrayList<>();
@@ -50,27 +53,26 @@ public class BasicTriangulator implements ITriangulator {
 	}
 	
 	private boolean insideTriangle(double Ax, double Ay, double Bx, double By, double Cx, double Cy, double Px, double Py) {
-		double ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy;
-		double cCROSSap, bCROSScp, aCROSSbp;
+		double ax, ay, bx, by, cx, cy, apx, apy, bpx, bpy, cpx, cpy, cCROSSap, bCROSScp, aCROSSbp;
 
-		ax = Cx - Bx;
-		ay = Cy - By;
-		bx = Ax - Cx;
-		by = Ay - Cy;
-		cx = Bx - Ax;
-		cy = By - Ay;
-		apx = Px - Ax;
-		apy = Py - Ay;
-		bpx = Px - Bx;
-		bpy = Py - By;
-		cpx = Px - Cx;
-		cpy = Py - Cy;
+		ax = Cx-Bx;
+		ay = Cy-By;
+		bx = Ax-Cx;
+		by = Ay-Cy;
+		cx = Bx-Ax;
+		cy = By-Ay;
+		apx = Px-Ax;
+		apy = Py-Ay;
+		bpx = Px-Bx;
+		bpy = Py-By;
+		cpx = Px-Cx;
+		cpy = Py-Cy;
 
-		aCROSSbp = ax * bpy - ay * bpx;
-		cCROSSap = cx * apy - cy * apx;
-		bCROSScp = bx * cpy - by * cpx;
+		aCROSSbp = ax*bpy-ay*bpx;
+		cCROSSap = cx*apy-cy*apx;
+		bCROSScp = bx*cpy-by*cpx;
 
-		return ((aCROSSbp >= 0f) && (bCROSScp >= 0f) && (cCROSSap >= 0f));
+		return (aCROSSbp >= 0f && bCROSScp >= 0f && cCROSSap >= 0f);
 	}
 	
 	private boolean snip(List<Vector2d> contour, int u, int v, int w, int n, int[] V) {
@@ -86,15 +88,13 @@ public class BasicTriangulator implements ITriangulator {
 		Cx = contour.get(V[w]).x;
 		Cy = contour.get(V[w]).y;
 
-		if (EPSILON > (((Bx-Ax)*(Cy-Ay))-((By-Ay)*(Cx-Ax)))) return false;
-
+		if (EPSILON > ((Bx-Ax)*(Cy-Ay))-((By-Ay)*(Cx-Ax))) return false;
 		for (p = 0; p < n; p++) {
 			if (p == u || p == v || p == w) continue;
 			Px = contour.get(V[p]).x;
 			Py = contour.get(V[p]).y;
 			if (insideTriangle(Ax,Ay,Bx,By,Cx,Cy,Px,Py)) return false;
 		}
-
 		return true;
 	}
 	
@@ -116,7 +116,7 @@ public class BasicTriangulator implements ITriangulator {
 		int count = 2 * nv;
 
 		for (int m = 0, v = nv - 1; nv > 2;) {
-			if (0 >= (count--)) return false;
+			if (0 >= count--) return false;
 
 			int u = v;
 			if (nv <= u) u = 0;
@@ -125,7 +125,7 @@ public class BasicTriangulator implements ITriangulator {
 			int w = v + 1;
 			if (nv <= w) w = 0;
 
-			if (snip(contour, u, v, w, nv, V)) {
+			if (snip(contour,u,v,w,nv,V)) {
 				int a, b, c, s, t;
 				
 				a = V[u];
@@ -135,16 +135,13 @@ public class BasicTriangulator implements ITriangulator {
 				result.add(contour.get(a));
 				result.add(contour.get(b));
 				result.add(contour.get(c));
-
 				m++;
 				
 				for (s = v, t = v + 1; t < nv; s++, t++) V[s] = V[t];
 				nv--;
-				
-				count = 2 * nv;
+				count = 2*nv;
 			}
 		}
-
 		return true;
 	}
 

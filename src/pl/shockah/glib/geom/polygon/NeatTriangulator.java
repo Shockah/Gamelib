@@ -2,6 +2,9 @@ package pl.shockah.glib.geom.polygon;
 
 import pl.shockah.glib.geom.vector.Vector2d;
 
+/*
+ * code taken from Slick2D - http://slick.ninjacave.com/
+ */
 public class NeatTriangulator implements ITriangulator {
 	static final float EPSILON = 1E-006F;
 	
@@ -118,7 +121,7 @@ public class NeatTriangulator implements ITriangulator {
 		for (int i1 = 0; i1 < l; i1++) if(i1 != i && i1 != j && i1 != k) {
 			double f6 = pointsX[V[i1]];
 			double f7 = pointsY[V[i1]];
-			if (insideTriangle(f, f1, f2, f3, f4, f5, f6, f7)) return false;
+			if (insideTriangle(f,f1,f2,f3,f4,f5,f6,f7)) return false;
 		}
 		return true;
 	}
