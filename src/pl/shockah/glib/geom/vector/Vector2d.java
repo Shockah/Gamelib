@@ -1,6 +1,12 @@
 package pl.shockah.glib.geom.vector;
 
+import pl.shockah.glib.Math2;
+
 public class Vector2d implements IVector {
+	public static Vector2d make(double dist, double angle) {
+		return new Vector2d(Math2.ldirX(dist,angle),Math2.ldirY(dist,angle));
+	}
+	
 	public final double x, y;
 	
 	public Vector2d() {
@@ -69,5 +75,8 @@ public class Vector2d implements IVector {
 	}
 	public double distance(Vector2d v) {
 		return Math.sqrt(distanceSquared(v));
+	}
+	public double direction(Vector2d v) {
+		return Math.toDegrees(Math.atan2(y-v.y,v.x-x));
 	}
 }
