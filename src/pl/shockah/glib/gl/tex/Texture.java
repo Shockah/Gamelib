@@ -12,14 +12,18 @@ import pl.shockah.glib.IBoundable;
 public class Texture implements IBoundable {
 	private static int bound = 0;
 	
-	public static Texture get(Path path) throws FileNotFoundException, IOException {
-		return get(path.toFile());
+	public static Texture load(Path path) throws FileNotFoundException, IOException {
+		return load(path.toFile());
 	}
-	public static Texture get(File file) throws FileNotFoundException, IOException {
+	public static Texture load(File file) throws FileNotFoundException, IOException {
 		String[] spl = file.getName().split("\\.");
-		return get(new FileInputStream(file),spl[spl.length-1]);
+		return load(new FileInputStream(file),spl[spl.length-1].toUpperCase());
 	}
-	public static Texture get(InputStream is, String format) throws IOException {
+	public static Texture load(String internalPath) throws IOException {
+		String[] spl = internalPath.split("\\.");
+		return load(Texture.class.getClassLoader().getResourceAsStream(internalPath),spl[spl.length-1].toUpperCase());
+	}
+	public static Texture load(InputStream is, String format) throws IOException {
 		TextureLoader tl = TextureLoader.getTextureLoader(format);
 		if (tl == null) throw new RuntimeException("Unsupported format: "+format+".");
 		return tl.load(is);
