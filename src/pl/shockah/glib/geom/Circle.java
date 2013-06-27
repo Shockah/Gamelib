@@ -15,6 +15,8 @@ public class Circle extends Shape {
 		if (shape instanceof Circle) {
 			Circle circle = (Circle)shape;
 			return pos.distanceSquared(circle.pos) < Math.pow(radius+circle.radius,2);
+		} else if (shape instanceof Rectangle) {
+			return shape.collides(this);
 		}
 		return super.collides(shape);
 	}

@@ -19,6 +19,9 @@ public class Rectangle extends Shape {
 			Rectangle rect = (Rectangle)shape;
 			Vector2d v = ((pos+size/2)-(rect.pos+rect.size/2)).abs()-(size/2+rect.size/2);
 			return v.x < 0 && v.y < 0;
+		} else if (shape instanceof Circle) {
+			Circle circle = (Circle)shape;
+			return (circle.pos-((circle.pos-(pos+size/2))-size/2)).lengthSquared()-Math.pow(circle.radius,2) < 0;
 		}
 		return super.collides(shape);
 	}
