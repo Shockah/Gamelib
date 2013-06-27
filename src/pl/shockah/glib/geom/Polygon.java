@@ -11,7 +11,7 @@ public class Polygon extends Shape {
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		
 		for (int i = 0; i < points.size(); i++) {
-			Vector2d point = points[i];
+			Vector2d point = points.get(i);
 			if (i == 0 || point.x < x1) x1 = point.x;
 			if (i == 0 || point.y < y1) y1 = point.y;
 			if (i == 0 || point.x > x2) x2 = point.x;
@@ -19,12 +19,6 @@ public class Polygon extends Shape {
 		}
 		return new Rectangle(x1,y1,x2-x1,y2-y1);
 	}
-	
-	//region Java-OO
-	public Vector2d get(int index) {
-		return points[index];
-	}
-	//endregion
 	
 	public Polygon addPoint(Vector2d point) {
 		points.add(point);

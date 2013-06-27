@@ -33,36 +33,21 @@ public class Vector2d implements IVector {
 		return new Vector2f((float)x,(float)y);
 	}
 	
-	public Vector2d justX() {
-		return new Vector2d(x,0);
-	}
-	public Vector2d justY() {
-		return new Vector2d(0,y);
-	}
+	public Vector2d justX() {return new Vector2d(x,0);}
+	public Vector2d justY() {return new Vector2d(0,y);}
 	
-	//region Java-OO
 	public Vector2d negate() {return new Vector2d(-x,-y);}
-	public Vector2d add(Vector2d v) {return add(v.x,v.y);}
-	public Vector2d subtract(Vector2d v) {return subtract(v.x,v.y);}
-	public Vector2d multiply(double scale) {return multiply(scale,scale);}
-	public Vector2d divide(double scale) {return divide(scale,scale);}
-	//endregion
+	public Vector2d abs() {return new Vector2d(x >= 0 ? x : -x,y >= 0 ? y : -y);}
 	
-	public Vector2d abs() {
-		return new Vector2d(x >= 0 ? x : -x,y >= 0 ? y : -y);
-	}
-	public Vector2d add(double x, double y) {
-		return new Vector2d(this.x+x,this.y+y);
-	}
-	public Vector2d subtract(double x, double y) {
-		return add(-x,-y);
-	}
-	public Vector2d multiply(double scaleH, double scaleV) {
-		return new Vector2d(x*scaleH,y*scaleV);
-	}
-	public Vector2d divide(double scaleH, double scaleV) {
-		return multiply(1/scaleH,1/scaleV);
-	}
+	public Vector2d add(Vector2d v) {return add(v.x,v.y);}
+	public Vector2d add(double x, double y) {return new Vector2d(this.x+x,this.y+y);}
+	public Vector2d sub(double x, double y) {return add(-x,-y);}
+	public Vector2d sub(Vector2d v) {return sub(v.x,v.y);}
+	
+	public Vector2d scale(double scale) {return scale(scale,scale);}
+	public Vector2d scale(double scaleH, double scaleV) {return new Vector2d(x*scaleH,y*scaleV);}
+	public Vector2d div(double scale) {return div(scale,scale);}
+	public Vector2d div(double scaleH, double scaleV) {return scale(1/scaleH,1/scaleV);}
 	
 	public double lengthSquared() {
 		return Math.pow(x,2)+Math.pow(y,2);

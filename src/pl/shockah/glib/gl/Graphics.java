@@ -5,19 +5,48 @@ import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.color.Color;
 
 public class Graphics {
+	private static boolean init = false;
+	private static Color color = null;
+	
+	protected void init() {
+		if (init) return;
+		init = true;
+		
+		if (color == null) setColor(Color.White);
+	}
+	
 	public void setColor(Color color) {
+		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbindMe();
+		Graphics.color = color;
 		color.bindMe();
 	}
 	
-	public void draw(TextureSupplier ts) {draw(ts,0,0);}
-	public void draw(TextureSupplier ts, Color color) {draw(ts,0,0,color);}
-	public void draw(TextureSupplier ts, float x, float y) {draw(ts,x,y,Color.White);}
-	public void draw(TextureSupplier ts, float x, float y, Color color) {
-		if (color == null) color = Color.White;
-		color.bindMe();
+	public void draw(Rectangle rect) {draw(rect,0,0);}
+	public void draw(Rectangle rect, boolean filled) {draw(rect,filled,0,0);}
+	public void draw(Rectangle rect, double x, double y) {draw(rect,true,0,0);}
+	public void draw(Rectangle rect, boolean filled, double x, double y) {
+		init();
+		glTranslated(x,y,0);
 		
+		if (filled) {
+			glBegin(GL_QUADS);
+			glVertex2d(rect.pos.x+x,rect.pos.y+y);
+			glVertex2d(rect.pos.x+rect.size.x+x,rect.pos.y+y);
+			glVertex2d(rect.pos.x+rect.size.x+x,rect.pos.y+rect.size.y+y);
+			glVertex2d(rect.pos.x+x,rect.pos.y+rect.size.y+y);
+			glEnd();
+		} else {
+			throw new UnsupportedOperationException();
+		}
+		
+		glTranslatef((float)-x,(float)-y,0);
+	}
+	
+	public void draw(TextureSupplier ts) {draw(ts,0,0);}
+	public void draw(TextureSupplier ts, double x, double y) {
+		init();
 		ts.getTexture().bindMe();
-		glTranslatef(x,y,0);
+		glTranslated(x,y,0);
 		
 		ts.preDraw(this);
 		glBegin(GL_QUADS);
@@ -26,7 +55,7 @@ public class Graphics {
 		glEnd();
 		ts.postDraw(this);
 		
-		glTranslatef(-x,-y,0);
+		glTranslated(-x,-y,0);
 		ts.getTexture().unbindMe();
 	}
 	
