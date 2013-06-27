@@ -196,10 +196,10 @@ public abstract class Color implements IBoundable {
 	public abstract float Bf();
 	public abstract float Af();
 	
-	public void bindMe() {
+	public void bind() {
 		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
-	public void unbindMe() {}
+	public void unbind() {}
 	
 	public Colorb toColorb() {
 		if (getClass() == Colorb.class) return (Colorb)this;

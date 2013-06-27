@@ -3,6 +3,7 @@ package pl.shockah.glib.gl;
 import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.tex.Texture;
 
 public abstract class TextureSupplier {
@@ -16,6 +17,9 @@ public abstract class TextureSupplier {
 		return tex;
 	}
 	
+	public Vector2i getSize() {
+		return tex.getSize();
+	}
 	public int getWidth() {
 		return tex.getWidth();
 	}
@@ -31,7 +35,7 @@ public abstract class TextureSupplier {
 	public void draw(Graphics g, Vector2d v) {draw(g,v.x,v.y);}
 	public void draw(Graphics g, double x, double y) {
 		g.init();
-		getTexture().bindMe();
+		getTexture().bind();
 		glTranslated(x,y,0);
 		
 		preDraw(g);
@@ -42,7 +46,7 @@ public abstract class TextureSupplier {
 		postDraw(g);
 		
 		glTranslated(-x,-y,0);
-		getTexture().unbindMe();
+		getTexture().unbind();
 	}
 	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
 		glTexCoord2d(tx,ty);

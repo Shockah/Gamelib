@@ -16,9 +16,9 @@ public class Graphics {
 	}
 	
 	public void setColor(Color color) {
-		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbindMe();
+		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
-		color.bindMe();
+		color.bind();
 	}
 	
 	public void draw(Shape shape) {draw(shape,0,0);}

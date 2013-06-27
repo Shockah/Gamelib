@@ -18,15 +18,19 @@ public class ImageTest extends Room {
 	Image image;
 	
 	protected void onSetup() {
-		fps = 10;
+		fps = 60;
 	}
 	
 	protected void onCreate() {
 		try {
 			image = new Image(Texture.load("assets/image1.png"));
+			image.rotation.center();
 		} catch (IOException e) {e.printStackTrace();}
 		
 		new EntityRenderable(){
+			protected void onTick() {
+				image.rotation.angle -= 2;
+			}
 			protected void onRender(Graphics g) {
 				g.draw(image,50,50);
 			}

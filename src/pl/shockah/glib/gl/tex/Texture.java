@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import pl.shockah.glib.IBoundable;
+import pl.shockah.glib.geom.vector.Vector2i;
 
 public class Texture implements IBoundable {
 	private static int bound = 0;
@@ -29,10 +30,28 @@ public class Texture implements IBoundable {
 		return tl.load(is);
 	}
 	
-	public static void unbind() {
+	public static void bindNone() {
 		if (bound == 0) return;
 		glDisable(GL_TEXTURE_2D);
 		bound = 0;
+	}
+	
+	public static enum EResizeFilter {
+		Nearest(GL_NEAREST), Linear(GL_LINEAR);
+		
+		private final int gl;
+		
+		EResizeFilter(int gl) {
+			this.gl = gl;
+		}
+		
+		public int getGLConst() {
+			return gl;
+		}
+		public void set() {
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,gl);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,gl);
+		}
 	}
 	
 	private final int texId;
@@ -44,6 +63,9 @@ public class Texture implements IBoundable {
 		this.height = height;
 	}
 	
+	public Vector2i getSize() {
+		return new Vector2i(getWidth(),getHeight());
+	}
 	public int getWidth() {
 		return width;
 	}
@@ -51,14 +73,20 @@ public class Texture implements IBoundable {
 		return height;
 	}
 	
-	public void bindMe() {
+	public void setResizeFilter(EResizeFilter resizeFilter) {
+		bind();
+		resizeFilter.set();
+		unbind();
+	}
+	
+	public void bind() {
 		if (bound == texId) return;
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D,texId);
 		bound = texId;
 	}
-	public void unbindMe() {
+	public void unbind() {
 		if (bound != texId) return;
-		unbind();
+		bindNone();
 	}
 }

@@ -22,11 +22,10 @@ public class PNGTextureLoader extends TextureLoader {
 		int texId = glGenTextures();
 		
 		Texture texture = new Texture(texId,decoder.getWidth(),decoder.getHeight());
-		texture.bindMe();
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+		texture.bind();
+		texture.setResizeFilter(Texture.EResizeFilter.Linear);
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,decoder.getWidth(),decoder.getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,bb);
-		texture.unbindMe();
+		texture.unbind();
 		
 		return texture;
 	}
