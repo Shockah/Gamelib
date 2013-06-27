@@ -18,7 +18,7 @@ public class Game extends pl.shockah.glib.logic.Game<Game> {
 	protected final List<EntityRenderable>
 		renderable = new SortedLinkedList<>(),
 		renderableAdd = new SortedLinkedList<>(),
-		renderableRemove = new LinkedList<>();
+		renderableRemove = new SortedLinkedList<>();
 	
 	public void reset() {
 		entities.clear();
