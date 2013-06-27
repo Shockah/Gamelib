@@ -1,11 +1,12 @@
 package pl.shockah.glib.geom;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Rectangle extends Shape {
+public class Rectangle extends Shape implements IPolygonable {
 	public Vector2d pos, size;
 	
 	public Rectangle(double x, double y, double w, double h) {
