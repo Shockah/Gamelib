@@ -51,6 +51,12 @@ public class Vector2d implements IVector {
 		return multiply(1/scaleH,1/scaleV);
 	}
 	
+	public double lengthSquared() {
+		return Math.pow(x,2)+Math.pow(y,2);
+	}
+	public double length() {
+		return Math.sqrt(lengthSquared());
+	}
 	public double distanceSquared(Vector2d v) {
 		return Math.pow(v.x-x,2)+Math.pow(v.y-y,2);
 	}
