@@ -8,6 +8,9 @@ public class Circle extends Shape {
 	public Vector2d pos;
 	public double radius;
 	
+	protected double lastRadius = -1;
+	protected Polygon lastPoly = null;
+	
 	public Circle(double x, double y, double radius) {
 		pos = new Vector2d(x,y);
 		this.radius = radius;
@@ -40,9 +43,13 @@ public class Circle extends Shape {
 		return asPolygon((int)Math.ceil(Math.PI*radius/4));
 	}
 	public Polygon asPolygon(int precision) {
+		if (lastPoly != null && lastPoly.getPointCount() == precision && lastRadius == radius) return lastPoly;
+		
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i).add(pos));
-		return p;
+		
+		lastRadius = radius;
+		return lastPoly = p;
 	}
 	
 	public void draw(Graphics g, boolean filled, double x, double y) {
