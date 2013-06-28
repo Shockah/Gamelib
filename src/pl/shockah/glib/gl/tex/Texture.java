@@ -35,9 +35,17 @@ public class Texture implements IBoundable {
 		return load(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(internalPath)),format);
 	}
 	public static Texture load(InputStream is, String format) throws IOException {
-		TextureLoader tl = TextureLoader.getTextureLoader(format);
-		if (tl == null) throw new RuntimeException("Unsupported format: "+format+".");
-		return tl.load(is);
+		if (format == null) {
+			for (TextureLoader tl : TextureLoader.getAll()) try {
+				Texture tex = tl.load(is);
+				if (tex != null) return tex;
+			} catch (Exception e) {}
+			throw new UnsupportedOperationException("Unsupported image format.");
+		} else {
+			TextureLoader tl = TextureLoader.getTextureLoader(format);
+			if (tl == null) throw new UnsupportedOperationException("Unsupported image format: "+format+".");
+			return tl.load(is);
+		}
 	}
 	
 	public static Vector2i get2Fold(Vector2i v) {

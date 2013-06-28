@@ -3,6 +3,7 @@ package pl.shockah.glib.gl.tex;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public abstract class TextureLoader {
 	public static TextureLoader getTextureLoader(String format) {
 		for (TextureLoader tl : loaders) if (tl.isSupported(format)) return tl;
 		return null;
+	}
+	public static List<TextureLoader> getAll() {
+		return Collections.unmodifiableList(loaders);
 	}
 	
 	private final List<String> formats;
