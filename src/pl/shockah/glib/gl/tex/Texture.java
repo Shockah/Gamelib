@@ -17,13 +17,22 @@ public class Texture implements IBoundable {
 	public static Texture load(Path path) throws FileNotFoundException, IOException {
 		return load(path.toFile());
 	}
+	public static Texture load(Path path, String format) throws FileNotFoundException, IOException {
+		return load(path.toFile(),format);
+	}
 	public static Texture load(File file) throws FileNotFoundException, IOException {
 		String[] spl = file.getName().split("\\.");
-		return load(new BufferedInputStream(new FileInputStream(file)),spl[spl.length-1].toUpperCase());
+		return load(file,spl[spl.length-1].toUpperCase());
+	}
+	public static Texture load(File file, String format) throws FileNotFoundException, IOException {
+		return load(new BufferedInputStream(new FileInputStream(file)),format);
 	}
 	public static Texture load(String internalPath) throws IOException {
 		String[] spl = internalPath.split("\\.");
-		return load(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(internalPath)),spl[spl.length-1].toUpperCase());
+		return load(internalPath,spl[spl.length-1].toUpperCase());
+	}
+	public static Texture load(String internalPath, String format) throws IOException {
+		return load(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(internalPath)),format);
 	}
 	public static Texture load(InputStream is, String format) throws IOException {
 		TextureLoader tl = TextureLoader.getTextureLoader(format);
