@@ -13,7 +13,10 @@ public abstract class TextureLoader {
 		try {
 			Class.forName("de.matthiasmann.twl.utils.PNGDecoder");
 			loaders.add(new PNGTextureLoader());
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			loaders.add(new ImageIOTextureLoader("PNG"));
+		}
+		loaders.add(new ImageIOTextureLoader("GIF","JPG","JPEG","BMP","WBMP"));
 	}
 	
 	public static TextureLoader getTextureLoader(String format) {

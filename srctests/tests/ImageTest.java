@@ -15,7 +15,7 @@ public class ImageTest extends Room {
 		Gamelib.make(new Game()).start(test,test.getClass().getName());
 	}
 	
-	Image image;
+	Image image1, image2;
 	
 	protected void onSetup() {
 		fps = 60;
@@ -23,16 +23,21 @@ public class ImageTest extends Room {
 	
 	protected void onCreate() {
 		try {
-			image = new Image(Texture.load("assets/image1.png"));
-			image.rotation.center();
+			image1 = new Image(Texture.load("assets/imagepng1.png"));
+			image1.rotation.center();
+			
+			image2 = new Image(Texture.load("assets/imagejpg1.jpg"));
+			image2.rotation.center();
 		} catch (IOException e) {e.printStackTrace();}
 		
 		new EntityRenderable(){
 			protected void onTick() {
-				image.rotation.angle -= 2;
+				image1.rotation.angle -= 2;
+				image2.rotation.angle += 1;
 			}
 			protected void onRender(Graphics g) {
-				g.draw(image,50,50);
+				g.draw(image1,50,50);
+				g.draw(image2,384,192);
 			}
 		}.create();
 	}

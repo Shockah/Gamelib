@@ -31,6 +31,16 @@ public class Texture implements IBoundable {
 		return tl.load(is);
 	}
 	
+	public static Vector2i get2Fold(Vector2i v) {
+		return get2Fold(v.x,v.y);
+	}
+	public static Vector2i get2Fold(int x, int y) {
+		int xx = 2, yy = 2;
+		while (x > xx) xx <<= 1;
+		while (y > yy) yy <<= 1;
+		return new Vector2i(xx,yy);
+	}
+	
 	public static void bindNone() {
 		if (bound == 0) return;
 		glDisable(GL_TEXTURE_2D);
