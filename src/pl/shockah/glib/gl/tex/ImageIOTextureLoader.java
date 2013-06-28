@@ -38,7 +38,7 @@ public class ImageIOTextureLoader extends TextureLoader {
 		Texture texture = new Texture(texId,bi.getWidth(),bi.getHeight());
 		texture.bind();
 		texture.setResizeFilter(Texture.EResizeFilter.Linear);
-		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,bi.getWidth(),bi.getHeight(),0,bi.getColorModel().hasAlpha() ? GL_RGBA : GL_RGB,GL_UNSIGNED_BYTE,bb);
+		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,fold.x,fold.y,0,bi.getColorModel().hasAlpha() ? GL_RGBA : GL_RGB,GL_UNSIGNED_BYTE,bb);
 		texture.unbind();
 		
 		return texture;
