@@ -70,8 +70,12 @@ public final class Gamelib {
 	public static void start(Class<? extends IGame> cls, Room firstRoom) {start(cls,firstRoom,"Gamelib");}
 	public static void start(Class<? extends IGame> cls, Room firstRoom, String windowTitle) {
 		try {
-			game = cls.newInstance();
+			start(cls.newInstance(),firstRoom,windowTitle);
 		} catch (Exception e) {handle(e);}
+	}
+	public static void start(IGame game, Room firstRoom) {start(game,firstRoom,"Gamelib");}
+	public static void start(IGame game, Room firstRoom, String windowTitle) {
+		Gamelib.game = game;
 		originalDisplayMode = Display.getDesktopDisplayMode();
 		
 		if (firstRoom == null) throw new RuntimeException("A game can't exist without a Room.");

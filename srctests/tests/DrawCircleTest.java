@@ -11,7 +11,7 @@ import pl.shockah.glib.room.Room;
 public class DrawCircleTest extends Room {
 	public static void main(String[] args) {
 		DrawCircleTest test = new DrawCircleTest();
-		Gamelib.start(GameStandard.class,test,test.getClass().getName());
+		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
 	protected void onSetup() {

@@ -13,7 +13,7 @@ import pl.shockah.glib.room.Room;
 public class DrawPolygonTest extends Room {
 	public static void main(String[] args) {
 		DrawPolygonTest test = new DrawPolygonTest();
-		Gamelib.start(GameStandard.class,test,test.getClass().getName());
+		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
 	Polygon p = new Polygon();

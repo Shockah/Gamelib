@@ -12,7 +12,7 @@ import pl.shockah.glib.room.Room;
 public class ImageTest extends Room {
 	public static void main(String[] args) {
 		ImageTest test = new ImageTest();
-		Gamelib.start(GameStandard.class,test,test.getClass().getName());
+		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
 	Image image1, image2;

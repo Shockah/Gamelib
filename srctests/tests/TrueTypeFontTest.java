@@ -11,7 +11,7 @@ import pl.shockah.glib.room.Room;
 public class TrueTypeFontTest extends Room {
 	public static void main(String[] args) {
 		TrueTypeFontTest test = new TrueTypeFontTest();
-		Gamelib.start(GameStandard.class,test,test.getClass().getName());
+		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
 	Font font1, font2;

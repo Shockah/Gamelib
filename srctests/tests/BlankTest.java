@@ -7,6 +7,6 @@ import pl.shockah.glib.room.Room;
 public class BlankTest extends Room {
 	public static void main(String[] args) {
 		BlankTest test = new BlankTest();
-		Gamelib.start(GameStandard.class,test,test.getClass().getName());
+		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 }
