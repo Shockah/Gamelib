@@ -34,7 +34,7 @@ public class Image extends TextureSupplier {
 		public double angle = 0;
 		
 		public void center() {
-			center = getSize().toDouble().div(2);
+			center = getTextureSize().toDouble().div(2);
 		}
 	}
 }

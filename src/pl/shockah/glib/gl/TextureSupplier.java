@@ -6,7 +6,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.tex.Texture;
 
-public abstract class TextureSupplier {
+public abstract class TextureSupplier implements ITextureSupplier {
 	private final Texture tex;
 	
 	public TextureSupplier(Texture tex) {
@@ -17,23 +17,26 @@ public abstract class TextureSupplier {
 		return tex;
 	}
 	
-	public Vector2i getSize() {
+	public Vector2i getTextureSize() {
 		return tex.getSize();
 	}
-	public int getWidth() {
+	public int getTextureWidth() {
 		return tex.getWidth();
 	}
-	public int getHeight() {
+	public int getTextureHeight() {
 		return tex.getHeight();
 	}
-	
 	public Rectangle getTextureRect() {
-		return new Rectangle(0,0,getWidth(),getHeight());
+		return new Rectangle(0,0,getTextureWidth(),getTextureHeight());
 	}
 	
-	public void draw(Graphics g) {draw(g,0,0);}
-	public void draw(Graphics g, Vector2d v) {draw(g,v.x,v.y);}
-	public void draw(Graphics g, double x, double y) {
+	public Vector2i getSize() {return getTextureSize();}
+	public int getWidth() {return getTextureWidth();}
+	public int getHeight() {return getTextureHeight();}
+	
+	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
+	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, double x, double y) {
 		g.init();
 		getTexture().bind();
 		glTranslated(x,y,0);
@@ -41,7 +44,7 @@ public abstract class TextureSupplier {
 		preDraw(g);
 		glBegin(GL_QUADS);
 		Rectangle texRect = getTextureRect();
-		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getWidth(),texRect.pos.y/getHeight(),texRect.size.x/getWidth(),texRect.size.y/getHeight());
+		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidth(),texRect.pos.y/getTextureHeight(),texRect.size.x/getTextureWidth(),texRect.size.y/getTextureHeight());
 		glEnd();
 		postDraw(g);
 		

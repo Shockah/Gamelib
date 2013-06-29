@@ -30,9 +30,9 @@ public class Graphics {
 		shape.draw(this,filled,x,y);
 	}
 	
-	public void draw(TextureSupplier ts) {draw(ts,0,0);}
-	public void draw(TextureSupplier ts, Vector2d v) {draw(ts,v.x,v.y);}
-	public void draw(TextureSupplier ts, double x, double y) {
-		ts.draw(this,x,y);
+	public void draw(ITextureSupplier ts) {draw(ts,0,0);}
+	public void draw(ITextureSupplier ts, Vector2d v) {draw(ts,v.x,v.y);}
+	public void draw(ITextureSupplier ts, double x, double y) {
+		ts.drawTexture(this,x,y);
 	}
 }

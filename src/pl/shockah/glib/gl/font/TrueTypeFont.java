@@ -17,20 +17,25 @@ import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.glu.GLU;
+import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.gl.ITextureSupplier;
+import pl.shockah.glib.gl.tex.Texture;
 
 /*
  * A TrueType font implementation originally for Slick, edited for Bobjob's Engine
  * Authors: James Chambers (Jimmy), Jeremy Adams (elias4444), Kevin Glass (kevglass), Peter Korzuszek (genail), David Aaron Muhar (bobjob)
  */
-public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
+public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextureSupplier {
 	private IntObject[] charArray = new IntObject[256];
 	private Map<Character,IntObject> customChars = new HashMap<>();
 	private boolean antiAlias;
-	private int fontSize = 0, fontHeight = 0, fontTextureID, textureWidth = 512, textureHeight = 512, correctL = 9;
+	private int fontSize = 0, fontHeight = 0, correctL = 9;
 	private Font font;
 	private FontMetrics fontMetrics;
+	private Texture texture;
 	
 	private class IntObject {
 		public int width, height, storedX, storedY;
@@ -108,7 +113,8 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 		return fontImage;
 	}
 
-	private void createSet(char[] customCharsArray) {	
+	private void createSet(char[] customCharsArray) {
+		int textureWidth = 512, textureHeight = 512;
 		if (customCharsArray != null && customCharsArray.length > 0) textureWidth *= 2;
 		
 		try {
@@ -148,7 +154,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 				if (i < 256) charArray[i] = newIntObject; else customChars.put(ch,newIntObject);
 				fontImage = null;
 			}
-			fontTextureID = loadImage(imgTemp);
+			texture = new Texture(loadImage(imgTemp),textureWidth,textureHeight);
 		} catch (Exception e) {
 			System.err.println("Failed to create font.");
 			e.printStackTrace();
@@ -158,12 +164,12 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 	private void drawQuad(float drawX, float drawY, float drawX2, float drawY2, float srcX, float srcY, float srcX2, float srcY2) {
 		float DrawWidth = drawX2-drawX;
 		float DrawHeight = drawY2-drawY;
-		float TextureSrcX = srcX/textureWidth;
-		float TextureSrcY = srcY/textureHeight;
+		float TextureSrcX = srcX/texture.getWidth();
+		float TextureSrcY = srcY/texture.getHeight();
 		float SrcWidth = srcX2-srcX;
 		float SrcHeight = srcY2-srcY;
-		float RenderWidth = SrcWidth/textureWidth;
-		float RenderHeight = SrcHeight/textureHeight;
+		float RenderWidth = SrcWidth/texture.getWidth();
+		float RenderHeight = SrcHeight/texture.getHeight();
 
 		glTexCoord2f(TextureSrcX,TextureSrcY+RenderHeight);
 		glVertex2f(drawX,drawY);
@@ -213,8 +219,8 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 		
 		d = 1;
 		c = correctL;
-
-		glBindTexture(GL_TEXTURE_2D,fontTextureID);
+		
+		texture.bind();
 		glBegin(GL_QUADS);
 		
 		while (i >= startIndex && i <= endIndex) {
@@ -235,6 +241,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 			}
 		}
 		glEnd();
+		texture.unbind();
 	}
 	
 	private static int loadImage(BufferedImage bufferedImage) {
@@ -286,10 +293,46 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 		return new byte[] {(byte)(value >>> 24),(byte)(value >>> 16),(byte)(value >>> 8),(byte)value};
 	}
 	
-	public void destroy() {
-		IntBuffer scratch = BufferUtils.createIntBuffer(1);
-		scratch.put(0,fontTextureID);
-		glBindTexture(GL_TEXTURE_2D,0);
-		glDeleteTextures(scratch);
+	public Texture getTexture() {
+		return texture;
+	}
+	
+	public Vector2i getTextureSize() {
+		return getTexture().getSize();
+	}
+	public int getTextureWidth() {
+		return getTexture().getWidth();
+	}
+	public int getTextureHeight() {
+		return getTexture().getHeight();
+	}
+	public Rectangle getTextureRect() {
+		return new Rectangle(0,0,getTextureWidth(),getTextureHeight());
+	}
+	
+	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
+	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, double x, double y) {
+		g.init();
+		getTexture().bind();
+		glTranslated(x,y,0);
+		
+		glBegin(GL_QUADS);
+		Rectangle texRect = getTextureRect();
+		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidth(),texRect.pos.y/getHeight(),texRect.size.x/getTextureWidth(),texRect.size.y/getHeight());
+		glEnd();
+		
+		glTranslated(-x,-y,0);
+		getTexture().unbind();
+	}
+	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
+		glTexCoord2d(tx,ty);
+		glVertex2d(x,y);
+		glTexCoord2d(tx,ty+th);
+		glVertex2d(x,y+h);
+		glTexCoord2d(tx+tw,ty+th);
+		glVertex2d(x+w,y+h);
+		glTexCoord2d(tx+tw,ty);
+		glVertex2d(x+w,y);
 	}
 }
