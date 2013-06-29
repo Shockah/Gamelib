@@ -3,6 +3,7 @@ package tests;
 import org.lwjgl.input.Keyboard;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Rectangle;
+import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.input.KeyboardInput;
@@ -19,6 +20,7 @@ public class KeyboardInputTest2 extends Room {
 	
 	protected void onCreate() {
 		new EntityRenderable(){
+			Vector2d oldPos;
 			Key
 				kL = new Key(KeyboardInput.ARROW_LEFT,Keyboard.KEY_A),
 				kR = new Key(KeyboardInput.ARROW_RIGHT,Keyboard.KEY_D),
@@ -26,13 +28,14 @@ public class KeyboardInputTest2 extends Room {
 				kD = new Key(KeyboardInput.ARROW_DOWN,Keyboard.KEY_S);
 			
 			protected void onTick() {
+				oldPos = pos;
 				double xx = ((kR.down() ? 1 : 0)-(kL.down() ? 1 : 0))*4;
 				double yy = ((kD.down() ? 1 : 0)-(kU.down() ? 1 : 0))*4;
 				pos = pos.add(xx,yy);
 			}
 			
 			protected void onRender(Graphics g) {
-				g.setColor(Color.GreenYellow);
+				g.setColor(oldPos.equals(pos) ? Color.GreenYellow : Color.inverse(Color.GreenYellow));
 				g.draw(new Rectangle(pos.x,pos.y,48,48));
 			}
 		}.create();

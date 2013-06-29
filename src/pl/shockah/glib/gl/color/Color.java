@@ -179,6 +179,9 @@ public abstract class Color implements IBoundable {
 		float A = c1.Af()-((c1.Af()-c2.Af())*ratio);
 		return new ColorbImmutable(R,G,B,A);
 	}
+	public static Color inverse(Color c) {
+		return new ColorbImmutable(255-c.R(),255-c.G(),255-c.B(),c.A());
+	}
 	
 	public boolean equals(Object other) {
 		if (!(other instanceof Color)) return false;

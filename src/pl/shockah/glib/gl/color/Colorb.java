@@ -42,4 +42,8 @@ public final class Colorb extends Color {
 		copy(lerp(this,color,ratio));
 		return this;
 	}
+	public Colorb inverse() {
+		copy(inverse(this));
+		return this;
+	}
 }

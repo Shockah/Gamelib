@@ -37,4 +37,7 @@ public final class ColorbImmutable extends Color {
 	public ColorbImmutable lerp(Color color, float ratio) {
 		return lerp(this,color,ratio).toColorbImmutable();
 	}
+	public ColorbImmutable inverse() {
+		return inverse().toColorbImmutable();
+	}
 }

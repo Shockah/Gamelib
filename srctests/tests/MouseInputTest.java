@@ -31,7 +31,7 @@ public class MouseInputTest extends Room {
 			}
 			
 			protected void onRender(Graphics g) {
-				g.setColor(Color.DeepPink);
+				g.setColor(drag == null ? Color.DeepPink : Color.inverse(Color.DeepPink));
 				g.draw(new Rectangle(pos.x,pos.y,48,48));
 			}
 		}.create();
