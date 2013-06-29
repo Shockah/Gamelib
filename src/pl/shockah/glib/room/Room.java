@@ -25,7 +25,7 @@ public class Room {
 			if (yy > h) h = yy;
 		}
 		
-		Gamelib.me.setDisplayMode(w,h);
+		Gamelib.setDisplayMode(w,h);
 	}
 	protected void onSetup() {}
 	

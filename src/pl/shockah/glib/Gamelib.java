@@ -5,26 +5,13 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 import pl.shockah.glib.gl.GLHelper;
-import pl.shockah.glib.logic.Game;
+import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.room.Room;
 
-public final class Gamelib<G extends Game<G>> {
-	@SuppressWarnings("rawtypes") public static Gamelib me = null;
+public final class Gamelib {
 	public static DisplayMode originalDisplayMode;
 	
-	public static <G extends Game<G>> Gamelib<G> make(Class<G> cls) {
-		try {
-			return make(cls.newInstance());
-		} catch (Exception e) {e.printStackTrace();}
-		return null;
-	}
-	public static <G extends Game<G>> Gamelib<G> make(G inst) {
-		Gamelib<G> glib = new Gamelib<>(inst);
-		inst.setGamelib(glib);
-		return glib;
-	}
-	
-	public final class Capabilities {
+	public static final class Capabilities {
 		private boolean multisample = true, alpha = true, stencil = true;
 		private boolean locked = false;
 		
@@ -50,21 +37,17 @@ public final class Gamelib<G extends Game<G>> {
 		}
 	}
 	
-	public final Capabilities capabilities = new Capabilities();
-	public final G game;
-	protected boolean cachedFullscreen = false;
-	protected DisplayMode cachedDisplayMode = null;
-	protected Room room;
-	protected boolean isRunning = false;
+	public static final Capabilities capabilities = new Capabilities();
+	public static IGame game;
+	protected static boolean cachedFullscreen = false;
+	protected static DisplayMode cachedDisplayMode = null;
+	protected static Room room;
+	protected static boolean isRunning = false;
 	
-	private Gamelib(G game) {
-		this.game = game;
-	}
-	
-	public void setDisplayMode(int width, int height) {
+	public static void setDisplayMode(int width, int height) {
 		setDisplayMode(width,height,cachedFullscreen);
 	}
-	public void setDisplayMode(int width, int height, boolean fullscreen) {
+	public static void setDisplayMode(int width, int height, boolean fullscreen) {
 		if (cachedDisplayMode == null) cachedDisplayMode = originalDisplayMode;
 		if (width == cachedDisplayMode.getWidth() && height == cachedDisplayMode.getHeight() && fullscreen == cachedFullscreen) return;
 		
@@ -84,9 +67,11 @@ public final class Gamelib<G extends Game<G>> {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public void start(Room firstRoom) {start(firstRoom,"Gamelib");}
-	public void start(Room firstRoom, String windowTitle) {
-		me = this;
+	public static void start(Class<? extends IGame> cls, Room firstRoom) {start(cls,firstRoom,"Gamelib");}
+	public static void start(Class<? extends IGame> cls, Room firstRoom, String windowTitle) {
+		try {
+			game = cls.newInstance();
+		} catch (Exception e) {handle(e);}
 		originalDisplayMode = Display.getDesktopDisplayMode();
 		
 		if (firstRoom == null) throw new RuntimeException("A game can't exist without a Room.");
@@ -108,7 +93,7 @@ public final class Gamelib<G extends Game<G>> {
 		Display.destroy();
 	}
 	
-	private void tryCreatingDisplay() {
+	private static void tryCreatingDisplay() {
 		if (tryCreatingDisplay(new PixelFormat(8,8,8,4))) return;
 		capabilities.setMultisampleSupport(false);
 		
@@ -121,7 +106,7 @@ public final class Gamelib<G extends Game<G>> {
 		if (tryCreatingDisplay(new PixelFormat())) return;
 		throw new RuntimeException("Couldn't create display.");
 	}
-	private boolean tryCreatingDisplay(PixelFormat format) {
+	private static boolean tryCreatingDisplay(PixelFormat format) {
 		try {
 			Display.create(format);
 			return true;
@@ -131,7 +116,7 @@ public final class Gamelib<G extends Game<G>> {
 		}
 	}
 	
-	protected void gameLoop() {
+	protected static void gameLoop() {
 		while (isRunning) {
 			game.gameLoop();
 			if (Display.isCloseRequested()) isRunning = false;
@@ -140,7 +125,7 @@ public final class Gamelib<G extends Game<G>> {
 		}
 	}
 	
-	public void handle(Throwable t) {
+	public static void handle(Throwable t) {
 		t.printStackTrace();
 	}
 }

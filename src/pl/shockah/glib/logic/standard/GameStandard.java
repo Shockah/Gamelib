@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.logic.IGame;
 
-public class Game extends pl.shockah.glib.logic.Game<Game> {
-	public static Game me = null;
+public class GameStandard implements IGame {
+	public static GameStandard me = null;
 	private static Graphics g = new Graphics();
 	
-	public Game() {
+	public GameStandard() {
 		me = this;
 	}
 	

@@ -5,13 +5,13 @@ import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
 import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.Game;
+import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.room.Room;
 
 public class TrueTypeFontTest extends Room {
 	public static void main(String[] args) {
 		TrueTypeFontTest test = new TrueTypeFontTest();
-		Gamelib.make(new Game()).start(test,test.getClass().getName());
+		Gamelib.start(GameStandard.class,test,test.getClass().getName());
 	}
 	
 	Font font1, font2;

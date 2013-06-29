@@ -7,13 +7,13 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.Game;
+import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.room.Room;
 
 public class DrawPolygonTest extends Room {
 	public static void main(String[] args) {
 		DrawPolygonTest test = new DrawPolygonTest();
-		Gamelib.make(new Game()).start(test,test.getClass().getName());
+		Gamelib.start(GameStandard.class,test,test.getClass().getName());
 	}
 	
 	Polygon p = new Polygon();

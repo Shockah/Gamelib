@@ -10,14 +10,14 @@ abstract class EntityBase {
 	public void create(Vector2d pos) {
 		this.pos = pos;
 		firstTick = true;
-		Game.me.entitiesAdd.add(this);
+		GameStandard.me.entitiesAdd.add(this);
 		onCreate();
 	}
 	protected void onCreate() {}
 	
 	public void destroy() {
 		onDestroy();
-		Game.me.entitiesRemove.add(this);
+		GameStandard.me.entitiesRemove.add(this);
 	}
 	protected void onDestroy() {}
 	

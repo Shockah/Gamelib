@@ -13,10 +13,10 @@ public abstract class EntityRenderable extends EntityBase implements Comparable<
 	
 	public final void create(Vector2d pos) {
 		super.create(pos);
-		Game.me.renderableAdd.add(this);
+		GameStandard.me.renderableAdd.add(this);
 	}
 	public final void destroy() {
-		Game.me.renderableRemove.add(this);
+		GameStandard.me.renderableRemove.add(this);
 		super.destroy();
 	}
 	
@@ -25,8 +25,8 @@ public abstract class EntityRenderable extends EntityBase implements Comparable<
 	}
 	public final void setDepth(float depth) {
 		this.depth = depth;
-		Game.me.renderableRemove.add(this);
-		Game.me.renderableAdd.add(this);
+		GameStandard.me.renderableRemove.add(this);
+		GameStandard.me.renderableAdd.add(this);
 	}
 	
 	public final void render(Graphics g) {

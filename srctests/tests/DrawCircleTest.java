@@ -5,13 +5,13 @@ import pl.shockah.glib.geom.Circle;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.Game;
+import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.room.Room;
 
 public class DrawCircleTest extends Room {
 	public static void main(String[] args) {
 		DrawCircleTest test = new DrawCircleTest();
-		Gamelib.make(new Game()).start(test,test.getClass().getName());
+		Gamelib.start(GameStandard.class,test,test.getClass().getName());
 	}
 	
 	protected void onSetup() {
