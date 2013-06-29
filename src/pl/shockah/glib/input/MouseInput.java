@@ -2,6 +2,7 @@ package pl.shockah.glib.input;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2i;
 
 public class MouseInput {
@@ -61,5 +62,9 @@ public class MouseInput {
 	
 	protected int getSpecialButton(int btn) {
 		return btn >= 0 ? btn : btnPressed.length+btn;
+	}
+	
+	public boolean inRectangle(Rectangle rect) {
+		return pos.x >= rect.pos.x && pos.y >= rect.pos.y && pos.x < rect.pos.x+rect.size.x && pos.y < rect.pos.y+rect.size.y;
 	}
 }
