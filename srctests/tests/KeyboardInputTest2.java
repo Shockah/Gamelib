@@ -5,7 +5,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.input.InputKeyboard;
+import pl.shockah.glib.input.KeyboardInput;
 import pl.shockah.glib.input.Key;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
@@ -20,10 +20,10 @@ public class KeyboardInputTest2 extends Room {
 	protected void onCreate() {
 		new EntityRenderable(){
 			Key
-				kL = new Key(InputKeyboard.ARROW_LEFT,Keyboard.KEY_A),
-				kR = new Key(InputKeyboard.ARROW_RIGHT,Keyboard.KEY_D),
-				kU = new Key(InputKeyboard.ARROW_UP,Keyboard.KEY_W),
-				kD = new Key(InputKeyboard.ARROW_DOWN,Keyboard.KEY_S);
+				kL = new Key(KeyboardInput.ARROW_LEFT,Keyboard.KEY_A),
+				kR = new Key(KeyboardInput.ARROW_RIGHT,Keyboard.KEY_D),
+				kU = new Key(KeyboardInput.ARROW_UP,Keyboard.KEY_W),
+				kD = new Key(KeyboardInput.ARROW_DOWN,Keyboard.KEY_S);
 			
 			protected void onTick() {
 				double xx = ((kR.down() ? 1 : 0)-(kL.down() ? 1 : 0))*4;

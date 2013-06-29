@@ -2,7 +2,7 @@ package pl.shockah.glib.input;
 
 import org.lwjgl.input.Keyboard;
 
-public class InputKeyboard {
+public class KeyboardInput {
 	public static final int
 		ARROW_LEFT = 203,
 		ARROW_RIGHT = 205,

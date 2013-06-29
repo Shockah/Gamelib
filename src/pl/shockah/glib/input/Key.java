@@ -3,11 +3,11 @@ package pl.shockah.glib.input;
 import pl.shockah.glib.Gamelib;
 
 public class Key {
-	protected final InputKeyboard keyboard;
+	protected final KeyboardInput keyboard;
 	protected final int[] checkFor;
 	
 	public Key(int... checkFor) {this(Gamelib.keyboard,checkFor);}
-	public Key(InputKeyboard kb, int... checkFor) {
+	public Key(KeyboardInput kb, int... checkFor) {
 		keyboard = kb;
 		this.checkFor = checkFor;
 	}
