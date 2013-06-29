@@ -52,6 +52,22 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 		this(new Font(name,Font.PLAIN | (bold ? Font.BOLD : 0) | (italic ? Font.ITALIC : 0),size),antiAlias,additionalChars);
 	}
 	
+	public TrueTypeFont(Font font, int size) {
+		this(font,size,false,false);
+	}
+	public TrueTypeFont(Font font, int size, boolean antiAlias) {
+		this(font,size,false,false,antiAlias);
+	}
+	public TrueTypeFont(Font font, int size, boolean bold, boolean italic) {
+		this(font,size,bold,italic,true);
+	}
+	public TrueTypeFont(Font font, int size, boolean bold, boolean italic, boolean antiAlias) {
+		this(font,size,bold,italic,antiAlias,new char[0]);
+	}
+	public TrueTypeFont(Font font, int size, boolean bold, boolean italic, boolean antiAlias, char[] additionalChars) {
+		this(font.deriveFont(Font.PLAIN | (bold ? Font.BOLD : 0) | (italic ? Font.ITALIC : 0),size),antiAlias,additionalChars);
+	}
+	
 	private TrueTypeFont(Font font, boolean antiAlias, char[] additionalChars) {
 		this.font = font;
 		this.fontSize = font.getSize()+3;
@@ -62,10 +78,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font {
 		fontHeight -= 1;
 		if (fontHeight <= 0) fontHeight = 1;
 	}
-
-	public TrueTypeFont(Font font, boolean antiAlias) {
-		this(font,antiAlias,null);
-	}
+	
 	public void setCorrection(boolean on) {
 		correctL = on ? 2 : 0;
 	}

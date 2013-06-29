@@ -26,6 +26,7 @@ public class TrueTypeFontTest extends Room {
 			
 			Font.registerNew("assets/fontttf1.ttf");
 			font2 = new TrueTypeFont("Andy Std",24);
+			//could use too: font2 = new TrueTypeFont(Font.registerNew("assets/fontttf1.ttf"),24);
 		} catch (Exception e) {e.printStackTrace();}
 		
 		new EntityRenderable(){
