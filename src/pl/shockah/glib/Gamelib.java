@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
 import pl.shockah.glib.gl.GLHelper;
+import pl.shockah.glib.input.InputKeyboard;
 import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.room.Room;
 
@@ -39,6 +40,7 @@ public final class Gamelib {
 	
 	public static final Capabilities capabilities = new Capabilities();
 	public static IGame game;
+	public static InputKeyboard keyboard = new InputKeyboard();
 	protected static boolean cachedFullscreen = false;
 	protected static DisplayMode cachedDisplayMode = null;
 	protected static Room room;
@@ -122,6 +124,7 @@ public final class Gamelib {
 	
 	protected static void gameLoop() {
 		while (isRunning) {
+			keyboard.update();
 			game.gameLoop();
 			if (Display.isCloseRequested()) isRunning = false;
 			Display.update();
