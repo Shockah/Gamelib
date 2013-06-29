@@ -31,6 +31,6 @@ public abstract class Font {
 	public abstract int getWidth(String text);
 	public abstract int getHeight();
 	
-	public abstract void draw(Graphics g, Vector2d v, String text);
-	public abstract void draw(Graphics g, double x, double y, String text);
+	public abstract void draw(Graphics g, Vector2d v, CharSequence text);
+	public abstract void draw(Graphics g, double x, double y, CharSequence text);
 }

@@ -203,13 +203,13 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		return fontHeight;
 	}
 	
-	public void draw(Graphics g, Vector2d v, String text) {
+	public void draw(Graphics g, Vector2d v, CharSequence text) {
 		draw(g,v.x,v.y,text);
 	}
-	public void draw(Graphics g, double x, double y, String text) {
+	public void draw(Graphics g, double x, double y, CharSequence text) {
 		drawString((float)x,(float)y,text,0,text.length()-1,1f,1f);
 	}
-	public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
+	public void drawString(float x, float y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
 		IntObject intObject = null;
 		int charCurrent;
 		
