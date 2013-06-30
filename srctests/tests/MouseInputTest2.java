@@ -25,10 +25,8 @@ public class MouseInputTest2 extends Room {
 			MButton mL = new MButton(MouseInput.LEFT);
 			
 			protected void onTick() {
-				MouseInput mouse = Gamelib.mouse;
-				
-				Vector2i mp = mouse.getPos();
-				if (mL.pressed() && mouse.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp.toDouble()).toInt();
+				Vector2i mp = Gamelib.mouse.getPos();
+				if (mL.pressed() && Gamelib.mouse.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp.toDouble()).toInt();
 				if (mL.released()) drag = null;
 				if (drag != null) pos = mp.add(drag).toDouble();
 			}
