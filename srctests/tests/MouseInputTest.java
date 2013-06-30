@@ -6,6 +6,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
+import pl.shockah.glib.input.MouseInput;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.room.Room;
@@ -21,12 +22,11 @@ public class MouseInputTest extends Room {
 			Vector2i drag = null;
 			
 			protected void onTick() {
-				Vector2i mp = Gamelib.mouse.getPos();
-				if (Gamelib.mouse.isPressed(0) && Gamelib.mouse.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) {
-					drag = new Vector2i((int)(pos.x-mp.x),(int)(pos.y-mp.y));
-				}
-				if (Gamelib.mouse.isReleased(0)) drag = null;
+				MouseInput mouse = Gamelib.mouse;
 				
+				Vector2i mp = mouse.getPos();
+				if (mouse.isPressed(MouseInput.LEFT) && mouse.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp.toDouble()).toInt();
+				if (mouse.isReleased(MouseInput.LEFT)) drag = null;
 				if (drag != null) pos = mp.add(drag).toDouble();
 			}
 			

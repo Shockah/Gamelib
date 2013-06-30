@@ -7,20 +7,22 @@ import pl.shockah.glib.geom.vector.Vector2i;
 
 public class MouseInput {
 	public static final int
+		LEFT = 0,
+		RIGHT = 1,
+		MIDDLE = 2,
+	
 		ANYBUTTON = -1;
 	
 	protected Vector2i pos;
 	protected boolean onPress = false;
 	protected boolean[] btnPressedOld, btnPressed, btnReleasedOld, btnReleased;
 	
-	public MouseInput() {
-		btnPressedOld = new boolean[4];
-		btnPressed = new boolean[4];
-		btnReleasedOld = new boolean[4];
-		btnReleased = new boolean[4];
-	}
-	
 	public void update() {
+		btnPressedOld = new boolean[Mouse.getButtonCount()+1];
+		btnPressed = new boolean[Mouse.getButtonCount()+1];
+		btnReleasedOld = new boolean[Mouse.getButtonCount()+1];
+		btnReleased = new boolean[Mouse.getButtonCount()+1];
+		
 		for (int i = 0; i < btnPressed.length; i++) {
 			btnPressedOld[i] = btnPressed[i];
 			btnReleasedOld[i] = btnReleased[i];
