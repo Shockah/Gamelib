@@ -1,35 +1,36 @@
-package pl.shockah.glib.room;
+package pl.shockah.glib.state;
 
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.room.transitions.Transition;
+import pl.shockah.glib.state.transitions.Transition;
 
-public class Room {
-	protected static Room current;
+public class State {
+	protected static State current;
 	protected static TransitionState transitionState;
 	
-	public static Room get() {
+	public static State get() {
 		return current;
 	}
-	public static void change(Room room) {change(room,null,null);}
-	public static void change(Room room, Transition transition) {change(room,transition,transition);}
-	public static void change(Room room, Transition out, Transition in) {
+	public static void change(State state) {change(state,null,null);}
+	public static void change(State state, Transition transition) {change(state,transition,transition);}
+	public static void change(State state, Transition out, Transition in) {
+		if (transitionState != null) return;
 		if (out == null && in == null) {
-			current = room;
+			current = state;
 			transitionState = null;
 			return;
 		}
 		if (out == null) {
-			current = room;
+			current = state;
 			current.create();
-			transitionState = new TransitionState(room,out,in,true);
+			transitionState = new TransitionState(state,out,in,true);
 			in.init(true);
 			return;
 		}
-		transitionState = new TransitionState(room,out,in,false);
+		transitionState = new TransitionState(state,out,in,false);
 		out.init(true);
 	}
 	
@@ -40,7 +41,7 @@ public class Room {
 				transitionState = null;
 			} else {
 				transitionState.in = true;
-				current = transitionState.room;
+				current = transitionState.state;
 				current.create();
 				transitionState.tIn.init(true);
 			}
@@ -90,4 +91,14 @@ public class Room {
 		onCreate();
 	}
 	protected void onCreate() {}
+	
+	public final void preUpdate() {
+		onPreUpdate();
+	}
+	protected void onPreUpdate() {}
+	
+	public final void postRender(Graphics g) {
+		onPostRender(g);
+	}
+	protected void onPostRender(Graphics g) {}
 }

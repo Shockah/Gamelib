@@ -6,9 +6,9 @@ import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
-import pl.shockah.glib.room.Room;
+import pl.shockah.glib.state.State;
 
-public class TrueTypeFontTest extends Room {
+public class TrueTypeFontTest extends State {
 	public static void main(String[] args) {
 		TrueTypeFontTest test = new TrueTypeFontTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());

@@ -9,7 +9,7 @@ import pl.shockah.glib.gl.GLHelper;
 import pl.shockah.glib.input.KeyboardInput;
 import pl.shockah.glib.input.MouseInput;
 import pl.shockah.glib.logic.IGame;
-import pl.shockah.glib.room.Room;
+import pl.shockah.glib.state.State;
 
 public final class Gamelib {
 	public static DisplayMode originalDisplayMode;
@@ -77,19 +77,19 @@ public final class Gamelib {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public static void start(Class<? extends IGame> cls, Room firstRoom) {start(cls,firstRoom,"Gamelib");}
-	public static void start(Class<? extends IGame> cls, Room firstRoom, String windowTitle) {
+	public static void start(Class<? extends IGame> cls, State initialState) {start(cls,initialState,"Gamelib");}
+	public static void start(Class<? extends IGame> cls, State initialState, String windowTitle) {
 		try {
-			start(cls.newInstance(),firstRoom,windowTitle);
+			start(cls.newInstance(),initialState,windowTitle);
 		} catch (Exception e) {handle(e);}
 	}
-	public static void start(IGame game, Room firstRoom) {start(game,firstRoom,"Gamelib");}
-	public static void start(IGame game, Room firstRoom, String windowTitle) {
+	public static void start(IGame game, State initialState) {start(game,initialState,"Gamelib");}
+	public static void start(IGame game, State initialState, String windowTitle) {
 		Gamelib.game = game;
 		originalDisplayMode = Display.getDesktopDisplayMode();
 		
-		if (firstRoom == null) throw new RuntimeException("A game can't exist without a Room.");
-		firstRoom.setup();
+		if (initialState == null) throw new RuntimeException("A game can't exist without a State.");
+		initialState.setup();
 		
 		if (windowTitle == null) windowTitle = "";
 		Display.setTitle(windowTitle);
@@ -97,10 +97,10 @@ public final class Gamelib {
 		tryCreatingDisplay();
 		capabilities.lock();
 		
-		Room.change(firstRoom);
+		State.change(initialState);
 		GLHelper.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-		Room.get().create();
+		State.get().create();
 		
 		isRunning = true;
 		gameLoop();
@@ -137,7 +137,7 @@ public final class Gamelib {
 			game.gameLoop();
 			if (Display.isCloseRequested()) isRunning = false;
 			Display.update();
-			Display.sync(Room.get().getFPS());
+			Display.sync(State.get().getFPS());
 		}
 	}
 	

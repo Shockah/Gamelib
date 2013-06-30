@@ -9,9 +9,9 @@ import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.input.MouseInput;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
-import pl.shockah.glib.room.Room;
+import pl.shockah.glib.state.State;
 
-public class MouseInputTest extends Room {
+public class MouseInputTest extends State {
 	public static void main(String[] args) {
 		MouseInputTest test = new MouseInputTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());

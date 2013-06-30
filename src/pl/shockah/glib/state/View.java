@@ -1,4 +1,4 @@
-package pl.shockah.glib.room;
+package pl.shockah.glib.state;
 
 import pl.shockah.glib.geom.vector.Vector2i;
 

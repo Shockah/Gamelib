@@ -6,7 +6,7 @@ import java.util.List;
 import pl.shockah.SortedLinkedList;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.logic.IGame;
-import pl.shockah.glib.room.Room;
+import pl.shockah.glib.state.State;
 
 public class GameStandard implements IGame {
 	public static GameStandard me = null;
@@ -32,10 +32,10 @@ public class GameStandard implements IGame {
 	}
 	
 	public void gameLoop() {
-		Room room = Room.get();
+		State state = State.get();
 		
-		room.updateTransition();
-		if (room.shouldTransitionUpdate()) {
+		state.updateTransition();
+		if (state.shouldTransitionUpdate()) {
 			entities.addAll(entitiesAdd);
 			entities.removeAll(entitiesRemove);
 			entitiesAdd.clear();
@@ -44,7 +44,7 @@ public class GameStandard implements IGame {
 			for (EntityBase e : entities) e.tick();
 		}
 		
-		if (room.shouldTransitionRender(g)) {
+		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);
 			renderable.addAll(renderableAdd);
 			renderableRemove.clear();
@@ -53,6 +53,6 @@ public class GameStandard implements IGame {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			for (EntityRenderable er : renderable) er.onRender(g);
 		}
-		room.renderTransition(g);
+		state.renderTransition(g);
 	}
 }

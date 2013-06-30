@@ -1,4 +1,4 @@
-package pl.shockah.glib.room.transitions;
+package pl.shockah.glib.state.transitions;
 
 import pl.shockah.glib.gl.Graphics;
 

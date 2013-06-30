@@ -10,9 +10,9 @@ import pl.shockah.glib.input.MButton;
 import pl.shockah.glib.input.MouseInput;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
-import pl.shockah.glib.room.Room;
+import pl.shockah.glib.state.State;
 
-public class MouseInputTest2 extends Room {
+public class MouseInputTest2 extends State {
 	public static void main(String[] args) {
 		MouseInputTest2 test = new MouseInputTest2();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());

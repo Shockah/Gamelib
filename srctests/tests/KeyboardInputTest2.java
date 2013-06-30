@@ -10,9 +10,9 @@ import pl.shockah.glib.input.KeyboardInput;
 import pl.shockah.glib.input.Key;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
-import pl.shockah.glib.room.Room;
+import pl.shockah.glib.state.State;
 
-public class KeyboardInputTest2 extends Room {
+public class KeyboardInputTest2 extends State {
 	public static void main(String[] args) {
 		KeyboardInputTest2 test = new KeyboardInputTest2();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());

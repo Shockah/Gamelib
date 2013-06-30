@@ -1,15 +1,15 @@
-package pl.shockah.glib.room;
+package pl.shockah.glib.state;
 
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.room.transitions.Transition;
+import pl.shockah.glib.state.transitions.Transition;
 
 public final class TransitionState {
-	public final Room room;
+	public final State state;
 	public final Transition tOut, tIn;
 	public boolean in;
 	
-	public TransitionState(Room room, Transition tOut, Transition tIn, boolean in) {
-		this.room = room;
+	public TransitionState(State state, Transition tOut, Transition tIn, boolean in) {
+		this.state = state;
 		this.tOut = tOut;
 		this.tIn = tIn;
 		this.in = in;
