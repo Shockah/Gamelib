@@ -91,6 +91,12 @@ public class Texture implements IBoundable {
 		this.height = height;
 	}
 	
+	public boolean equals(Object other) {
+		if (!(other instanceof Texture)) return false;
+		Texture tex = (Texture)other;
+		return tex.texId == texId && tex.width == width && tex.height == height;
+	}
+	
 	public Vector2i getSize() {
 		return new Vector2i(getWidth(),getHeight());
 	}
