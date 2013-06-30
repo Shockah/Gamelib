@@ -8,15 +8,20 @@ import pl.shockah.glib.state.State;
 
 public class TransitionThroughColor extends Transition {
 	protected final Color color;
+	protected final double baseSpeed;
 	protected double alpha, incr;
 	
 	public TransitionThroughColor(Color color) {
+		this(color,.05d);
+	}
+	public TransitionThroughColor(Color color, double baseSpeed) {
 		this.color = color;
+		this.baseSpeed = baseSpeed;
 	}
 	
 	public void init(boolean in) {
 		alpha = in ? 1 : 0;
-		incr = (in ? -1 : 1)*.05d;
+		incr = (in ? -1 : 1)*baseSpeed;
 	}
 	
 	public boolean update() {
