@@ -21,13 +21,13 @@ abstract class EntityBase {
 	}
 	protected void onDestroy() {}
 	
-	public final void tick() {
+	public final void update() {
 		if (firstTick) {
 			firstTick = false;
-			onFirstTick();
+			onFirstUpdate();
 		}
-		onTick();
+		onUpdate();
 	}
-	protected void onFirstTick() {}
-	protected void onTick() {}
+	protected void onFirstUpdate() {}
+	protected void onUpdate() {}
 }

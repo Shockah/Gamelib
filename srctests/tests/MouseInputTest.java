@@ -21,7 +21,7 @@ public class MouseInputTest extends State {
 		new EntityRenderable(){
 			Vector2i drag = null;
 			
-			protected void onTick() {
+			protected void onUpdate() {
 				MouseInput mouse = Gamelib.mouse;
 				
 				Vector2i mp = mouse.getPos();

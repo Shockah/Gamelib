@@ -42,7 +42,7 @@ public class GameStandard implements IGame {
 			entitiesAdd.clear();
 			entitiesRemove.clear();
 			
-			for (EntityBase e : entities) e.tick();
+			for (EntityBase e : entities) e.update();
 		}
 		
 		if (state.shouldTransitionRender(g)) {

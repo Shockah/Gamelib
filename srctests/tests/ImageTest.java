@@ -31,7 +31,7 @@ public class ImageTest extends State {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		new EntityRenderable(){
-			protected void onTick() {
+			protected void onUpdate() {
 				image1.rotation.angle -= 2;
 				image2.rotation.angle += 1;
 			}

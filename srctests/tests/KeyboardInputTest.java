@@ -20,7 +20,7 @@ public class KeyboardInputTest extends State {
 		new EntityRenderable(){
 			Vector2d oldPos;
 			
-			protected void onTick() {
+			protected void onUpdate() {
 				KeyboardInput kb = Gamelib.keyboard;
 				
 				oldPos = pos;

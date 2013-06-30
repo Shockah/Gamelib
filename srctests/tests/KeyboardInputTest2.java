@@ -27,7 +27,7 @@ public class KeyboardInputTest2 extends State {
 				kU = new Key(KeyboardInput.ARROW_UP,Keyboard.KEY_W),
 				kD = new Key(KeyboardInput.ARROW_DOWN,Keyboard.KEY_S);
 			
-			protected void onTick() {
+			protected void onUpdate() {
 				oldPos = pos;
 				double xx = ((kR.down() ? 1 : 0)-(kL.down() ? 1 : 0))*4;
 				double yy = ((kD.down() ? 1 : 0)-(kU.down() ? 1 : 0))*4;
