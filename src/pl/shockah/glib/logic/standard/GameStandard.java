@@ -6,6 +6,7 @@ import java.util.List;
 import pl.shockah.SortedLinkedList;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.logic.IGame;
+import pl.shockah.glib.room.Room;
 
 public class GameStandard implements IGame {
 	public static GameStandard me = null;
@@ -31,19 +32,27 @@ public class GameStandard implements IGame {
 	}
 	
 	public void gameLoop() {
-		entities.addAll(entitiesAdd);
-		entities.removeAll(entitiesRemove);
-		entitiesAdd.clear();
-		entitiesRemove.clear();
+		Room room = Room.get();
 		
-		for (EntityBase e : entities) e.tick();
+		room.updateTransition();
+		if (room.shouldTransitionUpdate()) {
+			entities.addAll(entitiesAdd);
+			entities.removeAll(entitiesRemove);
+			entitiesAdd.clear();
+			entitiesRemove.clear();
+			
+			for (EntityBase e : entities) e.tick();
+		}
 		
-		renderable.removeAll(renderableRemove);
-		renderable.addAll(renderableAdd);
-		renderableRemove.clear();
-		renderableAdd.clear();
-		
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		for (EntityRenderable er : renderable) er.onRender(g);
+		if (room.shouldTransitionRender(g)) {
+			renderable.removeAll(renderableRemove);
+			renderable.addAll(renderableAdd);
+			renderableRemove.clear();
+			renderableAdd.clear();
+			
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			for (EntityRenderable er : renderable) er.onRender(g);
+		}
+		room.renderTransition(g);
 	}
 }

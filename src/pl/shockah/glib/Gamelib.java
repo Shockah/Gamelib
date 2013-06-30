@@ -4,6 +4,7 @@ import java.util.Arrays;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.PixelFormat;
+import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GLHelper;
 import pl.shockah.glib.input.KeyboardInput;
 import pl.shockah.glib.input.MouseInput;
@@ -45,11 +46,16 @@ public final class Gamelib {
 	public static MouseInput mouse = new MouseInput();
 	protected static boolean cachedFullscreen = false;
 	protected static DisplayMode cachedDisplayMode = null;
-	protected static Room room;
 	protected static boolean isRunning = false;
 	
+	public static void setDisplayMode(Vector2i v) {
+		setDisplayMode(v.x,v.y);
+	}
 	public static void setDisplayMode(int width, int height) {
 		setDisplayMode(width,height,cachedFullscreen);
+	}
+	public static void setDisplayMode(Vector2i v, boolean fullscreen) {
+		setDisplayMode(v.x,v.y,fullscreen);
 	}
 	public static void setDisplayMode(int width, int height, boolean fullscreen) {
 		if (cachedDisplayMode == null) cachedDisplayMode = originalDisplayMode;
@@ -91,10 +97,10 @@ public final class Gamelib {
 		tryCreatingDisplay();
 		capabilities.lock();
 		
-		room = firstRoom;
+		Room.change(firstRoom);
 		GLHelper.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-		room.create();
+		Room.get().create();
 		
 		isRunning = true;
 		gameLoop();
@@ -131,7 +137,7 @@ public final class Gamelib {
 			game.gameLoop();
 			if (Display.isCloseRequested()) isRunning = false;
 			Display.update();
-			Display.sync(room.getFPS());
+			Display.sync(Room.get().getFPS());
 		}
 	}
 	
