@@ -26,24 +26,4 @@ public final class Colorf extends Color {
 	public float Gf() {return g;}
 	public float Bf() {return b;}
 	public float Af() {return a;}
-	
-	public void copy(Color color) {
-		r = color.Rf();
-		g = color.Gf();
-		b = color.Bf();
-		a = color.Af();
-	}
-	
-	public Colorf alpha(float alpha) {
-		copy(alpha(this,alpha));
-		return this;
-	}
-	public Colorf lerp(Color color, float ratio) {
-		copy(lerp(this,color,ratio));
-		return this;
-	}
-	public Colorf inverse() {
-		copy(inverse(this));
-		return this;
-	}
 }

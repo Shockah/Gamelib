@@ -168,21 +168,6 @@ public abstract class Color implements IBoundable {
 		return new ColorbImmutable((value & 0x00FF0000) >> 16,(value & 0x0000FF00) >> 8,(value & 0x000000FF),(value & 0xFF000000) >> 24);
 	}
 	
-	public static Color alpha(Color color, float alpha) {
-		return new ColorbImmutable(color.Rf(),color.Gf(),color.Bf(),color.Af()*alpha);
-	}
-	public static Color lerp(Color c1, Color c2, float ratio) {
-		if (ratio < 0 || ratio > 1) throw new IllegalArgumentException("Ratio should have a value of 0-1.");
-		float R = c1.Rf()-((c1.Rf()-c2.Rf())*ratio);
-		float G = c1.Gf()-((c1.Gf()-c2.Gf())*ratio);
-		float B = c1.Bf()-((c1.Bf()-c2.Bf())*ratio);
-		float A = c1.Af()-((c1.Af()-c2.Af())*ratio);
-		return new ColorbImmutable(R,G,B,A);
-	}
-	public static Color inverse(Color c) {
-		return new ColorbImmutable(255-c.R(),255-c.G(),255-c.B(),c.A());
-	}
-	
 	public boolean equals(Object other) {
 		if (!(other instanceof Color)) return false;
 		Color c = (Color)other;
@@ -203,6 +188,21 @@ public abstract class Color implements IBoundable {
 		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
 	public void unbind() {}
+	
+	public Color alpha(float alpha) {
+		return new ColorbImmutable(Rf(),Gf(),Bf(),Af()*alpha);
+	}
+	public Color lerp(Color c2, float ratio) {
+		if (ratio < 0 || ratio > 1) throw new IllegalArgumentException("Ratio should have a value of 0-1.");
+		float R = Rf()-((Rf()-c2.Rf())*ratio);
+		float G = Gf()-((Gf()-c2.Gf())*ratio);
+		float B = Bf()-((Bf()-c2.Bf())*ratio);
+		float A = Af()-((Af()-c2.Af())*ratio);
+		return new ColorbImmutable(R,G,B,A);
+	}
+	public Color inverse() {
+		return new ColorbImmutable(255-R(),255-G(),255-B(),A());
+	}
 	
 	public Colorb toColorb() {
 		if (getClass() == Colorb.class) return (Colorb)this;

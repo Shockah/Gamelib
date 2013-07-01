@@ -33,17 +33,4 @@ public final class Colorb extends Color {
 		b = (byte)color.B();
 		a = (byte)color.A();
 	}
-	
-	public Colorb alpha(float alpha) {
-		copy(alpha(this,alpha));
-		return this;
-	}
-	public Colorb lerp(Color color, float ratio) {
-		copy(lerp(this,color,ratio));
-		return this;
-	}
-	public Colorb inverse() {
-		copy(inverse(this));
-		return this;
-	}
 }

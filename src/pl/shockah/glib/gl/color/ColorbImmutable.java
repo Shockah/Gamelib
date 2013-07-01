@@ -26,18 +26,4 @@ public final class ColorbImmutable extends Color {
 	public float Gf() {return G()/255f;}
 	public float Bf() {return B()/255f;}
 	public float Af() {return A()/255f;}
-	
-	public ColorbImmutable copy(Color color) {
-		return new ColorbImmutable(color.R(),color.G(),color.B(),color.A());
-	}
-	
-	public ColorbImmutable alpha(float alpha) {
-		return alpha(this,alpha).toColorbImmutable();
-	}
-	public ColorbImmutable lerp(Color color, float ratio) {
-		return lerp(this,color,ratio).toColorbImmutable();
-	}
-	public ColorbImmutable inverse() {
-		return inverse().toColorbImmutable();
-	}
 }
