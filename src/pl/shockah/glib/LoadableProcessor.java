@@ -65,10 +65,9 @@ public final class LoadableProcessor {
 		
 		public void load() {
 			try {
-				String path = handlePath(loadable.path());
 				switch (loadable.type()) {
-					case File: Font.registerNew(new File(path)); break;
-					case Internal: Font.registerNew(path); break;
+					case File: Font.registerNew(new File(loadable.path())); break;
+					case Internal: Font.registerNew(loadable.path()); break;
 				}
 			} catch (Exception e) {e.printStackTrace();}
 		}
