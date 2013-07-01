@@ -43,7 +43,7 @@ public abstract class Font {
 		public Loadable[] value();
 	}
 	@Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
-		public String path();
+		public String path() default "assets/fonts/<field.name>.ttf";
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 	}
 }

@@ -44,7 +44,7 @@ public class Image extends TextureSupplier {
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
-		public String path();
+		public String path() default "assets/images/<field.name>.png";
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 	}
 }

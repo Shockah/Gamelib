@@ -64,7 +64,7 @@ public class SpriteSheet extends TextureSupplier {
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
-		public String path();
+		public String path() default "assets/spritesheets/<field.name>.png";
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 		public int grid() default -1;
 		public int gridX() default -1;

@@ -51,6 +51,11 @@ public final class LoadableProcessor {
 			this.loadable = loadable;
 		}
 		
+		protected String handlePath(String path) {
+			path = path.replace("<field.name>",field.getField().getName());
+			return path;
+		}
+		
 		public abstract void load();
 	}
 	public static class FontLoadAction extends LoadAction<Font.Loadable> {
@@ -60,9 +65,10 @@ public final class LoadableProcessor {
 		
 		public void load() {
 			try {
+				String path = handlePath(loadable.path());
 				switch (loadable.type()) {
-					case File: Font.registerNew(new File(loadable.path())); break;
-					case Internal: Font.registerNew(loadable.path()); break;
+					case File: Font.registerNew(new File(path)); break;
+					case Internal: Font.registerNew(path); break;
 				}
 			} catch (Exception e) {e.printStackTrace();}
 		}
@@ -75,9 +81,10 @@ public final class LoadableProcessor {
 		public void load() {
 			try {
 				Texture tex = null;
+				String path = handlePath(loadable.path());
 				switch (loadable.type()) {
-					case File: tex = Texture.load(new File(loadable.path())); break;
-					case Internal: tex = Texture.load(loadable.path()); break;
+					case File: tex = Texture.load(new File(path)); break;
+					case Internal: tex = Texture.load(path); break;
 				}
 				field.set(new Image(tex));
 			} catch (Exception e) {e.printStackTrace();}
@@ -97,9 +104,10 @@ public final class LoadableProcessor {
 				if (gridX == -1 || gridY == -1) throw new IllegalArgumentException("Grid has to be specified ("+field.getObject()+")");
 				
 				Texture tex = null;
+				String path = handlePath(loadable.path());
 				switch (loadable.type()) {
-					case File: tex = Texture.load(new File(loadable.path())); break;
-					case Internal: tex = Texture.load(loadable.path()); break;
+					case File: tex = Texture.load(new File(path)); break;
+					case Internal: tex = Texture.load(path); break;
 				}
 				field.set(new SpriteSheet(tex,gridX,gridY,loadable.spacingX(),loadable.spacingY()));
 			} catch (Exception e) {e.printStackTrace();}
