@@ -13,6 +13,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.file.Path;
+import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
@@ -38,12 +39,11 @@ public abstract class Font {
 	public abstract void draw(Graphics g, Vector2d v, CharSequence text);
 	public abstract void draw(Graphics g, double x, double y, CharSequence text);
 	
-	@Target(ElementType.METHOD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
+	@Target(ElementType.METHOD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadables {
+		public Loadable[] value();
+	}
+	@Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
 		public String path();
-		public Type type() default Type.Internal;
-		
-		public static enum Type {
-			Internal(), File();
-		}
+		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 	}
 }

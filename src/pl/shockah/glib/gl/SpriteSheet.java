@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -64,12 +65,11 @@ public class SpriteSheet extends TextureSupplier {
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
 		public String path();
-		public Type type() default Type.Internal;
+		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
+		public int grid() default -1;
 		public int gridX() default -1;
 		public int gridY() default -1;
-		
-		public static enum Type {
-			Internal(), File();
-		}
+		public int spacingX() default 0;
+		public int spacingY() default 0;
 	}
 }
