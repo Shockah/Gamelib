@@ -1,5 +1,9 @@
 package pl.shockah.glib.gl;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -55,6 +59,17 @@ public class SpriteSheet extends TextureSupplier {
 		
 		public Rectangle getTextureRect() {
 			return new Rectangle(x*(gridX+spacingX),y*(gridY+spacingY),gridX,gridY);
+		}
+	}
+	
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
+		public String path();
+		public Type type() default Type.Internal;
+		public int gridX() default -1;
+		public int gridY() default -1;
+		
+		public static enum Type {
+			Internal(), File();
 		}
 	}
 }

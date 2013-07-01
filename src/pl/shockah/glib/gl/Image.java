@@ -1,6 +1,10 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -35,6 +39,15 @@ public class Image extends TextureSupplier {
 		
 		public void center() {
 			center = getTextureSize().toDouble().div(2);
+		}
+	}
+	
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
+		public String path();
+		public Type type() default Type.Internal;
+		
+		public static enum Type {
+			Internal(), File();
 		}
 	}
 }

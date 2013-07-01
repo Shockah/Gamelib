@@ -10,6 +10,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
 import java.awt.image.DataBufferInt;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -331,5 +335,14 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		glVertex2d(x+w,y+h);
 		glTexCoord2d(tx+tw,ty);
 		glVertex2d(x+w,y);
+	}
+	
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
+		public String name();
+		public int size();
+		public boolean bold() default false;
+		public boolean italic() default false;
+		public boolean antiAlias() default true;
+		public char[] additionalChars() default {};
 	}
 }
