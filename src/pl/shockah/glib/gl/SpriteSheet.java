@@ -43,6 +43,7 @@ public class SpriteSheet extends TextureSupplier {
 	
 	public int getColumns() {return grid.length;}
 	public int getRows() {return grid[0].length;}
+	public int getCount() {return getColumns()*getRows();}
 	
 	public Image getImage(int x) {
 		return grid[x%grid.length][x/grid.length];
