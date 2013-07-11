@@ -12,6 +12,11 @@ public class SpriteSheet extends TextureSupplier {
 	protected final Image[][] grid;
 	protected final int gridX, gridY, spacingX, spacingY;
 	
+	public SpriteSheet(Image[][] grid) {
+		super(null);
+		this.grid = grid;
+		gridX = gridY = spacingX = spacingY = -1;
+	}
 	public SpriteSheet(Texture tex, int grid) {
 		this(tex,grid,grid);
 	}
@@ -39,12 +44,9 @@ public class SpriteSheet extends TextureSupplier {
 	public int getColumns() {return grid.length;}
 	public int getRows() {return grid[0].length;}
 	
-	//region Java-OO
-	public Image[] get(int x) {
-		return grid[x];
+	public Image getImage(int x) {
+		return grid[x%grid.length][x/grid.length];
 	}
-	//endregion
-	
 	public Image getImage(int x, int y) {
 		return grid[x][y];
 	}

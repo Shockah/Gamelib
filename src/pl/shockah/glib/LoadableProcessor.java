@@ -15,12 +15,18 @@ import pl.shockah.glib.gl.tex.Texture;
 
 public final class LoadableProcessor {
 	public static List<LoadAction<?>> process(Class<?> cls) {
-		return process(cls,null);
+		return process(cls,null,null);
+	}
+	public static List<LoadAction<?>> process(Class<?> cls, ILoadableAnnotationHandler handler) {
+		return process(cls,null,handler);
 	}
 	public static List<LoadAction<?>> process(Object o) {
-		return process(o.getClass(),o);
+		return process(o.getClass(),o,null);
 	}
-	private static List<LoadAction<?>> process(Class<?> cls, Object o) {
+	public static List<LoadAction<?>> process(Object o, ILoadableAnnotationHandler handler) {
+		return process(o.getClass(),o,handler);
+	}
+	private static List<LoadAction<?>> process(Class<?> cls, Object o, ILoadableAnnotationHandler handler) {
 		List<LoadAction<?>> ret = new LinkedList<>();
 		for (Method mtd : cls.getDeclaredMethods()) {
 			Font.Loadables loadables = mtd.getAnnotation(Font.Loadables.class);
