@@ -44,6 +44,8 @@ public final class LoadableProcessor {
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
+			
+			if (handler != null) handler.handle(ret,fld,o);
 		}
 		return ret;
 	}
