@@ -10,5 +10,21 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/PNGDecoder.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-bridge.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-css.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-dom.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-gvt.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-svg-dom.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-transcoder.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-util.jar"/>
+	<classpathentry kind="lib" path="lib/batik/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/batik/xml-apis-ext.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-ext.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-xml.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-anim.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-parser.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-script.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-awt-util.jar"/>
+	<classpathentry kind="lib" path="lib/batik/batik-codec.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

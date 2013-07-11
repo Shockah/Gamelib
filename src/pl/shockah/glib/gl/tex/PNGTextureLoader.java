@@ -17,7 +17,7 @@ public class PNGTextureLoader extends TextureLoader {
 		PNGDecoder decoder = new PNGDecoder(is);
 		Vector2i fold = Texture.get2Fold(decoder.getWidth(),decoder.getHeight());
 		
-		ByteBuffer bb = BufferUtils.createByteBuffer(decoder.getWidth()*decoder.getHeight()*(decoder.hasAlpha() ? 4 : 3));
+		ByteBuffer bb = BufferUtils.createByteBuffer(fold.x*fold.y*(decoder.hasAlpha() ? 4 : 3));
 		decoder.decode(bb,decoder.getWidth()*(decoder.hasAlpha() ? 4 : 3),decoder.hasAlpha() ? PNGDecoder.Format.RGBA : PNGDecoder.Format.RGB);
 		bb.flip();
 		
@@ -26,7 +26,7 @@ public class PNGTextureLoader extends TextureLoader {
 		Texture texture = new Texture(texId,decoder.getWidth(),decoder.getHeight());
 		texture.bind();
 		texture.setResizeFilter(Texture.EResizeFilter.Linear);
-		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,fold.x,fold.y,0,decoder.hasAlpha() ? GL_RGBA : GL_RGB,GL_UNSIGNED_BYTE,bb);
+		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,decoder.getWidth(),decoder.getHeight(),0,decoder.hasAlpha() ? GL_RGBA : GL_RGB,GL_UNSIGNED_BYTE,bb);
 		texture.unbind();
 		
 		return texture;
