@@ -21,6 +21,9 @@ public class AssetLoader {
 	public int getTotalCount() {
 		return loaded+toLoad.size();
 	}
+	public boolean finished() {
+		return getLoadedCount() == getTotalCount();
+	}
 	
 	public void update() {
 		update(1000/State.get().getFPS());
