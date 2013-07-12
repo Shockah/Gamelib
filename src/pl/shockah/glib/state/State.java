@@ -67,8 +67,8 @@ public class State {
 	public final Vector2i getDisplaySize() {
 		int w = 0, h = 0, xx, yy;
 		for (View view : views) {
-			xx = view.viewPortPos.x+view.viewPortSize.x;
-			yy = view.viewPortPos.y+view.viewPortSize.y;
+			xx = view.portPos.x+view.portSize.x;
+			yy = view.portPos.y+view.portSize.y;
 			if (xx > w) w = xx;
 			if (yy > h) h = yy;
 		}

@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import pl.shockah.glib.LoadableProcessor;
+import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -34,12 +35,35 @@ public class Image extends TextureSupplier {
 		}
 	}
 	
+	public Image part(int x, int y, int w, int h) {
+		return new Image2(getTexture(),x,y,w,h);
+	}
+	public Image part(Rectangle rect) {
+		return part((int)rect.pos.x,(int)rect.pos.y,(int)rect.size.x,(int)rect.size.y);
+	}
+	
 	public class Rotation {
 		public Vector2d center = new Vector2d();
 		public double angle = 0;
 		
 		public void center() {
 			center = getTextureSize().toDouble().div(2);
+		}
+	}
+	
+	protected static class Image2 extends Image {
+		protected final int x, y, w, h;
+		
+		public Image2(Texture tex, int x, int y, int w, int h) {
+			super(tex);
+			this.x = x;
+			this.y = y;
+			this.w = w;
+			this.h = h;
+		}
+		
+		public Rectangle getTextureRect() {
+			return new Rectangle(x,y,w,h);
 		}
 	}
 	
