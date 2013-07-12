@@ -29,6 +29,9 @@ public class GameStandard implements IGame {
 		entities.clear();
 		entitiesAdd.clear();
 		entitiesRemove.clear();
+		renderable.clear();
+		renderableAdd.clear();
+		renderableRemove.clear();
 	}
 	
 	public void gameLoop() {

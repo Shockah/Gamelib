@@ -20,11 +20,14 @@ public class State {
 		if (transitionState != null) return;
 		if (out == null && in == null) {
 			current = state;
+			Gamelib.game.reset();
+			current.create();
 			transitionState = null;
 			return;
 		}
 		if (out == null) {
 			current = state;
+			Gamelib.game.reset();
 			current.create();
 			transitionState = new TransitionState(state,out,in,true);
 			in.init(true);
@@ -42,6 +45,7 @@ public class State {
 			} else {
 				transitionState.in = true;
 				current = transitionState.state;
+				Gamelib.game.reset();
 				current.create();
 				transitionState.tIn.init(true);
 			}
