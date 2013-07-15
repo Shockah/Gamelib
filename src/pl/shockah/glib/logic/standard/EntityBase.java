@@ -1,10 +1,21 @@
 package pl.shockah.glib.logic.standard;
 
+import java.util.LinkedList;
+import java.util.List;
 import pl.shockah.glib.geom.vector.Vector2d;
 
-abstract class EntityBase {
+public abstract class EntityBase {
+	public static List<EntityBase> getEntities() {return new LinkedList<>(GameStandard.me.entities);}
+	@SafeVarargs public static List<EntityBase> getEntities(Class<? extends EntityBase>... entityClasses) {
+		List<EntityBase> list = new LinkedList<>();
+		for (EntityBase entity : GameStandard.me.entities) for (Class<? extends EntityBase> cls : entityClasses) if (cls.isAssignableFrom(entity.getClass())) list.add(entity);
+		return list;
+	}
+	
 	protected Vector2d pos;
 	private boolean firstTick;
+	
+	EntityBase() {}
 	
 	public final void create() {create(new Vector2d());}
 	public void create(Vector2d pos) {
