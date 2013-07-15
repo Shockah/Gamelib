@@ -27,8 +27,8 @@ public class SVGTextureLoader extends TextureLoader {
 		TranscoderOutput to = new TranscoderOutput(new BinBufferOutputStream(binb));
 		
 		PNGTranscoder trans = new PNGTranscoder();
-		if (settings.containsKey("width")) trans.addTranscodingHint(PNGTranscoder.KEY_WIDTH,settings.get("width"));
-		if (settings.containsKey("height")) trans.addTranscodingHint(PNGTranscoder.KEY_HEIGHT,settings.get("height"));
+		if (settings.containsKey("width")) trans.addTranscodingHint(PNGTranscoder.KEY_WIDTH,new Float((int)settings.get("width")));
+		if (settings.containsKey("height")) trans.addTranscodingHint(PNGTranscoder.KEY_HEIGHT,new Float((int)settings.get("height")));
 		
 		try {
 			trans.transcode(ti,to);

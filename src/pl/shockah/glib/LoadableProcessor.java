@@ -12,6 +12,7 @@ import pl.shockah.glib.gl.SpriteSheet;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
 import pl.shockah.glib.gl.tex.Texture;
+import pl.shockah.glib.gl.tex.TextureLoader;
 
 public final class LoadableProcessor {
 	public static List<LoadAction<?>> process(Class<?> cls) {
@@ -36,11 +37,13 @@ public final class LoadableProcessor {
 			if (loadable != null) ret.add(new FontLoadAction(null,loadable));
 		}
 		for (Field fld : cls.getDeclaredFields()) {
+			TextureLoader.IntOptions optints = fld.getAnnotation(TextureLoader.IntOptions.class);
+			
 			Image.Loadable imageLoadable = fld.getAnnotation(Image.Loadable.class);
-			if (imageLoadable != null) ret.add(new ImageLoadAction(new FieldObj(fld,o),imageLoadable));
+			if (imageLoadable != null) ret.add(new ImageLoadAction(new FieldObj(fld,o),imageLoadable,optints));
 			
 			SpriteSheet.Loadable sheetLoadable = fld.getAnnotation(SpriteSheet.Loadable.class);
-			if (sheetLoadable != null) ret.add(new SpriteSheetLoadAction(new FieldObj(fld,o),sheetLoadable));
+			if (sheetLoadable != null) ret.add(new SpriteSheetLoadAction(new FieldObj(fld,o),sheetLoadable,optints));
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
@@ -81,12 +84,18 @@ public final class LoadableProcessor {
 		}
 	}
 	public static class ImageLoadAction extends LoadAction<Image.Loadable> {
-		public ImageLoadAction(FieldObj field, Image.Loadable loadable) {
+		protected final TextureLoader.IntOptions optints;
+		
+		public ImageLoadAction(FieldObj field, Image.Loadable loadable, TextureLoader.IntOptions optints) {
 			super(field,loadable);
+			this.optints = optints;
 		}
 		
 		public void load() {
 			try {
+				TextureLoader.clearOptionsGlobal();
+				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
+				
 				Texture tex = null;
 				String path = handlePath(loadable.path());
 				switch (loadable.type()) {
@@ -98,12 +107,18 @@ public final class LoadableProcessor {
 		}
 	}
 	public static class SpriteSheetLoadAction extends LoadAction<SpriteSheet.Loadable> {
-		public SpriteSheetLoadAction(FieldObj field, SpriteSheet.Loadable loadable) {
+		protected final TextureLoader.IntOptions optints;
+		
+		public SpriteSheetLoadAction(FieldObj field, SpriteSheet.Loadable loadable, TextureLoader.IntOptions optints) {
 			super(field,loadable);
+			this.optints = optints;
 		}
 		
 		public void load() {
 			try {
+				TextureLoader.clearOptionsGlobal();
+				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
+				
 				int gridX = loadable.gridX(), gridY = loadable.gridY(), grid = loadable.grid();
 				if (gridX == -1 && gridY != -1) gridX = gridY;
 				if (gridX != -1 && gridY == -1) gridY = gridX;

@@ -2,6 +2,10 @@ package pl.shockah.glib.gl.tex;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +38,13 @@ public abstract class TextureLoader {
 		return Collections.unmodifiableList(loaders);
 	}
 	
+	public static void setOptionGlobal(String option, Object value) {
+		for (TextureLoader tl : loaders) tl.setOption(option,value);
+	}
+	public static void clearOptionsGlobal() {
+		for (TextureLoader tl : loaders) tl.clearOptions();
+	}
+	
 	private final List<String> formats;
 	protected final Map<String,Object> settings = new HashMap<>();
 	
@@ -57,4 +68,12 @@ public abstract class TextureLoader {
 	}
 	
 	public abstract Texture load(InputStream is) throws IOException;
+	
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface IntOptions {
+		public IntOption[] value();
+	}
+	@Retention(RetentionPolicy.RUNTIME) public static @interface IntOption {
+		public String option();
+		public int value();
+	}
 }
