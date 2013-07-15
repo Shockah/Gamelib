@@ -2,10 +2,13 @@ package pl.shockah.glib.gl.tex;
 
 import java.io.IOException;
 import java.io.InputStream;
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.apache.batik.util.XMLResourceDescriptor;
+import org.w3c.dom.Document;
 import pl.shockah.BinBuffer;
 import pl.shockah.BinBufferInputStream;
 import pl.shockah.BinBufferOutputStream;
@@ -16,7 +19,10 @@ public class SVGTextureLoader extends TextureLoader {
 	}
 	
 	public Texture load(InputStream is) throws IOException {
-		TranscoderInput ti = new TranscoderInput(is);
+		SAXSVGDocumentFactory df = new SAXSVGDocumentFactory(XMLResourceDescriptor.getXMLParserClassName());
+		Document doc = df.createSVGDocument(null,is);
+		
+		TranscoderInput ti = new TranscoderInput(doc);
 		BinBuffer binb = new BinBuffer();
 		TranscoderOutput to = new TranscoderOutput(new BinBufferOutputStream(binb));
 		
