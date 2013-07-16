@@ -42,7 +42,7 @@ public abstract class Font {
 	@Target(ElementType.METHOD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadables {
 		public Loadable[] value();
 	}
-	@Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
+	@Target(ElementType.METHOD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
 		public String path();
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 	}

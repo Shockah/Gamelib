@@ -72,7 +72,7 @@ public abstract class TextureLoader {
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface IntOptions {
 		public IntOption[] value();
 	}
-	@Retention(RetentionPolicy.RUNTIME) public static @interface IntOption {
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface IntOption {
 		public String option();
 		public int value();
 	}

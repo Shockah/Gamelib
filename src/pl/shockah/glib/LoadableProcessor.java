@@ -38,6 +38,15 @@ public final class LoadableProcessor {
 		}
 		for (Field fld : cls.getDeclaredFields()) {
 			TextureLoader.IntOptions optints = fld.getAnnotation(TextureLoader.IntOptions.class);
+			if (optints == null) {
+				final TextureLoader.IntOption optint = fld.getAnnotation(TextureLoader.IntOption.class);
+				if (optint != null) {
+					optints = new TextureLoader.IntOptions() {
+						public Class<? extends Annotation> annotationType() {return TextureLoader.IntOptions.class;}
+						public TextureLoader.IntOption[] value() {return new TextureLoader.IntOption[]{optint};}
+					};
+				}
+			}
 			
 			Image.Loadable imageLoadable = fld.getAnnotation(Image.Loadable.class);
 			if (imageLoadable != null) ret.add(new ImageLoadAction(new FieldObj(fld,o),imageLoadable,optints));
