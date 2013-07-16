@@ -37,8 +37,8 @@ public class GameStandard implements IGame {
 	public void gameLoop() {
 		State state = State.get();
 		
-		state.preUpdate();
 		state.updateTransition();
+		state.preUpdate();
 		if (state.shouldTransitionUpdate()) {
 			entities.addAll(entitiesAdd);
 			entities.removeAll(entitiesRemove);
@@ -57,7 +57,7 @@ public class GameStandard implements IGame {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			for (EntityRenderable er : renderable) er.onRender(g);
 		}
-		state.postRender(g);
 		state.renderTransition(g);
+		state.postRender(g);
 	}
 }

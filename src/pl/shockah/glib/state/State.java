@@ -18,38 +18,23 @@ public class State {
 	public static void change(State state, Transition transition) {change(state,transition,transition);}
 	public static void change(State state, Transition out, Transition in) {
 		if (transitionState != null) return;
-		if (out == null && in == null) {
+		if (current == null) {
 			current = state;
-			Gamelib.game.reset();
-			current.create();
-			transitionState = null;
 			return;
 		}
-		if (out == null) {
-			current = state;
-			Gamelib.game.reset();
-			current.create();
-			transitionState = new TransitionState(state,out,in,true);
-			in.init(true);
-			return;
-		}
-		transitionState = new TransitionState(state,out,in,false);
-		out.init(true);
+		transitionState = new TransitionState(state,out,in);
+		transitionState.init();
+	}
+	
+	static void set(State state) {
+		current = state;
+		Gamelib.game.reset();
+		current.create();
 	}
 	
 	public void updateTransition() {
 		if (transitionState == null) return;
-		if (transitionState.update()) {
-			if (transitionState.in) {
-				transitionState = null;
-			} else {
-				transitionState.in = true;
-				current = transitionState.state;
-				Gamelib.game.reset();
-				current.create();
-				transitionState.tIn.init(true);
-			}
-		}
+		if (transitionState.update()) transitionState = null;
 	}
 	public void renderTransition(Graphics g) {
 		if (transitionState == null) return;

@@ -6,25 +6,62 @@ import pl.shockah.glib.state.transitions.Transition;
 public final class TransitionState {
 	public final State state;
 	public final Transition tOut, tIn;
-	public boolean in;
+	public ETransition trans = ETransition.Out;
 	
-	public TransitionState(State state, Transition tOut, Transition tIn, boolean in) {
+	public TransitionState(State state, Transition tOut, Transition tIn) {
 		this.state = state;
 		this.tOut = tOut;
 		this.tIn = tIn;
-		this.in = in;
 	}
 	
 	public Transition getCurrent() {
-		return in ? tIn : tOut;
+		switch (trans) {
+			case Out: return tOut;
+			case In: return tIn;
+			default: return null;
+		}
 	}
-	public boolean shouldUpdate() {return getCurrent().shouldUpdate();}
-	public boolean shouldRender(Graphics g) {return getCurrent().shouldRender(g);}
+	public void init() {
+		Transition current = getCurrent();
+		if (current == null) return;
+		current.init(trans == ETransition.In);
+	}
+	
+	public boolean shouldUpdate() {
+		Transition current = getCurrent();
+		if (current == null) return true;
+		return current.shouldUpdate();
+	}
+	public boolean shouldRender(Graphics g) {
+		Transition current = getCurrent();
+		if (current == null) return true;
+		return current.shouldRender(g);
+	}
 	
 	public boolean update() {
-		return getCurrent().update();
+		Transition current = getCurrent();
+		if (current == null || current.update()) {
+			switch (trans) {
+				case Out: {
+					trans = ETransition.In;
+					State.set(state);
+					if (tIn == null) {
+						trans = ETransition.None;
+						return true;
+					}
+				} break;
+				case In: {
+					trans = ETransition.None;
+					return true;
+				}
+				default: return true;
+			}
+		}
+		return false;
 	}
 	public void render(Graphics g) {
-		getCurrent().render(g);
+		Transition current = getCurrent();
+		if (current == null) return;
+		current.render(g);
 	}
 }
