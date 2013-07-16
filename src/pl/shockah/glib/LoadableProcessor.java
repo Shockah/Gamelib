@@ -1,12 +1,19 @@
 package pl.shockah.glib;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import pl.shockah.FieldObj;
+import pl.shockah.Pair;
 import pl.shockah.glib.gl.Image;
 import pl.shockah.glib.gl.SpriteSheet;
 import pl.shockah.glib.gl.font.Font;
@@ -53,6 +60,8 @@ public final class LoadableProcessor {
 			
 			SpriteSheet.Loadable sheetLoadable = fld.getAnnotation(SpriteSheet.Loadable.class);
 			if (sheetLoadable != null) ret.add(new SpriteSheetLoadAction(new FieldObj(fld,o),sheetLoadable,optints));
+			SpriteSheet.ZIPLoadable zipSSLoadable = fld.getAnnotation(SpriteSheet.ZIPLoadable.class);
+			if (zipSSLoadable != null) ret.add(new ZIPSpriteSheetLoadAction(new FieldObj(fld,o),zipSSLoadable));
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
@@ -152,6 +161,42 @@ public final class LoadableProcessor {
 		public void load() {
 			try {
 				field.set(new TrueTypeFont(loadable.name(),loadable.size(),loadable.bold(),loadable.italic(),loadable.antiAlias(),loadable.additionalChars()));
+			} catch (Exception e) {e.printStackTrace();}
+		}
+	}
+	public static class ZIPSpriteSheetLoadAction extends LoadAction<SpriteSheet.ZIPLoadable> {
+		public ZIPSpriteSheetLoadAction(FieldObj field, SpriteSheet.ZIPLoadable loadable) {
+			super(field,loadable);
+		}
+		
+		public void load() {
+			try {
+				ZipInputStream zis = null;
+				String path = handlePath(loadable.path());
+				switch (loadable.type()) {
+					case File: zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(path))); break;
+					case Internal: zis = new ZipInputStream(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(path))); break;
+				}
+				final ZipInputStream zis2 = zis;
+				
+				List<Pair<Integer,Image>> list = new LinkedList<>();
+				while (true) {
+					ZipEntry ze = zis.getNextEntry();
+					if (ze == null) break;
+					String[] spl = ze.getName().split("\\.");
+					list.add(new Pair<>(Integer.parseInt(spl[0]),new Image(Texture.load(new InputStream(){
+						public int read() throws IOException {
+							return zis2.read();
+						}
+						public void close() {}
+					},spl[spl.length-1].toUpperCase()))));
+				}
+				
+				Image[][] ar = new Image[list.size()][1];
+				for (Pair<Integer,Image> pair : list) ar[pair.get1()][0] = pair.get2();
+				
+				field.set(new SpriteSheet(ar));
+				zis.close();
 			} catch (Exception e) {e.printStackTrace();}
 		}
 	}

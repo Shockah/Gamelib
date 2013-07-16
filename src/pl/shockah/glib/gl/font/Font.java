@@ -15,6 +15,8 @@ import java.lang.annotation.Target;
 import java.nio.file.Path;
 import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.Vector2f;
+import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 
 public abstract class Font {
@@ -37,6 +39,8 @@ public abstract class Font {
 	public abstract int getHeight();
 	
 	public abstract void draw(Graphics g, Vector2d v, CharSequence text);
+	public abstract void draw(Graphics g, Vector2f v, CharSequence text);
+	public abstract void draw(Graphics g, Vector2i v, CharSequence text);
 	public abstract void draw(Graphics g, double x, double y, CharSequence text);
 	
 	@Target(ElementType.METHOD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadables {

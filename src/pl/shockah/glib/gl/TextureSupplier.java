@@ -1,8 +1,14 @@
 package pl.shockah.glib.gl;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glTexCoord2d;
+import static org.lwjgl.opengl.GL11.glTranslated;
+import static org.lwjgl.opengl.GL11.glVertex2d;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -36,6 +42,8 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, Vector2f v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
 		g.init();
 		getTexture().bind();

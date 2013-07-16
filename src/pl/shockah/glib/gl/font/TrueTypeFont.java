@@ -1,6 +1,30 @@
 package pl.shockah.glib.gl.font;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_CLAMP;
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_MODULATE;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_RGBA8;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_ENV_MODE;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexCoord2d;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glTexEnvf;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL11.glTranslated;
+import static org.lwjgl.opengl.GL11.glVertex2d;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -23,6 +47,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.util.glu.GLU;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.ITextureSupplier;
@@ -194,22 +219,14 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		return totalwidth;
 	}
 
-	public int getHeight() {
-		return fontHeight;
-	}
-	public int getHeight(String HeightString) {
-		return fontHeight;
-	}
-	public int getLineHeight() {
-		return fontHeight;
-	}
+	public int getHeight() {return fontHeight;}
+	public int getHeight(String HeightString) {return fontHeight;}
+	public int getLineHeight() {return fontHeight;}
 	
-	public void draw(Graphics g, Vector2d v, CharSequence text) {
-		draw(g,v.x,v.y,text);
-	}
-	public void draw(Graphics g, double x, double y, CharSequence text) {
-		drawString((float)x,(float)y,text,0,text.length()-1,1f,1f);
-	}
+	public void draw(Graphics g, Vector2d v, CharSequence text) {draw(g,v.x,v.y,text);}
+	public void draw(Graphics g, Vector2f v, CharSequence text) {draw(g,v.x,v.y,text);}
+	public void draw(Graphics g, Vector2i v, CharSequence text) {draw(g,v.x,v.y,text);}
+	public void draw(Graphics g, double x, double y, CharSequence text) {drawString((float)x,(float)y,text,0,text.length()-1,1f,1f);}
 	public void drawString(float x, float y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
 		IntObject intObject = null;
 		int charCurrent;
@@ -313,6 +330,8 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, Vector2f v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
 		g.init();
 		getTexture().bind();
