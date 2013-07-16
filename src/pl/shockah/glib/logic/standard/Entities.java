@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class Entities {
-	public static List<EntityBase> getAll() {
+	public static List<EntityBase> get() {
 		return Collections.unmodifiableList(GameStandard.me.entities);
 	}
 	
-	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> get(IEntityFilter filter, Class<T> cls) {
+	@SuppressWarnings("unchecked") public static <T extends EntityBase> List<T> getType(IEntityFilter filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
 		for (EntityBase entity : GameStandard.me.entities) {
 			boolean b = true;
@@ -19,14 +19,11 @@ public final class Entities {
 		}
 		return list;
 	}
-	public static <T extends Entity> List<T> get(Class<T> cls) {
-		return get(null,cls);
+	public static <T extends EntityBase> List<T> getType(Class<T> cls) {
+		return getType(null,cls);
 	}
 	
-	@SafeVarargs public static List<EntityBase> get(Class<? extends EntityBase>... entityClasses) {
-		return get(null,entityClasses);
-	}
-	@SafeVarargs public static List<EntityBase> get(IEntityFilter filter, Class<? extends EntityBase>... entityClasses) {
+	@SafeVarargs public static List<EntityBase> getTypes(IEntityFilter filter, Class<? extends EntityBase>... entityClasses) {
 		List<EntityBase> list = new LinkedList<>();
 		for (EntityBase entity : GameStandard.me.entities) {
 			boolean b = true;
@@ -43,5 +40,8 @@ public final class Entities {
 			if (b) list.add(entity);
 		}
 		return list;
+	}
+	@SafeVarargs public static List<EntityBase> getTypes(Class<? extends EntityBase>... entityClasses) {
+		return getTypes(null,entityClasses);
 	}
 }
