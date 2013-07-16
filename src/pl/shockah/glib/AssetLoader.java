@@ -2,12 +2,19 @@ package pl.shockah.glib;
 
 import java.util.List;
 import org.lwjgl.Sys;
+import pl.shockah.Util;
 import pl.shockah.glib.state.State;
 
 public class AssetLoader {
 	protected final List<LoadableProcessor.LoadAction<?>> toLoad;
 	protected int loaded = 0;
 	
+	public AssetLoader() {
+		this(Util.getCallingClass(AssetLoader.class));
+	}
+	public AssetLoader(Class<?> cls) {
+		this(LoadableProcessor.process(cls));
+	}
 	public AssetLoader(List<LoadableProcessor.LoadAction<?>> toLoad) {
 		this.toLoad = toLoad;
 	}
