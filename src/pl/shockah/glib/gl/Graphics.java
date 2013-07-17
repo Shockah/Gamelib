@@ -1,5 +1,6 @@
 package pl.shockah.glib.gl;
 
+import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
@@ -21,6 +22,10 @@ public class Graphics {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
 		color.bind();
+	}
+	
+	public void clear() {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
 	public void draw(Shape shape) {draw(shape,0,0);}

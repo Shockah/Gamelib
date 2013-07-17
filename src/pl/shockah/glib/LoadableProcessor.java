@@ -3,8 +3,6 @@ package pl.shockah.glib;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import pl.shockah.BinBuffer;
+import pl.shockah.BinBufferInputStream;
 import pl.shockah.FieldObj;
 import pl.shockah.Pair;
 import pl.shockah.glib.gl.Image;
@@ -36,14 +36,14 @@ public final class LoadableProcessor {
 	}
 	private static List<LoadAction<?>> process(Class<?> cls, Object o, ILoadableAnnotationHandler handler) {
 		List<LoadAction<?>> ret = new LinkedList<>();
-		for (Method mtd : cls.getDeclaredMethods()) {
+		for (Method mtd : cls.getMethods()) {
 			Font.Loadables loadables = mtd.getAnnotation(Font.Loadables.class);
 			if (loadables != null) for (Font.Loadable loadable : loadables.value()) ret.add(new FontLoadAction(null,loadable));
 			
 			Font.Loadable loadable = mtd.getAnnotation(Font.Loadable.class);
 			if (loadable != null) ret.add(new FontLoadAction(null,loadable));
 		}
-		for (Field fld : cls.getDeclaredFields()) {
+		for (Field fld : cls.getFields()) {
 			TextureLoader.IntOptions optints = fld.getAnnotation(TextureLoader.IntOptions.class);
 			if (optints == null) {
 				final TextureLoader.IntOption optint = fld.getAnnotation(TextureLoader.IntOption.class);
@@ -85,20 +85,21 @@ public final class LoadableProcessor {
 			return path;
 		}
 		
-		public abstract void load();
+		public abstract boolean load(AssetLoader al);
 	}
 	public static class FontLoadAction extends LoadAction<Font.Loadable> {
 		public FontLoadAction(FieldObj field, Font.Loadable loadable) {
 			super(field,loadable);
 		}
 		
-		public void load() {
+		public boolean load(AssetLoader al) {
 			try {
 				switch (loadable.type()) {
 					case File: Font.registerNew(new File(loadable.path())); break;
 					case Internal: Font.registerNew(loadable.path()); break;
 				}
 			} catch (Exception e) {e.printStackTrace();}
+			return true;
 		}
 	}
 	public static class ImageLoadAction extends LoadAction<Image.Loadable> {
@@ -109,7 +110,7 @@ public final class LoadableProcessor {
 			this.optints = optints;
 		}
 		
-		public void load() {
+		public boolean load(AssetLoader al) {
 			try {
 				TextureLoader.clearOptionsGlobal();
 				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
@@ -122,6 +123,7 @@ public final class LoadableProcessor {
 				}
 				field.set(new Image(tex));
 			} catch (Exception e) {e.printStackTrace();}
+			return true;
 		}
 	}
 	public static class SpriteSheetLoadAction extends LoadAction<SpriteSheet.Loadable> {
@@ -132,7 +134,7 @@ public final class LoadableProcessor {
 			this.optints = optints;
 		}
 		
-		public void load() {
+		public boolean load(AssetLoader al) {
 			try {
 				TextureLoader.clearOptionsGlobal();
 				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
@@ -151,6 +153,7 @@ public final class LoadableProcessor {
 				}
 				field.set(new SpriteSheet(tex,gridX,gridY,loadable.spacingX(),loadable.spacingY()));
 			} catch (Exception e) {e.printStackTrace();}
+			return true;
 		}
 	}
 	public static class TrueTypeFontLoadAction extends LoadAction<TrueTypeFont.Loadable> {
@@ -158,46 +161,70 @@ public final class LoadableProcessor {
 			super(field,loadable);
 		}
 		
-		public void load() {
+		public boolean load(AssetLoader al) {
 			try {
 				field.set(new TrueTypeFont(loadable.name(),loadable.size(),loadable.bold(),loadable.italic(),loadable.antiAlias(),loadable.additionalChars()));
 			} catch (Exception e) {e.printStackTrace();}
+			return true;
 		}
 	}
 	public static class ZIPSpriteSheetLoadAction extends LoadAction<SpriteSheet.ZIPLoadable> {
+		protected boolean loaded = false;
+		protected int count = 0, total = 0;
+		protected List<Pair<String,BinBuffer>> buffers = new LinkedList<>();
+		protected List<Pair<Integer,Image>> images = new LinkedList<>();
+		
 		public ZIPSpriteSheetLoadAction(FieldObj field, SpriteSheet.ZIPLoadable loadable) {
 			super(field,loadable);
 		}
 		
-		public void load() {
+		public boolean load(AssetLoader al) {
 			try {
-				ZipInputStream zis = null;
-				String path = handlePath(loadable.path());
-				switch (loadable.type()) {
-					case File: zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(path))); break;
-					case Internal: zis = new ZipInputStream(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(path))); break;
+				if (!loaded) {
+					ZipInputStream zis = null;
+					String path = handlePath(loadable.path());
+					switch (loadable.type()) {
+						case File: zis = new ZipInputStream(new BufferedInputStream(new FileInputStream(path))); break;
+						case Internal: zis = new ZipInputStream(new BufferedInputStream(Texture.class.getClassLoader().getResourceAsStream(path))); break;
+					}
+					final ZipInputStream zis2 = zis;
+					
+					while (true) {
+						ZipEntry ze = zis.getNextEntry();
+						if (ze == null) break;
+						
+						BinBuffer binb = new BinBuffer();
+						int b;
+						while ((b = zis2.read()) != -1) binb.writeByte(b);
+						binb.setPos(0);
+						buffers.add(new Pair<>(ze.getName(),binb));
+						total++;
+						
+						loaded = true;
+					}
+					zis.close();
+					return false;
+				} else {
+					if (!buffers.isEmpty()) {
+						al.setCurrentStatus(.3d+.7d/total*count);
+						Pair<String,BinBuffer> pair = buffers.remove(0);
+						
+						String[] spl = pair.get1().split("\\.");
+						final BinBufferInputStream binbis = new BinBufferInputStream(pair.get2());
+						images.add(new Pair<>(Integer.parseInt(spl[0]),new Image(Texture.load(binbis,spl[spl.length-1].toUpperCase()))));
+						
+						count++;
+					}
+					if (buffers.isEmpty()) {
+						Image[][] ar = new Image[images.size()][1];
+						for (Pair<Integer,Image> pair : images) ar[pair.get1()][0] = pair.get2();
+						field.set(new SpriteSheet(ar));
+						return true;
+					}
+					return false;
 				}
-				final ZipInputStream zis2 = zis;
-				
-				List<Pair<Integer,Image>> list = new LinkedList<>();
-				while (true) {
-					ZipEntry ze = zis.getNextEntry();
-					if (ze == null) break;
-					String[] spl = ze.getName().split("\\.");
-					list.add(new Pair<>(Integer.parseInt(spl[0]),new Image(Texture.load(new InputStream(){
-						public int read() throws IOException {
-							return zis2.read();
-						}
-						public void close() {}
-					},spl[spl.length-1].toUpperCase()))));
-				}
-				
-				Image[][] ar = new Image[list.size()][1];
-				for (Pair<Integer,Image> pair : list) ar[pair.get1()][0] = pair.get2();
-				
-				field.set(new SpriteSheet(ar));
-				zis.close();
 			} catch (Exception e) {e.printStackTrace();}
+			return true;
 		}
 	}
 	

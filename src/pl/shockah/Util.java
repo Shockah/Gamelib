@@ -15,4 +15,10 @@ public final class Util {
 		}
 		return null;
 	}
+	
+	public static void sleep(long ms) {
+		try {
+			Thread.sleep(ms);
+		} catch (Exception e) {}
+	}
 }

@@ -32,20 +32,20 @@ public class State {
 		current.create();
 	}
 	
-	public void updateTransition() {
+	public final void updateTransition() {
 		if (transitionState == null) return;
 		if (transitionState.update()) transitionState = null;
 	}
-	public void renderTransition(Graphics g) {
+	public final void renderTransition(Graphics g) {
 		if (transitionState == null) return;
 		transitionState.render(g);
 	}
 	
-	public boolean shouldTransitionUpdate() {
+	public final boolean shouldTransitionUpdate() {
 		if (transitionState == null) return true;
 		return transitionState.shouldUpdate();
 	}
-	public boolean shouldTransitionRender(Graphics g) {
+	public final boolean shouldTransitionRender(Graphics g) {
 		if (transitionState == null) return true;
 		return transitionState.shouldRender(g);
 	}

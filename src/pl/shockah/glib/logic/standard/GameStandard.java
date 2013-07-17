@@ -1,6 +1,5 @@
 package pl.shockah.glib.logic.standard;
 
-import static org.lwjgl.opengl.GL11.*;
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
@@ -34,6 +33,9 @@ public class GameStandard implements IGame {
 		renderableRemove.clear();
 	}
 	
+	public Graphics getGraphics() {
+		return g;
+	}
 	public void gameLoop() {
 		State state = State.get();
 		
@@ -54,7 +56,7 @@ public class GameStandard implements IGame {
 			renderableRemove.clear();
 			renderableAdd.clear();
 			
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			g.clear();
 			for (EntityRenderable er : renderable) er.onRender(g);
 		}
 		state.renderTransition(g);

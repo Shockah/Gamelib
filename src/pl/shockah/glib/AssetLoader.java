@@ -8,6 +8,7 @@ import pl.shockah.glib.state.State;
 public class AssetLoader {
 	protected final List<LoadableProcessor.LoadAction<?>> toLoad;
 	protected int loaded = 0;
+	protected double currentStatus = 0d;
 	
 	public AssetLoader() {
 		this(Util.getCallingClass(AssetLoader.class));
@@ -38,10 +39,22 @@ public class AssetLoader {
 	public void update(int maxms) {
 		long time = getTime();
 		while (!toLoad.isEmpty()) {
-			toLoad.remove(0).load();
-			loaded++;
+			if (toLoad.get(0).load(this)) {
+				toLoad.remove(0);
+				loaded++;
+				currentStatus = 0d;
+			}
 			if (getTime()-time >= maxms) break;
 		}
+	}
+	public void setCurrentStatus(double d) {
+		currentStatus = d;
+	}
+	
+	public double getStatus() {
+		double d = 1d*getLoadedCount()/getTotalCount();
+		d += currentStatus/getTotalCount();
+		return d;
 	}
 	
 	private long getTime() {

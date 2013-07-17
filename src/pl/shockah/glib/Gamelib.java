@@ -135,10 +135,16 @@ public final class Gamelib {
 			keyboard.update();
 			mouse.update();
 			game.gameLoop();
-			if (Display.isCloseRequested()) isRunning = false;
-			Display.update();
-			Display.sync(State.get().getFPS());
+			advanceFrame(State.get().getFPS());
 		}
+	}
+	public static void advanceFrame() {
+		advanceFrame(0);
+	}
+	public static void advanceFrame(int fps) {
+		if (Display.isCloseRequested()) isRunning = false;
+		Display.update();
+		if (fps > 0) Display.sync(fps);
 	}
 	
 	public static void handle(Throwable t) {
