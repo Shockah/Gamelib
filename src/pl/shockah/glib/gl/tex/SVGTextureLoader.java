@@ -2,6 +2,10 @@ package pl.shockah.glib.gl.tex;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -36,5 +40,10 @@ public class SVGTextureLoader extends TextureLoader {
 		
 		binb.setPos(0);
 		return Texture.load(new BinBufferInputStream(binb),"PNG");
+	}
+	
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Options {
+		public int width() default -1;
+		public int height() default -1;
 	}
 }

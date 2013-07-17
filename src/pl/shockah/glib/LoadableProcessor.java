@@ -18,6 +18,7 @@ import pl.shockah.glib.gl.Image;
 import pl.shockah.glib.gl.SpriteSheet;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
+import pl.shockah.glib.gl.tex.SVGTextureLoader;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.gl.tex.TextureLoader;
 
@@ -52,6 +53,27 @@ public final class LoadableProcessor {
 						public Class<? extends Annotation> annotationType() {return TextureLoader.IntOptions.class;}
 						public TextureLoader.IntOption[] value() {return new TextureLoader.IntOption[]{optint};}
 					};
+				} else {
+					final SVGTextureLoader.Options svgopt = fld.getAnnotation(SVGTextureLoader.Options.class);
+					if (svgopt != null) {
+						optints = new TextureLoader.IntOptions() {
+							public Class<? extends Annotation> annotationType() {return TextureLoader.IntOptions.class;}
+							public TextureLoader.IntOption[] value() {
+								List<TextureLoader.IntOption> list = new LinkedList<>();
+								if (svgopt.width() > 0) list.add(new TextureLoader.IntOption(){
+									public Class<? extends Annotation> annotationType() {return TextureLoader.IntOption.class;}
+									public String option() {return "width";}
+									public int value() {return svgopt.width();}
+								});
+								if (svgopt.height() > 0) list.add(new TextureLoader.IntOption(){
+									public Class<? extends Annotation> annotationType() {return TextureLoader.IntOption.class;}
+									public String option() {return "height";}
+									public int value() {return svgopt.height();}
+								});
+								return list.toArray(new TextureLoader.IntOption[0]);
+							}
+						};
+					}
 				}
 			}
 			
@@ -61,7 +83,7 @@ public final class LoadableProcessor {
 			SpriteSheet.Loadable sheetLoadable = fld.getAnnotation(SpriteSheet.Loadable.class);
 			if (sheetLoadable != null) ret.add(new SpriteSheetLoadAction(new FieldObj(fld,o),sheetLoadable,optints));
 			SpriteSheet.ZIPLoadable zipSSLoadable = fld.getAnnotation(SpriteSheet.ZIPLoadable.class);
-			if (zipSSLoadable != null) ret.add(new ZIPSpriteSheetLoadAction(new FieldObj(fld,o),zipSSLoadable));
+			if (zipSSLoadable != null) ret.add(new ZIPSpriteSheetLoadAction(new FieldObj(fld,o),zipSSLoadable,optints));
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
@@ -169,13 +191,15 @@ public final class LoadableProcessor {
 		}
 	}
 	public static class ZIPSpriteSheetLoadAction extends LoadAction<SpriteSheet.ZIPLoadable> {
+		protected final TextureLoader.IntOptions optints;
 		protected boolean loaded = false;
 		protected int count = 0, total = 0;
 		protected List<Pair<String,BinBuffer>> buffers = new LinkedList<>();
 		protected List<Pair<Integer,Image>> images = new LinkedList<>();
 		
-		public ZIPSpriteSheetLoadAction(FieldObj field, SpriteSheet.ZIPLoadable loadable) {
+		public ZIPSpriteSheetLoadAction(FieldObj field, SpriteSheet.ZIPLoadable loadable, TextureLoader.IntOptions optints) {
 			super(field,loadable);
+			this.optints = optints;
 		}
 		
 		public boolean load(AssetLoader al) {
@@ -208,6 +232,9 @@ public final class LoadableProcessor {
 					if (!buffers.isEmpty()) {
 						al.setCurrentStatus(.3d+.7d/total*count);
 						Pair<String,BinBuffer> pair = buffers.remove(0);
+						
+						TextureLoader.clearOptionsGlobal();
+						if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
 						
 						String[] spl = pair.get1().split("\\.");
 						final BinBufferInputStream binbis = new BinBufferInputStream(pair.get2());
