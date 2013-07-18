@@ -1,40 +1,48 @@
 package pl.shockah.glib.geom;
 
+import pl.shockah.glib.Math2;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Circle extends Shape implements IPolygonable {
-	public Vector2d pos;
-	public double radius;
+public class Ellipse extends Shape implements IPolygonable {
+	public Vector2d pos, radius;
 	
 	protected Vector2d lastPos;
 	protected int lastPrecision = -1;
 	protected Polygon lastPoly = null;
 	
-	public Circle(double x, double y, double radius) {
+	public Ellipse(double x, double y, double radiusH, double radiusV) {
+		pos = new Vector2d(x,y);
+		radius = new Vector2d(radiusH,radiusV);
+	}
+	public Ellipse(double x, double y, Vector2d radius) {
 		pos = new Vector2d(x,y);
 		this.radius = radius;
 	}
-	public Circle(Vector2d pos, double radius) {
+	public Ellipse(Vector2d pos, double radiusH, double radiusV) {
+		this.pos = pos;
+		radius = new Vector2d(radiusH,radiusV);
+	}
+	public Ellipse(Vector2d pos, Vector2d radius) {
 		this.pos = pos;
 		this.radius = radius;
 	}
-	public Circle(Circle circle) {
-		pos = new Vector2d(circle.pos);
-		radius = circle.radius;
+	public Ellipse(Ellipse ellipse) {
+		pos = new Vector2d(ellipse.pos);
+		radius = new Vector2d(ellipse.radius);
 	}
 	
 	public Shape copy() {
 		return copyMe();
 	}
-	public Circle copyMe() {
-		return new Circle(this);
+	public Ellipse copyMe() {
+		return new Ellipse(this);
 	}
 	
 	public Rectangle getBoundingBox() {
-		return new Rectangle(pos.x-radius,pos.y-radius,radius*2,radius*2);
+		return new Rectangle(pos.x-radius.x,pos.y-radius.y,radius.x*2,radius.y*2);
 	}
 	
 	public Vector2d translate(double x, double y) {
@@ -49,25 +57,14 @@ public class Circle extends Shape implements IPolygonable {
 		return v;
 	}
 	
-	protected boolean collides(Shape shape, boolean secondTry) {
-		if (shape instanceof Circle) {
-			Circle circle = (Circle)shape;
-			return pos.distanceSquared(circle.pos) < Math.pow(radius+circle.radius,2);
-		} else if (shape instanceof Rectangle) {
-			if (secondTry) return super.collides(shape);
-			return shape.collides(this,true);
-		}
-		return super.collides(shape);
-	}
-	
 	public Polygon asPolygon() {
-		return asPolygon((int)Math.ceil(Math.PI*radius/4));
+		return asPolygon((int)Math.ceil(Math.PI*(radius.x+radius.y)/8));
 	}
 	public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;
 		
 		Polygon p = new Polygon.NoHoles();
-		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i).add(pos));
+		for (int i = 0; i < precision; i++) p.addPoint(new Vector2d(Math2.ldirX(radius.x,360d/precision*i),Math2.ldirY(radius.y,360d/precision*i)).add(pos));
 		
 		lastPos = pos;
 		lastPrecision = precision;

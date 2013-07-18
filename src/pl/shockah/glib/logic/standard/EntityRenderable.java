@@ -8,7 +8,7 @@ public abstract class EntityRenderable extends EntityBase implements Comparable<
 	
 	public final int compareTo(EntityRenderable er) {
 		if (depth == er.depth) return 0;
-		return depth < er.depth ? -1 : 1;
+		return depth > er.depth ? -1 : 1;
 	}
 	
 	public final void create(Vector2d pos) {
