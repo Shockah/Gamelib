@@ -17,9 +17,9 @@ public final class Util {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked") public static <T> List<T> getAllOf(List<? extends T> list, Class<T> cls) {
-		List<T> ret = new LinkedList<>();
-		for (Object o : list) if (o != null && cls.isAssignableFrom(o.getClass())) ret.add((T)o);
+	@SuppressWarnings("unchecked") public static <K, V extends K> List<V> getAllOf(List<K> list, Class<V> cls) {
+		List<V> ret = new LinkedList<>();
+		for (Object o : list) if (o != null && cls.isAssignableFrom(o.getClass())) ret.add((V)o);
 		return ret;
 	}
 	
