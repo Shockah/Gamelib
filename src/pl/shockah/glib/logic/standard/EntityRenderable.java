@@ -25,8 +25,10 @@ public abstract class EntityRenderable extends EntityBase implements Comparable<
 	}
 	public final void setDepth(float depth) {
 		this.depth = depth;
-		GameStandard.me.renderableRemove.add(this);
-		GameStandard.me.renderableAdd.add(this);
+		if (GameStandard.me.renderable.contains(this)) {
+			GameStandard.me.renderableRemove.add(this);
+			GameStandard.me.renderableAdd.add(this);
+		}
 	}
 	
 	public final void render(Graphics g) {
