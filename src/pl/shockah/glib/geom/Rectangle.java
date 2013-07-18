@@ -48,11 +48,11 @@ public class Rectangle extends Shape implements IPolygonable {
 	protected boolean collides(Shape shape, boolean secondTry) {
 		if (shape instanceof Rectangle) {
 			Rectangle rect = (Rectangle)shape;
-			Vector2d v = pos.add(size.div(2)).sub(rect.pos.add(rect.size.div(2))).abs().sub(size.div(2).add(rect.size.div(2)));
+			Vector2d v = pos.Add(size.Div(2)).Sub(rect.pos.Add(rect.size.Div(2))).Abs().Sub(size.Div(2).Add(rect.size.Div(2)));
 			return v.x < 0 && v.y < 0;
 		} else if (shape instanceof Circle) {
 			Circle circle = (Circle)shape;
-			return circle.pos.sub(circle.pos.sub(pos.add(size.div(2))).sub(size.div(2))).lengthSquared()-Math.pow(circle.radius,2) < 0;
+			return circle.pos.Sub(circle.pos.Sub(pos.Add(size.Div(2))).Sub(size.Div(2))).lengthSquared()-Math.pow(circle.radius,2) < 0;
 		}
 		return super.collides(shape);
 	}
