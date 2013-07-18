@@ -22,8 +22,27 @@ public class Rectangle extends Shape implements IPolygonable {
 		size = rect.size;
 	}
 	
+	public Shape copy() {
+		return copyMe();
+	}
+	public Rectangle copyMe() {
+		return new Rectangle(new Vector2d(pos),new Vector2d(size));
+	}
+	
 	public Rectangle getBoundingBox() {
 		return new Rectangle(this);
+	}
+	
+	public Vector2d translate(double x, double y) {
+		pos.x += x;
+		pos.y += y;
+		return new Vector2d(x,y);
+	}
+	public Vector2d translateTo(double x, double y) {
+		Vector2d v = new Vector2d(x-pos.x,y-pos.y);
+		pos.x = x;
+		pos.y = y;
+		return v;
 	}
 	
 	protected boolean collides(Shape shape, boolean secondTry) {

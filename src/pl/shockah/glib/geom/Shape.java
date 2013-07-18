@@ -6,7 +6,14 @@ import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 
 public abstract class Shape {
+	public abstract Shape copy();
+	
 	public abstract Rectangle getBoundingBox();
+	
+	public Vector2d translate(Vector2d v) {return translate(v.x,v.y);}
+	public abstract Vector2d translate(double x, double y);
+	public Vector2d translateTo(Vector2d v) {return translateTo(v.x,v.y);}
+	public abstract Vector2d translateTo(double x, double y);
 	
 	public boolean collides(Shape shape) {
 		return collides(shape,false);

@@ -26,8 +26,27 @@ public class Circle extends Shape implements IPolygonable {
 		radius = circle.radius;
 	}
 	
+	public Shape copy() {
+		return copyMe();
+	}
+	public Circle copyMe() {
+		return new Circle(new Vector2d(pos),radius);
+	}
+	
 	public Rectangle getBoundingBox() {
 		return new Rectangle(pos.x-radius,pos.y-radius,radius*2,radius*2);
+	}
+	
+	public Vector2d translate(double x, double y) {
+		pos.x += x;
+		pos.y += y;
+		return new Vector2d(x,y);
+	}
+	public Vector2d translateTo(double x, double y) {
+		Vector2d v = new Vector2d(x-pos.x,y-pos.y);
+		pos.x = x;
+		pos.y = y;
+		return v;
 	}
 	
 	protected boolean collides(Shape shape, boolean secondTry) {

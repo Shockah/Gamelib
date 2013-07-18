@@ -16,6 +16,15 @@ public class Polygon extends Shape {
 	protected List<Triangle> triangles = new LinkedList<>();
 	private boolean dirty = true;
 	
+	public Shape copy() {
+		return copyMe();
+	}
+	public Polygon copyMe() {
+		Polygon p = getClass() == NoHoles.class ? new NoHoles() : new Polygon();
+		for (Vector2d v : points) p.addPoint(new Vector2d(v));
+		return p;
+	}
+	
 	public Rectangle getBoundingBox() {
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		
@@ -27,6 +36,19 @@ public class Polygon extends Shape {
 			if (i == 0 || point.y > y2) y2 = point.y;
 		}
 		return new Rectangle(x1,y1,x2-x1,y2-y1);
+	}
+	
+	public Vector2d translate(double x, double y) {
+		for (Vector2d v : points) {
+			v.x += x;
+			v.y += y;
+		}
+		dirty = true;
+		return new Vector2d(x,y);
+	}
+	public Vector2d translateTo(double x, double y) {
+		Rectangle bb = getBoundingBox();
+		return translate(x-bb.pos.x,y-bb.pos.y);
 	}
 	
 	public Polygon addPoint(double x, double y) {

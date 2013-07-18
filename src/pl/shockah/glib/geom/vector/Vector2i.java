@@ -12,6 +12,9 @@ public class Vector2i implements IVector {
 	public Vector2i() {
 		this(0,0);
 	}
+	public Vector2i(Vector2i v) {
+		this(v.x,v.y);
+	}
 	public Vector2i(int x, int y) {
 		this.x = x;
 		this.y = y;
