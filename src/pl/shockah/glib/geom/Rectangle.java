@@ -18,15 +18,15 @@ public class Rectangle extends Shape implements IPolygonable {
 		this.size = size;
 	}
 	public Rectangle(Rectangle rect) {
-		pos = rect.pos;
-		size = rect.size;
+		pos = new Vector2d(rect.pos);
+		size = new Vector2d(rect.size);
 	}
 	
 	public Shape copy() {
 		return copyMe();
 	}
 	public Rectangle copyMe() {
-		return new Rectangle(new Vector2d(pos),new Vector2d(size));
+		return new Rectangle(this);
 	}
 	
 	public Rectangle getBoundingBox() {
@@ -48,11 +48,11 @@ public class Rectangle extends Shape implements IPolygonable {
 	protected boolean collides(Shape shape, boolean secondTry) {
 		if (shape instanceof Rectangle) {
 			Rectangle rect = (Rectangle)shape;
-			Vector2d v = pos.Add(size.Div(2)).Sub(rect.pos.Add(rect.size.Div(2))).Abs().Sub(size.Div(2).Add(rect.size.Div(2)));
+			Vector2d v = pos.Add(size.Div(2)).sub(rect.pos.Add(rect.size.Div(2))).abs().sub(size.Div(2).add(rect.size.Div(2)));
 			return v.x < 0 && v.y < 0;
 		} else if (shape instanceof Circle) {
 			Circle circle = (Circle)shape;
-			return circle.pos.Sub(circle.pos.Sub(pos.Add(size.Div(2))).Sub(size.Div(2))).lengthSquared()-Math.pow(circle.radius,2) < 0;
+			return circle.pos.Sub(circle.pos.Sub(pos.Add(size.Div(2))).sub(size.Div(2))).lengthSquared()-Math.pow(circle.radius,2) < 0;
 		}
 		return super.collides(shape);
 	}

@@ -22,7 +22,7 @@ public class Circle extends Shape implements IPolygonable {
 		this.radius = radius;
 	}
 	public Circle(Circle circle) {
-		pos = circle.pos;
+		pos = new Vector2d(circle.pos);
 		radius = circle.radius;
 	}
 	
@@ -30,7 +30,7 @@ public class Circle extends Shape implements IPolygonable {
 		return copyMe();
 	}
 	public Circle copyMe() {
-		return new Circle(new Vector2d(pos),radius);
+		return new Circle(this);
 	}
 	
 	public Rectangle getBoundingBox() {
