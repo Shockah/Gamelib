@@ -53,10 +53,22 @@ public final class Math2 {
 	public static int limitI(int value, int min, int max) {
 		return Math.min(Math.max(value,min),max);
 	}
+	public static int limitI(int value, int limit) {
+		limit = Math.abs(limit);
+		return Math.min(Math.max(value,-limit),limit);
+	}
 	public static float limitF(float value, float min, float max) {
 		return Math.min(Math.max(value,min),max);
 	}
+	public static float limitF(float value, float limit) {
+		limit = Math.abs(limit);
+		return Math.min(Math.max(value,-limit),limit);
+	}
 	public static double limitD(double value, double min, double max) {
 		return Math.min(Math.max(value,min),max);
-	}	
+	}
+	public static double limitD(double value, double limit) {
+		limit = Math.abs(limit);
+		return Math.min(Math.max(value,-limit),limit);
+	}
 }
