@@ -59,7 +59,7 @@ public class Rectangle extends Shape implements IPolygonable {
 			glVertex2d(pos.x+x,pos.y+size.y+y);
 			glEnd();
 			
-			glTranslatef((float)-x,(float)-y,0);
+			glTranslated(-x,-y,0);
 		} else {
 			throw new UnsupportedOperationException();
 		}

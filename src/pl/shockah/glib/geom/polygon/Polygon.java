@@ -82,7 +82,7 @@ public class Polygon extends Shape {
 			for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x+x,v.y+y);
 			glEnd();
 			
-			glTranslatef((float)-x,(float)-y,0);
+			glTranslated(-x,-y,0);
 		} else {
 			throw new UnsupportedOperationException();
 		}
