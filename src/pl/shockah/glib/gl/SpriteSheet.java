@@ -10,8 +10,6 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.tex.Texture;
 
 public class SpriteSheet extends TextureSupplier {
-	public Rotation rotation = new Rotation();
-	
 	protected final Image[][] grid;
 	protected final int gridX, gridY, spacingX, spacingY;
 	
@@ -19,6 +17,9 @@ public class SpriteSheet extends TextureSupplier {
 		super(null);
 		this.grid = grid;
 		gridX = gridY = spacingX = spacingY = -1;
+		for (int x = 0; x < grid.length; x++) for (int y = 0; y < grid[x].length; y++) {
+			grid[x][y].offset = offset;
+		}
 	}
 	public SpriteSheet(Texture tex, int grid) {
 		this(tex,grid,grid);
@@ -41,8 +42,6 @@ public class SpriteSheet extends TextureSupplier {
 		
 		for (int y = 0; y < h; y += gridY+spacingY) for (int x = 0; x < w; x += gridX+spacingX) {
 			grid[x][y] = new Image2(tex,x,y);
-			grid[x][y].rotation.center = rotation.center;
-			grid[x][y].rotation.angle = rotation.angle;
 			grid[x][y].offset = offset;
 		}
 	}
@@ -56,8 +55,6 @@ public class SpriteSheet extends TextureSupplier {
 	}
 	public Image getImage(int x, int y) {
 		Image ret = grid[x][y];
-		ret.rotation.center = rotation.center;
-		ret.rotation.angle = rotation.angle;
 		ret.offset = offset;
 		return ret;
 	}
