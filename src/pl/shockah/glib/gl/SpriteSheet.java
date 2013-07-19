@@ -6,9 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.Rectangle;
+import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.tex.Texture;
 
 public class SpriteSheet extends TextureSupplier {
+	public Rotation rotation = new Rotation();
+	
 	protected final Image[][] grid;
 	protected final int gridX, gridY, spacingX, spacingY;
 	
@@ -38,6 +41,9 @@ public class SpriteSheet extends TextureSupplier {
 		
 		for (int y = 0; y < h; y += gridY+spacingY) for (int x = 0; x < w; x += gridX+spacingX) {
 			grid[x][y] = new Image2(tex,x,y);
+			grid[x][y].rotation.center = rotation.center;
+			grid[x][y].rotation.angle = rotation.angle;
+			grid[x][y].offset = offset;
 		}
 	}
 	
@@ -46,10 +52,23 @@ public class SpriteSheet extends TextureSupplier {
 	public int getCount() {return getColumns()*getRows();}
 	
 	public Image getImage(int x) {
-		return grid[x%grid.length][x/grid.length];
+		return getImage(x%grid.length,x/grid.length);
 	}
 	public Image getImage(int x, int y) {
-		return grid[x][y];
+		Image ret = grid[x][y];
+		ret.rotation.center = rotation.center;
+		ret.rotation.angle = rotation.angle;
+		ret.offset = offset;
+		return ret;
+	}
+	
+	public class Rotation {
+		public Vector2d center = new Vector2d();
+		public double angle = 0;
+		
+		public void center() {
+			center = getTextureSize().toDouble().div(2);
+		}
 	}
 	
 	protected class Image2 extends Image {
