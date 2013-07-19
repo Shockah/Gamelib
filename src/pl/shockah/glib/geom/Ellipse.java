@@ -58,7 +58,7 @@ public class Ellipse extends Shape implements IPolygonable {
 	}
 	
 	public Polygon asPolygon() {
-		return asPolygon((int)Math.ceil(Math.PI*(radius.x+radius.y)/8));
+		return asPolygon((int)Math.ceil(Math.PI*(radius.x+radius.y)/4));
 	}
 	public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;
