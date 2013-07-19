@@ -36,6 +36,23 @@ public class Vector2d implements IVector {
 		return new Vector2f((float)x,(float)y);
 	}
 	
+	public Vector2d set(Vector2d v) {return set(v.x,v.y);}
+	public Vector2d set(double x, double y) {
+		this.x = x;
+		this.y = y;
+		return this;
+	}
+	public Vector2d setX(Vector2d v) {return setX(v.x);}
+	public Vector2d setX(double x) {
+		this.x = x;
+		return this;
+	}
+	public Vector2d setY(Vector2d v) {return setY(v.y);}
+	public Vector2d setY(double y) {
+		this.y = y;
+		return this;
+	}
+	
 	public Vector2d justX() {y = 0; return this;}
 	public Vector2d JustX() {return new Vector2d(x,0);}
 	public Vector2d justY() {x = 0; return this;}

@@ -36,6 +36,23 @@ public class Vector2i implements IVector {
 		return new Vector2d(x,y);
 	}
 	
+	public Vector2i set(Vector2i v) {return set(v.x,v.y);}
+	public Vector2i set(int x, int y) {
+		this.x = x;
+		this.y = y;
+		return this;
+	}
+	public Vector2i setX(Vector2i v) {return setX(v.x);}
+	public Vector2i setX(int x) {
+		this.x = x;
+		return this;
+	}
+	public Vector2i setY(Vector2i v) {return setY(v.y);}
+	public Vector2i setY(int y) {
+		this.y = y;
+		return this;
+	}
+	
 	public Vector2i justX() {y = 0; return this;}
 	public Vector2i JustX() {return new Vector2i(x,0);}
 	public Vector2i justY() {x = 0; return this;}
