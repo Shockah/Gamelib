@@ -1,5 +1,6 @@
 package pl.shockah.glib.logic.standard;
 
+import static org.lwjgl.opengl.GL11.*;
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
@@ -50,6 +51,7 @@ public class GameStandard implements IGame {
 			for (EntityBase e : entities) e.update();
 		}
 		
+		glPushMatrix();
 		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);
 			renderable.addAll(renderableAdd);
@@ -61,5 +63,6 @@ public class GameStandard implements IGame {
 		}
 		state.renderTransition(g);
 		state.postRender(g);
+		glPopMatrix();
 	}
 }
