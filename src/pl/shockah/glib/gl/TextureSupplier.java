@@ -61,7 +61,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		preDraw(g);
 		glBegin(GL_QUADS);
 		Rectangle texRect = getTextureRect();
-		internalDrawImage(0,0,getWidth(),getHeight(),texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
+		internalDrawImage(0,0,texRect.size.x/getTextureWidth()*getWidth(),texRect.size.y/getTextureHeight()*getHeight(),texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
 		glEnd();
 		postDraw(g);
 		
