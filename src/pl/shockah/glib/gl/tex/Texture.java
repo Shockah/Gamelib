@@ -83,29 +83,30 @@ public class Texture implements IBoundable {
 	}
 	
 	private final int texId;
-	private final int width, height;
+	private final int width, height, widthFold, heightFold;
 	
 	public Texture(int texId, int width, int height) {
 		this.texId = texId;
 		this.width = width;
 		this.height = height;
+		Vector2i fold = get2Fold(width,height);
+		widthFold = fold.x;
+		heightFold = fold.y;
 	}
 	
 	public boolean equals(Object other) {
 		if (!(other instanceof Texture)) return false;
 		Texture tex = (Texture)other;
-		return tex.texId == texId && tex.width == width && tex.height == height;
+		return tex.texId == texId;
 	}
 	
 	public Vector2i getSize() {
 		return new Vector2i(getWidth(),getHeight());
 	}
-	public int getWidth() {
-		return width;
-	}
-	public int getHeight() {
-		return height;
-	}
+	public int getWidth() {return width;}
+	public int getHeight() {return height;}
+	public int getWidthFold() {return widthFold;}
+	public int getHeightFold() {return heightFold;}
 	
 	public void setResizeFilter(EResizeFilter resizeFilter) {
 		bind();

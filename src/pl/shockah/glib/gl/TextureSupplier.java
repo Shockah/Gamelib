@@ -33,6 +33,12 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public int getTextureHeight() {
 		return tex.getHeight();
 	}
+	public int getTextureWidthFold() {
+		return tex.getWidthFold();
+	}
+	public int getTextureHeightFold() {
+		return tex.getHeightFold();
+	}
 	public Rectangle getTextureRect() {
 		return new Rectangle(0,0,getTextureWidth(),getTextureHeight());
 	}
@@ -54,7 +60,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		preDraw(g);
 		glBegin(GL_QUADS);
 		Rectangle texRect = getTextureRect();
-		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidth(),texRect.pos.y/getTextureHeight(),texRect.size.x/getTextureWidth(),texRect.size.y/getTextureHeight());
+		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
 		glEnd();
 		postDraw(g);
 		

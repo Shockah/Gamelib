@@ -17,13 +17,7 @@ public abstract class TextureLoader {
 	private static final List<TextureLoader> loaders = new LinkedList<>();
 	
 	static {
-		try {
-			Class.forName("de.matthiasmann.twl.utils.PNGDecoder");
-			loaders.add(new PNGTextureLoader());
-		} catch (Exception e) {
-			loaders.add(new ImageIOTextureLoader("PNG"));
-		}
-		loaders.add(new ImageIOTextureLoader("GIF","JPG","JPEG","BMP","WBMP"));
+		loaders.add(new ImageIOTextureLoader("PNG","GIF","JPG","JPEG","BMP","WBMP"));
 		try {
 			Class.forName("org.apache.batik.transcoder.image.PNGTranscoder");
 			loaders.add(new SVGTextureLoader());
