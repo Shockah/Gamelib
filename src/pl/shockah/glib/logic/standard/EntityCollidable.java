@@ -1,5 +1,6 @@
 package pl.shockah.glib.logic.standard;
 
+import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -53,5 +54,27 @@ public class EntityCollidable extends EntityRenderable {
 		boolean b = collides(list,false);
 		shape.translate(diff);
 		return b;
+	}
+	
+	public List<EntityCollidable> collidesWith(List<EntityCollidable> list) {
+		return collidesWith(list,true);
+	}
+	public List<EntityCollidable> collidesWith(List<EntityCollidable> list, boolean update) {
+		List<EntityCollidable> ret = new LinkedList<>();
+		if (shape == null) return ret;
+		if (list == null || list.isEmpty()) return ret;
+		for (EntityCollidable e : list) if (collides(e,update)) ret.add(e);
+		return ret;
+	}
+	public List<EntityCollidable> collidesAtWith(List<EntityCollidable> list, Vector2d v) {
+		return collidesAtWith(list,v.x,v.y);
+	}
+	public List<EntityCollidable> collidesAtWith(List<EntityCollidable> list, double x, double y) {
+		if (shape == null) return new LinkedList<>();
+		updateShapePos();
+		Vector2d diff = shape.translateTo(x,y);
+		List<EntityCollidable> ret = collidesWith(list,false);
+		shape.translate(diff);
+		return ret;
 	}
 }
