@@ -18,6 +18,7 @@ public class EntityCollidable extends EntityRenderable {
 	}
 	private boolean collides(EntityCollidable e, boolean update) {
 		if (e == null) return false;
+		if (e == this) return false;
 		if (shape == null || e.shape == null) return false;
 		if (update) updateShapePos();
 		e.updateShapePos();
