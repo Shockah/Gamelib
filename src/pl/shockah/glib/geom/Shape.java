@@ -20,7 +20,7 @@ public abstract class Shape {
 		throw new UnsupportedOperationException();
 	}
 	
-	public final void draw(Graphics g) {draw(g,true);}
+	public void draw(Graphics g) {draw(g,true);}
 	public void draw(Graphics g, boolean filled) {
 		throw new UnsupportedOperationException();
 	}

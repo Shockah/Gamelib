@@ -28,7 +28,9 @@ public class Graphics {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
-	public void draw(Shape shape) {draw(shape,true);}
+	public void draw(Shape shape) {
+		shape.draw(this);
+	}
 	public void draw(Shape shape, boolean filled) {
 		shape.draw(this,filled);
 	}

@@ -34,8 +34,7 @@ public class Rectangle extends Shape implements IPolygonable {
 	}
 	
 	public Vector2d translate(double x, double y) {
-		pos.x += x;
-		pos.y += y;
+		pos.add(x,y);
 		return new Vector2d(x,y);
 	}
 	public Vector2d translateTo(double x, double y) {
