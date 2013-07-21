@@ -10,8 +10,13 @@ public class Rectangle extends Shape implements IPolygonable {
 	public Vector2d pos, size;
 	
 	public Rectangle(double x, double y, double w, double h) {
-		pos = new Vector2d(x,y);
-		size = new Vector2d(w,h);
+		this(new Vector2d(x,y),new Vector2d(w,h));
+	}
+	public Rectangle(double x, double y, Vector2d size) {
+		this(new Vector2d(x,y),size);
+	}
+	public Rectangle(Vector2d pos, double w, double h) {
+		this(pos,new Vector2d(w,h));
 	}
 	public Rectangle(Vector2d pos, Vector2d size) {
 		this.pos = pos;
