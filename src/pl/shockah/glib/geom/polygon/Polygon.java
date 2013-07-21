@@ -96,18 +96,21 @@ public class Polygon extends Shape {
 	public void draw(Graphics g, boolean filled, double x, double y) {
 		g.init();
 		
+		glTranslated(x,y,0);
 		if (filled) {
-			glTranslated(x,y,0);
-			
 			updateTriangles();
 			glBegin(GL_TRIANGLES);
 			for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x+x,v.y+y);
 			glEnd();
-			
-			glTranslated(-x,-y,0);
 		} else {
-			throw new UnsupportedOperationException();
+			glBegin(GL_LINE_STRIP);
+			for (int i = 0; i <= points.size(); i++) {
+				Vector2d v = points.get(i == points.size() ? 0 : i);
+				glVertex2d(v.x+x,v.y+y);
+			}
+			glEnd();
 		}
+		glTranslated(-x,-y,0);
 	}
 	
 	public static class NoHoles extends Polygon {
