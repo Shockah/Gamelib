@@ -74,10 +74,10 @@ public class Circle extends Shape implements IPolygonable {
 		return lastPoly = p;
 	}
 	
-	public void draw(Graphics g, boolean filled, double x, double y) {
-		asPolygon().draw(g,filled,x,y);
+	public void draw(Graphics g, boolean filled) {
+		asPolygon().draw(g,filled);
 	}
-	public void draw(Graphics g, boolean filled, double x, double y, int precision) {
-		asPolygon(precision).draw(g,filled,x,y);
+	public void draw(Graphics g, boolean filled, int precision) {
+		asPolygon(precision).draw(g,filled);
 	}
 }

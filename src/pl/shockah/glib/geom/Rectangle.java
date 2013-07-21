@@ -65,25 +65,23 @@ public class Rectangle extends Shape implements IPolygonable {
 			.addPoint(pos.add(size.justY()));
 	}
 	
-	public void draw(Graphics g, boolean filled, double x, double y) {
+	public void draw(Graphics g, boolean filled) {
 		g.init();
 		
-		glTranslated(x,y,0);
 		if (filled) {
 			glBegin(GL_QUADS);
-			glVertex2d(pos.x+x,pos.y+y);
-			glVertex2d(pos.x+size.x-1+x,pos.y+y);
-			glVertex2d(pos.x+size.x-1+x,pos.y+size.y-1+y);
-			glVertex2d(pos.x+x,pos.y+size.y-1+y);
+			glVertex2d(pos.x,pos.y);
+			glVertex2d(pos.x+size.x-1,pos.y);
+			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
+			glVertex2d(pos.x,pos.y+size.y-1);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_STRIP);
-			glVertex2d(pos.x+x,pos.y+y);
-			glVertex2d(pos.x+size.x-1+x,pos.y+y);
-			glVertex2d(pos.x+size.x-1+x,pos.y+size.y-1+y);
-			glVertex2d(pos.x+x,pos.y+size.y-1+y);
+			glVertex2d(pos.x,pos.y);
+			glVertex2d(pos.x+size.x-1,pos.y);
+			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
+			glVertex2d(pos.x,pos.y+size.y-1);
 			glEnd();
 		}
-		glTranslated(-x,-y,0);
 	}
 }

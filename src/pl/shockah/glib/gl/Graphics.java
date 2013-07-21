@@ -28,15 +28,9 @@ public class Graphics {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
-	public void draw(Shape shape) {draw(shape,0,0);}
-	public void draw(Shape shape, boolean filled) {draw(shape,filled,0,0);}
-	public void draw(Shape shape, Vector2d v) {draw(shape,v.x,v.y);}
-	public void draw(Shape shape, Vector2f v) {draw(shape,v.x,v.y);}
-	public void draw(Shape shape, Vector2i v) {draw(shape,v.x,v.y);}
-	public void draw(Shape shape, double x, double y) {draw(shape,true,0,0);}
-	public void draw(Shape shape, boolean filled, Vector2d v) {draw(shape,filled,v.x,v.y);}
-	public void draw(Shape shape, boolean filled, double x, double y) {
-		shape.draw(this,filled,x,y);
+	public void draw(Shape shape) {draw(shape,true);}
+	public void draw(Shape shape, boolean filled) {
+		shape.draw(this,filled);
 	}
 	
 	public void draw(ITextureSupplier ts) {draw(ts,0,0);}

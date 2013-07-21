@@ -93,24 +93,22 @@ public class Polygon extends Shape {
 		return Collections.unmodifiableList(triangles);
 	}
 	
-	public void draw(Graphics g, boolean filled, double x, double y) {
+	public void draw(Graphics g, boolean filled) {
 		g.init();
 		
-		glTranslated(x,y,0);
 		if (filled) {
 			updateTriangles();
 			glBegin(GL_TRIANGLES);
-			for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x+x,v.y+y);
+			for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x,v.y);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_STRIP);
 			for (int i = 0; i <= points.size(); i++) {
 				Vector2d v = points.get(i == points.size() ? 0 : i);
-				glVertex2d(v.x+x,v.y+y);
+				glVertex2d(v.x,v.y);
 			}
 			glEnd();
 		}
-		glTranslated(-x,-y,0);
 	}
 	
 	public static class NoHoles extends Polygon {
