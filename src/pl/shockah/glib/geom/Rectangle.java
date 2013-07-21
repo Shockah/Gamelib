@@ -72,16 +72,16 @@ public class Rectangle extends Shape implements IPolygonable {
 		if (filled) {
 			glBegin(GL_QUADS);
 			glVertex2d(pos.x+x,pos.y+y);
-			glVertex2d(pos.x+size.x+x,pos.y+y);
-			glVertex2d(pos.x+size.x+x,pos.y+size.y+y);
-			glVertex2d(pos.x+x,pos.y+size.y+y);
+			glVertex2d(pos.x+size.x-1+x,pos.y+y);
+			glVertex2d(pos.x+size.x-1+x,pos.y+size.y-1+y);
+			glVertex2d(pos.x+x,pos.y+size.y-1+y);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_STRIP);
 			glVertex2d(pos.x+x,pos.y+y);
-			glVertex2d(pos.x+size.x+x,pos.y+y);
-			glVertex2d(pos.x+size.x+x,pos.y+size.y+y);
-			glVertex2d(pos.x+x,pos.y+size.y+y);
+			glVertex2d(pos.x+size.x-1+x,pos.y+y);
+			glVertex2d(pos.x+size.x-1+x,pos.y+size.y-1+y);
+			glVertex2d(pos.x+x,pos.y+size.y-1+y);
 			glEnd();
 		}
 		glTranslated(-x,-y,0);
