@@ -33,8 +33,8 @@ public class AnimationTest extends State {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		final Animation anim = new Animation().setLooped(true);
-		final TimelineObject<Vector2d> linePos = new TimelineObject<>(); anim.add(linePos);
-		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Interpolate.Linear); anim.add(linePos2);
+		final TimelineObject<Vector2d> linePos = new TimelineObject<>(Interpolate.Back.InOut); anim.add(linePos);
+		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Interpolate.Bounce.Out); anim.add(linePos2);
 		
 		final Animation anim2 = new Animation().setLooped(true);
 		final TimelineDouble lineY = new TimelineDouble(); anim2.add(lineY);

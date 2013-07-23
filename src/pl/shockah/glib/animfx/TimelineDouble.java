@@ -7,6 +7,9 @@ public class TimelineDouble extends Timeline<Double,Fx<Double>> {
 	public void add(double step, double time) {
 		add(new Fx<>(step,time));
 	}
+	public void add(double step, double time, Interpolate method) {
+		add(new Fx<>(step,time,method));
+	}
 	public void add(Fx<Double> fx) {
 		fxs.add(fx);
 		if (maxTime < fx.time) maxTime = fx.time;

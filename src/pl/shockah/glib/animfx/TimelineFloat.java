@@ -7,6 +7,9 @@ public class TimelineFloat extends Timeline<Float,Fx<Float>> {
 	public void add(float step, double time) {
 		add(new Fx<>(step,time));
 	}
+	public void add(float step, double time, Interpolate method) {
+		add(new Fx<>(step,time,method));
+	}
 	public void add(Fx<Float> fx) {
 		fxs.add(fx);
 		if (maxTime < fx.time) maxTime = fx.time;

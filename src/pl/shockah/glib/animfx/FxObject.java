@@ -4,6 +4,9 @@ package pl.shockah.glib.animfx;
 	public FxObject(IInterpolatable<T> step, double time) {
 		super((T)step,time);
 	}
+	public FxObject(IInterpolatable<T> step, double time, Interpolate method) {
+		super((T)step,time,method);
+	}
 	
 	public T getState(Fx<?> fx, double d, Interpolate method) {
 		if (fx == null) fx = this;
