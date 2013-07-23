@@ -1,8 +1,10 @@
 package pl.shockah.glib.geom.vector;
 
 import pl.shockah.glib.Math2;
+import pl.shockah.glib.animfx.IInterpolatable;
+import pl.shockah.glib.animfx.Interpolate;
 
-public class Vector2d implements IVector {
+public class Vector2d implements IInterpolatable<Vector2d> {
 	public static Vector2d make(double dist, double angle) {
 		return new Vector2d(Math2.ldirX(dist,angle),Math2.ldirY(dist,angle));
 	}
@@ -29,6 +31,9 @@ public class Vector2d implements IVector {
 		return "[Vector2d: "+x+" | "+y+"]";
 	}
 	
+	public Vector2d copy() {
+		return new Vector2d(this);
+	}
 	public Vector2i toInt() {
 		return new Vector2i((int)x,(int)y);
 	}
@@ -81,6 +86,10 @@ public class Vector2d implements IVector {
 	public Vector2d div(double scaleH, double scaleV) {return scale(1/scaleH,1/scaleV);}
 	public Vector2d Div(double scaleH, double scaleV) {return Scale(1/scaleH,1/scaleV);}
 	
+	public Vector2d Vector(Vector2d v) {
+		return new Vector2d(v.x-x,v.y-y);
+	}
+	
 	public double lengthSquared() {
 		return Math.pow(x,2)+Math.pow(y,2);
 	}
@@ -93,7 +102,14 @@ public class Vector2d implements IVector {
 	public double distance(Vector2d v) {
 		return Math.sqrt(distanceSquared(v));
 	}
+	public double direction() {
+		return new Vector2d().direction(this);
+	}
 	public double direction(Vector2d v) {
 		return Math.toDegrees(Math.atan2(y-v.y,v.x-x));
+	}
+	
+	public Vector2d interpolate(Vector2d v, double d, Interpolate method) {
+		return new Vector2d(method.interpolate(x,v.x,d),method.interpolate(y,v.y,d));
 	}
 }

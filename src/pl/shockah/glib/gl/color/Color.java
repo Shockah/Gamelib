@@ -2,8 +2,10 @@ package pl.shockah.glib.gl.color;
 
 import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.IBoundable;
+import pl.shockah.glib.animfx.IInterpolatable;
+import pl.shockah.glib.animfx.Interpolate;
 
-public abstract class Color implements IBoundable {
+public abstract class Color implements IBoundable,IInterpolatable<Color> {
 	public static final Color
 		Black = new ColorbImmutable(0),
 		TransparentBlack = new ColorbImmutable(0,0),
@@ -184,6 +186,13 @@ public abstract class Color implements IBoundable {
 	public abstract float Bf();
 	public abstract float Af();
 	
+	public Color copy() {
+		return new Colorb(R(),G(),B(),A());
+	}
+	public void copy(Color c) {
+		throw new UnsupportedOperationException();
+	}
+	
 	public void bind() {
 		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
@@ -219,5 +228,9 @@ public abstract class Color implements IBoundable {
 	public ColorfImmutable toColorfImmutable() {
 		if (getClass() == ColorfImmutable.class) return (ColorfImmutable)this;
 		return new ColorfImmutable(Rf(),Gf(),Bf(),Af());
+	}
+	
+	public Color interpolate(Color c, double d, Interpolate method) {
+		return new Colorb(method.interpolate(Rf(),c.Rf(),d),method.interpolate(Gf(),c.Gf(),d),method.interpolate(Bf(),c.Bf(),d),method.interpolate(Af(),c.Af(),d));
 	}
 }
