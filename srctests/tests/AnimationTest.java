@@ -4,7 +4,7 @@ import java.io.IOException;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.animfx.Animation;
 import pl.shockah.glib.animfx.Interpolate;
-import pl.shockah.glib.animfx.Timeline;
+import pl.shockah.glib.animfx.TimelineDouble;
 import pl.shockah.glib.animfx.TimelineObject;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
@@ -37,8 +37,8 @@ public class AnimationTest extends State {
 		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Interpolate.Linear); anim.add(linePos2);
 		
 		final Animation anim2 = new Animation().setLooped(true);
-		final Timeline<Double> lineY = new Timeline<>(); anim2.add(lineY);
-		final Timeline<Double> lineY2 = new Timeline<>(Interpolate.Linear); anim2.add(lineY2);
+		final TimelineDouble lineY = new TimelineDouble(); anim2.add(lineY);
+		final TimelineDouble lineY2 = new TimelineDouble(Interpolate.Linear); anim2.add(lineY2);
 		
 		linePos.add(new Vector2d(0,0),0);
 		linePos.add(new Vector2d(300,50),120);

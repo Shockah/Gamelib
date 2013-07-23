@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Animation {
 	protected final List<String> tags = new ArrayList<>();
-	protected final List<ITimeline<?>> timelines = new ArrayList<>();
+	protected final List<Timeline<?,?>> timelines = new ArrayList<>();
 	protected double time = 0;
 	protected boolean looped = false;
 	protected int loop = 0;
@@ -28,23 +28,23 @@ public class Animation {
 	
 	public double getTime() {return time;}
 	
-	public void add(ITimeline<?> timeline) {
+	public void add(Timeline<?,?> timeline) {
 		add(null,timeline);
 	}
-	public void add(String tag, ITimeline<?> timeline) {
+	public void add(String tag, Timeline<?,?> timeline) {
 		tags.add(tag);
 		timelines.add(timeline);
 	}
-	public ITimeline<?> getTimeline(String tag) {
+	public Timeline<?,?> getTimeline(String tag) {
 		return timelines.get(tags.indexOf(tag));
 	}
 	public Object getState(String tag) {
-		return getTimeline(tag).getState(time);
+		return getTimeline(tag).getState(this);
 	}
 	
 	public double getMaxTime() {
 		double max = 0;
-		for (ITimeline<?> timeline : timelines) if (timeline.getMaxTime() > max) max = timeline.getMaxTime();
+		for (Timeline<?,?> timeline : timelines) if (timeline.getMaxTime() > max) max = timeline.getMaxTime();
 		return max;
 	}
 	public boolean isFinished() {
