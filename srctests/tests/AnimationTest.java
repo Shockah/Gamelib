@@ -5,6 +5,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.animfx.Animation;
 import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.animfx.Timeline;
+import pl.shockah.glib.animfx.TimelineObject;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.Image;
@@ -32,24 +33,39 @@ public class AnimationTest extends State {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		final Animation anim = new Animation().setLooped(true);
-		final Timeline<Vector2d> linePos = new Timeline<>(); anim.add(linePos);
-		final Timeline<Vector2d> linePos2 = new Timeline<>(Interpolate.Linear); anim.add(linePos2);
+		final TimelineObject<Vector2d> linePos = new TimelineObject<>(); anim.add(linePos);
+		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Interpolate.Linear); anim.add(linePos2);
+		
+		final Animation anim2 = new Animation().setLooped(true);
+		final Timeline<Double> lineY = new Timeline<>(); anim2.add(lineY);
+		final Timeline<Double> lineY2 = new Timeline<>(Interpolate.Linear); anim2.add(lineY2);
 		
 		linePos.add(new Vector2d(0,0),0);
-		linePos.add(new Vector2d(300,0),120);
+		linePos.add(new Vector2d(300,50),120);
 		linePos.add(new Vector2d(0,0),240);
 		
 		linePos2.add(new Vector2d(0,100),0);
-		linePos2.add(new Vector2d(300,100),120);
+		linePos2.add(new Vector2d(300,150),120);
 		linePos2.add(new Vector2d(0,100),240);
+		
+		lineY.add(250d,0);
+		lineY.add(400d,100);
+		lineY.add(250d,200);
+		
+		lineY2.add(250d,0);
+		lineY2.add(400d,100);
+		lineY2.add(250d,200);
 		
 		new EntityRenderable(){
 			protected void onUpdate() {
 				anim.update();
+				anim2.update();
 			}
 			protected void onRender(Graphics g) {
-				g.draw(image,linePos2.getState(anim));
 				g.draw(image,linePos.getState(anim));
+				g.draw(image,linePos2.getState(anim));
+				g.draw(image,0,lineY.getState(anim2));
+				g.draw(image,100,lineY2.getState(anim2));
 			}
 		}.create();
 	}

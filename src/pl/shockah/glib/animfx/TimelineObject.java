@@ -3,26 +3,20 @@ package pl.shockah.glib.animfx;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
 
-@SuppressWarnings("unchecked") public class Timeline<T> implements ITimeline<T> {
+public class TimelineObject<T extends IInterpolatable<T>> implements ITimeline<T> {
 	protected final Interpolate method;
-	protected final List<Fx<T>> fxs = new SortedLinkedList<>();
+	protected final List<FxObject<T>> fxs = new SortedLinkedList<>();
 	protected double maxTime = 0;
 	
-	public Timeline() {this(Interpolate.Smoothstep);}
-	public Timeline(Interpolate method) {
+	public TimelineObject() {this(Interpolate.Smoothstep);}
+	public TimelineObject(Interpolate method) {
 		this.method = method;
 	}
 	
-	public void add(int step, double time) {
-		add(new Fx<>((T)new Integer(step),time));
+	public void add(T step, double time) {
+		add(new FxObject<>(step,time));
 	}
-	public void add(float step, double time) {
-		add(new Fx<>((T)new Float(step),time));
-	}
-	public void add(double step, double time) {
-		add(new Fx<>((T)new Double(step),time));
-	}
-	public void add(Fx<T> fx) {
+	public void add(FxObject<T> fx) {
 		fxs.add(fx);
 		if (maxTime < fx.time) maxTime = fx.time;
 	}
