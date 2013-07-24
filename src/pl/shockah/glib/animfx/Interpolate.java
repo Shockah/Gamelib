@@ -39,7 +39,7 @@ public abstract class Interpolate {
 		protected abstract double ease(double t, double b, double c, double d);
 	}
 	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Sine.java
+	//original code: http://github.com/jesusgollonet/processing-penner-easing
 	public static final class Sine {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -58,8 +58,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Quad.java
 	public static final class Quad {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -79,8 +77,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Cubic.java
 	public static final class Cubic {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -100,8 +96,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Quart.java
 	public static final class Quart {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -121,8 +115,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Quint.java
 	public static final class Quint {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -142,8 +134,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Expo.java
 	public static final class Expo {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -165,8 +155,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Circ.java
 	public static final class Circ {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -186,8 +174,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Back.java
 	public static final class Back {
 		protected static final double s = 1.70158d;
 		
@@ -210,8 +196,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Elastic.java
 	public static final class Elastic {
 		public static final Interpolate
 			In = new InterpolateEase(){
@@ -243,8 +227,6 @@ public abstract class Interpolate {
 				}
 			};
 	}
-	
-	//original code: http://github.com/jesusgollonet/processing-penner-easing/blob/master/src/Bounce.java
 	public static final class Bounce {
 		public static final Interpolate
 			In = new InterpolateEase(){
