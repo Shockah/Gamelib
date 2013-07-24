@@ -9,6 +9,7 @@ public class Fx<T> implements Comparable<Fx<T>> {
 		this(step,time,null);
 	}
 	public Fx(T step, double time, Interpolate method) {
+		if (time < 0) throw new IllegalArgumentException("Time can't be < 0");
 		this.step = step;
 		this.time = time;
 		this.method = method;
