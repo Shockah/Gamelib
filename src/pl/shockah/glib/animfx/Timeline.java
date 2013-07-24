@@ -8,7 +8,7 @@ public abstract class Timeline<T,F extends Fx<T>> {
 	protected final Interpolate method;
 	protected double maxTime = 0;
 	
-	public Timeline() {this(Interpolate.Smoothstep);}
+	public Timeline() {this(Interpolate.Smoothstep.P1);}
 	public Timeline(Interpolate method) {
 		this.method = method;
 	}

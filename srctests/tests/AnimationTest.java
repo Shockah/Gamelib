@@ -37,7 +37,7 @@ public class AnimationTest extends State {
 		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Interpolate.Bounce.Out); anim.add(linePos2);
 		
 		final Animation anim2 = new Animation().setLooped(true);
-		final TimelineDouble lineY = new TimelineDouble(); anim2.add(lineY);
+		final TimelineDouble lineY = new TimelineDouble(Interpolate.Smoothstep.P3); anim2.add(lineY);
 		final TimelineDouble lineY2 = new TimelineDouble(Interpolate.Linear); anim2.add(lineY2);
 		
 		linePos.add(new Vector2d(0,0),0);

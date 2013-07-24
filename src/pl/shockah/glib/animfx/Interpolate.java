@@ -6,27 +6,31 @@ public abstract class Interpolate {
 			protected double interpolateBase(double d1, double d2, double d) {
 				return d1+(d2-d1)*d;
 			}
-		},
-		Smoothstep = new Interpolate(){
-			protected double interpolateBase(double d1, double d2, double d) {
-				double ss = Math.pow(d,2)*(3d-2d*d);
-				return d1+(d2-d1)*ss;
-			}
-		},
-		Smoothstep2 = new Interpolate(){
-			protected double interpolateBase(double d1, double d2, double d) {
-				double ss = Math.pow(d,2)*(3d-2d*d);
-				ss = Math.pow(ss,2);
-				return d1+(d2-d1)*ss;
-			}
-		},
-		Smoothstep3 = new Interpolate(){
-			protected double interpolateBase(double d1, double d2, double d) {
-				double ss = Math.pow(d,2)*(3d-2d*d);
-				ss = Math.pow(ss,3);
-				return d1+(d2-d1)*ss;
-			}
 		};
+	
+	private static class InterpolateSmoothstep extends Interpolate {
+		protected final double interpolateBase(double d1, double d2, double d) {
+			return d1+(d2-d1)*smoothstepModifier(d);
+		}
+		protected double smoothstepModifier(double d) {
+			return Math.pow(d,2)*(3d-2d*d);
+		}
+	}
+	
+	public static final class Smoothstep {
+		public static final Interpolate
+			P1 = new InterpolateSmoothstep(),
+			P2 = new InterpolateSmoothstep(){
+				protected double smoothstepModifier(double d) {
+					return Math.pow(super.smoothstepModifier(d),2);
+				}
+			},
+			P3 = new InterpolateSmoothstep(){
+				protected double smoothstepModifier(double d) {
+					return Math.pow(super.smoothstepModifier(d),3);
+				}
+			};
+	}
 		
 	private static abstract class InterpolateEase extends Interpolate {
 		protected double interpolateBase(double d1, double d2, double d) {
