@@ -6,19 +6,24 @@ import java.util.List;
 public class Animation {
 	protected final List<String> tags = new ArrayList<>();
 	protected final List<Timeline<?,?>> timelines = new ArrayList<>();
-	protected double time = 0;
+	protected double time = 0, updateSpeed = 1;
 	protected boolean looped = false;
 	protected int loop = 0;
 	
 	public void update() {update(1);}
 	public void update(double by) {
-		time += by;
+		time += updateSpeed;
 		double maxTime = getMaxTime();
 		if (time > maxTime) {
 			if (looped) {
 				time -= maxTime;
 				loop++;
 			} else time = maxTime;
+		} else if (time < 0) {
+			if (looped) {
+				time += maxTime;
+				loop--;
+			} else time = 0;
 		}
 	}
 	public void reset() {
@@ -59,6 +64,13 @@ public class Animation {
 	public Animation setLooped() {return setLooped(true);}
 	public Animation setLooped(boolean looped) {
 		this.looped = looped;
+		return this;
+	}
+	
+	public double getUpdateSpeed() {return updateSpeed;}
+	public Animation resetUpdateSpeed() {return setUpdateSpeed(1d);}
+	public Animation setUpdateSpeed(double updateSpeed) {
+		this.updateSpeed = updateSpeed;
 		return this;
 	}
 }
