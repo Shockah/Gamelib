@@ -18,7 +18,9 @@ public abstract class Particle {
 	public final void update() {
 		onUpdate();
 	}
-	protected void onUpdate() {}
+	protected void onUpdate() {
+		pos.add(vel);
+	}
 	
 	public boolean isDead() {
 		return dead;
