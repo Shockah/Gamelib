@@ -14,4 +14,17 @@ public class TimelineObject<T extends IInterpolatable<T>> extends Timeline<T,FxO
 		fxs.add(fx);
 		if (maxTime < fx.time) maxTime = fx.time;
 	}
+	
+	public void copyFirst(double time) {
+		add(new FxObject<>(fxs.get(0).step,time));
+	}
+	public void copyLast(double time) {
+		add(new FxObject<>(fxs.get(fxs.size()-1).step,time));
+	}
+	public void copyFirst(double time, Interpolate method) {
+		add(new FxObject<>(fxs.get(0).step,time,method));
+	}
+	public void copyLast(double time, Interpolate method) {
+		add(new FxObject<>(fxs.get(fxs.size()-1).step,time,method));
+	}
 }

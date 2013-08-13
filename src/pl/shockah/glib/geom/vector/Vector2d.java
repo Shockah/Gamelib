@@ -81,10 +81,14 @@ public class Vector2d implements IInterpolatable<Vector2d> {
 	public Vector2d Scale(double scale) {return Scale(scale,scale);}
 	public Vector2d scale(double scaleH, double scaleV) {x *= scaleH; y *= scaleV; return this;}
 	public Vector2d Scale(double scaleH, double scaleV) {return new Vector2d(x*scaleH,y*scaleV);}
+	public Vector2d scale(Vector2d v) {return scale(v.x,v.y);}
+	public Vector2d Scale(Vector2d v) {return Scale(v.x,v.y);}
 	public Vector2d div(double scale) {return div(scale,scale);}
 	public Vector2d Div(double scale) {return Div(scale,scale);}
 	public Vector2d div(double scaleH, double scaleV) {return scale(1/scaleH,1/scaleV);}
 	public Vector2d Div(double scaleH, double scaleV) {return Scale(1/scaleH,1/scaleV);}
+	public Vector2d div(Vector2d v) {return div(v.x,v.y);}
+	public Vector2d Div(Vector2d v) {return Div(v.x,v.y);}
 	
 	public Vector2d Vector(Vector2d v) {
 		return new Vector2d(v.x-x,v.y-y);

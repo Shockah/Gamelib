@@ -8,8 +8,8 @@ public abstract class Timeline<T,F extends Fx<T>> {
 	protected final Interpolate method;
 	protected double maxTime = 0;
 	
-	public Timeline() {this(Interpolate.Smoothstep.P1);}
-	public Timeline(Interpolate method) {
+	Timeline() {this(Interpolate.Smoothstep.P1);}
+	Timeline(Interpolate method) {
 		this.method = method;
 	}
 	
@@ -26,6 +26,11 @@ public abstract class Timeline<T,F extends Fx<T>> {
 		if (anim.isLooped() && anim.getTime() > maxTime) return prev.getState(fxs.get(0),(anim.getMaxTime()-anim.getTime())/(anim.getMaxTime()-maxTime+fxs.get(0).time),prev.getMethod(this));
 		return prev.getState(null,0,prev.getMethod(this));
 	}
+	
+	public abstract void copyFirst(double time);
+	public abstract void copyLast(double time);
+	public abstract void copyFirst(double time, Interpolate method);
+	public abstract void copyLast(double time, Interpolate method);
 	
 	public double getMaxTime() {
 		return maxTime;

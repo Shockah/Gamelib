@@ -81,10 +81,14 @@ public class Vector2f implements IInterpolatable<Vector2f> {
 	public Vector2f Scale(float scale) {return Scale(scale,scale);}
 	public Vector2f scale(float scaleH, float scaleV) {x *= scaleH; y *= scaleV; return this;}
 	public Vector2f Scale(float scaleH, float scaleV) {return new Vector2f(x*scaleH,y*scaleV);}
+	public Vector2f scale(Vector2f v) {return scale(v.x,v.y);}
+	public Vector2f Scale(Vector2f v) {return Scale(v.x,v.y);}
 	public Vector2f div(float scale) {return div(scale,scale);}
 	public Vector2f Div(float scale) {return Div(scale,scale);}
 	public Vector2f div(float scaleH, float scaleV) {return scale(1/scaleH,1/scaleV);}
 	public Vector2f Div(float scaleH, float scaleV) {return Scale(1/scaleH,1/scaleV);}
+	public Vector2f div(Vector2f v) {return div(v.x,v.y);}
+	public Vector2f Div(Vector2f v) {return Div(v.x,v.y);}
 	
 	public Vector2f Vector(Vector2f v) {
 		return new Vector2f(v.x-x,v.y-y);
