@@ -6,6 +6,7 @@ import pl.shockah.glib.gl.Image;
 
 public abstract class Particle {
 	protected final Image image;
+	protected ParticleSystem ps;
 	protected Vector2d pos = new Vector2d(), vel = new Vector2d(), size;
 	protected boolean dead = false;
 	
@@ -14,6 +15,19 @@ public abstract class Particle {
 		this.pos = new Vector2d(pos);
 		this.size = new Vector2d(size);
 	}
+	
+	public final void create(ParticleSystem ps) {
+		this.ps = ps;
+		ps.particles.add(this);
+		onCreate(ps);
+	}
+	protected void onCreate(ParticleSystem ps) {}
+	
+	public final void destroy() {
+		onDestroy();
+		ps.particles.remove(this);
+	}
+	protected void onDestroy() {}
 	
 	public final void update() {
 		onUpdate();
@@ -30,7 +44,7 @@ public abstract class Particle {
 		onRender(g);
 	}
 	protected void onRender(Graphics g) {
-		image.scale = size.Div(image.getSize().toDouble()).scale(size);
+		image.scale = size.Div(image.getSize().toDouble());
 		g.draw(image,pos);
 	}
 }

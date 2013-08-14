@@ -22,16 +22,16 @@ public class Image extends TextureSupplier {
 			while (rotation.angle >= 360) rotation.angle -= 360;
 			while (rotation.angle < 0) rotation.angle += 360;
 			
-			glTranslated(rotation.center.x,rotation.center.y,0);
+			glTranslated(rotation.center.x*scale.x,rotation.center.y*scale.y,0);
 			glRotated(-rotation.angle,0f,0f,1f);
-			glTranslated(-rotation.center.x,-rotation.center.y,0);
+			glTranslated(-rotation.center.x*scale.x,-rotation.center.y*scale.y,0);
 		}
 	}
 	protected void postDraw(Graphics g) {
 		if (rotation.angle != 0) {
-			glTranslated(rotation.center.x,rotation.center.y,0);
+			glTranslated(rotation.center.x*scale.x,rotation.center.y*scale.y,0);
 			glRotated(rotation.angle,0f,0f,1f);
-			glTranslated(-rotation.center.x,-rotation.center.y,0);
+			glTranslated(-rotation.center.x*scale.x,-rotation.center.y*scale.y,0);
 		}
 	}
 	
@@ -40,6 +40,11 @@ public class Image extends TextureSupplier {
 	}
 	public Image part(Rectangle rect) {
 		return part((int)rect.pos.x,(int)rect.pos.y,(int)rect.size.x,(int)rect.size.y);
+	}
+	
+	public void center() {
+		offset = getSize().toDouble().div(2);
+		rotation.center();
 	}
 	
 	public class Rotation {
