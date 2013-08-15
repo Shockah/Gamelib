@@ -2,49 +2,23 @@ package pl.shockah.glib.particle;
 
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.gl.Image;
 
-public abstract class Particle {
-	protected final Image image;
-	protected ParticleSystem ps;
-	protected Vector2d pos = new Vector2d(), vel = new Vector2d(), size;
-	protected boolean dead = false;
+public class Particle {
+	public final ParticleSystem ps;
+	public final ParticleType pt;
+	public Vector2d pos = new Vector2d(), vel = new Vector2d(), size = new Vector2d();
+	public double rotation = 0;
+	public boolean dead = false;
 	
-	protected Particle(Image image, Vector2d pos, Vector2d size) {
-		this.image = image;
-		this.pos = new Vector2d(pos);
-		this.size = new Vector2d(size);
-	}
-	
-	public final void create(ParticleSystem ps) {
+	protected Particle(ParticleSystem ps, ParticleType pt) {
 		this.ps = ps;
-		ps.particles.add(this);
-		onCreate(ps);
-	}
-	protected void onCreate(ParticleSystem ps) {}
-	
-	public final void destroy() {
-		onDestroy();
-		ps.particles.remove(this);
-	}
-	protected void onDestroy() {}
-	
-	public final void update() {
-		onUpdate();
-	}
-	protected void onUpdate() {
-		pos.add(vel);
+		this.pt = pt;
 	}
 	
-	public boolean isDead() {
-		return dead;
+	protected void update() {
+		pt.onUpdate(this);
 	}
-	
-	public final void render(Graphics g) {
-		onRender(g);
-	}
-	protected void onRender(Graphics g) {
-		image.scale = size.Div(image.getSize().toDouble());
-		g.draw(image,pos);
+	protected void render(Graphics g) {
+		pt.onRender(this,g);
 	}
 }

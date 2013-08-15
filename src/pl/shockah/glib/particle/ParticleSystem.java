@@ -19,7 +19,7 @@ public class ParticleSystem extends EntityRenderable {
 		for (int i = 0; i < particles.size(); i++) {
 			Particle p = particles.get(i);
 			p.update();
-			if (p.isDead()) particles.remove(i--);
+			if (p.dead) particles.remove(i--);
 		}
 	}
 	protected void onRender(Graphics g) {
