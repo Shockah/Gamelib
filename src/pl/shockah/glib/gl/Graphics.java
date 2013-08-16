@@ -61,4 +61,15 @@ public class Graphics {
 	public void draw(ITextureSupplier ts, double x, double y) {
 		ts.drawTexture(this,x,y);
 	}
+	
+	public void draw(Image image, double rotation) {draw(image,0,0,rotation);}
+	public void draw(Image image, Vector2d v, double rotation) {draw(image,v.x,v.y,rotation);}
+	public void draw(Image image, Vector2f v, double rotation) {draw(image,v.x,v.y,rotation);}
+	public void draw(Image image, Vector2i v, double rotation) {draw(image,v.x,v.y,rotation);}
+	public void draw(Image image, double x, double y, double rotation) {
+		double rot = image.rotation.angle;
+		image.rotation.angle = rotation;
+		image.drawTexture(this,x,y);
+		image.rotation.angle = rot;
+	}
 }
