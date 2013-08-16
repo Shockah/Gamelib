@@ -52,7 +52,7 @@ public class Line extends Shape {
 		if (filled) {
 			throw new UnsupportedOperationException();
 		} else {
-			glBegin(GL_LINE_STRIP);
+			glBegin(GL_LINES);
 			glVertex2d(pos1.x,pos1.y);
 			glVertex2d(pos2.x,pos2.y);
 			glEnd();
