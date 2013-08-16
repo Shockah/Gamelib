@@ -1,6 +1,7 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
@@ -10,6 +11,7 @@ import pl.shockah.glib.gl.color.Color;
 public class Graphics {
 	private static boolean init = false;
 	private static Color color = null;
+	private static Rectangle clip = null;
 	
 	public void init() {
 		if (init) return;
@@ -22,6 +24,19 @@ public class Graphics {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
 		color.bind();
+	}
+	
+	public void setClip(Rectangle rect) {
+		if (((rect == null) ^ (clip == null)) || !clip.equals(rect)) {
+			if (rect != null) {
+				glScissor((int)rect.pos.x,(int)rect.pos.y,(int)rect.size.x,(int)rect.size.y);
+				glEnable(GL_SCISSOR_TEST);
+			} else glDisable(GL_SCISSOR_TEST);
+			clip = rect.copyMe();
+		}
+	}
+	public void setClip(int x, int y, int w, int h) {
+		setClip(new Rectangle(x,y,w,h));
 	}
 	
 	public void clear() {
