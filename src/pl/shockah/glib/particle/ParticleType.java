@@ -11,10 +11,10 @@ public abstract class ParticleType {
 		this.image = image;
 	}
 	
-	public void spawn(ParticleSystem ps, Vector2d pos) {
-		ps.particles.add(create(ps,pos));
+	public void spawn(ParticleSystem ps, Vector2d pos, Object... args) {
+		ps.particles.add(create(ps,pos,args));
 	}
-	protected abstract Particle create(ParticleSystem ps, Vector2d pos);
+	protected abstract Particle create(ParticleSystem ps, Vector2d pos, Object... args);
 	
 	protected void onSpawn(Particle p) {}
 	protected void onDespawn(Particle p) {}
