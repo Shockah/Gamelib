@@ -7,6 +7,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.color.Color;
+import pl.shockah.glib.state.State;
 
 public class Graphics {
 	private static boolean init = false;
@@ -29,14 +30,17 @@ public class Graphics {
 	public void setClip(Rectangle rect) {
 		if (((rect == null) ^ (clip == null)) || !clip.equals(rect)) {
 			if (rect != null) {
-				glScissor((int)rect.pos.x,(int)rect.pos.y,(int)rect.size.x,(int)rect.size.y);
+				glScissor((int)rect.pos.x,(int)(State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y),(int)rect.size.x,(int)rect.size.y);
 				glEnable(GL_SCISSOR_TEST);
 			} else glDisable(GL_SCISSOR_TEST);
-			clip = rect.copyMe();
+			clip = rect == null ? null : rect.copyMe();
 		}
 	}
-	public void setClip(int x, int y, int w, int h) {
+	public void setClip(double x, double y, double w, double h) {
 		setClip(new Rectangle(x,y,w,h));
+	}
+	public void clearClip() {
+		setClip(null);
 	}
 	
 	public void clear() {
