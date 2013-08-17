@@ -1,6 +1,8 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import java.util.LinkedList;
+import java.util.List;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -12,7 +14,7 @@ import pl.shockah.glib.state.State;
 public class Graphics {
 	private static boolean init = false;
 	private static Color color = null;
-	private static Rectangle clip = null;
+	private static List<Rectangle> clipStack = new LinkedList<>();
 	
 	public void init() {
 		if (init) return;
@@ -27,20 +29,32 @@ public class Graphics {
 		color.bind();
 	}
 	
-	public void setClip(Rectangle rect) {
-		if (((rect == null) ^ (clip == null)) || !clip.equals(rect)) {
+	public void pushClip(Rectangle rect) {
+		if (((rect == null) ^ clipStack.isEmpty()) || !clipStack.get(clipStack.size()-1).equals(rect)) {
 			if (rect != null) {
 				glScissor((int)rect.pos.x,(int)(State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y),(int)rect.size.x,(int)rect.size.y);
 				glEnable(GL_SCISSOR_TEST);
 			} else glDisable(GL_SCISSOR_TEST);
-			clip = rect == null ? null : rect.copyMe();
+			
+			if (rect == null) {
+				if (!clipStack.isEmpty()) clipStack.remove(clipStack.size()-1);
+				if (!clipStack.isEmpty()) {
+					rect = clipStack.get(clipStack.size()-1);
+					glScissor((int)rect.pos.x,(int)(State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y),(int)rect.size.x,(int)rect.size.y);
+					glEnable(GL_SCISSOR_TEST);
+				}
+			} else clipStack.add(rect.copyMe());
 		}
 	}
-	public void setClip(double x, double y, double w, double h) {
-		setClip(new Rectangle(x,y,w,h));
+	public void pushClip(double x, double y, double w, double h) {
+		pushClip(new Rectangle(x,y,w,h));
+	}
+	public void popClip() {
+		pushClip(null);
 	}
 	public void clearClip() {
-		setClip(null);
+		clipStack.clear();
+		glDisable(GL_SCISSOR_TEST);
 	}
 	
 	public void clear() {
