@@ -1,6 +1,5 @@
-package pl.shockah.glib.geom;
+package pl.shockah.glib.geom.polygon;
 
-import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public class Triangle extends Polygon {

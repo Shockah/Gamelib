@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
-import pl.shockah.glib.geom.Triangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
