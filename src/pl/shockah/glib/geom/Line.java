@@ -1,10 +1,12 @@
 package pl.shockah.glib.geom;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.animfx.IInterpolatable;
+import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Line extends Shape {
+public class Line extends Shape implements IInterpolatable<Line> {
 	public Vector2d pos1, pos2;
 	
 	public Line(double x1, double y1, double x2, double y2) {
@@ -57,5 +59,9 @@ public class Line extends Shape {
 			glVertex2d(pos2.x,pos2.y);
 			glEnd();
 		}
+	}
+	
+	public Line interpolate(Line l, double d, Interpolate method) {
+		return new Line(pos1.interpolate(l.pos1,d,method),pos2.interpolate(l.pos2,d,method));
 	}
 }

@@ -31,7 +31,7 @@ public class Vector2f implements IInterpolatable<Vector2f> {
 		return "[Vector2f: "+x+" | "+y+"]";
 	}
 	
-	public Vector2f copy() {
+	public Vector2f copyMe() {
 		return new Vector2f(this);
 	}
 	public Vector2i toInt() {

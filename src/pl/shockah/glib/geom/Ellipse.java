@@ -1,12 +1,14 @@
 package pl.shockah.glib.geom;
 
 import pl.shockah.glib.Math2;
+import pl.shockah.glib.animfx.IInterpolatable;
+import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Ellipse extends Shape implements IPolygonable {
+public class Ellipse extends Shape implements IPolygonable,IInterpolatable<Ellipse> {
 	public Vector2d pos, radius;
 	
 	protected Vector2d lastPos;
@@ -76,5 +78,9 @@ public class Ellipse extends Shape implements IPolygonable {
 	}
 	public void draw(Graphics g, boolean filled, int precision) {
 		asPolygon(precision).draw(g,filled);
+	}
+	
+	public Ellipse interpolate(Ellipse e, double d, Interpolate method) {
+		return new Ellipse(pos.interpolate(e.pos,d,method),radius.interpolate(e.radius,d,method));
 	}
 }

@@ -1,12 +1,14 @@
 package pl.shockah.glib.geom;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.animfx.IInterpolatable;
+import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Rectangle extends Shape implements IPolygonable {
+public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rectangle> {
 	public Vector2d pos, size;
 	
 	public Rectangle(double x, double y, double w, double h) {
@@ -87,5 +89,9 @@ public class Rectangle extends Shape implements IPolygonable {
 			glVertex2d(pos.x,pos.y+size.y-1);
 			glEnd();
 		}
+	}
+	
+	public Rectangle interpolate(Rectangle r, double d, Interpolate method) {
+		return new Rectangle(pos.interpolate(r.pos,d,method),size.interpolate(r.size,d,method));
 	}
 }

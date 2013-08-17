@@ -1,11 +1,13 @@
 package pl.shockah.glib.geom;
 
+import pl.shockah.glib.animfx.IInterpolatable;
+import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Circle extends Shape implements IPolygonable {
+public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle> {
 	public Vector2d pos;
 	public double radius;
 	
@@ -79,5 +81,9 @@ public class Circle extends Shape implements IPolygonable {
 	}
 	public void draw(Graphics g, boolean filled, int precision) {
 		asPolygon(precision).draw(g,filled);
+	}
+	
+	public Circle interpolate(Circle c, double d, Interpolate method) {
+		return new Circle(pos.interpolate(c.pos,d,method),method.interpolate(radius,c.radius,d));
 	}
 }

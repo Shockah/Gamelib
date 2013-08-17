@@ -31,7 +31,7 @@ public class Vector2d implements IInterpolatable<Vector2d> {
 		return "[Vector2d: "+x+" | "+y+"]";
 	}
 	
-	public Vector2d copy() {
+	public Vector2d copyMe() {
 		return new Vector2d(this);
 	}
 	public Vector2i toInt() {

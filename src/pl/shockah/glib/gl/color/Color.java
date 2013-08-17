@@ -186,7 +186,7 @@ public abstract class Color implements IBoundable,IInterpolatable<Color> {
 	public abstract float Bf();
 	public abstract float Af();
 	
-	public Color copy() {
+	public Color copyMe() {
 		return new Colorb(R(),G(),B(),A());
 	}
 	public void copy(Color c) {
