@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
+import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.state.State;
@@ -52,6 +53,8 @@ public class GameStandard implements IGame {
 		}
 		
 		glPushMatrix();
+		g.clearClip();
+		g.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
 		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);
 			renderable.addAll(renderableAdd);
