@@ -1,11 +1,10 @@
 package pl.shockah.glib.gl.color;
 
 import static org.lwjgl.opengl.GL11.*;
-import pl.shockah.glib.IBoundable;
 import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 
-public abstract class Color implements IBoundable,IInterpolatable<Color> {
+public abstract class Color implements IInterpolatable<Color> {
 	public static final Color
 		Black = new Colorb(0),
 		TransparentBlack = new Colorb(0,0),

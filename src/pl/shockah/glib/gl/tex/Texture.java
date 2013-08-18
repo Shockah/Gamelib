@@ -8,10 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import pl.shockah.glib.IBoundable;
 import pl.shockah.glib.geom.vector.Vector2i;
 
-public class Texture implements IBoundable {
+public class Texture {
 	private static int bound = 0;
 	
 	public static Texture load(Path path) throws FileNotFoundException, IOException {
