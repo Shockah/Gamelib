@@ -1,7 +1,7 @@
 package pl.shockah.glib.gl.color;
 
 public final class Colorf extends Color {
-	public float r, g, b, a;
+	public final float r, g, b, a;
 	
 	public Colorf(int v) {this(v,255);}
 	public Colorf(int v, int a) {this(v,v,v,a);}
@@ -26,11 +26,4 @@ public final class Colorf extends Color {
 	public float Gf() {return g;}
 	public float Bf() {return b;}
 	public float Af() {return a;}
-	
-	public void copy(Color color) {
-		r = color.Rf();
-		g = color.Gf();
-		b = color.Bf();
-		a = color.Af();
-	}
 }
