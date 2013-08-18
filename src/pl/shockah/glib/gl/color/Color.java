@@ -213,19 +213,19 @@ public abstract class Color implements IBoundable,IInterpolatable<Color> {
 		return new Colorb(255-R(),255-G(),255-B(),A());
 	}
 	
-	public ColorbMutable toColorb() {
+	public ColorbMutable toColorbMutable() {
 		if (getClass() == ColorbMutable.class) return (ColorbMutable)this;
 		return new ColorbMutable(R(),G(),B(),A());
 	}
-	public Colorb toColorbImmutable() {
+	public Colorb toColorb() {
 		if (getClass() == Colorb.class) return (Colorb)this;
 		return new Colorb(R(),G(),B(),A());
 	}
-	public ColorfMutable toColorf() {
+	public ColorfMutable toColorfMutable() {
 		if (getClass() == ColorfMutable.class) return (ColorfMutable)this;
 		return new ColorfMutable(Rf(),Gf(),Bf(),Af());
 	}
-	public Colorf toColorfImmutable() {
+	public Colorf toColorf() {
 		if (getClass() == Colorf.class) return (Colorf)this;
 		return new Colorf(Rf(),Gf(),Bf(),Af());
 	}
