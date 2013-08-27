@@ -13,6 +13,22 @@ public abstract class Timeline<T,F extends Fx<T>> {
 		this.method = method;
 	}
 	
+	public T getState(double time) {
+		return getState(time,false);
+	}
+	public T getState(double time, boolean looped) {
+		if (fxs.isEmpty()) throw new RuntimeException("Blank timeline");
+		if (fxs.size() == 1) return fxs.get(0).getState(null,0,fxs.get(0).getMethod(this));
+		
+		if (looped && time < fxs.get(0).time) return fxs.get(fxs.size()-1).getState(fxs.get(0),(getMaxTime()-time)/(getMaxTime()-maxTime+fxs.get(0).time),fxs.get(fxs.size()-1).getMethod(this));
+		Fx<T> prev = null;
+		for (Fx<T> fx : fxs) {
+			if (fx.time >= time) return prev == null ? fx.step : prev.getState(fx,(time-prev.time)/(fx.time-prev.time),prev.getMethod(this));
+			prev = fx;
+		}
+		if (looped && time > maxTime) return prev.getState(fxs.get(0),(getMaxTime()-time)/(getMaxTime()-maxTime+fxs.get(0).time),prev.getMethod(this));
+		return prev.getState(null,0,prev.getMethod(this));
+	}
 	public T getState(Animation anim) {
 		if (fxs.isEmpty()) throw new RuntimeException("Blank timeline");
 		if (fxs.size() == 1) return fxs.get(0).getState(null,0,fxs.get(0).getMethod(this));

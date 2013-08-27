@@ -32,6 +32,7 @@ public class Animation {
 	}
 	
 	public double getTime() {return time;}
+	public void setTime(double time) {this.time = time;}
 	
 	public void add(Timeline<?,?> timeline) {
 		add(null,timeline);
