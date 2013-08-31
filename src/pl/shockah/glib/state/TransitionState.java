@@ -48,7 +48,7 @@ public final class TransitionState {
 					if (tIn == null) {
 						trans = ETransition.None;
 						return true;
-					}
+					} else init();
 				} break;
 				case In: {
 					trans = ETransition.None;
