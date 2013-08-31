@@ -200,6 +200,9 @@ public abstract class Color implements IInterpolatable<Color> {
 	public Color alpha(float alpha) {
 		return new Colorb(Rf(),Gf(),Bf(),Af()*alpha);
 	}
+	public Color setAlpha(float alpha) {
+		return new Colorb(Rf(),Gf(),Bf(),alpha);
+	}
 	public Color lerp(Color c2, float ratio) {
 		if (ratio < 0 || ratio > 1) throw new IllegalArgumentException("Ratio should have a value of 0-1.");
 		float R = Rf()-((Rf()-c2.Rf())*ratio);
