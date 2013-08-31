@@ -64,6 +64,7 @@ public class GameStandard implements IGame {
 			g.clear();
 			for (EntityRenderable er : renderable) er.onRender(g);
 		}
+		state.preTransitionRender(g);
 		state.renderTransition(g);
 		state.postRender(g);
 		glPopMatrix();

@@ -86,6 +86,11 @@ public class State {
 	}
 	protected void onPreUpdate() {}
 	
+	public final void preTransitionRender(Graphics g) {
+		onPreTransitionRender(g);
+	}
+	protected void onPreTransitionRender(Graphics g) {}
+	
 	public final void postRender(Graphics g) {
 		onPostRender(g);
 	}
