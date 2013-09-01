@@ -11,6 +11,12 @@ import pl.shockah.glib.gl.Graphics;
 public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rectangle> {
 	public Vector2d pos, size;
 	
+	public Rectangle(double w, double h) {
+		this(new Vector2d(),w,h);
+	}
+	public Rectangle(Vector2d size) {
+		this(new Vector2d(),size);
+	}
 	public Rectangle(double x, double y, double w, double h) {
 		this(new Vector2d(x,y),new Vector2d(w,h));
 	}

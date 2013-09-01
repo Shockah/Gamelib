@@ -18,6 +18,10 @@ public final class Gamelib {
 		private boolean multisample = true, alpha = true, stencil = true;
 		private boolean locked = false;
 		
+		public String toString() {
+			return "[Gamelib.Capabilities: "+(multisample ? "" : "no ")+"multisampling, "+(alpha ? "" : "no ")+"alpha, "+(stencil ? "" : "no ")+"stencil]";
+		}
+		
 		public boolean supportsMultisampling() {return multisample;}
 		public boolean supportsAlpha() {return alpha;}
 		public boolean supportsStencil() {return stencil;}
