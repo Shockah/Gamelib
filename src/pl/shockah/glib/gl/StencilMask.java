@@ -12,8 +12,8 @@ public class StencilMask {
 		this.stencil = stencil;
 	}
 	
-	public void proceed() {
-		if (phase == Phase.Post) return;
+	public StencilMask proceed() {
+		if (phase == Phase.Post) return this;
 		phase = Phase.values()[Arrays.asList(Phase.values()).indexOf(phase)+1];
 		
 		switch (phase) {
@@ -22,6 +22,7 @@ public class StencilMask {
 			case Post: stencil.phasePost(g); break;
 			default: break;
 		}
+		return this;
 	}
 	
 	protected enum Phase {

@@ -38,8 +38,7 @@ public class StencilTest extends State {
 			protected void onRender(Graphics g) {
 				Vector2i size = State.get().getDisplaySize();
 				
-				StencilMask sm = new StencilMask(g,Stencil.Drop);
-				sm.proceed();
+				StencilMask sm = new StencilMask(g,Stencil.Drop).proceed();
 				g.draw(new Rectangle(size.toDouble().div(2).sub(64,64),128,128));
 				sm.proceed();
 				g.draw(image,size.Div(2));
