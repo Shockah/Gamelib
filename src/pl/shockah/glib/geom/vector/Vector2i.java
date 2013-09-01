@@ -85,8 +85,8 @@ public class Vector2i implements IInterpolatable<Vector2i> {
 	public Vector2i Scale(Vector2i v) {return Scale(v.x,v.y);}
 	public Vector2i div(int scale) {return div(scale,scale);}
 	public Vector2i Div(int scale) {return Div(scale,scale);}
-	public Vector2i div(int scaleH, int scaleV) {return scale(1/scaleH,1/scaleV);}
-	public Vector2i Div(int scaleH, int scaleV) {return Scale(1/scaleH,1/scaleV);}
+	public Vector2i div(int scaleH, int scaleV) {x /= scaleH; y /= scaleV; return this;}
+	public Vector2i Div(int scaleH, int scaleV) {return new Vector2i(x/scaleH,y/scaleV);}
 	public Vector2i div(Vector2i v) {return div(v.x,v.y);}
 	public Vector2i Div(Vector2i v) {return Div(v.x,v.y);}
 	
