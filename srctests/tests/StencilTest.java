@@ -2,11 +2,11 @@ package tests;
 
 import java.io.IOException;
 import pl.shockah.glib.Gamelib;
-import pl.shockah.glib.geom.Rectangle;
+import pl.shockah.glib.geom.Circle;
 import pl.shockah.glib.geom.vector.Vector2i;
-import pl.shockah.glib.gl.Stencil;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.Image;
+import pl.shockah.glib.gl.Stencil;
 import pl.shockah.glib.gl.StencilMask;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.logic.standard.EntityRenderable;
@@ -39,7 +39,11 @@ public class StencilTest extends State {
 				Vector2i size = State.get().getDisplaySize();
 				
 				StencilMask sm = new StencilMask(g,Stencil.Drop).proceed();
-				g.draw(new Rectangle(size.toDouble().div(2).sub(64,64),128,128));
+				g.draw(new Circle(size.toDouble().div(2).add(-48,0),48));
+				g.draw(new Circle(size.toDouble().div(2).add(48,0),48));
+				g.draw(new Circle(size.toDouble().div(2).add(0,-48),48));
+				g.draw(new Circle(size.toDouble().div(2).add(0,48),48));
+				
 				sm.proceed();
 				g.draw(image,size.Div(2));
 				sm.proceed();
