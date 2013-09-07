@@ -84,6 +84,7 @@ public class Graphics {
 	}
 	
 	public final void setRedirect(Graphics g) {
+		if (g == null) return;
 		if (g.equals(redirect)) return;
 		if (redirect == null) {
 			redirect = g;
@@ -94,6 +95,9 @@ public class Graphics {
 		if (redirect.redirect == null) {
 			redirect = null;
 		} else redirect.clearRedirect();
+	}
+	public final Graphics getRedirect() {
+		return redirect;
 	}
 	
 	public void draw(Shape shape) {
