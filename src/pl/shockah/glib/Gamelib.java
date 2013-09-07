@@ -54,8 +54,8 @@ public final class Gamelib {
 	public static IGame game;
 	public static KeyboardInput keyboard = new KeyboardInput();
 	public static MouseInput mouse = new MouseInput();
+	public static DisplayMode cachedDisplayMode = null;
 	protected static boolean cachedFullscreen = false;
-	protected static DisplayMode cachedDisplayMode = null;
 	protected static boolean isRunning = false;
 	
 	public static void setDisplayMode(Vector2i v) {
