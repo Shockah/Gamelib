@@ -8,6 +8,7 @@ import pl.shockah.glib.gl.tex.Texture;
 public final class GL {
 	private static boolean flipped = false;
 	private static int boundTexture = 0, boundSurface = 0;
+	private static float thickness = 1;
 	
 	public static void initDisplay(int width, int height) {
 		glEnable(GL_TEXTURE_2D);
@@ -64,5 +65,13 @@ public final class GL {
 	public static void unbind() {
 		if (boundTexture != 0) unbindTexture();
 		if (boundSurface != 0) unbindSurface();
+	}
+	
+	public static void setThickness(float thickness) {
+		glLineWidth(thickness);
+		GL.thickness = thickness;
+	}
+	public static float getThickness() {
+		return thickness;
 	}
 }
