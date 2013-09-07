@@ -67,6 +67,10 @@ public class Graphics {
 	}
 	
 	public void clear() {
+		if (redirect != null) {
+			redirect.clear();
+			return;
+		}
 		clear(Color.Black);
 	}
 	public void clear(Color color) {
