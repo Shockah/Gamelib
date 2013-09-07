@@ -13,7 +13,7 @@ public class Triangle extends Polygon {
 	}
 	
 	public Polygon addPoint(Vector2d point) {
-		if (getPointCount() >= 3) throw new UnsupportedOperationException();
+		if (getPointCount() >= 3) throw new IllegalStateException();
 		return super.addPoint(point);
 	}
 }

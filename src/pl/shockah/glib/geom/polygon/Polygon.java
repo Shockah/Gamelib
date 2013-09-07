@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import pl.shockah.glib.geom.Line;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -70,6 +71,11 @@ public class Polygon extends Shape {
 	}
 	public int getPointCount() {
 		return points.size();
+	}
+	public Line[] getLines() {
+		Line[] ret = new Line[points.size()];
+		for (int i = 0; i < points.size(); i++) ret[i] = new Line(points.get(i),points.get(i == points.size()-1 ? 0 : i+1));
+		return ret;
 	}
 	
 	public ITriangulator getTriangulator() {
