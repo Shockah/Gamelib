@@ -4,7 +4,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 
 public abstract class EntityBase {
 	public Vector2d pos;
-	private boolean firstTick;
+	private boolean firstTick = true;
 	
 	EntityBase() {}
 	
@@ -25,11 +25,13 @@ public abstract class EntityBase {
 	protected void onDestroy() {}
 	
 	public final void update() {
-		if (firstTick) {
-			firstTick = false;
-			onFirstUpdate();
-		}
+		firstUpdate();
 		onUpdate();
+	}
+	public final void firstUpdate() {
+		if (!firstTick) return;
+		firstTick = false;
+		onFirstUpdate();
 	}
 	protected void onFirstUpdate() {}
 	protected void onUpdate() {}

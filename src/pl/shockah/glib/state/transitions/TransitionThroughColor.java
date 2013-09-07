@@ -9,14 +9,22 @@ import pl.shockah.glib.state.State;
 public class TransitionThroughColor extends Transition {
 	protected final Color color;
 	protected final float baseSpeed;
+	protected final boolean runUpdate;
 	protected float alpha, incr;
 	
 	public TransitionThroughColor(Color color) {
-		this(color,.05f);
+		this(color,.05f,false);
+	}
+	public TransitionThroughColor(Color color, boolean runUpdate) {
+		this(color,.05f,runUpdate);
 	}
 	public TransitionThroughColor(Color color, float baseSpeed) {
+		this(color,baseSpeed,false);
+	}
+	public TransitionThroughColor(Color color, float baseSpeed, boolean runUpdate) {
 		this.color = color;
 		this.baseSpeed = baseSpeed;
+		this.runUpdate = runUpdate;
 	}
 	
 	public void init(boolean in) {
@@ -33,4 +41,6 @@ public class TransitionThroughColor extends Transition {
 		Graphics.setColor(color.setAlpha(alpha));
 		g.draw(new Rectangle(new Vector2d(),State.get().getDisplaySize().toDouble()));
 	}
+	
+	public boolean shouldUpdate() {return runUpdate;}
 }

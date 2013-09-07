@@ -62,7 +62,7 @@ public class GameStandard implements IGame {
 			renderableAdd.clear();
 			
 			g.clear();
-			for (EntityRenderable er : renderable) er.onRender(g);
+			for (EntityRenderable er : renderable) er.render(g);
 		}
 		state.preTransitionRender(g);
 		state.renderTransition(g);
