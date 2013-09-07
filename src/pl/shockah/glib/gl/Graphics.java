@@ -134,6 +134,7 @@ public class Graphics {
 		image.rotation.angle = rot;
 	}
 	
+	public void draw(Surface surface) {draw(surface,0,0,0);}
 	public void draw(Surface surface, double rotation) {draw(surface,0,0,rotation);}
 	public void draw(Surface surface, Vector2d v, double rotation) {draw(surface,v.x,v.y,rotation);}
 	public void draw(Surface surface, Vector2f v, double rotation) {draw(surface,v.x,v.y,rotation);}
