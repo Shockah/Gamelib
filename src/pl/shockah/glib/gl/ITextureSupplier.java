@@ -7,6 +7,8 @@ import pl.shockah.glib.gl.tex.Texture;
 
 public interface ITextureSupplier {
 	public Texture getTexture();
+	public boolean disposed();
+	public void dispose();
 	
 	public Vector2i getTextureSize();
 	public int getTextureWidth();

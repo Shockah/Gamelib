@@ -205,6 +205,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void draw(Graphics g, Vector2i v, CharSequence text) {draw(g,v.x,v.y,text);}
 	public void draw(Graphics g, double x, double y, CharSequence text) {drawString((float)x,(float)y,text,0,text.length()-1,1f,1f);}
 	public void drawString(float x, float y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
+		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		IntObject intObject = null;
 		int charCurrent;
 		
@@ -310,6 +311,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void drawTexture(Graphics g, Vector2f v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
+		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.init();
 		GL.bind(getTexture());
 		glTranslated(x,y,0);
@@ -331,6 +333,13 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		glVertex2d(x+w,y+h);
 		glTexCoord2d(tx+tw,ty);
 		glVertex2d(x+w,y);
+	}
+	
+	public boolean disposed() {
+		return getTexture().disposed();
+	}
+	public void dispose() {
+		getTexture().dispose();
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {

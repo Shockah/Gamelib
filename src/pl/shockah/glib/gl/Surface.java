@@ -33,11 +33,14 @@ public class Surface {
 	}
 	
 	private final int surId;
+	private boolean disposed = false;
 	public final Image image;
+	public final Graphics g;
 	
 	public Surface(int surId, Image image) {
 		this.surId = surId;
 		this.image = image;
+		g = new GraphicsSurface(this);
 	}
 	
 	public boolean equals(Object other) {
@@ -46,9 +49,23 @@ public class Surface {
 		return sur.surId == surId;
 	}
 	
-	public int getID() {return surId;}
+	public int getID() {
+		if (disposed) throw new IllegalStateException("Surface already disposed");
+		return surId;
+	}
 	
+	public Image image() {
+		if (disposed) throw new IllegalStateException("Surface already disposed");
+		return image;
+	}
 	public Graphics graphics() {
-		return new GraphicsSurface(this);
+		if (disposed) throw new IllegalStateException("Surface already disposed");
+		return g;
+	}
+	
+	public void dispose() {
+		glDeleteFramebuffersEXT(surId);
+		image.dispose();
+		disposed = true;
 	}
 }

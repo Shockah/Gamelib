@@ -1,5 +1,6 @@
 package pl.shockah.glib.gl.tex;
 
+import static org.lwjgl.opengl.GL11.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,6 +59,7 @@ public class Texture {
 	
 	private final int texId;
 	private final int width, height, widthFold, heightFold;
+	private boolean disposed = false;
 	
 	public Texture(int texId, int width, int height) {
 		this.texId = texId;
@@ -74,19 +76,44 @@ public class Texture {
 		return tex.texId == texId;
 	}
 	
-	public int getID() {return texId;}
+	public int getID() {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
+		return texId;
+	}
 	
 	public Vector2i getSize() {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return new Vector2i(getWidth(),getHeight());
 	}
-	public int getWidth() {return width;}
-	public int getHeight() {return height;}
-	public int getWidthFold() {return widthFold;}
-	public int getHeightFold() {return heightFold;}
+	public int getWidth() {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
+		return width;
+	}
+	public int getHeight() {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
+		return height;
+	}
+	public int getWidthFold() {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
+		return widthFold;
+	}
+	public int getHeightFold() {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
+		return heightFold;
+	}
 	
 	public void setResizeFilter(EResizeFilter resizeFilter) {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
 		GL.bind(this);
 		resizeFilter.set();
 		GL.unbindTexture();
+	}
+	
+	public boolean disposed() {
+		return disposed;
+	}
+	public void dispose() {
+		glDeleteTextures(texId);
+		disposed = true;
 	}
 }

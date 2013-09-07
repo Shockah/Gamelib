@@ -79,12 +79,13 @@ public class Graphics {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 	
-	public void setRedirect(Graphics g) {
+	public final void setRedirect(Graphics g) {
+		if (g.equals(redirect)) return;
 		if (redirect == null) {
 			redirect = g;
 		} else redirect.setRedirect(g);
 	}
-	public void clearRedirect() {
+	public final void clearRedirect() {
 		if (redirect == null) return;
 		if (redirect.redirect == null) {
 			redirect = null;
@@ -131,5 +132,17 @@ public class Graphics {
 		image.rotation.angle = rotation;
 		image.drawTexture(this,x,y);
 		image.rotation.angle = rot;
+	}
+	
+	public void draw(Surface surface, double rotation) {draw(surface,0,0,rotation);}
+	public void draw(Surface surface, Vector2d v, double rotation) {draw(surface,v.x,v.y,rotation);}
+	public void draw(Surface surface, Vector2f v, double rotation) {draw(surface,v.x,v.y,rotation);}
+	public void draw(Surface surface, Vector2i v, double rotation) {draw(surface,v.x,v.y,rotation);}
+	public void draw(Surface surface, double x, double y, double rotation) {
+		if (redirect != null) {
+			redirect.draw(surface,x,y,rotation);
+			return;
+		}
+		draw(surface.image(),x,y,rotation);
 	}
 }

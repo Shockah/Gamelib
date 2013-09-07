@@ -53,6 +53,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public void drawTexture(Graphics g, Vector2f v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
+		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.init();
 		g.preDraw();
 		
@@ -84,4 +85,11 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	
 	protected void preDraw(Graphics g) {}
 	protected void postDraw(Graphics g) {}
+	
+	public boolean disposed() {
+		return tex.disposed();
+	}
+	public void dispose() {
+		tex.dispose();
+	}
 }
