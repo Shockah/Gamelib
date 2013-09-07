@@ -10,7 +10,7 @@ import pl.shockah.glib.state.State;
 
 public class KeyboardTextInputTest extends State {
 	public static void main(String[] args) {
-		KeyboardTextInputTest test = new KeyboardTextInputTest();
+		State test = new KeyboardTextInputTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	

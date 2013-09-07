@@ -3,9 +3,10 @@ package pl.shockah.glib;
 import java.util.Arrays;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import pl.shockah.glib.geom.vector.Vector2i;
-import pl.shockah.glib.gl.GLHelper;
+import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.input.KeyboardInput;
 import pl.shockah.glib.input.MouseInput;
 import pl.shockah.glib.logic.IGame;
@@ -15,16 +16,17 @@ public final class Gamelib {
 	public static DisplayMode originalDisplayMode;
 	
 	public static final class Capabilities {
-		private boolean multisample = true, alpha = true, stencil = true;
+		private boolean multisample = true, alpha = true, stencil = true, fbo = true;
 		private boolean locked = false;
 		
 		public String toString() {
-			return "[Gamelib.Capabilities: "+(multisample ? "" : "no ")+"multisampling, "+(alpha ? "" : "no ")+"alpha, "+(stencil ? "" : "no ")+"stencil]";
+			return "[Gamelib.Capabilities: "+(multisample ? "" : "no ")+"multisampling, "+(alpha ? "" : "no ")+"alpha, "+(stencil ? "" : "no ")+"stencil, "+(fbo ? "" : "no ")+"FBO]";
 		}
 		
-		public boolean supportsMultisampling() {return multisample;}
-		public boolean supportsAlpha() {return alpha;}
-		public boolean supportsStencil() {return stencil;}
+		public boolean multisampling() {return multisample;}
+		public boolean alpha() {return alpha;}
+		public boolean stencil() {return stencil;}
+		public boolean FBO() {return fbo;}
 		
 		public void setMultisampleSupport(boolean b) {
 			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
@@ -37,6 +39,10 @@ public final class Gamelib {
 		public void setStencilSupport(boolean b) {
 			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
 			stencil = b;
+		}
+		public void setFBOSupport(boolean b) {
+			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
+			fbo = b;
 		}
 		
 		public void lock() {
@@ -99,11 +105,12 @@ public final class Gamelib {
 		Display.setTitle(windowTitle);
 		
 		tryCreatingDisplay();
+		if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
 		capabilities.lock();
 		
 		State.change(initialState);
-		GLHelper.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-		GLHelper.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+		GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+		GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		State.get().create();
 		
 		isRunning = true;

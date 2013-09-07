@@ -12,7 +12,7 @@ import pl.shockah.glib.state.State;
 
 public class ImageSVGTest extends State {
 	public static void main(String[] args) {
-		ImageSVGTest test = new ImageSVGTest();
+		State test = new ImageSVGTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	

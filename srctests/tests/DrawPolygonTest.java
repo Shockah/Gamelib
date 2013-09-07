@@ -12,7 +12,7 @@ import pl.shockah.glib.state.State;
 
 public class DrawPolygonTest extends State {
 	public static void main(String[] args) {
-		DrawPolygonTest test = new DrawPolygonTest();
+		State test = new DrawPolygonTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
@@ -31,7 +31,7 @@ public class DrawPolygonTest extends State {
 	protected void onCreate() {
 		new EntityRenderable(){
 			protected void onRender(Graphics g) {
-				g.setColor(Color.Crimson);
+				Graphics.setColor(Color.Crimson);
 				g.draw(p);
 			}
 		}.create();

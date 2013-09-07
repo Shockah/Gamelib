@@ -10,7 +10,7 @@ import pl.shockah.glib.state.State;
 
 public class DrawCircleTest extends State {
 	public static void main(String[] args) {
-		DrawCircleTest test = new DrawCircleTest();
+		State test = new DrawCircleTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
@@ -21,7 +21,7 @@ public class DrawCircleTest extends State {
 	protected void onCreate() {
 		new EntityRenderable(){
 			protected void onRender(Graphics g) {
-				g.setColor(Color.Aqua);
+				Graphics.setColor(Color.Aqua);
 				g.draw(new Circle(150,150,50));
 			}
 		}.create();

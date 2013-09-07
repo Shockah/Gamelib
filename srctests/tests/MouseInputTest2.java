@@ -14,7 +14,7 @@ import pl.shockah.glib.state.State;
 
 public class MouseInputTest2 extends State {
 	public static void main(String[] args) {
-		MouseInputTest2 test = new MouseInputTest2();
+		State test = new MouseInputTest2();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
@@ -32,7 +32,7 @@ public class MouseInputTest2 extends State {
 			}
 			
 			protected void onRender(Graphics g) {
-				g.setColor(drag == null ? Color.DeepPink : Color.DeepPink.inverse());
+				Graphics.setColor(drag == null ? Color.DeepPink : Color.DeepPink.inverse());
 				g.draw(new Rectangle(pos.x,pos.y,48,48));
 			}
 		}.create();

@@ -18,6 +18,8 @@ import java.nio.ByteOrder;
 import java.util.Hashtable;
 import javax.imageio.ImageIO;
 import pl.shockah.glib.geom.vector.Vector2i;
+import pl.shockah.glib.gl.EResizeFilter;
+import pl.shockah.glib.gl.GL;
 
 public class ImageIOTextureLoader extends TextureLoader {
 	protected static ColorModel
@@ -36,10 +38,10 @@ public class ImageIOTextureLoader extends TextureLoader {
 		int texId = glGenTextures();
 		
 		Texture texture = new Texture(texId,bi.getWidth(),bi.getHeight());
-		texture.bind();
-		texture.setResizeFilter(Texture.EResizeFilter.Linear);
+		texture.setResizeFilter(EResizeFilter.Linear);
+		GL.bind(texture);
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,fold.x,fold.y,0,bi.getColorModel().hasAlpha() ? GL_RGBA : GL_RGB,GL_UNSIGNED_BYTE,bb);
-		texture.unbind();
+		GL.unbindTexture();
 		
 		return texture;
 	}

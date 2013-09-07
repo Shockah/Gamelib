@@ -23,13 +23,13 @@ public class Graphics {
 		if (color == null) setColor(Color.White);
 	}
 	
-	public void setColor(Color color) {
+	public static void setColor(Color color) {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
 		color.bind();
 	}
 	
-	public void pushClip(Rectangle rect) {
+	public static void pushClip(Rectangle rect) {
 		if (((rect == null) ^ clipStack.isEmpty()) || !clipStack.get(clipStack.size()-1).equals(rect)) {
 			if (rect != null) {
 				glScissor((int)rect.pos.x,(int)(State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y),(int)rect.size.x,(int)rect.size.y);
@@ -46,18 +46,23 @@ public class Graphics {
 			} else clipStack.add(rect.copyMe());
 		}
 	}
-	public void pushClip(double x, double y, double w, double h) {
+	public static void pushClip(double x, double y, double w, double h) {
 		pushClip(new Rectangle(x,y,w,h));
 	}
-	public void popClip() {
+	public static void popClip() {
 		pushClip(null);
 	}
-	public void clearClip() {
+	public static void clearClip() {
 		clipStack.clear();
 		glDisable(GL_SCISSOR_TEST);
 	}
 	
+	public void preDraw() {
+		GL.unbindSurface();
+	}
+	
 	public void clear() {
+		preDraw();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 	

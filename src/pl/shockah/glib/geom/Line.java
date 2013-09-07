@@ -50,6 +50,7 @@ public class Line extends Shape implements IInterpolatable<Line> {
 	public void draw(Graphics g) {draw(g,false);}
 	public void draw(Graphics g, boolean filled) {
 		g.init();
+		g.preDraw();
 		
 		if (filled) {
 			throw new UnsupportedOperationException();

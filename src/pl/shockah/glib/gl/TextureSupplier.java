@@ -54,7 +54,9 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
 		g.init();
-		getTexture().bind();
+		g.preDraw();
+		
+		GL.bind(getTexture());
 		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
 		glTranslated(x,y,0);
 		
@@ -67,7 +69,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		
 		glTranslated(-x,-y,0);
 		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
-		getTexture().unbind();
+		GL.unbindTexture();
 	}
 	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
 		glTexCoord2d(tx,ty);

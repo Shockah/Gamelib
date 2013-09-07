@@ -11,7 +11,7 @@ import pl.shockah.glib.state.State;
 
 public class ImageTest extends State {
 	public static void main(String[] args) {
-		ImageTest test = new ImageTest();
+		State test = new ImageTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	

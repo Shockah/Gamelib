@@ -30,7 +30,7 @@ public class TransitionThroughColor extends Transition {
 	}
 
 	public void render(Graphics g) {
-		g.setColor(color.setAlpha(alpha));
+		Graphics.setColor(color.setAlpha(alpha));
 		g.draw(new Rectangle(new Vector2d(),State.get().getDisplaySize().toDouble()));
 	}
 }

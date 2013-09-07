@@ -16,7 +16,7 @@ import pl.shockah.glib.state.State;
 
 public class AnimationTest extends State {
 	public static void main(String[] args) {
-		AnimationTest test = new AnimationTest();
+		State test = new AnimationTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	

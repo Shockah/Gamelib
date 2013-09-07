@@ -15,7 +15,7 @@ import pl.shockah.glib.state.State;
 
 public class StencilTest extends State {
 	public static void main(String[] args) {
-		StencilTest test = new StencilTest();
+		State test = new StencilTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	

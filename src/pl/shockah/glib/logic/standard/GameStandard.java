@@ -53,8 +53,8 @@ public class GameStandard implements IGame {
 		}
 		
 		glPushMatrix();
-		g.clearClip();
-		g.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
+		Graphics.clearClip();
+		Graphics.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
 		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);
 			renderable.addAll(renderableAdd);

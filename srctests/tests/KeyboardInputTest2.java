@@ -14,7 +14,7 @@ import pl.shockah.glib.state.State;
 
 public class KeyboardInputTest2 extends State {
 	public static void main(String[] args) {
-		KeyboardInputTest2 test = new KeyboardInputTest2();
+		State test = new KeyboardInputTest2();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
@@ -35,7 +35,7 @@ public class KeyboardInputTest2 extends State {
 			}
 			
 			protected void onRender(Graphics g) {
-				g.setColor(oldPos.equals(pos) ? Color.GreenYellow : Color.GreenYellow.inverse());
+				Graphics.setColor(oldPos.equals(pos) ? Color.GreenYellow : Color.GreenYellow.inverse());
 				g.draw(new Rectangle(pos.x,pos.y,48,48));
 			}
 		}.create();

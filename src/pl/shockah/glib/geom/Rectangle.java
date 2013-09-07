@@ -79,6 +79,7 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 	
 	public void draw(Graphics g, boolean filled) {
 		g.init();
+		g.preDraw();
 		
 		if (filled) {
 			glBegin(GL_QUADS);

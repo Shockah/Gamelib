@@ -25,6 +25,7 @@ import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
+import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.ITextureSupplier;
 import pl.shockah.glib.gl.tex.Texture;
@@ -214,7 +215,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		d = 1;
 		c = correctL;
 		
-		texture.bind();
+		GL.bind(texture);
 		glBegin(GL_QUADS);
 		
 		while (i >= startIndex && i <= endIndex) {
@@ -235,7 +236,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			}
 		}
 		glEnd();
-		texture.unbind();
+		GL.unbindTexture();
 	}
 	
 	private static int loadImage(BufferedImage bufferedImage) {
@@ -310,7 +311,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
 		g.init();
-		getTexture().bind();
+		GL.bind(getTexture());
 		glTranslated(x,y,0);
 		
 		glBegin(GL_QUADS);
@@ -319,7 +320,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		glEnd();
 		
 		glTranslated(-x,-y,0);
-		getTexture().unbind();
+		GL.unbindTexture();
 	}
 	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
 		glTexCoord2d(tx,ty);

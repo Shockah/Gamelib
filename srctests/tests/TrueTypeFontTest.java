@@ -10,7 +10,7 @@ import pl.shockah.glib.state.State;
 
 public class TrueTypeFontTest extends State {
 	public static void main(String[] args) {
-		TrueTypeFontTest test = new TrueTypeFontTest();
+		State test = new TrueTypeFontTest();
 		Gamelib.start(new GameStandard(),test,test.getClass().getName());
 	}
 	
