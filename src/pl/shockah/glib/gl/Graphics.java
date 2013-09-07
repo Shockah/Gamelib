@@ -140,9 +140,13 @@ public class Graphics {
 	
 	public void draw(Surface surface) {draw(surface,0,0,0);}
 	public void draw(Surface surface, double rotation) {draw(surface,0,0,rotation);}
+	public void draw(Surface surface, Vector2d v) {draw(surface,v.x,v.y,0);}
+	public void draw(Surface surface, Vector2f v) {draw(surface,v.x,v.y,0);}
+	public void draw(Surface surface, Vector2i v) {draw(surface,v.x,v.y,0);}
 	public void draw(Surface surface, Vector2d v, double rotation) {draw(surface,v.x,v.y,rotation);}
 	public void draw(Surface surface, Vector2f v, double rotation) {draw(surface,v.x,v.y,rotation);}
 	public void draw(Surface surface, Vector2i v, double rotation) {draw(surface,v.x,v.y,rotation);}
+	public void draw(Surface surface, double x, double y) {draw(surface,x,y,0);}
 	public void draw(Surface surface, double x, double y, double rotation) {
 		if (redirect != null) {
 			redirect.draw(surface,x,y,rotation);
