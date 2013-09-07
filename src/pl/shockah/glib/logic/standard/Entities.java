@@ -8,6 +8,9 @@ public final class Entities {
 	public static List<EntityBase> get() {
 		return Collections.unmodifiableList(GameStandard.me.entities);
 	}
+	public static List<EntityRenderable> getRenderable() {
+		return Collections.unmodifiableList(GameStandard.me.renderable);
+	}
 	
 	@SuppressWarnings("unchecked") public static <T extends EntityBase> List<T> getType(IEntityFilter filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
