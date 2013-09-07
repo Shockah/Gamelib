@@ -17,7 +17,7 @@ public class SortedLinkedList<E> extends LinkedList<E> {
 		this.comparator = comparator;
 	}
 	
-	@SuppressWarnings("unchecked") protected int compare(E e1, E e2) {
+	@SuppressWarnings("unchecked") protected int compareObjects(E e1, E e2) {
 		if (comparator != null) return comparator.compare(e1,e2);
 		return ((Comparable<E>)e1).compareTo(e2);
 	}
@@ -26,8 +26,10 @@ public class SortedLinkedList<E> extends LinkedList<E> {
 		ListIterator<E> it = listIterator();
 		while (it.hasNext()) {
 			E next = it.next();
-			if (compare(e,next) < 0) {
+			if (compareObjects(e,next) < 0) {
+				it.previous();
 				it.add(e);
+				it.next();
 				return true;
 			}
 		}
