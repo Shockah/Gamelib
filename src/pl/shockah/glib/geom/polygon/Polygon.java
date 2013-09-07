@@ -76,7 +76,7 @@ public class Polygon extends Shape {
 		return getLines(true);
 	}
 	public Line[] getLines(boolean closed) {
-		Line[] ret = new Line[closed ? points.size()-1 : points.size()];
+		Line[] ret = new Line[closed ? points.size() : points.size()-1];
 		for (int i = 0; i < (closed ? points.size() : points.size()-1); i++) ret[i] = new Line(points.get(i),points.get(i == points.size()-1 ? 0 : i+1));
 		return ret;
 	}
