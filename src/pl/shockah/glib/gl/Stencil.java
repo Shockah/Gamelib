@@ -14,7 +14,7 @@ public abstract class Stencil {
 			public void phaseTest(Graphics g) {
 				super.phaseTest(g);
 				glStencilFunc(GL_EQUAL,1,0xFF);
-				glStencilOp(GL_REPLACE,GL_REPLACE,GL_REPLACE);
+				glStencilOp(GL_KEEP,GL_REPLACE,GL_REPLACE);
 			}
 		},
 		Drop = new Stencil(){
