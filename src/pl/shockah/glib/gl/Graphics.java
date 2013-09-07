@@ -16,13 +16,6 @@ public class Graphics {
 	private static Color color = null;
 	private static List<Rectangle> clipStack = new LinkedList<>();
 	
-	public void init() {
-		if (init) return;
-		init = true;
-		
-		if (color == null) setColor(Color.White);
-	}
-	
 	public static void setColor(Color color) {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
@@ -57,19 +50,59 @@ public class Graphics {
 		glDisable(GL_SCISSOR_TEST);
 	}
 	
+	protected Graphics redirect = null;
+	
+	public void init() {
+		if (init) return;
+		init = true;
+		if (color == null) setColor(Color.White);
+	}
+	
 	public void preDraw() {
+		if (redirect != null) {
+			redirect.preDraw();
+			return;
+		}
 		GL.unbindSurface();
 	}
 	
 	public void clear() {
+		clear(Color.Black);
+	}
+	public void clear(Color color) {
+		if (redirect != null) {
+			redirect.clear(color);
+			return;
+		}
 		preDraw();
+		glClearColor(color.Rf(),color.Gf(),color.Bf(),color.Af());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 	
+	public void setRedirect(Graphics g) {
+		if (redirect == null) {
+			redirect = g;
+		} else redirect.setRedirect(g);
+	}
+	public void clearRedirect() {
+		if (redirect == null) return;
+		if (redirect.redirect == null) {
+			redirect = null;
+		} else redirect.clearRedirect();
+	}
+	
 	public void draw(Shape shape) {
+		if (redirect != null) {
+			redirect.draw(shape);
+			return;
+		}
 		shape.draw(this);
 	}
 	public void draw(Shape shape, boolean filled) {
+		if (redirect != null) {
+			redirect.draw(shape,filled);
+			return;
+		}
 		shape.draw(this,filled);
 	}
 	
@@ -78,6 +111,10 @@ public class Graphics {
 	public void draw(ITextureSupplier ts, Vector2f v) {draw(ts,v.x,v.y);}
 	public void draw(ITextureSupplier ts, Vector2i v) {draw(ts,v.x,v.y);}
 	public void draw(ITextureSupplier ts, double x, double y) {
+		if (redirect != null) {
+			redirect.draw(ts,x,y);
+			return;
+		}
 		ts.drawTexture(this,x,y);
 	}
 	
@@ -86,6 +123,10 @@ public class Graphics {
 	public void draw(Image image, Vector2f v, double rotation) {draw(image,v.x,v.y,rotation);}
 	public void draw(Image image, Vector2i v, double rotation) {draw(image,v.x,v.y,rotation);}
 	public void draw(Image image, double x, double y, double rotation) {
+		if (redirect != null) {
+			redirect.draw(image,x,y,rotation);
+			return;
+		}
 		double rot = image.rotation.angle;
 		image.rotation.angle = rotation;
 		image.drawTexture(this,x,y);
