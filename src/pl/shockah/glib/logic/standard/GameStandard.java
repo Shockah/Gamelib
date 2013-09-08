@@ -52,9 +52,9 @@ public class GameStandard implements IGame {
 			for (EntityBase e : entities) e.update();
 		}
 		
-		Graphics.clearClip();
-		Graphics.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
 		g.resetTranslation();
+		g.clearClip();
+		g.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
 		state.preRender(g);
 		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);
