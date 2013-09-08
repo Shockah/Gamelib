@@ -55,6 +55,7 @@ public class GameStandard implements IGame {
 		Graphics.clearClip();
 		Graphics.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
 		g.resetTranslation();
+		state.preRender(g);
 		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);
 			renderable.addAll(renderableAdd);
