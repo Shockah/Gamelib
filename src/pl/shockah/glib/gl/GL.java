@@ -3,6 +3,7 @@ package pl.shockah.glib.gl;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import pl.shockah.glib.Gamelib;
+import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.Texture;
 
 public final class GL {
@@ -31,6 +32,10 @@ public final class GL {
 	}
 	public static boolean flipped() {
 		return flipped;
+	}
+	
+	public static void color4f(Color c) {
+		glColor4f(c.Rf(),c.Gf(),c.Bf(),c.Af());
 	}
 	
 	public static void bind(Texture tex) {

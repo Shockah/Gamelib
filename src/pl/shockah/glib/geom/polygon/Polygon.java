@@ -102,7 +102,6 @@ public class Polygon extends Shape {
 	}
 	
 	public void draw(Graphics g, boolean filled) {
-		g.init();
 		g.preDraw();
 		
 		if (filled) {

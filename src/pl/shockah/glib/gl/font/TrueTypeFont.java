@@ -312,7 +312,6 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
-		g.init();
 		GL.bind(getTexture());
 		glTranslated(x,y,0);
 		

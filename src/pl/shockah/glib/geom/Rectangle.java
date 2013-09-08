@@ -6,7 +6,9 @@ import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.gl.color.Color;
 
 public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rectangle> {
 	public Vector2d pos, size;
@@ -78,7 +80,6 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 	}
 	
 	public void draw(Graphics g, boolean filled) {
-		g.init();
 		g.preDraw();
 		
 		if (filled) {
@@ -93,6 +94,34 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 			glVertex2d(pos.x,pos.y);
 			glVertex2d(pos.x+size.x-1,pos.y);
 			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
+			glVertex2d(pos.x,pos.y+size.y-1);
+			glEnd();
+		}
+	}
+	
+	public void drawMulticolor(Graphics g, boolean filled, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
+		g.preDraw();
+		
+		if (filled) {
+			glBegin(GL_QUADS);
+			GL.color4f(cTopLeft);
+			glVertex2d(pos.x,pos.y);
+			GL.color4f(cTopRight);
+			glVertex2d(pos.x+size.x,pos.y);
+			GL.color4f(cBottomRight);
+			glVertex2d(pos.x+size.x,pos.y+size.y);
+			GL.color4f(cBottomLeft);
+			glVertex2d(pos.x,pos.y+size.y);
+			glEnd();
+		} else {
+			glBegin(GL_LINE_STRIP);
+			GL.color4f(cTopLeft);
+			glVertex2d(pos.x,pos.y);
+			GL.color4f(cTopRight);
+			glVertex2d(pos.x+size.x-1,pos.y);
+			GL.color4f(cBottomRight);
+			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
+			GL.color4f(cBottomLeft);
 			glVertex2d(pos.x,pos.y+size.y-1);
 			glEnd();
 		}

@@ -16,6 +16,12 @@ public class Graphics {
 	private static Color color = null;
 	private static Graphics lastGraphics = null;
 	
+	private static void init() {
+		if (init) return;
+		init = true;
+		if (color == null) setColor(Color.White);
+	}
+	
 	public static void setColor(Color color) {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
@@ -27,13 +33,8 @@ public class Graphics {
 	private List<Rectangle> clipStack = new LinkedList<>();
 	protected boolean absolute = false;
 	
-	public void init() {
-		if (init) return;
-		init = true;
-		if (color == null) setColor(Color.White);
-	}
-	
 	public void preDraw() {
+		init();
 		if (redirect != null) {
 			redirect.preDraw();
 			return;

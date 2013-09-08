@@ -54,7 +54,6 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
-		g.init();
 		g.preDraw();
 		
 		GL.bind(getTexture());
