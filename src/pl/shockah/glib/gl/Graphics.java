@@ -25,17 +25,12 @@ public class Graphics {
 	
 	public static void pushClip(Rectangle rect) {
 		if (((rect == null) ^ clipStack.isEmpty()) || !clipStack.get(clipStack.size()-1).equals(rect)) {
-			if (rect != null) {
-				glScissor((int)rect.pos.x,(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
-				glEnable(GL_SCISSOR_TEST);
-			} else glDisable(GL_SCISSOR_TEST);
-			
+			applyClip(lastGraphics,rect);
 			if (rect == null) {
 				if (!clipStack.isEmpty()) clipStack.remove(clipStack.size()-1);
 				if (!clipStack.isEmpty()) {
 					rect = clipStack.get(clipStack.size()-1);
-					glScissor((int)rect.pos.x,(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
-					glEnable(GL_SCISSOR_TEST);
+					applyClip(lastGraphics,rect);
 				}
 			} else clipStack.add(rect.copyMe());
 		}
@@ -49,6 +44,13 @@ public class Graphics {
 	public static void clearClip() {
 		clipStack.clear();
 		glDisable(GL_SCISSOR_TEST);
+	}
+	private static void applyClip(Graphics g, Rectangle rect) {
+		if (g == null) return;
+		if (rect == null) glDisable(GL_SCISSOR_TEST); else {
+			glScissor((int)(rect.pos.x+g.translate.x),(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-1-rect.size.y-g.translate.y : rect.pos.y-g.translate.y),(int)rect.size.x,(int)rect.size.y);
+			glEnable(GL_SCISSOR_TEST);
+		}
 	}
 	
 	protected Graphics redirect = null;
