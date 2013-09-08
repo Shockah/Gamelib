@@ -55,7 +55,7 @@ public class Graphics {
 	public void translate(double x, double y) {
 		translate.add(x,y);
 		if (lastGraphics == this) {
-			glTranslated(translate.x,translate.y,0);
+			glTranslated(x,y,0);
 			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 		}
 	}
