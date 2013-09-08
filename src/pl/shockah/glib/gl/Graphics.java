@@ -15,6 +15,7 @@ public class Graphics {
 	private static boolean init = false;
 	private static Color color = null;
 	private static List<Rectangle> clipStack = new LinkedList<>();
+	private static Graphics lastGraphics = null;
 	
 	public static void setColor(Color color) {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
@@ -51,6 +52,7 @@ public class Graphics {
 	}
 	
 	protected Graphics redirect = null;
+	protected final Vector2d translate = new Vector2d();
 	
 	public void init() {
 		if (init) return;
@@ -64,6 +66,31 @@ public class Graphics {
 			return;
 		}
 		GL.unbindSurface();
+		
+		if (lastGraphics != this) {
+			GL.popMatrixOnce();
+			GL.pushMatrixOnce();
+			glTranslated(translate.x,translate.y,0);
+		}
+		lastGraphics = this;
+	}
+	
+	public void translate(Vector2d v) {
+		translate(v.x,v.y);
+	}
+	public void translate(double x, double y) {
+		translate.add(x,y);
+		if (lastGraphics == this) glTranslated(translate.x,translate.y,0);
+	}
+	public void resetTranslation() {
+		translate.set(0,0);
+		if (lastGraphics == this) {
+			GL.popMatrixOnce();
+			GL.pushMatrixOnce();
+		}
+	}
+	public Vector2d getTranslation() {
+		return new Vector2d(translate);
 	}
 	
 	public void clear() {

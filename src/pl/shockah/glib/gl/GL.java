@@ -6,7 +6,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.tex.Texture;
 
 public final class GL {
-	private static boolean flipped = false;
+	private static boolean flipped = false, pushed = false;
 	private static int boundTexture = 0, boundSurface = 0;
 	private static float thickness = 1;
 	
@@ -73,5 +73,19 @@ public final class GL {
 	}
 	public static float getThickness() {
 		return thickness;
+	}
+	
+	public static void pushMatrixOnce() {
+		if (pushed) return;
+		glPushMatrix();
+		pushed = true;
+	}
+	public static void popMatrixOnce() {
+		if (!pushed) return;
+		glPopMatrix();
+		pushed = false;
+	}
+	public static boolean pushedMatrix() {
+		return pushed;
 	}
 }
