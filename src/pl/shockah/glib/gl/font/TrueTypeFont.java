@@ -164,24 +164,24 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		}
 	}
 	
-	private void drawQuad(float drawX, float drawY, float drawX2, float drawY2, float srcX, float srcY, float srcX2, float srcY2) {
-		float DrawWidth = drawX2-drawX;
-		float DrawHeight = drawY2-drawY;
-		float TextureSrcX = srcX/texture.getWidth();
-		float TextureSrcY = srcY/texture.getHeight();
-		float SrcWidth = srcX2-srcX;
-		float SrcHeight = srcY2-srcY;
-		float RenderWidth = SrcWidth/texture.getWidth();
-		float RenderHeight = SrcHeight/texture.getHeight();
+	private void drawQuad(double drawX, double drawY, double drawX2, double drawY2, double srcX, double srcY, double srcX2, double srcY2) {
+		double DrawWidth = drawX2-drawX;
+		double DrawHeight = drawY2-drawY;
+		double TextureSrcX = srcX/texture.getWidth();
+		double TextureSrcY = srcY/texture.getHeight();
+		double SrcWidth = srcX2-srcX;
+		double SrcHeight = srcY2-srcY;
+		double RenderWidth = SrcWidth/texture.getWidth();
+		double RenderHeight = SrcHeight/texture.getHeight();
 
-		glTexCoord2f(TextureSrcX,TextureSrcY+RenderHeight);
-		glVertex2f(drawX,drawY);
-		glTexCoord2f(TextureSrcX,TextureSrcY);
-		glVertex2f(drawX,drawY+DrawHeight);
-		glTexCoord2f(TextureSrcX+RenderWidth,TextureSrcY);
-		glVertex2f(drawX+DrawWidth,drawY+DrawHeight);
-		glTexCoord2f(TextureSrcX+RenderWidth,TextureSrcY+RenderHeight);
-		glVertex2f(drawX+DrawWidth,drawY);
+		glTexCoord2d(TextureSrcX,TextureSrcY+RenderHeight);
+		glVertex2d(drawX,drawY);
+		glTexCoord2d(TextureSrcX,TextureSrcY);
+		glVertex2d(drawX,drawY+DrawHeight);
+		glTexCoord2d(TextureSrcX+RenderWidth,TextureSrcY);
+		glVertex2d(drawX+DrawWidth,drawY+DrawHeight);
+		glTexCoord2d(TextureSrcX+RenderWidth,TextureSrcY+RenderHeight);
+		glVertex2d(drawX+DrawWidth,drawY);
 	}
 
 	public int getWidth(String whatchars) {
@@ -203,8 +203,11 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void draw(Graphics g, Vector2d v, CharSequence text) {draw(g,v.x,v.y,text);}
 	public void draw(Graphics g, Vector2f v, CharSequence text) {draw(g,v.x,v.y,text);}
 	public void draw(Graphics g, Vector2i v, CharSequence text) {draw(g,v.x,v.y,text);}
-	public void draw(Graphics g, double x, double y, CharSequence text) {drawString((float)x,(float)y,text,0,text.length()-1,1f,1f);}
-	public void drawString(float x, float y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
+	public void draw(Graphics g, double x, double y, CharSequence text) {
+		Vector2d tr = g.drawingAbsolute() ? g.getTranslation() : new Vector2d();
+		drawString(x-tr.x,y-tr.y,text,0,text.length()-1,1f,1f);
+	}
+	public void drawString(double x, double y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		IntObject intObject = null;
 		int charCurrent;

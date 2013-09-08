@@ -228,4 +228,7 @@ public class Graphics {
 		absolute = !absolute;
 		applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 	}
+	public boolean drawingAbsolute() {
+		return absolute;
+	}
 }
