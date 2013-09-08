@@ -117,7 +117,7 @@ public class Graphics {
 		}
 		preDraw();
 		glClearColor(color.Rf(),color.Gf(),color.Bf(),color.Af());
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
 	public final void setRedirect(Graphics g) {

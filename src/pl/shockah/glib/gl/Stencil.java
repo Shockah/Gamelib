@@ -32,6 +32,8 @@ public abstract class Stencil {
 		};
 	
 	public void phaseStencil(Graphics g) {
+		glClearColor(0f,0f,0f,0f);
+		glClear(GL_STENCIL_BUFFER_BIT);
 		glColorMask(false,false,false,false);
 		glEnable(GL_STENCIL_TEST);
 	}
