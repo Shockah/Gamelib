@@ -3,7 +3,6 @@ package pl.shockah.glib.logic.standard;
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
-import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.logic.IGame;
@@ -54,7 +53,6 @@ public class GameStandard implements IGame {
 		
 		g.resetTranslation();
 		g.clearClip();
-		g.pushClip(new Rectangle(0,0,state.getDisplaySize().toDouble()));
 		state.preRender(g);
 		if (state.shouldTransitionRender(g)) {
 			renderable.removeAll(renderableRemove);

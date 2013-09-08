@@ -7,9 +7,8 @@ public abstract class Stencil {
 		Keep = new Stencil(){
 			public void phaseStencil(Graphics g) {
 				super.phaseStencil(g);
-				glStencilFunc(GL_ALWAYS,1,0xFF);
-				glStencilOp(GL_KEEP,GL_REPLACE,GL_REPLACE);
-				glStencilMask(0xFF);
+				glStencilFunc(GL_NEVER,1,0xFF);
+				glStencilOp(GL_REPLACE,GL_KEEP,GL_KEEP);
 			}
 			public void phaseTest(Graphics g) {
 				super.phaseTest(g);
@@ -20,14 +19,13 @@ public abstract class Stencil {
 		Drop = new Stencil(){
 			public void phaseStencil(Graphics g) {
 				super.phaseStencil(g);
-				glStencilFunc(GL_ALWAYS,1,0xFF);
-				glStencilOp(GL_KEEP,GL_REPLACE,GL_REPLACE);
-				glStencilMask(0xFF);
+				glStencilFunc(GL_NEVER,1,0xFF);
+				glStencilOp(GL_REPLACE,GL_KEEP,GL_KEEP);
 			}
 			public void phaseTest(Graphics g) {
 				super.phaseTest(g);
 				glStencilFunc(GL_NOTEQUAL,1,0xFF);
-				glStencilOp(GL_KEEP,GL_KEEP,GL_KEEP);
+				glStencilOp(GL_KEEP,GL_KEEP,GL_REPLACE);
 			}
 		};
 	
