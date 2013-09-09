@@ -81,6 +81,7 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 	
 	public void draw(Graphics g, boolean filled) {
 		g.preDraw();
+		GL.unbindTexture();
 		
 		if (filled) {
 			glBegin(GL_QUADS);
@@ -101,6 +102,7 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 	
 	public void drawMulticolor(Graphics g, boolean filled, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
 		g.preDraw();
+		GL.unbindTexture();
 		
 		if (filled) {
 			glBegin(GL_QUADS);

@@ -69,7 +69,6 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		
 		glTranslated(-x,-y,0);
 		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
-		GL.unbindTexture();
 	}
 	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
 		glTexCoord2d(tx,ty);

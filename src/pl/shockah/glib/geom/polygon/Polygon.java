@@ -9,6 +9,7 @@ import pl.shockah.glib.geom.Line;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 
 public class Polygon extends Shape {
@@ -103,6 +104,7 @@ public class Polygon extends Shape {
 	
 	public void draw(Graphics g, boolean filled) {
 		g.preDraw();
+		GL.unbindTexture();
 		
 		if (filled) {
 			updateTriangles();

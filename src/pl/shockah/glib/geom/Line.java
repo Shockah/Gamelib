@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 
 public class Line extends Shape implements IInterpolatable<Line> {
@@ -50,6 +51,7 @@ public class Line extends Shape implements IInterpolatable<Line> {
 	public void draw(Graphics g) {draw(g,false);}
 	public void draw(Graphics g, boolean filled) {
 		g.preDraw();
+		GL.unbindTexture();
 		
 		if (filled) {
 			throw new UnsupportedOperationException();
