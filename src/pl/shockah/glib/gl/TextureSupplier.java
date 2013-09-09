@@ -45,8 +45,8 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	}
 	
 	public Vector2i getSize() {return getTextureSize();}
-	public double getWidth() {return getTextureWidth()*scale.x;}
-	public double getHeight() {return getTextureHeight()*scale.y;}
+	public double getWidth() {return getTextureRect().size.x*scale.x;}
+	public double getHeight() {return getTextureRect().size.y*scale.y;}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
@@ -63,7 +63,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		preDraw(g);
 		glBegin(GL_QUADS);
 		Rectangle texRect = getTextureRect();
-		internalDrawImage(0,0,texRect.size.x/getTextureWidth()*getWidth(),texRect.size.y/getTextureHeight()*getHeight(),texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
+		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
 		glEnd();
 		postDraw(g);
 		

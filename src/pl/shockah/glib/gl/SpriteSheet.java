@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import pl.shockah.glib.LoadableProcessor;
-import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -32,17 +31,22 @@ public class SpriteSheet extends TextureSupplier {
 	}
 	public SpriteSheet(Texture tex, int gridX, int gridY, int spacingX, int spacingY) {
 		super(tex);
-		this.gridX = gridX;
-		this.gridY = gridY;
 		this.spacingX = spacingX;
 		this.spacingY = spacingY;
 		
 		int w = tex.getWidth(), h = tex.getHeight();
+		if (gridX < 0 || gridY < 0) {
+			gridX = gridX < 0 ? w/(-gridX) : w;
+			gridY = gridY < 0 ? h/(-gridY) : h;
+		}
+		this.gridX = gridX;
+		this.gridY = gridY;
 		grid = new Image[w/gridX][h/gridY];
 		
-		for (int y = 0; y < h; y += gridY+spacingY) for (int x = 0; x < w; x += gridX+spacingX) {
-			grid[x][y] = new Image2(tex,x,y);
-			grid[x][y].offset = offset;
+		Image img = new Image(tex);
+		for (int y = 0, yy = 0; y < h; y += gridY+spacingY, yy++) for (int x = 0, xx = 0; x < w; x += gridX+spacingX, xx++) {
+			grid[xx][yy] = img.part(x,y,gridX,gridY);
+			grid[xx][yy].offset = offset;
 		}
 	}
 	
@@ -68,26 +72,14 @@ public class SpriteSheet extends TextureSupplier {
 		}
 	}
 	
-	protected class Image2 extends Image {
-		protected final int x, y;
-		
-		public Image2(Texture tex, int x, int y) {
-			super(tex);
-			this.x = x;
-			this.y = y;
-		}
-		
-		public Rectangle getTextureRect() {
-			return new Rectangle(x*(gridX+spacingX),y*(gridY+spacingY),gridX,gridY);
-		}
-	}
-	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
 		public String path() default "assets/spritesheets/<field.name>.png";
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 		public int grid() default -1;
 		public int gridX() default -1;
 		public int gridY() default -1;
+		public int framesX() default -1;
+		public int framesY() default -1;
 		public int spacingX() default 0;
 		public int spacingY() default 0;
 	}

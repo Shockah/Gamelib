@@ -165,7 +165,13 @@ public final class LoadableProcessor {
 				if (gridX == -1 && gridY != -1) gridX = gridY;
 				if (gridX != -1 && gridY == -1) gridY = gridX;
 				if (gridX == -1 && gridY == -1 && grid != -1) {gridX = grid; gridY = grid;}
-				if (gridX == -1 || gridY == -1) throw new IllegalArgumentException("Grid has to be specified ("+field.getObject()+")");
+				if (gridX == -1 || gridY == -1) {
+					int framesX = loadable.framesX(), framesY = loadable.framesY();
+					if (framesX != -1 || framesY != -1) {
+						gridX = -framesX;
+						gridY = -framesY;
+					} else throw new IllegalArgumentException("Grid/frames have to be specified ("+field.getObject()+")");
+				}
 				
 				Texture tex = null;
 				String path = handlePath(loadable.path());
