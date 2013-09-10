@@ -8,7 +8,7 @@ import pl.shockah.glib.animfx.TimelineDouble;
 import pl.shockah.glib.animfx.TimelineObject;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.gl.Image;
+import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;

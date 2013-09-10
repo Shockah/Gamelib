@@ -27,7 +27,7 @@ import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.gl.ITextureSupplier;
+import pl.shockah.glib.gl.tex.ITextureSupplier;
 import pl.shockah.glib.gl.tex.Texture;
 
 /*

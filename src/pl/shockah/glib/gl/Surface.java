@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import java.nio.ByteBuffer;
 import pl.shockah.glib.geom.vector.Vector2i;
+import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
 
 public class Surface {

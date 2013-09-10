@@ -1,4 +1,4 @@
-package pl.shockah.glib.gl;
+package pl.shockah.glib.gl.tex;
 
 import static org.lwjgl.opengl.GL11.*;
 import java.lang.annotation.ElementType;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
-import pl.shockah.glib.gl.tex.Texture;
+import pl.shockah.glib.gl.Graphics;
 
 public class Image extends TextureSupplier {
 	public Rotation rotation = new Rotation();

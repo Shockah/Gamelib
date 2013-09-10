@@ -1,9 +1,9 @@
-package pl.shockah.glib.gl;
+package pl.shockah.glib.gl.tex;
 
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2i;
-import pl.shockah.glib.gl.tex.Texture;
+import pl.shockah.glib.gl.Graphics;
 
 public interface ITextureSupplier {
 	public Texture getTexture();

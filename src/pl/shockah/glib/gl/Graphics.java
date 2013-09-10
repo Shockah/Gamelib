@@ -9,6 +9,8 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.color.Color;
+import pl.shockah.glib.gl.tex.ITextureSupplier;
+import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.state.State;
 
 public class Graphics {

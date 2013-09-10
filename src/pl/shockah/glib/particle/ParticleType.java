@@ -2,7 +2,7 @@ package pl.shockah.glib.particle;
 
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.gl.Image;
+import pl.shockah.glib.gl.tex.Image;
 
 public abstract class ParticleType {
 	protected final Image image;

@@ -3,7 +3,7 @@ package tests;
 import java.io.IOException;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.gl.Image;
+import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;

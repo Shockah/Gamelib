@@ -1,4 +1,4 @@
-package pl.shockah.glib.gl;
+package pl.shockah.glib.gl.tex;
 
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
@@ -10,7 +10,8 @@ import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
-import pl.shockah.glib.gl.tex.Texture;
+import pl.shockah.glib.gl.GL;
+import pl.shockah.glib.gl.Graphics;
 
 public abstract class TextureSupplier implements ITextureSupplier {
 	private final Texture tex;

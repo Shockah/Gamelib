@@ -14,11 +14,11 @@ import pl.shockah.BinBuffer;
 import pl.shockah.BinBufferInputStream;
 import pl.shockah.FieldObj;
 import pl.shockah.Pair;
-import pl.shockah.glib.gl.Image;
-import pl.shockah.glib.gl.SpriteSheet;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
+import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.SVGTextureLoader;
+import pl.shockah.glib.gl.tex.SpriteSheet;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.gl.tex.TextureLoader;
 
