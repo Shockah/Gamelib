@@ -153,7 +153,8 @@ public final class Gamelib {
 		advanceFrame(0);
 	}
 	public static void advanceFrame(int fps) {
-		GL.unbindTexture();
+		GL.unbind();
+		Debug.advance();
 		if (Display.isCloseRequested()) isRunning = false;
 		Display.update();
 		if (fps > 0) Display.sync(fps);

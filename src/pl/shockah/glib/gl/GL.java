@@ -3,6 +3,8 @@ package pl.shockah.glib.gl;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import org.lwjgl.opengl.ARBShaderObjects;
+
+import pl.shockah.glib.Debug;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.Texture;
@@ -44,6 +46,7 @@ public final class GL {
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D,tex.getID());
 		boundTexture = tex.getID();
+		Debug.current.bindTexture++;
 	}
 	public static void bind(Surface sur) {
 		if (boundSurface == sur.getID()) return;
@@ -52,11 +55,13 @@ public final class GL {
 		initDisplay(sur.image.getTextureWidth(),sur.image.getTextureHeight());
 		enterOrtho(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
 		boundSurface = sur.getID();
+		Debug.current.bindSurface++;
 	}
 	public static void bind(Shader sdr) {
 		if (boundShader == sdr.getID()) return;
 		ARBShaderObjects.glUseProgramObjectARB(sdr.getID());
 		boundShader = sdr.getID();
+		Debug.current.bindShader++;
 	}
 	
 	public static void unbindTexture() {
@@ -64,6 +69,7 @@ public final class GL {
 		glBindTexture(GL_TEXTURE_2D,0);
 		glDisable(GL_TEXTURE_2D);
 		boundTexture = 0;
+		Debug.current.bindTexture++;
 	}
 	public static void unbindSurface() {
 		if (boundSurface == 0) return;
@@ -71,11 +77,13 @@ public final class GL {
 		initDisplay(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
 		enterOrtho(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
 		boundSurface = 0;
+		Debug.current.bindSurface++;
 	}
 	public static void unbindShader() {
 		if (boundShader == 0) return;
 		ARBShaderObjects.glUseProgramObjectARB(0);
 		boundShader = 0;
+		Debug.current.bindShader++;
 	}
 	
 	public static void unbind() {
