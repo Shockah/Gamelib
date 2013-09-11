@@ -14,6 +14,7 @@ import pl.shockah.BinBuffer;
 import pl.shockah.BinBufferInputStream;
 import pl.shockah.FieldObj;
 import pl.shockah.Pair;
+import pl.shockah.glib.gl.Shader;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
 import pl.shockah.glib.gl.tex.Image;
@@ -84,6 +85,9 @@ public final class LoadableProcessor {
 			if (sheetLoadable != null) ret.add(new SpriteSheetLoadAction(new FieldObj(fld,o),sheetLoadable,optints));
 			SpriteSheet.ZIPLoadable zipSSLoadable = fld.getAnnotation(SpriteSheet.ZIPLoadable.class);
 			if (zipSSLoadable != null) ret.add(new ZIPSpriteSheetLoadAction(new FieldObj(fld,o),zipSSLoadable,optints));
+			
+			Shader.Loadable shaderLoadable = fld.getAnnotation(Shader.Loadable.class);
+			if (shaderLoadable != null) ret.add(new ShaderLoadAction(new FieldObj(fld,o),shaderLoadable));
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
@@ -256,6 +260,25 @@ public final class LoadableProcessor {
 					}
 					return false;
 				}
+			} catch (Exception e) {e.printStackTrace();}
+			return true;
+		}
+	}
+	public static class ShaderLoadAction extends LoadAction<Shader.Loadable> {
+		public ShaderLoadAction(FieldObj field, Shader.Loadable loadable) {
+			super(field,loadable);
+		}
+		
+		public boolean load(AssetLoader al) {
+			try {
+				Shader sdr = null;
+				String path = handlePath(loadable.path());
+				switch (loadable.type()) {
+					case File: sdr = Shader.createFromFile(new File(path)); break;
+					case Internal: sdr = Shader.createFromPath(path); break;
+				}
+				if (sdr != null) sdr.setMixTexturing(loadable.mixTexturing());
+				field.set(sdr);
 			} catch (Exception e) {e.printStackTrace();}
 			return true;
 		}

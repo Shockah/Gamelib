@@ -51,6 +51,7 @@ public final class GL {
 		if (boundTexture != null && boundTexture.getID() == tex.getID()) return;
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D,tex.getID());
+		if (boundShader != null) boundShader.handleTexturing(true);
 		boundTexture = tex;
 		Debug.current.bindTexture++;
 	}
@@ -75,6 +76,7 @@ public final class GL {
 		if (boundShader != null && boundShader.getID() == sdr.getID()) return;
 		ARBShaderObjects.glUseProgramObjectARB(sdr.getID());
 		boundShader = sdr;
+		boundShader.handleTexturing(boundTexture != null);
 		Debug.current.bindShader++;
 	}
 	
@@ -82,6 +84,7 @@ public final class GL {
 		if (boundTexture == null) return;
 		glBindTexture(GL_TEXTURE_2D,0);
 		glDisable(GL_TEXTURE_2D);
+		if (boundShader != null) boundShader.handleTexturing(false);
 		boundTexture = null;
 		Debug.current.bindTexture++;
 	}

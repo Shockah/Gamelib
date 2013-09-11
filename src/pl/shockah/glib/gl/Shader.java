@@ -2,17 +2,28 @@ package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.opengl.ARBFragmentShader;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.ARBVertexShader;
 import pl.shockah.FileLine;
+import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 
 public class Shader {
+	public static Shader createFromFile(File path) throws IOException {
+		String vertex = FileLine.readString(new File(path.getParentFile(),path.getName()+".vert"));
+		String fragment = FileLine.readString(new File(path.getParentFile(),path.getName()+".frag"));
+		return create(vertex,fragment);
+	}
 	public static Shader createFromPath(String internalPath) throws IOException {
 		String vertex = FileLine.readString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".vert")));
 		String fragment = FileLine.readString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".frag")));
@@ -64,6 +75,7 @@ public class Shader {
 	
 	private final int sdrId;
 	private final Map<String,Integer> cacheUniforms = new HashMap<>();
+	private boolean mixTexturing = false;
 	
 	public Shader(int sdrId) {
 		this.sdrId = sdrId;
@@ -81,7 +93,7 @@ public class Shader {
 	
 	private int getUniformLocation(String name) {
 		Shader old = GL.boundShader();
-		GL.bind(this);
+		if (!equals(old)) GL.bind(this);
 		
 		Integer loc = cacheUniforms.get(name);
 		if (loc == null) {
@@ -89,35 +101,53 @@ public class Shader {
 			cacheUniforms.put(name,loc);
 		}
 		
-		GL.bind(old);
+		if (!equals(old)) GL.bind(old);
 		return loc;
 	}
 	
 	public void setUniform(String name, float f) {
 		Shader old = GL.boundShader();
-		GL.bind(this);
+		if (!equals(old)) GL.bind(this);
 		ARBShaderObjects.glUniform1fARB(getUniformLocation(name),f);
-		GL.bind(old);
+		if (!equals(old)) GL.bind(old);
 	}
 	public void setUniform(String name, int i) {
 		Shader old = GL.boundShader();
-		GL.bind(this);
+		if (!equals(old)) GL.bind(this);
 		ARBShaderObjects.glUniform1iARB(getUniformLocation(name),i);
-		GL.bind(old);
+		if (!equals(old)) GL.bind(old);
 	}
 	
 	public void setUniform(String name, Vector2f v) {setUniform(name,v.x,v.y);}
 	public void setUniform(String name, float f1, float f2) {
 		Shader old = GL.boundShader();
-		GL.bind(this);
+		if (!equals(old)) GL.bind(this);
 		ARBShaderObjects.glUniform2fARB(getUniformLocation(name),f1,f2);
-		GL.bind(old);
+		if (!equals(old)) GL.bind(old);
 	}
 	public void setUniform(String name, Vector2i v) {setUniform(name,v.x,v.y);}
 	public void setUniform(String name, int i1, int i2) {
 		Shader old = GL.boundShader();
-		GL.bind(this);
+		if (!equals(old)) GL.bind(this);
 		ARBShaderObjects.glUniform2iARB(getUniformLocation(name),i1,i2);
-		GL.bind(old);
+		if (!equals(old)) GL.bind(old);
+	}
+	
+	public void setMixTexturing(boolean b) {
+		mixTexturing = b;
+	}
+	public boolean getMixTexturing() {
+		return mixTexturing;
+	}
+	
+	public void handleTexturing(boolean texturing) {
+		if (!mixTexturing) return;
+		setUniform("mixTexturing",texturing ? 1f : 0f);
+	}
+	
+	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
+		public String path() default "assets/images/<field.name>";
+		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
+		public boolean mixTexturing() default false;
 	}
 }
