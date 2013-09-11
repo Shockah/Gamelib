@@ -13,6 +13,15 @@ public class EntityCollidable extends EntityRenderable {
 		shape.translateTo(pos);
 	}
 	
+	public boolean collides(Shape shape) {
+		return collides(shape,true);
+	}
+	public boolean collides(Shape shape, boolean update) {
+		if (shape == null || this.shape == null) return false;
+		if (update) updateShapePos();
+		return this.shape.collides(shape);
+	}
+	
 	public boolean collides(EntityCollidable e) {
 		return collides(e,true);
 	}
