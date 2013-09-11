@@ -12,6 +12,7 @@ import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.gl.color.Color;
 
 public abstract class TextureSupplier implements ITextureSupplier {
 	private final Texture tex;
@@ -71,15 +72,41 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		glTranslated(-x,-y,0);
 		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
 	}
+	
+	public void drawTextureMulticolor(Graphics g, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,0,0,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
+	public void drawTextureMulticolor(Graphics g, Vector2d v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.x,v.y,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
+	public void drawTextureMulticolor(Graphics g, Vector2f v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.x,v.y,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
+	public void drawTextureMulticolor(Graphics g, Vector2i v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.x,v.y,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
+	public void drawTextureMulticolor(Graphics g, double x, double y, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
+		if (disposed()) throw new IllegalStateException("Texture already disposed");
+		g.preDraw();
+		
+		GL.bind(getTexture());
+		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
+		glTranslated(x,y,0);
+		
+		preDraw(g);
+		glBegin(GL_QUADS);
+		Rectangle texRect = getTextureRect();
+		internalDrawImageMulticolor(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold(),cTopLeft,cTopRight,cBottomLeft,cBottomRight);
+		glEnd();
+		postDraw(g);
+		
+		glTranslated(-x,-y,0);
+		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
+	}
+	
 	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
-		glTexCoord2d(tx,ty);
-		glVertex2d(x,y);
-		glTexCoord2d(tx,ty+th);
-		glVertex2d(x,y+h);
-		glTexCoord2d(tx+tw,ty+th);
-		glVertex2d(x+w,y+h);
-		glTexCoord2d(tx+tw,ty);
-		glVertex2d(x+w,y);
+		glTexCoord2d(tx,ty); glVertex2d(x,y);
+		glTexCoord2d(tx,ty+th); glVertex2d(x,y+h);
+		glTexCoord2d(tx+tw,ty+th); glVertex2d(x+w,y+h);
+		glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
+	}
+	private void internalDrawImageMulticolor(double x, double y, double w, double h, double tx, double ty, double tw, double th, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
+		GL.color4f(cTopLeft); glTexCoord2d(tx,ty); glVertex2d(x,y);
+		GL.color4f(cBottomLeft); glTexCoord2d(tx,ty+th); glVertex2d(x,y+h);
+		GL.color4f(cBottomRight); glTexCoord2d(tx+tw,ty+th); glVertex2d(x+w,y+h);
+		GL.color4f(cTopRight); glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
 	}
 	
 	protected void preDraw(Graphics g) {}
