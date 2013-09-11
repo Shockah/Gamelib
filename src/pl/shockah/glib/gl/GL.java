@@ -11,7 +11,9 @@ import pl.shockah.glib.gl.tex.Texture;
 
 public final class GL {
 	private static boolean flipped = false, pushed = false;
-	private static int boundTexture = 0, boundSurface = 0, boundShader = 0;
+	private static Texture boundTexture = null;
+	private static Surface boundSurface = null;
+	private static Shader boundShader = null;
 	private static float thickness = 1;
 	
 	public static void initDisplay(int width, int height) {
@@ -42,55 +44,71 @@ public final class GL {
 	}
 	
 	public static void bind(Texture tex) {
-		if (boundTexture == tex.getID()) return;
+		if (tex == null) {
+			unbindTexture();
+			return;
+		}
+		if (boundTexture != null && boundTexture.getID() == tex.getID()) return;
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D,tex.getID());
-		boundTexture = tex.getID();
+		boundTexture = tex;
 		Debug.current.bindTexture++;
 	}
 	public static void bind(Surface sur) {
-		if (boundSurface == sur.getID()) return;
+		if (sur == null) {
+			unbindSurface();
+			return;
+		}
+		if (boundSurface != null && boundSurface.getID() == sur.getID()) return;
 		unbindTexture();
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,sur.getID());
 		initDisplay(sur.image.getTextureWidth(),sur.image.getTextureHeight());
 		enterOrtho(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
-		boundSurface = sur.getID();
+		boundSurface = sur;
 		Debug.current.bindSurface++;
 	}
 	public static void bind(Shader sdr) {
-		if (boundShader == sdr.getID()) return;
+		if (sdr == null) {
+			unbindShader();
+			return;
+		}
+		if (boundShader != null && boundShader.getID() == sdr.getID()) return;
 		ARBShaderObjects.glUseProgramObjectARB(sdr.getID());
-		boundShader = sdr.getID();
+		boundShader = sdr;
 		Debug.current.bindShader++;
 	}
 	
 	public static void unbindTexture() {
-		if (boundTexture == 0) return;
+		if (boundTexture == null) return;
 		glBindTexture(GL_TEXTURE_2D,0);
 		glDisable(GL_TEXTURE_2D);
-		boundTexture = 0;
+		boundTexture = null;
 		Debug.current.bindTexture++;
 	}
 	public static void unbindSurface() {
-		if (boundSurface == 0) return;
+		if (boundSurface == null) return;
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
 		initDisplay(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
 		enterOrtho(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
-		boundSurface = 0;
+		boundSurface = null;
 		Debug.current.bindSurface++;
 	}
 	public static void unbindShader() {
-		if (boundShader == 0) return;
+		if (boundShader == null) return;
 		ARBShaderObjects.glUseProgramObjectARB(0);
-		boundShader = 0;
+		boundShader = null;
 		Debug.current.bindShader++;
 	}
 	
 	public static void unbind() {
-		if (boundShader != 0) unbindShader();
-		if (boundTexture != 0) unbindTexture();
-		if (boundSurface != 0) unbindSurface();
+		if (boundShader != null) unbindShader();
+		if (boundTexture != null) unbindTexture();
+		if (boundSurface != null) unbindSurface();
 	}
+	
+	public static Texture boundTexture() {return boundTexture;}
+	public static Surface boundSurface() {return boundSurface;}
+	public static Shader boundShader() {return boundShader;}
 	
 	public static void setThickness(float thickness) {
 		glLineWidth(thickness);
