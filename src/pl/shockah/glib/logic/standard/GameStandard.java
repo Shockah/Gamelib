@@ -20,7 +20,7 @@ public class GameStandard implements IGame {
 		entities = new LinkedList<>(),
 		entitiesAdd = new LinkedList<>(),
 		entitiesRemove = new LinkedList<>();
-	protected final List<EntityRenderable>
+	protected final List<Renderable>
 		renderable = new SortedLinkedList<>(),
 		renderableAdd = new SortedLinkedList<>(),
 		renderableRemove = new SortedLinkedList<>();
@@ -61,7 +61,7 @@ public class GameStandard implements IGame {
 			renderableAdd.clear();
 			
 			g.clear();
-			for (EntityRenderable er : renderable) er.render(g);
+			for (Renderable r : renderable) r.render(g);
 		}
 		state.preTransitionRender(g);
 		state.renderTransition(g);

@@ -8,7 +8,7 @@ public final class Entities {
 	public static List<EntityBase> get() {
 		return Collections.unmodifiableList(GameStandard.me.entities);
 	}
-	public static List<EntityRenderable> getRenderable() {
+	public static List<Renderable> getRenderable() {
 		return Collections.unmodifiableList(GameStandard.me.renderable);
 	}
 	
