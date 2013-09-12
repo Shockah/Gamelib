@@ -14,6 +14,13 @@ public abstract class BlendMode {
 				glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 			}
 		},
+		Premultiplied = new BlendMode(){
+			public void onApply() {
+				glEnable(GL_BLEND);
+				glColorMask(true,true,true,true);
+				glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+			}
+		},
 		Add = new BlendMode(){
 			public void onApply() {
 				glEnable(GL_BLEND);
