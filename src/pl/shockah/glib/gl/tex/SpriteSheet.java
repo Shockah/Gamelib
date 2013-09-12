@@ -81,9 +81,11 @@ public class SpriteSheet extends TextureSupplier {
 		public int framesY() default -1;
 		public int spacingX() default 0;
 		public int spacingY() default 0;
+		public boolean toPremultiplied() default false;
 	}
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface ZIPLoadable {
 		public String path() default "assets/images/<field.name>.zip";
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
+		public boolean toPremultiplied() default false;
 	}
 }

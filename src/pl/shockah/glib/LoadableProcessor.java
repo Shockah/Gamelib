@@ -166,6 +166,7 @@ public final class LoadableProcessor {
 			try {
 				TextureLoader.clearOptionsGlobal();
 				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
+				if (loadable.toPremultiplied()) TextureLoader.setOptionGlobal("toPremultiplied",true);
 				
 				int gridX = loadable.gridX(), gridY = loadable.gridY(), grid = loadable.grid();
 				if (gridX == -1 && gridY != -1) gridX = gridY;
@@ -186,6 +187,7 @@ public final class LoadableProcessor {
 					case Internal: tex = Texture.load(path); break;
 				}
 				field.set(new SpriteSheet(tex,gridX,gridY,loadable.spacingX(),loadable.spacingY()));
+				TextureLoader.clearOptionsGlobal();
 			} catch (Exception e) {e.printStackTrace();}
 			return true;
 		}
@@ -247,6 +249,7 @@ public final class LoadableProcessor {
 						
 						TextureLoader.clearOptionsGlobal();
 						if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
+						if (loadable.toPremultiplied()) TextureLoader.setOptionGlobal("toPremultiplied",true);
 						
 						String[] spl = pair.get1().split("\\.");
 						final BinBufferInputStream binbis = new BinBufferInputStream(pair.get2());
@@ -258,6 +261,7 @@ public final class LoadableProcessor {
 						Image[][] ar = new Image[images.size()][1];
 						for (Pair<Integer,Image> pair : images) ar[pair.get1()][0] = pair.get2();
 						field.set(new SpriteSheet(ar));
+						TextureLoader.clearOptionsGlobal();
 						return true;
 					}
 					return false;
