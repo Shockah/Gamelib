@@ -25,6 +25,6 @@ public class ParticleSystem extends EntityRenderable {
 	protected void onRender(Graphics g) {
 		blendMode.apply();
 		for (Particle p : particles) p.render(g);
-		BlendMode.Normal.apply();
+		Graphics.getDefaultBlendMode().apply();
 	}
 }
