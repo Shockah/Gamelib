@@ -47,8 +47,9 @@ public class ImageIOTextureLoader extends TextureLoader {
 	}
 	
 	private ByteBuffer convertImageData(BufferedImage bi, Vector2i fold) {
+		boolean premultiplied = bi.getColorModel().hasAlpha() && settings.containsKey("toPremultiplied") && (boolean)settings.get("toPremultiplied");
 		WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,fold.x,fold.y,bi.getColorModel().hasAlpha() ? 4 : 3,null);
-		BufferedImage texImage = new BufferedImage(bi.getColorModel().hasAlpha() ? glAlphaColorModel : glColorModel,raster,false,new Hashtable<>());
+		BufferedImage texImage = new BufferedImage(bi.getColorModel().hasAlpha() ? glAlphaColorModel : glColorModel,raster,premultiplied,new Hashtable<>());
 		
 		Graphics g = texImage.getGraphics();
 		g.setColor(new Color(0f,0f,0f,0f));
@@ -56,13 +57,6 @@ public class ImageIOTextureLoader extends TextureLoader {
 		g.drawImage(bi,0,0,null);
 		
 		byte[] data = ((DataBufferByte)texImage.getRaster().getDataBuffer()).getData();
-		if (bi.getColorModel().hasAlpha() && settings.containsKey("toPremultiplied") && (boolean)settings.get("toPremultiplied")) {
-			for (int i = 0; i < data.length; i += 4) {
-				byte a = data[i+3];
-				for (int j = 0; j <= 2; j++) data[i+j] = (byte)(data[i+j]*(a/255f));
-			}
-		}
-		
 		ByteBuffer bb = ByteBuffer.allocateDirect(data.length);
 		bb.order(ByteOrder.nativeOrder());
 		bb.put(data,0,data.length);
