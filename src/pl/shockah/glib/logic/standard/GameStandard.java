@@ -51,6 +51,7 @@ public class GameStandard implements IGame {
 			for (EntityBase e : entities) e.update();
 		}
 		
+		Graphics.getDefaultBlendMode().apply();
 		g.resetTranslation();
 		g.clearClip();
 		state.preRender(g);

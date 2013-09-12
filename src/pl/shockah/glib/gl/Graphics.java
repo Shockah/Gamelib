@@ -14,6 +14,7 @@ import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.state.State;
 
 public class Graphics {
+	private static BlendMode defaultBlendMode = BlendMode.Normal;
 	private static boolean init = false;
 	private static Color color = null;
 	private static Graphics lastGraphics = null;
@@ -28,6 +29,13 @@ public class Graphics {
 		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
 		Graphics.color = color;
 		color.bind();
+	}
+	
+	public static void setDefaultBlendMode(BlendMode bm) {
+		defaultBlendMode = bm;
+	}
+	public static BlendMode getDefaultBlendMode() {
+		return defaultBlendMode;
 	}
 	
 	protected Graphics redirect = null;

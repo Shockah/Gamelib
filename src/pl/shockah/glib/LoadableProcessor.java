@@ -140,6 +140,7 @@ public final class LoadableProcessor {
 			try {
 				TextureLoader.clearOptionsGlobal();
 				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
+				if (loadable.toPremultiplied()) TextureLoader.setOptionGlobal("toPremultiplied",true);
 				
 				Texture tex = null;
 				String path = handlePath(loadable.path());
@@ -148,6 +149,7 @@ public final class LoadableProcessor {
 					case Internal: tex = Texture.load(path); break;
 				}
 				field.set(new Image(tex));
+				TextureLoader.clearOptionsGlobal();
 			} catch (Exception e) {e.printStackTrace();}
 			return true;
 		}

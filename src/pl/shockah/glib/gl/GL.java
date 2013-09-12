@@ -20,7 +20,7 @@ public final class GL {
 		glEnable(GL_TEXTURE_2D);
 		glClearColor(0f,0f,0f,0f);
 		
-		BlendMode.Normal.apply();
+		Graphics.getDefaultBlendMode().apply();
 		glViewport(0,0,width,height);
 		glMatrixMode(GL_MODELVIEW);
 	}
