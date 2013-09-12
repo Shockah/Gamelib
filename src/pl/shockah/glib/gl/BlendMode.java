@@ -28,6 +28,13 @@ public abstract class BlendMode {
 				glBlendFunc(GL_SRC_ALPHA,GL_ONE);
 			}
 		},
+		AddSimple = new BlendMode(){
+			public void onApply() {
+				glEnable(GL_BLEND);
+				glColorMask(true,true,true,true);
+				glBlendFunc(GL_ONE,GL_ONE);
+			}
+		}, 
 		Subtract = new BlendMode(){
 			public void onApply() {
 				glEnable(GL_BLEND);
