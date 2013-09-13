@@ -143,6 +143,7 @@ public class Shader {
 	public void handleTexturing(boolean texturing) {
 		if (!mixTexturing) return;
 		setUniform("mixTexturing",texturing ? 1f : 0f);
+		setUniform("tex",0);
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
