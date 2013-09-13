@@ -111,6 +111,7 @@ public final class Gamelib {
 		State.change(initialState);
 		GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+		GL.setup();
 		State.get().create();
 		
 		isRunning = true;

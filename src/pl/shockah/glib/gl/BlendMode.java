@@ -7,6 +7,12 @@ public abstract class BlendMode {
 	private static BlendMode current = null;
 	
 	public static final BlendMode
+		Off = new BlendMode(){
+			public void onApply() {
+				glDisable(GL_BLEND);
+				glColorMask(true,true,true,true);
+			}
+		},
 		Normal = new BlendMode(){
 			public void onApply() {
 				glEnable(GL_BLEND);

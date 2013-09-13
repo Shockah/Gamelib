@@ -16,11 +16,18 @@ public final class GL {
 	private static Shader boundShader = null;
 	private static float thickness = 1;
 	
+	public static void setup() {
+		glEnable(GL_LINE_SMOOTH);
+	}
+	
 	public static void initDisplay(int width, int height) {
+		initDisplay(width,height,true);
+	}
+	public static void initDisplay(int width, int height, boolean resetBlending) {
 		glEnable(GL_TEXTURE_2D);
 		glClearColor(0f,0f,0f,0f);
 		
-		Graphics.getDefaultBlendMode().apply();
+		if (resetBlending) Graphics.getDefaultBlendMode().apply();
 		glViewport(0,0,width,height);
 		glMatrixMode(GL_MODELVIEW);
 	}
@@ -63,7 +70,7 @@ public final class GL {
 		if (boundSurface != null && boundSurface.getID() == sur.getID()) return;
 		unbindTexture();
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,sur.getID());
-		initDisplay(sur.image.getTextureWidth(),sur.image.getTextureHeight());
+		initDisplay(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
 		enterOrtho(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
 		boundSurface = sur;
 		Debug.current.bindSurface++;
@@ -91,7 +98,7 @@ public final class GL {
 	public static void unbindSurface() {
 		if (boundSurface == null) return;
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
-		initDisplay(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
+		initDisplay(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight(),false);
 		enterOrtho(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
 		boundSurface = null;
 		Debug.current.bindSurface++;
