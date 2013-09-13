@@ -10,6 +10,7 @@ public class GraphicsSurface extends Graphics {
 	}
 	
 	public void preDraw() {
+		super.preDraw();
 		GL.bind(sur);
 	}
 	

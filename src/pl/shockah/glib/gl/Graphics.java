@@ -49,6 +49,7 @@ public class Graphics {
 			redirect.preDraw();
 			return;
 		}
+		if (lastGraphics != this) lastGraphics.onUnbind();
 		GL.unbindSurface();
 		
 		if (lastGraphics != this) {
@@ -59,6 +60,7 @@ public class Graphics {
 		}
 		lastGraphics = this;
 	}
+	protected void onUnbind() {}
 	
 	public void translate(Vector2d v) {
 		translate(v.x,v.y);
@@ -219,6 +221,21 @@ public class Graphics {
 		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
 		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		draw(surface.image(),x,y,rotation);
+		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
+	}
+	
+	public void draw(GLList gll) {draw(gll,0,0);}
+	public void draw(GLList gll, Vector2d v) {draw(gll,v.x,v.y);}
+	public void draw(GLList gll, Vector2f v) {draw(gll,v.x,v.y);}
+	public void draw(GLList gll, Vector2i v) {draw(gll,v.x,v.y);}
+	public void draw(GLList gll, double x, double y) {
+		if (redirect != null) {
+			redirect.draw(gll,x,y);
+			return;
+		}
+		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
+		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
+		glCallList(gll.getID());
 		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 	}
 	
