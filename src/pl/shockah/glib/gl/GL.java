@@ -1,8 +1,8 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import org.lwjgl.opengl.ARBShaderObjects;
+import org.lwjgl.opengl.EXTFramebufferObject;
 
 import pl.shockah.glib.Debug;
 import pl.shockah.glib.Gamelib;
@@ -69,7 +69,7 @@ public final class GL {
 		}
 		if (boundSurface != null && boundSurface.getID() == sur.getID()) return;
 		unbindTexture();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,sur.getID());
+		EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,sur.getID());
 		initDisplay(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
 		enterOrtho(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
 		boundSurface = sur;
@@ -97,7 +97,7 @@ public final class GL {
 	}
 	public static void unbindSurface() {
 		if (boundSurface == null) return;
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
+		EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,0);
 		initDisplay(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight(),false);
 		enterOrtho(Gamelib.cachedDisplayMode.getWidth(),Gamelib.cachedDisplayMode.getHeight());
 		boundSurface = null;

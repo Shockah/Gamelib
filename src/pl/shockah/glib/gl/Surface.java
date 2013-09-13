@@ -3,6 +3,8 @@ package pl.shockah.glib.gl;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import java.nio.ByteBuffer;
+import org.lwjgl.opengl.EXTFramebufferObject;
+import org.lwjgl.opengl.EXTPackedDepthStencil;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
@@ -14,19 +16,24 @@ public class Surface {
 	public static Surface create(int w, int h) {
 		int surId = glGenFramebuffersEXT();
 		int texId = glGenTextures();
+		int rbo = glGenRenderbuffersEXT();
 		Texture tex = new Texture(texId,w,h);
 		Vector2i fold = Texture.get2Fold(w,h);
 		Surface sur = new Surface(surId,new Image(tex));
 		
 		GL.unbindTexture();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,surId);
+		EXTFramebufferObject.glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,surId);
 		glBindTexture(GL_TEXTURE_2D,texId);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,fold.x,fold.y,0,GL_RGBA,GL_UNSIGNED_BYTE,(ByteBuffer)null);
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,GL_COLOR_ATTACHMENT0_EXT,GL_TEXTURE_2D,texId,0);
+		EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT,GL_TEXTURE_2D,texId,0);
+		EXTFramebufferObject.glBindRenderbufferEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
+		EXTFramebufferObject.glRenderbufferStorageEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT,EXTPackedDepthStencil.GL_DEPTH_STENCIL_EXT,fold.x,fold.y);
+		EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT,EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
+		EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_STENCIL_ATTACHMENT_EXT,EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
 		glBindTexture(GL_TEXTURE_2D,0);
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
+		EXTFramebufferObject.glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
 		
 		sur.graphics().clear();
 		
