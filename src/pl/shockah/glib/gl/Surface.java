@@ -1,7 +1,6 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import java.nio.ByteBuffer;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
@@ -14,15 +13,15 @@ public class Surface {
 		return create(v.x,v.y);
 	}
 	public static Surface create(int w, int h) {
-		int surId = glGenFramebuffersEXT();
+		int surId = EXTFramebufferObject.glGenFramebuffersEXT();
 		int texId = glGenTextures();
-		int rbo = glGenRenderbuffersEXT();
+		int rbo = EXTFramebufferObject.glGenRenderbuffersEXT();
 		Texture tex = new Texture(texId,w,h);
 		Vector2i fold = Texture.get2Fold(w,h);
 		Surface sur = new Surface(surId,new Image(tex));
 		
 		GL.unbindTexture();
-		EXTFramebufferObject.glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,surId);
+		EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,surId);
 		glBindTexture(GL_TEXTURE_2D,texId);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
@@ -33,7 +32,7 @@ public class Surface {
 		EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT,EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
 		EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_STENCIL_ATTACHMENT_EXT,EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
 		glBindTexture(GL_TEXTURE_2D,0);
-		EXTFramebufferObject.glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
+		EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,0);
 		
 		sur.graphics().clear();
 		
@@ -72,7 +71,7 @@ public class Surface {
 	}
 	
 	public void dispose() {
-		glDeleteFramebuffersEXT(surId);
+		EXTFramebufferObject.glDeleteFramebuffersEXT(surId);
 		image.dispose();
 		disposed = true;
 	}
