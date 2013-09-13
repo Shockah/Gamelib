@@ -12,14 +12,26 @@ public class TransitionThroughColor extends Transition {
 	protected final boolean runUpdate;
 	protected float alpha, incr;
 	
+	public TransitionThroughColor() {
+		this(Color.Black,.05f,false);
+	}
 	public TransitionThroughColor(Color color) {
 		this(color,.05f,false);
+	}
+	public TransitionThroughColor(boolean runUpdate) {
+		this(Color.Black,.05f,runUpdate);
 	}
 	public TransitionThroughColor(Color color, boolean runUpdate) {
 		this(color,.05f,runUpdate);
 	}
+	public TransitionThroughColor(float baseSpeed) {
+		this(Color.Black,baseSpeed,false);
+	}
 	public TransitionThroughColor(Color color, float baseSpeed) {
 		this(color,baseSpeed,false);
+	}
+	public TransitionThroughColor(float baseSpeed, boolean runUpdate) {
+		this(Color.Black,baseSpeed,runUpdate);
 	}
 	public TransitionThroughColor(Color color, float baseSpeed, boolean runUpdate) {
 		this.color = color;

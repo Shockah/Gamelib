@@ -64,4 +64,9 @@ public final class TransitionState {
 		if (current == null) return;
 		current.render(g);
 	}
+	public void preRender(Graphics g) {
+		Transition current = getCurrent();
+		if (current == null) return;
+		current.preRender(g);
+	}
 }

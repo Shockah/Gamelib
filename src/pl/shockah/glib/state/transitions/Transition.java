@@ -6,6 +6,7 @@ public abstract class Transition {
 	public abstract void init(boolean in);
 	public abstract boolean update();
 	public abstract void render(Graphics g);
+	public void preRender(Graphics g) {}
 	
 	public boolean shouldUpdate() {return false;}
 	public boolean shouldRender(Graphics g) {return true;}

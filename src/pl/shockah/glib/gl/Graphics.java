@@ -17,9 +17,9 @@ public class Graphics {
 	private static BlendMode defaultBlendMode = BlendMode.Normal;
 	private static boolean init = false;
 	private static Color color = null;
-	private static Graphics lastGraphics = null;
+	protected static Graphics lastGraphics = null;
 	
-	private static void init() {
+	protected static void init() {
 		if (init) return;
 		init = true;
 		if (color == null) setColor(Color.White);
@@ -40,17 +40,17 @@ public class Graphics {
 	
 	protected Graphics redirect = null;
 	protected final Vector2d translate = new Vector2d();
-	private List<Rectangle> clipStack = new LinkedList<>();
+	protected List<Rectangle> clipStack = new LinkedList<>();
 	protected boolean absolute = false;
 	
-	public void preDraw() {
+	public final void preDraw() {
 		init();
 		if (redirect != null) {
 			redirect.preDraw();
 			return;
 		}
-		if (lastGraphics != this) lastGraphics.onUnbind();
-		GL.unbindSurface();
+		if (lastGraphics != null && lastGraphics != this) lastGraphics.onUnbind();
+		onBind();
 		
 		if (lastGraphics != this) {
 			GL.popMatrixOnce();
@@ -60,12 +60,19 @@ public class Graphics {
 		}
 		lastGraphics = this;
 	}
+	protected void onBind() {
+		GL.unbindSurface();
+	}
 	protected void onUnbind() {}
 	
 	public void translate(Vector2d v) {
 		translate(v.x,v.y);
 	}
 	public void translate(double x, double y) {
+		if (redirect != null) {
+			redirect.translate(x,y);
+			return;
+		}
 		translate.add(x,y);
 		if (lastGraphics == this) {
 			glTranslated(x,y,0);
@@ -73,6 +80,10 @@ public class Graphics {
 		}
 	}
 	public void resetTranslation() {
+		if (redirect != null) {
+			redirect.resetTranslation();
+			return;
+		}
 		translate.set(0,0);
 		if (lastGraphics == this) {
 			GL.popMatrixOnce();
@@ -81,10 +92,19 @@ public class Graphics {
 		}
 	}
 	public Vector2d getTranslation() {
+		if (redirect != null) {
+			return redirect.getTranslation();
+		}
 		return new Vector2d(translate);
 	}
 	
+	//TODO scaling, like translations
+	
 	public void pushClip(Rectangle rect) {
+		if (redirect != null) {
+			redirect.pushClip(rect);
+			return;
+		}
 		if (((rect == null) ^ clipStack.isEmpty()) || !clipStack.get(clipStack.size()-1).equals(rect)) {
 			applyClip(rect);
 			if (rect == null) {
@@ -103,11 +123,19 @@ public class Graphics {
 		pushClip(null);
 	}
 	public void clearClip() {
+		if (redirect != null) {
+			redirect.clearClip();
+			return;
+		}
 		clipStack.clear();
 		if (lastGraphics != this) return;
 		glDisable(GL_SCISSOR_TEST);
 	}
-	private void applyClip(Rectangle rect) {
+	protected void applyClip(Rectangle rect) {
+		if (redirect != null) {
+			redirect.applyClip(rect);
+			return;
+		}
 		if (lastGraphics != this) return;
 		if (rect == null) glDisable(GL_SCISSOR_TEST); else {
 			double tx = !absolute ? translate.x : 0, ty = !absolute ? translate.y : 0;

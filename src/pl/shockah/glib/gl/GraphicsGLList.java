@@ -9,9 +9,8 @@ public class GraphicsGLList extends Graphics {
 		this.list = list;
 	}
 	
-	public void preDraw() {
+	protected void onBind() {
 		if (list.finalized) throw new IllegalStateException("GLList already finalized");
-		super.preDraw();
 		glNewList(list.getID(),GL_COMPILE);
 		list.compiling = true;
 	}

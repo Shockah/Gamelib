@@ -40,6 +40,10 @@ public class State {
 		if (transitionState == null) return;
 		transitionState.render(g);
 	}
+	public final void renderTransitionPre(Graphics g) {
+		if (transitionState == null) return;
+		transitionState.preRender(g);
+	}
 	
 	public final boolean shouldTransitionUpdate() {
 		if (transitionState == null) return true;

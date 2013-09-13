@@ -9,8 +9,7 @@ public class GraphicsSurface extends Graphics {
 		this.sur = sur;
 	}
 	
-	public void preDraw() {
-		super.preDraw();
+	protected void onBind() {
 		GL.bind(sur);
 	}
 	
