@@ -106,7 +106,6 @@ public class Texture {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		GL.bind(this);
 		resizeFilter.set();
-		GL.unbindTexture();
 	}
 	
 	public boolean disposed() {

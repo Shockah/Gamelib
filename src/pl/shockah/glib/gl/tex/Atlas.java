@@ -62,9 +62,4 @@ public class Atlas extends TextureSupplier {
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 		public boolean toPremultiplied() default false;
 	}
-	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface ZIPLoadable {
-		public String path() default "assets/images/<field.name>.zip";
-		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
-		public boolean toPremultiplied() default false;
-	}
 }
