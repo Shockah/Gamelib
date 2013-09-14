@@ -1,6 +1,5 @@
 package pl.shockah.glib.state.transitions;
 
-import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.state.State;
@@ -38,23 +37,19 @@ public class Transition3DRotation extends Transition {
 	public boolean update() {
 		sX -= baseSpeedX*(in ? -1 : 1);
 		sY -= baseSpeedY*(in ? -1 : 1);
-		System.out.println(""+sX+","+sY);
 		return in ? (sX >= 1 && sY >= 1) : (sX <= 0 || sY <= 0);
 	}
 	
-	//TODO make use of Graphics' scaling methods when they are added
-	
 	public void preRender(Graphics g) {
 		Vector2i size = State.get().getDisplaySize();
-		g.preDraw();
-		glTranslated(size.x*(1-sX)/2,size.y*(1-sY)/2,0d);
-		glScaled(sX,sY,0d);
+		g.translate(size.x*(1-sX)/2,size.y*(1-sY)/2);
+		g.scale(sX,sY);
 	}
 	public void render(Graphics g) {
 		Vector2i size = State.get().getDisplaySize();
 		g.preDraw();
-		glScaled(1/sX,1/sY,0d);
-		glTranslated(-size.x*(1-sX)/2,-size.y*(1-sY)/2,0d);
+		g.scale(1/sX,1/sY);
+		g.translate(-size.x*(1-sX)/2,-size.y*(1-sY)/2);
 	}
 	
 	public boolean shouldUpdate() {return runUpdate;}
