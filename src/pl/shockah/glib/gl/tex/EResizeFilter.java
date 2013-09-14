@@ -1,4 +1,4 @@
-package pl.shockah.glib.gl;
+package pl.shockah.glib.gl.tex;
 
 import static org.lwjgl.opengl.GL11.*;
 

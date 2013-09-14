@@ -18,7 +18,6 @@ import java.nio.ByteOrder;
 import java.util.Hashtable;
 import javax.imageio.ImageIO;
 import pl.shockah.glib.geom.vector.Vector2i;
-import pl.shockah.glib.gl.EResizeFilter;
 import pl.shockah.glib.gl.GL;
 
 public class ImageIOTextureLoader extends TextureLoader {

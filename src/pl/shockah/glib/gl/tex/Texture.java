@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import pl.shockah.glib.geom.vector.Vector2i;
-import pl.shockah.glib.gl.EResizeFilter;
 import pl.shockah.glib.gl.GL;
 
 public class Texture {
