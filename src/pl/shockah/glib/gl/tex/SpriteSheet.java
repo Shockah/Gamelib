@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import pl.shockah.glib.LoadableProcessor;
-import pl.shockah.glib.geom.vector.Vector2d;
 
 public class SpriteSheet extends TextureSupplier {
 	protected final Image[][] grid;
@@ -60,15 +59,6 @@ public class SpriteSheet extends TextureSupplier {
 		Image ret = grid[x][y];
 		ret.offset = offset;
 		return ret;
-	}
-	
-	public class Rotation {
-		public Vector2d center = new Vector2d();
-		public double angle = 0;
-		
-		public void center() {
-			center = getTextureSize().toDouble().div(2);
-		}
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {

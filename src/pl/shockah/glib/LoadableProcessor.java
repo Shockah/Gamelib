@@ -13,15 +13,19 @@ import java.util.zip.ZipInputStream;
 import pl.shockah.BinBuffer;
 import pl.shockah.BinBufferInputStream;
 import pl.shockah.FieldObj;
+import pl.shockah.FileLine;
 import pl.shockah.Pair;
 import pl.shockah.glib.gl.Shader;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
+import pl.shockah.glib.gl.tex.Atlas;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.SVGTextureLoader;
 import pl.shockah.glib.gl.tex.SpriteSheet;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.gl.tex.TextureLoader;
+import pl.shockah.json.JSONObject;
+import pl.shockah.json.JSONParser;
 
 public final class LoadableProcessor {
 	public static List<LoadAction<?>> process(Class<?> cls) {
@@ -88,6 +92,9 @@ public final class LoadableProcessor {
 			
 			Shader.Loadable shaderLoadable = fld.getAnnotation(Shader.Loadable.class);
 			if (shaderLoadable != null) ret.add(new ShaderLoadAction(new FieldObj(fld,o),shaderLoadable));
+			
+			Atlas.Loadable atlasLoadable = fld.getAnnotation(Atlas.Loadable.class);
+			if (atlasLoadable != null) ret.add(new AtlasLoadAction(new FieldObj(fld,o),atlasLoadable,optints));
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
@@ -285,6 +292,45 @@ public final class LoadableProcessor {
 				}
 				if (sdr != null) sdr.setMixTexturing(loadable.mixTexturing());
 				field.set(sdr);
+			} catch (Exception e) {e.printStackTrace();}
+			return true;
+		}
+	}
+	public static class AtlasLoadAction extends LoadAction<Atlas.Loadable> {
+		protected final TextureLoader.IntOptions optints;
+		
+		public AtlasLoadAction(FieldObj field, Atlas.Loadable loadable, TextureLoader.IntOptions optints) {
+			super(field,loadable);
+			this.optints = optints;
+		}
+		
+		public boolean load(AssetLoader al) {
+			try {
+				TextureLoader.clearOptionsGlobal();
+				if (optints != null) for (TextureLoader.IntOption optint : optints.value()) TextureLoader.setOptionGlobal(optint.option(),optint.value());
+				if (loadable.toPremultiplied()) TextureLoader.setOptionGlobal("toPremultiplied",true);
+				
+				Texture tex = null;
+				JSONObject j = null;
+				String path = handlePath(loadable.path());
+				switch (loadable.type()) {
+					case File: {
+						File f = new File(path);
+						String ext = f.getName().substring(f.getName().lastIndexOf('.'));
+						tex = Texture.load(f);
+						j = new JSONParser().parseObject(FileLine.readString(new File(f.getParentFile(),f.getName().substring(0,f.getName().length()-ext.length())+".json")));
+					} break;
+					case Internal: {
+						String ext = path.substring(path.lastIndexOf('.'));
+						tex = Texture.load(path);
+						j = new JSONParser().parseObject(FileLine.readString(getClass().getClassLoader().getResourceAsStream(path.substring(0,path.length()-ext.length())+".json")));
+					} break;
+				}
+				Atlas a = new Atlas(tex);
+				a.fillFromJSON(j);
+				
+				field.set(a);
+				TextureLoader.clearOptionsGlobal();
 			} catch (Exception e) {e.printStackTrace();}
 			return true;
 		}
