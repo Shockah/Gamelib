@@ -108,12 +108,17 @@ public class Graphics {
 	}
 	
 	public int popTransformation() {
+		if (redirect != null) return redirect.popTransformation();
 		if (transformations.isEmpty()) return 0;
 		transformations.get(transformations.size()-1).unapply();
 		transformations.remove(transformations.size()-1);
 		return transformations.size();
 	}
 	public void clearTransformations() {
+		if (redirect != null) {
+			redirect.clearTransformations();
+			return;
+		}
 		unapplyTransformations();
 		transformations.clear();
 	}
@@ -327,29 +332,36 @@ public class Graphics {
 			redirect.draw(gll,x,y);
 			return;
 		}
+		glTranslated(x,y,0);
 		glCallList(gll.getID());
+		glTranslated(-x,-y,0);
 	}
 	
 	public void drawAbsolute() {
+		if (redirect != null) {
+			redirect.drawAbsolute();
+			return;
+		}
 		if (!absolute) {
 			absolute = true;
 			unapplyTransformations();
-			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 		}
 	}
 	public void drawTransformed() {
+		if (redirect != null) {
+			redirect.drawTransformed();
+			return;
+		}
 		if (absolute) {
 			absolute = false;
 			applyTransformations();
-			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 		}
 	}
 	public void toggleAbsolute() {
-		absolute = !absolute;
-		if (absolute) unapplyTransformations(); else applyTransformations();
-		applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
+		if (absolute) drawTransformed(); else drawAbsolute();
 	}
 	public boolean drawingAbsolute() {
+		if (redirect != null) return redirect.drawingAbsolute();
 		return absolute;
 	}
 	

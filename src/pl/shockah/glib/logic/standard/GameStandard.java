@@ -52,9 +52,9 @@ public class GameStandard implements IGame {
 		}
 		
 		Graphics.getDefaultBlendMode().apply();
-		g.clearTransformations();
 		g.clearClip();
 		g.clearTransformedClip();
+		g.clearTransformations();
 		state.preRender(g);
 		state.renderTransitionPre(g);
 		if (state.shouldTransitionRender(g)) {
