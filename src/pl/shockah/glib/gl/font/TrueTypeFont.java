@@ -204,8 +204,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void draw(Graphics g, Vector2f v, CharSequence text) {draw(g,v.x,v.y,text);}
 	public void draw(Graphics g, Vector2i v, CharSequence text) {draw(g,v.x,v.y,text);}
 	public void draw(Graphics g, double x, double y, CharSequence text) {
-		Vector2d tr = g.drawingAbsolute() ? g.getTranslation() : new Vector2d();
-		drawString(x-tr.x,y-tr.y,text,0,text.length()-1,1f,1f);
+		drawString(x,y,text,0,text.length()-1,1f,1f);
 	}
 	public void drawString(double x, double y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");

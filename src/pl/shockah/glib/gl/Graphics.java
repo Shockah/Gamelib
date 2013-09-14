@@ -1,8 +1,11 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import java.nio.DoubleBuffer;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import org.lwjgl.BufferUtils;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -17,6 +20,7 @@ public class Graphics {
 	private static BlendMode defaultBlendMode = BlendMode.Normal;
 	private static boolean init = false;
 	private static Color color = null;
+	private static DoubleBuffer tmpTransformedClip = BufferUtils.createDoubleBuffer(4);
 	protected static Graphics lastGraphics = null;
 	
 	protected static void init() {
@@ -39,8 +43,9 @@ public class Graphics {
 	}
 	
 	protected Graphics redirect = null;
-	protected final Vector2d translate = new Vector2d();
+	protected List<Transformation> transformations = new ArrayList<>();
 	protected List<Rectangle> clipStack = new LinkedList<>();
+	protected List<Rectangle> transformedClipStack = new LinkedList<>();
 	protected boolean absolute = false;
 	
 	public final void preDraw() {
@@ -55,8 +60,9 @@ public class Graphics {
 		if (lastGraphics != this) {
 			GL.popMatrixOnce();
 			GL.pushMatrixOnce();
-			glTranslated(translate.x,translate.y,0);
+			if (!absolute) applyTransformations();
 			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
+			applyTransformedClip(transformedClipStack.isEmpty() ? null : transformedClipStack.get(transformedClipStack.size()-1));
 		}
 		lastGraphics = this;
 	}
@@ -64,6 +70,16 @@ public class Graphics {
 		GL.unbindSurface();
 	}
 	protected void onUnbind() {}
+	
+	protected void applyTransformations() {
+		if (lastGraphics != this) return;
+		for (Transformation t : transformations) t.apply();
+	}
+	protected void unapplyTransformations() {
+		if (lastGraphics != this) return;
+		GL.popMatrixOnce();
+		GL.pushMatrixOnce();
+	}
 	
 	public void translate(Vector2d v) {
 		translate(v.x,v.y);
@@ -73,32 +89,34 @@ public class Graphics {
 			redirect.translate(x,y);
 			return;
 		}
-		translate.add(x,y);
-		if (lastGraphics == this) {
-			glTranslated(x,y,0);
-			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
-		}
-	}
-	public void resetTranslation() {
-		if (redirect != null) {
-			redirect.resetTranslation();
-			return;
-		}
-		translate.set(0,0);
-		if (lastGraphics == this) {
-			GL.popMatrixOnce();
-			GL.pushMatrixOnce();
-			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
-		}
-	}
-	public Vector2d getTranslation() {
-		if (redirect != null) {
-			return redirect.getTranslation();
-		}
-		return new Vector2d(translate);
+		Transformation t = new TransformationTranslate(new Vector2d(x,y));
+		transformations.add(t);
+		if (lastGraphics == this) t.apply();
 	}
 	
-	//TODO scaling, like translations
+	public void scale(Vector2d v) {
+		scale(v.x,v.y);
+	}
+	public void scale(double x, double y) {
+		if (redirect != null) {
+			redirect.scale(x,y);
+			return;
+		}
+		Transformation t = new TransformationScale(new Vector2d(x,y));
+		transformations.add(t);
+		if (lastGraphics == this) t.apply();
+	}
+	
+	public int popTransformation() {
+		if (transformations.isEmpty()) return 0;
+		transformations.get(transformations.size()-1).unapply();
+		transformations.remove(transformations.size()-1);
+		return transformations.size();
+	}
+	public void clearTransformations() {
+		unapplyTransformations();
+		transformations.clear();
+	}
 	
 	public void pushClip(Rectangle rect) {
 		if (redirect != null) {
@@ -138,9 +156,72 @@ public class Graphics {
 		}
 		if (lastGraphics != this) return;
 		if (rect == null) glDisable(GL_SCISSOR_TEST); else {
-			double tx = !absolute ? translate.x : 0, ty = !absolute ? translate.y : 0;
-			glScissor((int)(rect.pos.x+tx),(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-rect.size.y-ty : rect.pos.y-ty),(int)rect.size.x,(int)rect.size.y);
+			glScissor((int)(rect.pos.x),(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
 			glEnable(GL_SCISSOR_TEST);
+		}
+	}
+	
+	public void pushTransformedClip(Rectangle rect) {
+		if (redirect != null) {
+			redirect.pushTransformedClip(rect);
+			return;
+		}
+		if (((rect == null) ^ transformedClipStack.isEmpty()) || !transformedClipStack.get(transformedClipStack.size()-1).equals(rect)) {
+			applyTransformedClip(rect);
+			if (rect == null) {
+				if (!transformedClipStack.isEmpty()) transformedClipStack.remove(transformedClipStack.size()-1);
+				if (!transformedClipStack.isEmpty()) {
+					rect = transformedClipStack.get(transformedClipStack.size()-1);
+					applyTransformedClip(rect);
+				}
+			} else transformedClipStack.add(rect.copyMe());
+		}
+	}
+	public void pushTransformedClip(double x, double y, double w, double h) {
+		pushTransformedClip(new Rectangle(x,y,w,h));
+	}
+	public void popTransformedClip() {
+		pushTransformedClip(null);
+	}
+	public void clearTransformedClip() {
+		if (redirect != null) {
+			redirect.clearTransformedClip();
+			return;
+		}
+		transformedClipStack.clear();
+		if (lastGraphics != this) return;
+		glDisable(GL_CLIP_PLANE0);
+		glDisable(GL_CLIP_PLANE1);
+		glDisable(GL_CLIP_PLANE2);
+		glDisable(GL_CLIP_PLANE3);
+	}
+	protected void applyTransformedClip(Rectangle rect) {
+		if (redirect != null) {
+			redirect.applyTransformedClip(rect);
+			return;
+		}
+		if (lastGraphics != this) return;
+		if (rect == null) {
+			glDisable(GL_CLIP_PLANE0);
+			glDisable(GL_CLIP_PLANE1);
+			glDisable(GL_CLIP_PLANE2);
+			glDisable(GL_CLIP_PLANE3);
+		} else {
+			glEnable(GL_CLIP_PLANE0);
+			tmpTransformedClip.put(1).put(0).put(0).put(-rect.pos.x).flip();
+			glClipPlane(GL_CLIP_PLANE0,tmpTransformedClip);
+			
+			glEnable(GL_CLIP_PLANE1);
+			tmpTransformedClip.put(-1).put(0).put(0).put(rect.pos.x+rect.size.x).flip();
+			glClipPlane(GL_CLIP_PLANE1,tmpTransformedClip);
+			
+			glEnable(GL_CLIP_PLANE2);
+			tmpTransformedClip.put(0).put(1).put(0).put(-rect.pos.y).flip();
+			glClipPlane(GL_CLIP_PLANE2,tmpTransformedClip);
+			
+			glEnable(GL_CLIP_PLANE3);
+			tmpTransformedClip.put(0).put(-1).put(0).put(rect.pos.y+rect.size.y).flip();
+			glClipPlane(GL_CLIP_PLANE3,tmpTransformedClip);
 		}
 	}
 	
@@ -183,20 +264,14 @@ public class Graphics {
 			redirect.draw(shape);
 			return;
 		}
-		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
-		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		shape.draw(this);
-		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 	}
 	public void draw(Shape shape, boolean filled) {
 		if (redirect != null) {
 			redirect.draw(shape,filled);
 			return;
 		}
-		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
-		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		shape.draw(this,filled);
-		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 	}
 	
 	public void draw(ITextureSupplier ts) {draw(ts,0,0);}
@@ -208,10 +283,7 @@ public class Graphics {
 			redirect.draw(ts,x,y);
 			return;
 		}
-		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
-		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		ts.drawTexture(this,x,y);
-		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 	}
 	
 	public void draw(Image image, double rotation) {draw(image,0,0,rotation);}
@@ -225,10 +297,7 @@ public class Graphics {
 		}
 		double rot = image.rotation.angle;
 		image.rotation.angle = rotation;
-		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
-		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		image.drawTexture(this,x,y);
-		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 		image.rotation.angle = rot;
 	}
 	
@@ -246,10 +315,7 @@ public class Graphics {
 			redirect.draw(surface,x,y,rotation);
 			return;
 		}
-		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
-		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		draw(surface.image(),x,y,rotation);
-		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 	}
 	
 	public void draw(GLList gll) {draw(gll,0,0);}
@@ -261,29 +327,50 @@ public class Graphics {
 			redirect.draw(gll,x,y);
 			return;
 		}
-		double tx = absolute ? translate.x : 0, ty = absolute ? translate.y : 0;
-		if (tx != 0 || ty != 0) glTranslated(-tx,-ty,0);
 		glCallList(gll.getID());
-		if (tx != 0 || ty != 0) glTranslated(tx,ty,0);
 	}
 	
 	public void drawAbsolute() {
 		if (!absolute) {
 			absolute = true;
+			unapplyTransformations();
 			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 		}
 	}
-	public void drawTranslated() {
+	public void drawTransformed() {
 		if (absolute) {
 			absolute = false;
+			applyTransformations();
 			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 		}
 	}
 	public void toggleAbsolute() {
 		absolute = !absolute;
+		if (absolute) unapplyTransformations(); else applyTransformations();
 		applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 	}
 	public boolean drawingAbsolute() {
 		return absolute;
+	}
+	
+	public static abstract class Transformation {
+		public abstract void apply();
+		public abstract void unapply();
+	}
+	public static class TransformationTranslate extends Transformation {
+		protected final Vector2d v;
+		public TransformationTranslate(Vector2d v) {
+			this.v = v;
+		}
+		public void apply() {glTranslated(v.x,v.y,0d);}
+		public void unapply() {glTranslated(-v.x,-v.y,0d);}
+	}
+	public static class TransformationScale extends Transformation {
+		protected final Vector2d v;
+		public TransformationScale(Vector2d v) {
+			this.v = v;
+		}
+		public void apply() {glScaled(v.x,v.y,1d);}
+		public void unapply() {glScaled(-v.x,-v.y,1d);}
 	}
 }
