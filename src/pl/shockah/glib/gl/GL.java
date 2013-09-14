@@ -6,6 +6,7 @@ import org.lwjgl.opengl.EXTFramebufferObject;
 
 import pl.shockah.glib.Debug;
 import pl.shockah.glib.Gamelib;
+import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -48,6 +49,9 @@ public final class GL {
 	
 	public static void color4f(Color c) {
 		glColor4f(c.Rf(),c.Gf(),c.Bf(),c.Af());
+	}
+	public static void translated(Vector2d v) {
+		glTranslated(v.x,v.y,0);
 	}
 	
 	public static void bind(Texture tex) {
