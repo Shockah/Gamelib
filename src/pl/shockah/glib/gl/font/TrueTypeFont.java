@@ -197,7 +197,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			intObject = charCurrent < 256 ? charArray[charCurrent] : customChars.get((char)charCurrent);
 			
 			if (intObject != null) {
-				if (charCurrent == '\n') totalwidth = 0; else totalwidth += intObject.width-correctL;
+				totalwidth += intObject.width-correctL;
 				i++;
 			}
 		}
