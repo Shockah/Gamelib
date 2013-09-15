@@ -17,7 +17,7 @@ public final class Util {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked") public static <K, V extends K> List<V> getAllOf(List<K> list, Class<V> cls) {
+	@SuppressWarnings("unchecked") public static <K,V> List<V> getAllOf(List<K> list, Class<V> cls) {
 		List<V> ret = new LinkedList<>();
 		for (Object o : list) if (o != null && cls.isAssignableFrom(o.getClass())) ret.add((V)o);
 		return ret;
