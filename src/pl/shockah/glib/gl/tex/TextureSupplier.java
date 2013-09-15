@@ -47,8 +47,10 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	}
 	
 	public Vector2i getSize() {return getTextureSize();}
-	public double getWidth() {return getTextureRect().size.x*scale.x;}
-	public double getHeight() {return getTextureRect().size.y*scale.y;}
+	public double getWidth() {return getTextureRect().size.x;}
+	public double getHeight() {return getTextureRect().size.y;}
+	public double getWidthScaled() {return getWidth()*scale.x;}
+	public double getHeightScaled() {return getHeight()*scale.y;}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
