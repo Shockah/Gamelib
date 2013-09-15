@@ -185,14 +185,23 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 
 	public int getWidth(String whatchars) {
-		int totalwidth = 0;
 		IntObject intObject = null;
-		int currentChar = 0;
-		for (int i = 0; i < whatchars.length(); i++) {
-			currentChar = whatchars.charAt(i);
-			intObject = currentChar < 256 ? charArray[currentChar] : customChars.get((char)currentChar);
-			if (intObject != null) totalwidth += intObject.width;
+		int charCurrent;
+		
+		int startIndex = 0, endIndex = whatchars.length()-1;
+		int totalwidth = 0;
+		int i = startIndex;
+		
+		while (i >= startIndex && i <= endIndex) {
+			charCurrent = whatchars.charAt(i);
+			intObject = charCurrent < 256 ? charArray[charCurrent] : customChars.get((char)charCurrent);
+			
+			if (intObject != null) {
+				if (charCurrent == '\n') totalwidth = 0; else totalwidth += intObject.width-correctL;
+				i++;
+			}
 		}
+		
 		return totalwidth;
 	}
 

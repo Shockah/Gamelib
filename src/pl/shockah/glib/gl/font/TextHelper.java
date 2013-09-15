@@ -17,22 +17,25 @@ public final class TextHelper {
 		List<String> ret = new LinkedList<>();
 		String[] ss = prepare(text).toString().split("\\r?\\n");
 		for (String s : ss) {
+			s = s.trim();
 			while (true) {
 				if (s.isEmpty()) break;
 				String s2 = s;
 				if (font.getWidth(s) > maxWidth) {
 					String[] words = s.split("\\S+"), nwords = s.split("\\s+");
-					boolean nwfirst = nwords.length > 0 && s.startsWith(nwords[0]);
 					
-					for (int i = words.length; i >= 0; i++) {
-						String sret = implodeWords(words,nwords,i,nwfirst);
+					for (int i = words.length; i >= 0; i--) {
+						String sret = implodeWords(words,nwords,i);
 						if (font.getWidth(sret) <= maxWidth) {
 							s = s.substring(sret.length());
 							ret.add(sret);
 							break;
 						}
 					}
-				} else ret.add(s);
+				} else {
+					ret.add(s);
+					break;
+				}
 				if (s2.equals(s)) {
 					ret.add(s);
 					break;
@@ -47,16 +50,11 @@ public final class TextHelper {
 		}
 		return sb;
 	}
-	private static String implodeWords(String[] words, String[] nwords, int n, boolean nwfirst) {
+	private static String implodeWords(String[] words, String[] nwords, int n) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < n; i++) {
-			if (nwfirst) {
-				sb.append(nwords[i]);
-				sb.append(words[i]);
-			} else {
-				sb.append(words[i]);
-				if (i != n-1) sb.append(nwords[i]);
-			}
+			sb.append(words[i]);
+			if (i != n-1) sb.append(nwords[i]);
 		}
 		return sb.toString();
 	}
