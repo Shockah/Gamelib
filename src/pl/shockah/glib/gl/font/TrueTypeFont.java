@@ -202,7 +202,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			}
 		}
 		
-		return totalwidth;
+		return totalwidth+7;
 	}
 
 	public int getHeight() {return fontHeight;}
@@ -236,14 +236,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			
 			if (intObject != null) {
 				if (d < 0) totalwidth += (intObject.width-c)*d;
-				if (charCurrent == '\n') {
-					startY -= fontHeight * d;
-					totalwidth = 0;
-				} else {
-					drawQuad((totalwidth+intObject.width)*scaleX+x,startY*scaleY+y,totalwidth*scaleX+x,
-						(startY+intObject.height)*scaleY+y,intObject.storedX+intObject.width,intObject.storedY+intObject.height,intObject.storedX,intObject.storedY);
-					if (d > 0) totalwidth += (intObject.width-c)*d;
-				}
+				drawQuad((totalwidth+intObject.width)*scaleX+x,startY*scaleY+y,totalwidth*scaleX+x,
+					(startY+intObject.height)*scaleY+y,intObject.storedX+intObject.width,intObject.storedY+intObject.height,intObject.storedX,intObject.storedY);
+				if (d > 0) totalwidth += (intObject.width-c)*d;
 				i += d;
 			}
 		}
