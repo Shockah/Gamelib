@@ -3,7 +3,7 @@ package pl.shockah.glib.logic.standard;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public abstract class EntityBase {
-	public Vector2d pos;
+	public Vector2d pos = new Vector2d();
 	private boolean firstTick = true;
 	
 	EntityBase() {}
