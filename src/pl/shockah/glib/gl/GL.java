@@ -51,7 +51,10 @@ public final class GL {
 		glColor4f(c.Rf(),c.Gf(),c.Bf(),c.Af());
 	}
 	public static void translated(Vector2d v) {
-		glTranslated(v.x,v.y,0);
+		translated(v.x,v.y);
+	}
+	public static void translated(double x, double y) {
+		glTranslated(x,y,0);
 	}
 	
 	public static void bind(Texture tex) {
