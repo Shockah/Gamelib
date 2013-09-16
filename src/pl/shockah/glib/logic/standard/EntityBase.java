@@ -8,10 +8,16 @@ public abstract class EntityBase {
 	
 	EntityBase() {}
 	
-	public final void create() {create(new Vector2d());}
-	public final void create(double x, double y) {create(new Vector2d(x,y));}
+	public final void create() {
+		pos = null;
+		create(new Vector2d());
+	}
+	public final void create(double x, double y) {
+		pos = null;
+		create(new Vector2d(x,y));
+	}
 	public void create(Vector2d pos) {
-		this.pos = pos;
+		if (pos == null) this.pos = pos;
 		firstTick = true;
 		GameStandard.me.entitiesAdd.add(this);
 		onCreate();
