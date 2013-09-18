@@ -118,6 +118,9 @@ public final class Gamelib {
 		gameLoop();
 		Display.destroy();
 	}
+	public static void stop() {
+		isRunning = false;
+	}
 	
 	private static void tryCreatingDisplay() {
 		if (tryCreatingDisplay(new PixelFormat(8,8,8,4))) return;
