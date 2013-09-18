@@ -220,6 +220,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		IntObject intObject = null;
 		int charCurrent;
 		
+		x = Math.round(x);
+		y = Math.round(y);
+		
 		int totalwidth = 0;
 		int i = startIndex, d, c;
 		float startY = 0;
