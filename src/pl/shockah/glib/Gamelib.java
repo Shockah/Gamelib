@@ -150,7 +150,7 @@ public final class Gamelib {
 			keyboard.update();
 			mouse.update();
 			game.gameLoop();
-			advanceFrame(State.get().getFPS());
+			if (State.get() != null) advanceFrame(State.get().getFPS());
 		}
 	}
 	public static void advanceFrame() {

@@ -28,8 +28,10 @@ public class State {
 	
 	static void set(State state) {
 		current = state;
-		Gamelib.game.reset();
-		current.create();
+		if (current != null) {
+			Gamelib.game.reset();
+			current.create();
+		} else Gamelib.stop();
 	}
 	
 	public final void updateTransition() {
