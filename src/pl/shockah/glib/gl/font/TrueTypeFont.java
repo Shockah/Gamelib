@@ -20,7 +20,6 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.util.glu.GLU;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
@@ -35,6 +34,7 @@ import pl.shockah.glib.gl.tex.Texture;
  * Authors: James Chambers (Jimmy), Jeremy Adams (elias4444), Kevin Glass (kevglass), Peter Korzuszek (genail), David Aaron Muhar (bobjob)
  */
 public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextureSupplier {
+	private static IntBuffer scratch = BufferUtils.createIntBuffer(16);
 	private IntObject[] charArray = new IntObject[256];
 	private Map<Character,IntObject> customChars = new HashMap<>();
 	private boolean antiAlias;
@@ -286,13 +286,304 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 			
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			GLU.gluBuild2DMipmaps(GL_TEXTURE_2D,internalFormat,width,height,format,GL_UNSIGNED_BYTE,byteBuffer);
+			gluBuild2DMipmaps(GL_TEXTURE_2D,internalFormat,width,height,format,GL_UNSIGNED_BYTE,byteBuffer);
 			return textureId.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return -1;
+	}
+	private static int gluBuild2DMipmaps(int target, int components, int width, int height, int format, int type, ByteBuffer data) {
+		if ((width < 1) || (height < 1)) return 100901;
+
+		int bpp = bytesPerPixel(format,type);
+		if (bpp == 0) { return 100900; }
+		int maxSize = glGetIntegerv(3379);
+
+		int w = nearestPower(width);
+		if (w > maxSize) {
+			w = maxSize;
+		}
+		int h = nearestPower(height);
+		if (h > maxSize) {
+			h = maxSize;
+		}
+
+		PixelStoreState pss = new PixelStoreState();
+
+		glPixelStorei(3330,0);
+		glPixelStorei(3333,1);
+		glPixelStorei(3331,0);
+		glPixelStorei(3332,0);
+
+		int retVal = 0;
+		boolean done = false;
+		ByteBuffer image;
+		if ((w != width) || (h != height)) {
+			image = BufferUtils.createByteBuffer((w + 4) * h * bpp);
+			int error = gluScaleImage(format,width,height,type,data,w,h,type,image);
+			if (error != 0) {
+				retVal = error;
+				done = true;
+			}
+
+			glPixelStorei(3314,0);
+			glPixelStorei(3317,1);
+			glPixelStorei(3315,0);
+			glPixelStorei(3316,0);
+		} else {
+			image = data;
+		}
+
+		ByteBuffer bufferA = null;
+		ByteBuffer bufferB = null;
+
+		int level = 0;
+		while (!done) {
+			if (image != data) {
+				glPixelStorei(3314,0);
+				glPixelStorei(3317,1);
+				glPixelStorei(3315,0);
+				glPixelStorei(3316,0);
+			}
+
+			glTexImage2D(target,level,components,w,h,0,format,type,image);
+
+			if ((w == 1) && (h == 1)) {
+				break;
+			}
+			int newW = w < 2 ? 1 : w >> 1;
+			int newH = h < 2 ? 1 : h >> 1;
+			ByteBuffer newImage;
+			if (bufferA == null) {
+				newImage = bufferA = BufferUtils.createByteBuffer((newW + 4) * newH * bpp);
+			} else {
+				if (bufferB == null) newImage = bufferB = BufferUtils.createByteBuffer((newW + 4) * newH * bpp);
+				else newImage = bufferB;
+			}
+			int error = gluScaleImage(format,w,h,type,image,newW,newH,type,newImage);
+			if (error != 0) {
+				retVal = error;
+				done = true;
+			}
+
+			image = newImage;
+			if (bufferB != null) {
+				bufferB = bufferA;
+			}
+			w = newW;
+			h = newH;
+			level++;
+		}
+
+		pss.save();
+
+		return retVal;
+	}
+	protected static int bytesPerPixel(int format, int type) {
+		int n;
+		switch (format) {
+			case 6400:case 6401:case 6402:case 6403:case 6404:case 6405:case 6406:case 6409:
+				n = 1;
+			break;
+			case 6410:
+				n = 2;
+			break;
+			case 6407:case 32992:
+				n = 3;
+			break;
+			case 6408:case 32993:
+				n = 4;
+			break;
+			default:
+				n = 0;
+		}
+		int m;
+		switch (type) {
+			case 5121:
+				m = 1;
+			break;
+			case 5120:
+				m = 1;
+			break;
+			case 6656:
+				m = 1;
+			break;
+			case 5123:
+				m = 2;
+			break;
+			case 5122:
+				m = 2;
+			break;
+			case 5125:
+				m = 4;
+			break;
+			case 5124:
+				m = 4;
+			break;
+			case 5126:
+				m = 4;
+			break;
+			default:
+				m = 0;
+		}
+
+		return n * m;
+	}
+	protected static int nearestPower(int value) {
+		int i = 1;
+
+		if (value == 0) return -1;
+		while (true) {
+			if (value == 1) return i;
+			if (value == 3) { return i << 2; }
+			value >>= 1;
+			i <<= 1;
+		}
+	}
+	protected static int glGetIntegerv(int what) {
+		scratch.rewind();
+		glGetInteger(what,scratch);
+		return scratch.get();
+	}
+	protected static int gluScaleImage(int format, int widthIn, int heightIn, int typein, ByteBuffer dataIn, int widthOut, int heightOut, int typeOut, ByteBuffer dataOut) {
+		int components = compPerPix(format);
+		if (components == -1) { return 100900; }
+
+		float[] tempIn = new float[widthIn * heightIn * components];
+		float[] tempOut = new float[widthOut * heightOut * components];
+		int sizein;
+		switch (typein) {
+			case 5121:
+				sizein = 1;
+			break;
+			case 5126:
+				sizein = 4;
+			break;
+			default:
+				return 1280;
+		}
+		int sizeout;
+		switch (typeOut) {
+			case 5121:
+				sizeout = 1;
+			break;
+			case 5126:
+				sizeout = 4;
+			break;
+			default:
+				return 1280;
+		}
+
+		PixelStoreState pss = new PixelStoreState();
+		int rowlen;
+		if (pss.unpackRowLength > 0) rowlen = pss.unpackRowLength;
+		else rowlen = widthIn;
+		int rowstride;
+		if (sizein >= pss.unpackAlignment) rowstride = components * rowlen;
+		else rowstride = pss.unpackAlignment / sizein * ceil(components * rowlen * sizein,pss.unpackAlignment);
+		int k;
+		int i,j;
+		switch (typein) {
+			case 5121:
+				k = 0;
+				dataIn.rewind();
+				for (i = 0; i < heightIn;) {
+					int ubptr = i * rowstride + pss.unpackSkipRows * rowstride + pss.unpackSkipPixels * components;
+					for (j = 0; j < widthIn * components; j++)
+						tempIn[(k++)] = (dataIn.get(ubptr++) & 0xFF);
+					i++;
+					continue;
+				}
+			case 5126:
+		}
+		float sx = widthIn / widthOut;
+		float sy = heightIn / heightOut;
+
+		float[] c = new float[components];
+
+		for (int iy = 0; iy < heightOut; iy++) {
+			for (int ix = 0; ix < widthOut; ix++) {
+				int x0 = (int)(ix * sx);
+				int x1 = (int)((ix + 1) * sx);
+				int y0 = (int)(iy * sy);
+				int y1 = (int)((iy + 1) * sy);
+
+				int readPix = 0;
+
+				for (int ic = 0; ic < components; ic++) {
+					c[ic] = 0.0F;
+				}
+
+				for (int ix0 = x0; ix0 < x1; ix0++) {
+					for (int iy0 = y0; iy0 < y1; iy0++) {
+						int src = (iy0 * widthIn + ix0) * components;
+
+						for (int ic = 0; ic < components; ic++) {
+							c[ic] += tempIn[(src + ic)];
+						}
+
+						readPix++;
+					}
+
+				}
+
+				int dst = (iy * widthOut + ix) * components;
+
+				if (readPix == 0) {
+					int src = (y0 * widthIn + x0) * components;
+					for (int ic = 0; ic < components; ic++)
+						tempOut[(dst++)] = tempIn[(src + ic)];
+				} else {
+					for (k = 0; k < components; k++) {
+						tempOut[(dst++)] = (c[k] / readPix);
+					}
+				}
+
+			}
+
+		}
+
+		if (pss.packRowLength > 0) rowlen = pss.packRowLength;
+		else {
+			rowlen = widthOut;
+		}
+		if (sizeout >= pss.packAlignment) rowstride = components * rowlen;
+		else {
+			rowstride = pss.packAlignment / sizeout * ceil(components * rowlen * sizeout,pss.packAlignment);
+		}
+		i = j = k = 0;
+		switch (typeOut) {
+			case 5121:
+				k = 0;
+				for (i = 0; i < heightOut;) {
+					int ubptr = i * rowstride + pss.packSkipRows * rowstride + pss.packSkipPixels * components;
+
+					for (j = 0; j < widthOut * components; j++)
+						dataOut.put(ubptr++,(byte)(int)tempOut[(k++)]);
+					i++;
+					continue;
+				}
+			case 5126:
+		}
+		return 0;
+	}
+	protected static int compPerPix(int format) {
+		switch (format) {
+			case 6400:case 6401:case 6402:case 6403:case 6404:case 6405:case 6406:case 6409:
+				return 1;
+			case 6410:
+				return 2;
+			case 6407:case 32992:
+				return 3;
+			case 6408:case 32993:
+				return 4;
+		}
+		return -1;
+	}
+	protected static int ceil(int a, int b) {
+		return a % b == 0 ? a / b : a / b + 1;
 	}
 	private static byte[] intToByteArray(int value) {
 		return new byte[] {(byte)(value >>> 24),(byte)(value >>> 16),(byte)(value >>> 8),(byte)value};
@@ -348,6 +639,43 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	public void dispose() {
 		getTexture().dispose();
+	}
+	
+	private static class PixelStoreState {
+		public int unpackRowLength;
+		public int unpackAlignment;
+		public int unpackSkipRows;
+		public int unpackSkipPixels;
+		public int packRowLength;
+		public int packAlignment;
+		public int packSkipRows;
+		public int packSkipPixels;
+
+		PixelStoreState() {
+			load();
+		}
+
+		public void load() {
+			unpackRowLength = glGetIntegerv(3314);
+			unpackAlignment = glGetIntegerv(3317);
+			unpackSkipRows = glGetIntegerv(3315);
+			unpackSkipPixels = glGetIntegerv(3316);
+			packRowLength = glGetIntegerv(3330);
+			packAlignment = glGetIntegerv(3333);
+			packSkipRows = glGetIntegerv(3331);
+			packSkipPixels = glGetIntegerv(3332);
+		}
+
+		public void save() {
+			glPixelStorei(3314,unpackRowLength);
+			glPixelStorei(3317,unpackAlignment);
+			glPixelStorei(3315,unpackSkipRows);
+			glPixelStorei(3316,unpackSkipPixels);
+			glPixelStorei(3330,packRowLength);
+			glPixelStorei(3333,packAlignment);
+			glPixelStorei(3331,packSkipRows);
+			glPixelStorei(3332,packSkipPixels);
+		}
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
