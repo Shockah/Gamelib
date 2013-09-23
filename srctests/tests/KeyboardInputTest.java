@@ -1,5 +1,6 @@
 package tests;
 
+import org.lwjgl.input.Keyboard;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -24,8 +25,8 @@ public class KeyboardInputTest extends State {
 				KeyboardInput kb = Gamelib.keyboard;
 				
 				oldPos = pos;
-				double xx = ((kb.isDown(KeyboardInput.ARROW_RIGHT) ? 1 : 0)-(kb.isDown(KeyboardInput.ARROW_LEFT) ? 1 : 0))*4;
-				double yy = ((kb.isDown(KeyboardInput.ARROW_DOWN) ? 1 : 0)-(kb.isDown(KeyboardInput.ARROW_UP) ? 1 : 0))*4;
+				double xx = ((kb.isDown(Keyboard.KEY_RIGHT) ? 1 : 0)-(kb.isDown(Keyboard.KEY_LEFT) ? 1 : 0))*4;
+				double yy = ((kb.isDown(Keyboard.KEY_DOWN) ? 1 : 0)-(kb.isDown(Keyboard.KEY_UP) ? 1 : 0))*4;
 				pos = pos.add(xx,yy);
 			}
 			

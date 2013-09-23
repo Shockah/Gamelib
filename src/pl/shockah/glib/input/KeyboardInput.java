@@ -3,13 +3,7 @@ package pl.shockah.glib.input;
 import org.lwjgl.input.Keyboard;
 
 public class KeyboardInput {
-	public static final int
-		ARROW_LEFT = 203,
-		ARROW_RIGHT = 205,
-		ARROW_UP = 200,
-		ARROW_DOWN = 208,
-		
-		ANYKEY = 256;
+	public static final int ANYKEY = 256;
 	
 	public KeyboardTextInput text = new KeyboardTextInput(this);
 	protected boolean[]

@@ -41,6 +41,7 @@ public class GameStandard implements IGame {
 		State state = State.get();
 		
 		state.updateTransition();
+		if (State.get() == null) return;
 		state.preUpdate();
 		if (state.shouldTransitionUpdate()) {
 			entities.addAll(entitiesAdd);
@@ -51,6 +52,7 @@ public class GameStandard implements IGame {
 			for (EntityBase e : entities) e.update();
 		}
 		
+		if (State.get() == null) return;
 		Graphics.getDefaultBlendMode().apply();
 		g.clearClip();
 		g.clearTransformedClip();
