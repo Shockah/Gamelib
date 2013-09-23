@@ -96,6 +96,7 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 			glVertex2d(pos.x+size.x-1,pos.y);
 			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
 			glVertex2d(pos.x,pos.y+size.y-1);
+			glVertex2d(pos.x,pos.y);
 			glEnd();
 		}
 	}

@@ -1,11 +1,15 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.lwjgl.BufferUtils;
+
+import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -335,6 +339,11 @@ public class Graphics {
 		glTranslated(x,y,0);
 		glCallList(gll.getID());
 		glTranslated(-x,-y,0);
+	}
+	
+	public Vector2d getMousePos() {
+		if (redirect != null) return redirect.getMousePos();
+		return Gamelib.mouse.getPos().toDouble();
 	}
 	
 	public void drawAbsolute() {
