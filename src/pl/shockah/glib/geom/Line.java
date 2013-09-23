@@ -6,6 +6,7 @@ import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.gl.color.Color;
 
 public class Line extends Shape implements IInterpolatable<Line> {
 	public Vector2d pos1, pos2;
@@ -57,8 +58,22 @@ public class Line extends Shape implements IInterpolatable<Line> {
 			throw new UnsupportedOperationException();
 		} else {
 			glBegin(GL_LINES);
-			glVertex2d(pos1.x,pos1.y);
-			glVertex2d(pos2.x,pos2.y);
+				glVertex2d(pos1.x,pos1.y);
+				glVertex2d(pos2.x,pos2.y);
+			glEnd();
+		}
+	}
+	
+	public void drawMulticolor(Graphics g, boolean filled, Color cPoint1, Color cPoint2) {
+		g.preDraw();
+		GL.unbindTexture();
+		
+		if (filled) {
+			throw new UnsupportedOperationException();
+		} else {
+			glBegin(GL_LINES);
+				GL.color4f(cPoint1); glVertex2d(pos1.x,pos1.y);
+				GL.color4f(cPoint2); glVertex2d(pos2.x,pos2.y);
 			glEnd();
 		}
 	}

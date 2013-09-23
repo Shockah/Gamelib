@@ -85,18 +85,18 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 		
 		if (filled) {
 			glBegin(GL_QUADS);
-			glVertex2d(pos.x,pos.y);
-			glVertex2d(pos.x+size.x,pos.y);
-			glVertex2d(pos.x+size.x,pos.y+size.y);
-			glVertex2d(pos.x,pos.y+size.y);
+				glVertex2d(pos.x,pos.y);
+				glVertex2d(pos.x+size.x,pos.y);
+				glVertex2d(pos.x+size.x,pos.y+size.y);
+				glVertex2d(pos.x,pos.y+size.y);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_STRIP);
-			glVertex2d(pos.x,pos.y);
-			glVertex2d(pos.x+size.x-1,pos.y);
-			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
-			glVertex2d(pos.x,pos.y+size.y-1);
-			glVertex2d(pos.x,pos.y);
+				glVertex2d(pos.x,pos.y);
+				glVertex2d(pos.x+size.x-1,pos.y);
+				glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
+				glVertex2d(pos.x,pos.y+size.y-1);
+				glVertex2d(pos.x,pos.y);
 			glEnd();
 		}
 	}
@@ -107,25 +107,18 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 		
 		if (filled) {
 			glBegin(GL_QUADS);
-			GL.color4f(cTopLeft);
-			glVertex2d(pos.x,pos.y);
-			GL.color4f(cTopRight);
-			glVertex2d(pos.x+size.x,pos.y);
-			GL.color4f(cBottomRight);
-			glVertex2d(pos.x+size.x,pos.y+size.y);
-			GL.color4f(cBottomLeft);
-			glVertex2d(pos.x,pos.y+size.y);
+				GL.color4f(cTopLeft); glVertex2d(pos.x,pos.y);
+				GL.color4f(cTopRight); glVertex2d(pos.x+size.x,pos.y);
+				GL.color4f(cBottomRight); glVertex2d(pos.x+size.x,pos.y+size.y);
+				GL.color4f(cBottomLeft); glVertex2d(pos.x,pos.y+size.y);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_STRIP);
-			GL.color4f(cTopLeft);
-			glVertex2d(pos.x,pos.y);
-			GL.color4f(cTopRight);
-			glVertex2d(pos.x+size.x-1,pos.y);
-			GL.color4f(cBottomRight);
-			glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
-			GL.color4f(cBottomLeft);
-			glVertex2d(pos.x,pos.y+size.y-1);
+				GL.color4f(cTopLeft); glVertex2d(pos.x,pos.y);
+				GL.color4f(cTopRight); glVertex2d(pos.x+size.x-1,pos.y);
+				GL.color4f(cBottomRight); glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
+				GL.color4f(cBottomLeft); glVertex2d(pos.x,pos.y+size.y-1);
+				GL.color4f(cTopLeft); glVertex2d(pos.x,pos.y);
 			glEnd();
 		}
 	}

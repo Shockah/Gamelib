@@ -66,8 +66,8 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		
 		preDraw(g);
 		glBegin(GL_QUADS);
-		Rectangle texRect = getTextureRect();
-		internalDrawImage(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
+			Rectangle texRect = getTextureRect();
+			internalDrawImage(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
 		glEnd();
 		postDraw(g);
 		
@@ -89,8 +89,8 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		
 		preDraw(g);
 		glBegin(GL_QUADS);
-		Rectangle texRect = getTextureRect();
-		internalDrawImageMulticolor(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold(),cTopLeft,cTopRight,cBottomLeft,cBottomRight);
+			Rectangle texRect = getTextureRect();
+			internalDrawImageMulticolor(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold(),cTopLeft,cTopRight,cBottomLeft,cBottomRight);
 		glEnd();
 		postDraw(g);
 		

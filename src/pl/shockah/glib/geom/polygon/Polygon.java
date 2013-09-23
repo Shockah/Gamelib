@@ -109,14 +109,14 @@ public class Polygon extends Shape {
 		if (filled) {
 			updateTriangles();
 			glBegin(GL_TRIANGLES);
-			for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x,v.y);
+				for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x,v.y);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_STRIP);
-			for (int i = 0; i <= points.size(); i++) {
-				Vector2d v = points.get(i == points.size() ? 0 : i);
-				glVertex2d(v.x,v.y);
-			}
+				for (int i = 0; i <= points.size(); i++) {
+					Vector2d v = points.get(i == points.size() ? 0 : i);
+					glVertex2d(v.x,v.y);
+				}
 			glEnd();
 		}
 	}
