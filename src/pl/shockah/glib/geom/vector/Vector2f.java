@@ -112,6 +112,17 @@ public class Vector2f implements IInterpolatable<Vector2f> {
 	public double direction(Vector2f v) {
 		return Math.toDegrees(Math.atan2(y-v.y,v.x-x));
 	}
+	public double deltaAngle(Vector2f v) {return deltaAngle(v.direction());}
+	public double deltaAngle(double angle) {
+		double a = direction();
+		while (angle <= -180) angle += 360;
+		while (angle > 180) angle -= 360;
+		while (a <= -180) a += 360;
+		while (a > 180) a -= 360;
+		
+		double r = angle-a;
+		return r+((r>180) ? -360 : (r<-180) ? 360 : 0);
+	}
 	
 	public Vector2f interpolate(Vector2f v, double d, Interpolate method) {
 		return new Vector2f(method.interpolate(x,v.x,d),method.interpolate(y,v.y,d));

@@ -56,9 +56,7 @@ public class SpriteSheet extends TextureSupplier {
 		return getImage(x%grid.length,x/grid.length);
 	}
 	public Image getImage(int x, int y) {
-		Image ret = grid[x][y];
-		ret.offset = offset;
-		return ret;
+		return grid[x][y];
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {
