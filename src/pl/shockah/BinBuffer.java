@@ -76,12 +76,11 @@ public class BinBuffer {
 	public BinBuffer writeDouble(double value) {writeUXBytes(Double.doubleToRawLongBits(value),8); return this;}
 	public BinBuffer writeChars(String text) {for (int i = 0; i < text.length(); i++) writeByte(text.charAt(i)); return this;}
 	public BinBuffer writeUChars(String text) {for (int i = 0; i < text.length(); i++) writeUShort(text.charAt(i)); return this;}
-	public BinBuffer writeString(String text) {writeChars(text); writeByte(0); return this;}
-	public BinBuffer writeString2(String text) {writeUInt(text.length()); writeChars(text); return this;}
-	public BinBuffer writeUString(String text) {writeUChars(text); writeUShort(0); return this;}
-	public BinBuffer writeUString2(String text) {writeUInt(text.length()); writeUChars(text); return this;}
+	public BinBuffer writeString(String text) {writeUInt(text.length()); writeChars(text); return this;}
+	public BinBuffer writeUString(String text) {writeUInt(text.length()); writeUChars(text); return this;}
 	public BinBuffer writeJavaString(String text) {byte[] bytes = text.getBytes(Charset.forName("UTF-8")); writeUShort(bytes.length); writeBytes(bytes); return this;}
 	public BinBuffer writeBytes(byte[] bytes) {for (int i = 0; i < bytes.length; i++) writeSByte(bytes[i]); return this;}
+	public BinBuffer writeObject(IBinBufferSerializable ibbs) {ibbs.getSerializer().write(this,ibbs); return this;}
 	
 	public int readByte() {
 		if (pos > buffer.length-1) return 0;
@@ -103,14 +102,11 @@ public class BinBuffer {
 	public double readDouble() {return Double.longBitsToDouble(readUXBytes(8));}
 	public String readChars(int length) {StringBuilder s = new StringBuilder(); for (int i = 0; i < length; i++) s.append((char)readByte()); return s.toString();}
 	public String readUChars(int length) {StringBuilder s = new StringBuilder(); for (int i = 0; i < length; i++) s.append((char)readUShort()); return s.toString();}
-	public String readString() {StringBuilder s = new StringBuilder(); int v; while ((v = readByte()) != 0) s.append((char)v); return s.toString();}
-	public String readString2() {return readChars((int)readUInt());}
-	public String readUString() {StringBuilder s = new StringBuilder(); int v; while ((v = readUShort()) != 0) s.append((char)v); return s.toString();}
-	public String readUString2() {return readUChars((int)readUInt());}
-	public String readWholeString() {StringBuilder s = new StringBuilder(); while (bytesLeft() > 0) s.append((char)readByte()); return s.toString();}
-	public String readWholeUString() {StringBuilder s = new StringBuilder(); while (bytesLeft() > 0) s.append((char)readUShort()); return s.toString();}
+	public String readString() {return readChars((int)readUInt());}
+	public String readUString() {return readUChars((int)readUInt());}
 	public String readJavaString() {return new String(readBytes(readUShort()),Charset.forName("UTF-8"));}
 	public byte[] readBytes(int bytes) {byte[] ret = new byte[bytes]; for (int i = 0; i < bytes; i++) ret[i] = (byte)readSByte(); return ret;}
+	public IBinBufferSerializable readObject(BinBufferSerializer bbs) {return bbs.read(this);}
 	
 	public void fillByte(int value) {for (int i = 0; i < getSizeReal(); i++) writeByte(value);}
 	
