@@ -3,6 +3,7 @@ package pl.shockah.glib.geom;
 import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
@@ -15,13 +16,13 @@ public class Line extends Shape implements IInterpolatable<Line> {
 		pos1 = new Vector2d(x1,y1);
 		pos2 = new Vector2d(x2,y2);
 	}
-	public Line(Vector2d pos1, Vector2d pos2) {
-		this.pos1 = pos1;
-		this.pos2 = pos2;
+	public Line(IVector2 pos1, IVector2 pos2) {
+		this.pos1 = pos1.toDouble();
+		this.pos2 = pos2.toDouble();
 	}
 	public Line(Line line) {
-		pos1 = new Vector2d(line.pos1);
-		pos2 = new Vector2d(line.pos2);
+		pos1 = line.pos1.copyMe();
+		pos2 = line.pos2.copyMe();
 	}
 	
 	public Shape copy() {

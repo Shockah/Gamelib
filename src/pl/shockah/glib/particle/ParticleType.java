@@ -1,6 +1,6 @@
 package pl.shockah.glib.particle;
 
-import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.tex.Image;
 
@@ -11,10 +11,10 @@ public abstract class ParticleType {
 		this.image = image;
 	}
 	
-	public void spawn(ParticleSystem ps, Vector2d pos, Object... args) {
+	public void spawn(ParticleSystem ps, IVector2 pos, Object... args) {
 		ps.particles.add(create(ps,pos,args));
 	}
-	protected abstract Particle create(ParticleSystem ps, Vector2d pos, Object... args);
+	protected abstract Particle create(ParticleSystem ps, IVector2 pos, Object... args);
 	
 	protected void onSpawn(Particle p) {}
 	protected void onDespawn(Particle p) {}
@@ -23,7 +23,7 @@ public abstract class ParticleType {
 	}
 	protected void onRender(Particle p, Graphics g) {
 		image.rotation.angle = p.rotation;
-		image.scale = p.size.Div(image.getSize().toDouble());
+		image.scale = p.size.Div(image.getSize());
 		
 		g.draw(image,p.pos);
 		

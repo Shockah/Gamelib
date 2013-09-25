@@ -63,7 +63,7 @@ public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle
 	}
 	
 	public Polygon asPolygon() {
-		return asPolygon((int)Math.ceil(Math.PI*radius/4));
+		return asPolygon((int)Math.ceil(Math.PI*radius/2));
 	}
 	public Polygon asPolygon(int precision) {
 		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;

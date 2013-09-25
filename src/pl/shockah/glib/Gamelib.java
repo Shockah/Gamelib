@@ -1,6 +1,7 @@
 package pl.shockah.glib;
 
 import java.util.Arrays;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GLContext;
@@ -166,5 +167,9 @@ public final class Gamelib {
 	
 	public static void handle(Throwable t) {
 		t.printStackTrace();
+	}
+	
+	public static double getDoubleTime() {
+		return 1d*Sys.getTime()/Sys.getTimerResolution();
 	}
 }

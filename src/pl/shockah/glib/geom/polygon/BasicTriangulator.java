@@ -31,12 +31,12 @@ public class BasicTriangulator implements ITriangulator {
 	}
 	
 	public int getTriangleCount() {
-		if (!tried) throw new RuntimeException("Call triangulate() before accessing triangles");
+		if (!tried) throw new IllegalStateException("Call triangulate() before accessing triangles");
 		return tris.size() / 3;
 	}
 	
 	public Vector2d getTrianglePoint(int tri, int i) {
-		if (!tried) throw new RuntimeException("Call triangulate() before accessing triangles");
+		if (!tried) throw new IllegalStateException("Call triangulate() before accessing triangles");
 		return tris.get((tri*3)+i);
 	}
 	
@@ -98,7 +98,7 @@ public class BasicTriangulator implements ITriangulator {
 		return true;
 	}
 	
-	@SuppressWarnings("unused") private boolean process(List<Vector2d> contour, List<Vector2d> result) {
+	private boolean process(List<Vector2d> contour, List<Vector2d> result) {
 		result.clear();
 
 		int n = contour.size();
@@ -115,7 +115,7 @@ public class BasicTriangulator implements ITriangulator {
 		int nv = n;
 		int count = 2 * nv;
 
-		for (int m = 0, v = nv - 1; nv > 2;) {
+		for (int v = nv - 1; nv > 2;) {
 			if (0 >= count--) return false;
 
 			int u = v;
@@ -135,7 +135,6 @@ public class BasicTriangulator implements ITriangulator {
 				result.add(contour.get(a));
 				result.add(contour.get(b));
 				result.add(contour.get(c));
-				m++;
 				
 				for (s = v, t = v + 1; t < nv; s++, t++) V[s] = V[t];
 				nv--;

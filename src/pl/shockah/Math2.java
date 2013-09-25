@@ -1,6 +1,4 @@
-package pl.shockah.glib;
-
-import org.lwjgl.Sys;
+package pl.shockah;
 
 public final class Math2 {
 	public static double root(double value, double degree) {
@@ -90,9 +88,5 @@ public final class Math2 {
 	public static int limit(int value, int limit) {
 		limit = Math.abs(limit);
 		return Math.min(Math.max(value,-limit),limit);
-	}
-	
-	public static double getDoubleTime() {
-		return 1d*Sys.getTime()/Sys.getTimerResolution();
 	}
 }

@@ -1,5 +1,6 @@
 package pl.shockah.glib.geom;
 
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
@@ -8,9 +9,9 @@ public abstract class Shape {
 	
 	public abstract Rectangle getBoundingBox();
 	
-	public Vector2d translate(Vector2d v) {return translate(v.x,v.y);}
+	public Vector2d translate(IVector2 v) {return translate(v.Xd(),v.Yd());}
 	public abstract Vector2d translate(double x, double y);
-	public Vector2d translateTo(Vector2d v) {return translateTo(v.x,v.y);}
+	public Vector2d translateTo(IVector2 v) {return translateTo(v.Xd(),v.Yd());}
 	public abstract Vector2d translateTo(double x, double y);
 	
 	public boolean collides(Shape shape) {

@@ -1,7 +1,7 @@
 package tests.random;
 
+import pl.shockah.Math2;
 import pl.shockah.glib.Gamelib;
-import pl.shockah.glib.Math2;
 import pl.shockah.glib.animfx.Animation;
 import pl.shockah.glib.animfx.TimelineDouble;
 import pl.shockah.glib.geom.Circle;

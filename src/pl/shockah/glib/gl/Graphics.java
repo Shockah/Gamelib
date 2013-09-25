@@ -1,20 +1,16 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
-
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.lwjgl.BufferUtils;
-
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
-import pl.shockah.glib.geom.vector.Vector2f;
-import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.ITextureSupplier;
 import pl.shockah.glib.gl.tex.Image;
@@ -98,8 +94,8 @@ public class Graphics {
 		if (lastGraphics == this) t.apply();
 	}
 	
-	public void scale(Vector2d v) {
-		scale(v.x,v.y);
+	public void scale(IVector2 v) {
+		scale(v.Xd(),v.Yd());
 	}
 	public void scale(double x, double y) {
 		if (redirect != null) {
@@ -284,9 +280,7 @@ public class Graphics {
 	}
 	
 	public void draw(ITextureSupplier ts) {draw(ts,0,0);}
-	public void draw(ITextureSupplier ts, Vector2d v) {draw(ts,v.x,v.y);}
-	public void draw(ITextureSupplier ts, Vector2f v) {draw(ts,v.x,v.y);}
-	public void draw(ITextureSupplier ts, Vector2i v) {draw(ts,v.x,v.y);}
+	public void draw(ITextureSupplier ts, IVector2 v) {draw(ts,v.Xd(),v.Yd());}
 	public void draw(ITextureSupplier ts, double x, double y) {
 		if (redirect != null) {
 			redirect.draw(ts,x,y);
@@ -296,9 +290,7 @@ public class Graphics {
 	}
 	
 	public void draw(Image image, double rotation) {draw(image,0,0,rotation);}
-	public void draw(Image image, Vector2d v, double rotation) {draw(image,v.x,v.y,rotation);}
-	public void draw(Image image, Vector2f v, double rotation) {draw(image,v.x,v.y,rotation);}
-	public void draw(Image image, Vector2i v, double rotation) {draw(image,v.x,v.y,rotation);}
+	public void draw(Image image, IVector2 v, double rotation) {draw(image,v.Xd(),v.Yd(),rotation);}
 	public void draw(Image image, double x, double y, double rotation) {
 		if (redirect != null) {
 			redirect.draw(image,x,y,rotation);
@@ -312,12 +304,8 @@ public class Graphics {
 	
 	public void draw(Surface surface) {draw(surface,0,0,0);}
 	public void draw(Surface surface, double rotation) {draw(surface,0,0,rotation);}
-	public void draw(Surface surface, Vector2d v) {draw(surface,v.x,v.y,0);}
-	public void draw(Surface surface, Vector2f v) {draw(surface,v.x,v.y,0);}
-	public void draw(Surface surface, Vector2i v) {draw(surface,v.x,v.y,0);}
-	public void draw(Surface surface, Vector2d v, double rotation) {draw(surface,v.x,v.y,rotation);}
-	public void draw(Surface surface, Vector2f v, double rotation) {draw(surface,v.x,v.y,rotation);}
-	public void draw(Surface surface, Vector2i v, double rotation) {draw(surface,v.x,v.y,rotation);}
+	public void draw(Surface surface, IVector2 v) {draw(surface,v.Xd(),v.Yd(),0);}
+	public void draw(Surface surface, IVector2 v, double rotation) {draw(surface,v.Xd(),v.Yd(),rotation);}
 	public void draw(Surface surface, double x, double y) {draw(surface,x,y,0);}
 	public void draw(Surface surface, double x, double y, double rotation) {
 		if (redirect != null) {
@@ -328,9 +316,7 @@ public class Graphics {
 	}
 	
 	public void draw(GLList gll) {draw(gll,0,0);}
-	public void draw(GLList gll, Vector2d v) {draw(gll,v.x,v.y);}
-	public void draw(GLList gll, Vector2f v) {draw(gll,v.x,v.y);}
-	public void draw(GLList gll, Vector2i v) {draw(gll,v.x,v.y);}
+	public void draw(GLList gll, IVector2 v) {draw(gll,v.Xd(),v.Yd());}
 	public void draw(GLList gll, double x, double y) {
 		if (redirect != null) {
 			redirect.draw(gll,x,y);
@@ -374,11 +360,11 @@ public class Graphics {
 		return absolute;
 	}
 	
-	public static abstract class Transformation {
+	protected static abstract class Transformation {
 		public abstract void apply();
 		public abstract void unapply();
 	}
-	public static class TransformationTranslate extends Transformation {
+	protected static class TransformationTranslate extends Transformation {
 		protected final Vector2d v;
 		public TransformationTranslate(Vector2d v) {
 			this.v = v;
@@ -386,7 +372,7 @@ public class Graphics {
 		public void apply() {glTranslated(v.x,v.y,0d);}
 		public void unapply() {glTranslated(-v.x,-v.y,0d);}
 	}
-	public static class TransformationScale extends Transformation {
+	protected static class TransformationScale extends Transformation {
 		protected final Vector2d v;
 		public TransformationScale(Vector2d v) {
 			this.v = v;

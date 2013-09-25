@@ -5,6 +5,7 @@ import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
@@ -16,25 +17,25 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 	public Rectangle(double w, double h) {
 		this(new Vector2d(),w,h);
 	}
-	public Rectangle(Vector2d size) {
+	public Rectangle(IVector2 size) {
 		this(new Vector2d(),size);
 	}
 	public Rectangle(double x, double y, double w, double h) {
 		this(new Vector2d(x,y),new Vector2d(w,h));
 	}
-	public Rectangle(double x, double y, Vector2d size) {
+	public Rectangle(double x, double y, IVector2 size) {
 		this(new Vector2d(x,y),size);
 	}
-	public Rectangle(Vector2d pos, double w, double h) {
+	public Rectangle(IVector2 pos, double w, double h) {
 		this(pos,new Vector2d(w,h));
 	}
-	public Rectangle(Vector2d pos, Vector2d size) {
-		this.pos = pos;
-		this.size = size;
+	public Rectangle(IVector2 pos, IVector2 size) {
+		this.pos = pos.toDouble();
+		this.size = size.toDouble();
 	}
 	public Rectangle(Rectangle rect) {
-		pos = new Vector2d(rect.pos);
-		size = new Vector2d(rect.size);
+		pos = rect.pos.copyMe();
+		size = rect.size.copyMe();
 	}
 	
 	public Shape copy() {

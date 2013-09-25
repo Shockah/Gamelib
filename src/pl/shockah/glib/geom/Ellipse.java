@@ -1,6 +1,6 @@
 package pl.shockah.glib.geom;
 
-import pl.shockah.glib.Math2;
+import pl.shockah.Math2;
 import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;

@@ -1,7 +1,7 @@
 package pl.shockah.glib.gl.color;
 
 import static org.lwjgl.opengl.GL11.*;
-import pl.shockah.glib.Math2;
+import pl.shockah.Math2;
 import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 
@@ -209,14 +209,6 @@ public abstract class Color implements IInterpolatable<Color> {
 		return new Colorf(Rf()*Af(),Gf()*Af(),Bf()*Af(),Af());
 	}
 	
-	public Color lerp(Color c2, float ratio) {
-		if (ratio < 0 || ratio > 1) throw new IllegalArgumentException("Ratio should have a value of 0-1.");
-		float R = Rf()-((Rf()-c2.Rf())*ratio);
-		float G = Gf()-((Gf()-c2.Gf())*ratio);
-		float B = Bf()-((Bf()-c2.Bf())*ratio);
-		float A = Af()-((Af()-c2.Af())*ratio);
-		return new Colorb(R,G,B,A);
-	}
 	public Color inverse() {
 		return new Colorb(255-R(),255-G(),255-B(),A());
 	}

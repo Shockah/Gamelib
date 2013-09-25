@@ -1,6 +1,7 @@
 package pl.shockah.glib.gl.font;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -21,8 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.BufferUtils;
 import pl.shockah.glib.geom.Rectangle;
-import pl.shockah.glib.geom.vector.Vector2d;
-import pl.shockah.glib.geom.vector.Vector2f;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
@@ -209,9 +209,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public int getHeight(String HeightString) {return fontHeight;}
 	public int getLineHeight() {return fontHeight;}
 	
-	public void draw(Graphics g, Vector2d v, CharSequence text) {draw(g,v.x,v.y,text);}
-	public void draw(Graphics g, Vector2f v, CharSequence text) {draw(g,v.x,v.y,text);}
-	public void draw(Graphics g, Vector2i v, CharSequence text) {draw(g,v.x,v.y,text);}
+	public void draw(Graphics g, IVector2 v, CharSequence text) {draw(g,v.Xd(),v.Yd(),text);}
 	public void draw(Graphics g, double x, double y, CharSequence text) {
 		drawString(x,y,text,0,text.length()-1,1f,1f);
 	}
@@ -232,28 +230,23 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		
 		GL.bind(texture);
 		glBegin(GL_QUADS);
-		
-		while (i >= startIndex && i <= endIndex) {
-			charCurrent = whatchars.charAt(i);
-			intObject = charCurrent < 256 ? charArray[charCurrent] : customChars.get((char)charCurrent);
-			
-			if (intObject != null) {
-				if (d < 0) totalwidth += (intObject.width-c)*d;
-				drawQuad((totalwidth+intObject.width)*scaleX+x,startY*scaleY+y,totalwidth*scaleX+x,
-					(startY+intObject.height)*scaleY+y,intObject.storedX+intObject.width,intObject.storedY+intObject.height,intObject.storedX,intObject.storedY);
-				if (d > 0) totalwidth += (intObject.width-c)*d;
-				i += d;
+			while (i >= startIndex && i <= endIndex) {
+				charCurrent = whatchars.charAt(i);
+				intObject = charCurrent < 256 ? charArray[charCurrent] : customChars.get((char)charCurrent);
+				
+				if (intObject != null) {
+					if (d < 0) totalwidth += (intObject.width-c)*d;
+					drawQuad((totalwidth+intObject.width)*scaleX+x,startY*scaleY+y,totalwidth*scaleX+x,
+						(startY+intObject.height)*scaleY+y,intObject.storedX+intObject.width,intObject.storedY+intObject.height,intObject.storedX,intObject.storedY);
+					if (d > 0) totalwidth += (intObject.width-c)*d;
+					i += d;
+				}
 			}
-		}
 		glEnd();
-		GL.unbindTexture();
 	}
 	
 	private static int loadImage(BufferedImage bufferedImage) {
 		try {
-			short width	= (short)bufferedImage.getWidth();
-			short height = (short)bufferedImage.getHeight();
-			int bpp = (byte)bufferedImage.getColorModel().getPixelSize();
 			ByteBuffer byteBuffer;
 			DataBuffer db = bufferedImage.getData().getDataBuffer();
 			if (db instanceof DataBufferInt) {
@@ -269,8 +262,8 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 					newI[newIndex+3] = b[0];
 				}
 				
-				byteBuffer = ByteBuffer.allocateDirect(width*height*(bpp/8)).order(ByteOrder.nativeOrder()).put(newI);
-			} else byteBuffer = ByteBuffer.allocateDirect(width*height*(bpp/8)).order(ByteOrder.nativeOrder()).put(((DataBufferByte)(bufferedImage.getData().getDataBuffer())).getData());
+				byteBuffer = ByteBuffer.allocateDirect(bufferedImage.getWidth()*bufferedImage.getHeight()*(bufferedImage.getColorModel().getPixelSize()/8)).order(ByteOrder.nativeOrder()).put(newI);
+			} else byteBuffer = ByteBuffer.allocateDirect(bufferedImage.getWidth()*bufferedImage.getHeight()*(bufferedImage.getColorModel().getPixelSize()/8)).order(ByteOrder.nativeOrder()).put(((DataBufferByte)(bufferedImage.getData().getDataBuffer())).getData());
 			byteBuffer.flip();
 			
 			
@@ -286,11 +279,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 			
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			gluBuild2DMipmaps(GL_TEXTURE_2D,internalFormat,width,height,format,GL_UNSIGNED_BYTE,byteBuffer);
+			gluBuild2DMipmaps(GL_TEXTURE_2D,internalFormat,bufferedImage.getWidth(),bufferedImage.getHeight(),format,GL_UNSIGNED_BYTE,byteBuffer);
 			return textureId.get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 		
 		return -1;
 	}
@@ -298,43 +289,37 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		if ((width < 1) || (height < 1)) return 100901;
 
 		int bpp = bytesPerPixel(format,type);
-		if (bpp == 0) { return 100900; }
-		int maxSize = glGetIntegerv(3379);
+		if (bpp == 0) return 100900;
+		int maxSize = glGetIntegerv(GL_MAX_TEXTURE_SIZE);
 
 		int w = nearestPower(width);
-		if (w > maxSize) {
-			w = maxSize;
-		}
+		if (w > maxSize) w = maxSize;
 		int h = nearestPower(height);
-		if (h > maxSize) {
-			h = maxSize;
-		}
+		if (h > maxSize) h = maxSize;
 
 		PixelStoreState pss = new PixelStoreState();
 
-		glPixelStorei(3330,0);
-		glPixelStorei(3333,1);
-		glPixelStorei(3331,0);
-		glPixelStorei(3332,0);
+		glPixelStorei(GL_PACK_ROW_LENGTH,0);
+		glPixelStorei(GL_PACK_ALIGNMENT,1);
+		glPixelStorei(GL_PACK_SKIP_ROWS,0);
+		glPixelStorei(GL_PACK_SKIP_PIXELS,0);
 
 		int retVal = 0;
 		boolean done = false;
 		ByteBuffer image;
 		if ((w != width) || (h != height)) {
-			image = BufferUtils.createByteBuffer((w + 4) * h * bpp);
+			image = BufferUtils.createByteBuffer((w+4)*h*bpp);
 			int error = gluScaleImage(format,width,height,type,data,w,h,type,image);
 			if (error != 0) {
 				retVal = error;
 				done = true;
 			}
 
-			glPixelStorei(3314,0);
-			glPixelStorei(3317,1);
-			glPixelStorei(3315,0);
-			glPixelStorei(3316,0);
-		} else {
-			image = data;
-		}
+			glPixelStorei(GL_UNPACK_ROW_LENGTH,0);
+			glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+			glPixelStorei(GL_UNPACK_SKIP_ROWS,0);
+			glPixelStorei(GL_UNPACK_SKIP_PIXELS,0);
+		} else image = data;
 
 		ByteBuffer bufferA = null;
 		ByteBuffer bufferB = null;
@@ -342,10 +327,10 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		int level = 0;
 		while (!done) {
 			if (image != data) {
-				glPixelStorei(3314,0);
-				glPixelStorei(3317,1);
-				glPixelStorei(3315,0);
-				glPixelStorei(3316,0);
+				glPixelStorei(GL_UNPACK_ROW_LENGTH,0);
+				glPixelStorei(GL_UNPACK_ALIGNMENT,1);
+				glPixelStorei(GL_UNPACK_SKIP_ROWS,0);
+				glPixelStorei(GL_UNPACK_SKIP_PIXELS,0);
 			}
 
 			glTexImage2D(target,level,components,w,h,0,format,type,image);
@@ -357,9 +342,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			int newH = h < 2 ? 1 : h >> 1;
 			ByteBuffer newImage;
 			if (bufferA == null) {
-				newImage = bufferA = BufferUtils.createByteBuffer((newW + 4) * newH * bpp);
+				newImage = bufferA = BufferUtils.createByteBuffer((newW+4)*newH*bpp);
 			} else {
-				if (bufferB == null) newImage = bufferB = BufferUtils.createByteBuffer((newW + 4) * newH * bpp);
+				if (bufferB == null) newImage = bufferB = BufferUtils.createByteBuffer((newW+4)*newH*bpp);
 				else newImage = bufferB;
 			}
 			int error = gluScaleImage(format,w,h,type,image,newW,newH,type,newImage);
@@ -369,9 +354,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			}
 
 			image = newImage;
-			if (bufferB != null) {
-				bufferB = bufferA;
-			}
+			if (bufferB != null) bufferB = bufferA;
 			w = newW;
 			h = newH;
 			level++;
@@ -384,52 +367,21 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	protected static int bytesPerPixel(int format, int type) {
 		int n;
 		switch (format) {
-			case 6400:case 6401:case 6402:case 6403:case 6404:case 6405:case 6406:case 6409:
-				n = 1;
-			break;
-			case 6410:
-				n = 2;
-			break;
-			case 6407:case 32992:
-				n = 3;
-			break;
-			case 6408:case 32993:
-				n = 4;
-			break;
-			default:
-				n = 0;
+			case GL_COLOR_INDEX: case GL_STENCIL_INDEX: case GL_DEPTH_COMPONENT: case GL_RED: case GL_GREEN: case GL_BLUE: case GL_ALPHA: case GL_LUMINANCE: n = 1; break;
+			case GL_LUMINANCE_ALPHA: n = 2; break;
+			case GL_RGB: case GL_BGR: n = 3; break;
+			case GL_RGBA: case GL_BGRA: n = 4; break;
+			default: n = 0;
 		}
 		int m;
 		switch (type) {
-			case 5121:
-				m = 1;
-			break;
-			case 5120:
-				m = 1;
-			break;
-			case 6656:
-				m = 1;
-			break;
-			case 5123:
-				m = 2;
-			break;
-			case 5122:
-				m = 2;
-			break;
-			case 5125:
-				m = 4;
-			break;
-			case 5124:
-				m = 4;
-			break;
-			case 5126:
-				m = 4;
-			break;
-			default:
-				m = 0;
+			case GL_UNSIGNED_BYTE: case GL_BYTE: case GL_BITMAP: m = 1; break;
+			case GL_UNSIGNED_SHORT: case GL_SHORT: m = 2; break;
+			case GL_UNSIGNED_INT: case GL_INT: case GL_FLOAT: m = 4; break;
+			default: m = 0;
 		}
 
-		return n * m;
+		return n*m;
 	}
 	protected static int nearestPower(int value) {
 		int i = 1;
@@ -437,7 +389,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		if (value == 0) return -1;
 		while (true) {
 			if (value == 1) return i;
-			if (value == 3) { return i << 2; }
+			if (value == 3) return i << 2;
 			value >>= 1;
 			i <<= 1;
 		}
@@ -449,31 +401,21 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	protected static int gluScaleImage(int format, int widthIn, int heightIn, int typein, ByteBuffer dataIn, int widthOut, int heightOut, int typeOut, ByteBuffer dataOut) {
 		int components = compPerPix(format);
-		if (components == -1) { return 100900; }
+		if (components == -1) return 100900;
 
-		float[] tempIn = new float[widthIn * heightIn * components];
-		float[] tempOut = new float[widthOut * heightOut * components];
+		float[] tempIn = new float[widthIn*heightIn*components];
+		float[] tempOut = new float[widthOut*heightOut*components];
 		int sizein;
 		switch (typein) {
-			case 5121:
-				sizein = 1;
-			break;
-			case 5126:
-				sizein = 4;
-			break;
-			default:
-				return 1280;
+			case GL_UNSIGNED_BYTE: sizein = 1; break;
+			case GL_FLOAT: sizein = 4; break;
+			default: return GL_INVALID_ENUM;
 		}
 		int sizeout;
 		switch (typeOut) {
-			case 5121:
-				sizeout = 1;
-			break;
-			case 5126:
-				sizeout = 4;
-			break;
-			default:
-				return 1280;
+			case GL_UNSIGNED_BYTE: sizeout = 1; break;
+			case GL_FLOAT: sizeout = 4; break;
+			default: return GL_INVALID_ENUM;
 		}
 
 		PixelStoreState pss = new PixelStoreState();
@@ -486,7 +428,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		int k;
 		int i,j;
 		switch (typein) {
-			case 5121:
+			case GL_UNSIGNED_BYTE:
 				k = 0;
 				dataIn.rewind();
 				for (i = 0; i < heightIn;) {
@@ -496,7 +438,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 					i++;
 					continue;
 				}
-			case 5126:
+			case GL_FLOAT:
 		}
 		float sx = widthIn / widthOut;
 		float sy = heightIn / heightOut;
@@ -512,50 +454,31 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 
 				int readPix = 0;
 
-				for (int ic = 0; ic < components; ic++) {
-					c[ic] = 0.0F;
-				}
+				for (int ic = 0; ic < components; ic++) c[ic] = 0.0F;
 
 				for (int ix0 = x0; ix0 < x1; ix0++) {
 					for (int iy0 = y0; iy0 < y1; iy0++) {
 						int src = (iy0 * widthIn + ix0) * components;
 
-						for (int ic = 0; ic < components; ic++) {
-							c[ic] += tempIn[(src + ic)];
-						}
-
+						for (int ic = 0; ic < components; ic++) c[ic] += tempIn[(src + ic)];
 						readPix++;
 					}
-
 				}
 
 				int dst = (iy * widthOut + ix) * components;
 
 				if (readPix == 0) {
 					int src = (y0 * widthIn + x0) * components;
-					for (int ic = 0; ic < components; ic++)
-						tempOut[(dst++)] = tempIn[(src + ic)];
-				} else {
-					for (k = 0; k < components; k++) {
-						tempOut[(dst++)] = (c[k] / readPix);
-					}
-				}
-
+					for (int ic = 0; ic < components; ic++) tempOut[(dst++)] = tempIn[(src + ic)];
+				} else for (k = 0; k < components; k++) tempOut[(dst++)] = (c[k] / readPix);
 			}
-
 		}
 
-		if (pss.packRowLength > 0) rowlen = pss.packRowLength;
-		else {
-			rowlen = widthOut;
-		}
-		if (sizeout >= pss.packAlignment) rowstride = components * rowlen;
-		else {
-			rowstride = pss.packAlignment / sizeout * ceil(components * rowlen * sizeout,pss.packAlignment);
-		}
+		if (pss.packRowLength > 0) rowlen = pss.packRowLength; else rowlen = widthOut;
+		if (sizeout >= pss.packAlignment) rowstride = components * rowlen; else rowstride = pss.packAlignment / sizeout * ceil(components * rowlen * sizeout,pss.packAlignment);
 		i = j = k = 0;
 		switch (typeOut) {
-			case 5121:
+			case GL_UNSIGNED_BYTE:
 				k = 0;
 				for (i = 0; i < heightOut;) {
 					int ubptr = i * rowstride + pss.packSkipRows * rowstride + pss.packSkipPixels * components;
@@ -565,20 +488,16 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 					i++;
 					continue;
 				}
-			case 5126:
+			case GL_FLOAT:
 		}
 		return 0;
 	}
 	protected static int compPerPix(int format) {
 		switch (format) {
-			case 6400:case 6401:case 6402:case 6403:case 6404:case 6405:case 6406:case 6409:
-				return 1;
-			case 6410:
-				return 2;
-			case 6407:case 32992:
-				return 3;
-			case 6408:case 32993:
-				return 4;
+			case GL_COLOR_INDEX: case GL_STENCIL_INDEX: case GL_DEPTH_COMPONENT: case GL_RED: case GL_GREEN: case GL_BLUE: case GL_ALPHA: case GL_LUMINANCE: return 1;
+			case GL_LUMINANCE_ALPHA: return 2;
+			case GL_RGB: case GL_BGR: return 3;
+			case GL_RGBA: case GL_BGRA: return 4;
 		}
 		return -1;
 	}
@@ -607,9 +526,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
-	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
-	public void drawTexture(Graphics g, Vector2f v) {drawTexture(g,v.x,v.y);}
-	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, IVector2 v) {drawTexture(g,v.Xd(),v.Yd());}
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		GL.bind(getTexture());

@@ -3,10 +3,9 @@ package pl.shockah.glib.gl;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.ARBShaderObjects;
 import org.lwjgl.opengl.EXTFramebufferObject;
-
 import pl.shockah.glib.Debug;
 import pl.shockah.glib.Gamelib;
-import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -50,8 +49,8 @@ public final class GL {
 	public static void color4f(Color c) {
 		glColor4f(c.Rf(),c.Gf(),c.Bf(),c.Af());
 	}
-	public static void translated(Vector2d v) {
-		translated(v.x,v.y);
+	public static void translated(IVector2 v) {
+		translated(v.Xd(),v.Yd());
 	}
 	public static void translated(double x, double y) {
 		glTranslated(x,y,0);

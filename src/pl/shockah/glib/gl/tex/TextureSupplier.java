@@ -1,14 +1,9 @@
 package pl.shockah.glib.gl.tex;
 
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glTexCoord2d;
-import static org.lwjgl.opengl.GL11.glTranslated;
-import static org.lwjgl.opengl.GL11.glVertex2d;
+import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.glib.geom.Rectangle;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
-import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
@@ -53,9 +48,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public double getHeightScaled() {return getHeight()*scale.y;}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
-	public void drawTexture(Graphics g, Vector2d v) {drawTexture(g,v.x,v.y);}
-	public void drawTexture(Graphics g, Vector2f v) {drawTexture(g,v.x,v.y);}
-	public void drawTexture(Graphics g, Vector2i v) {drawTexture(g,v.x,v.y);}
+	public void drawTexture(Graphics g, IVector2 v) {drawTexture(g,v.Xd(),v.Yd());}
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.preDraw();
@@ -76,9 +69,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	}
 	
 	public void drawTextureMulticolor(Graphics g, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,0,0,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
-	public void drawTextureMulticolor(Graphics g, Vector2d v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.x,v.y,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
-	public void drawTextureMulticolor(Graphics g, Vector2f v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.x,v.y,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
-	public void drawTextureMulticolor(Graphics g, Vector2i v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.x,v.y,cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
+	public void drawTextureMulticolor(Graphics g, IVector2 v, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {drawTextureMulticolor(g,v.Xd(),v.Yd(),cTopLeft,cTopRight,cBottomLeft,cBottomRight);}
 	public void drawTextureMulticolor(Graphics g, double x, double y, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.preDraw();

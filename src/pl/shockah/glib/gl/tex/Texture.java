@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 
@@ -46,8 +47,8 @@ public class Texture {
 		}
 	}
 	
-	public static Vector2i get2Fold(Vector2i v) {
-		return get2Fold(v.x,v.y);
+	public static Vector2i get2Fold(IVector2 v) {
+		return get2Fold(v.Xi(),v.Yi());
 	}
 	public static Vector2i get2Fold(int x, int y) {
 		int xx = 2, yy = 2;
