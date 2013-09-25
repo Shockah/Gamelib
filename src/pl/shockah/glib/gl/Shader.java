@@ -19,17 +19,28 @@ import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 
 public class Shader {
-	public static Shader createFromFile(File path) throws IOException {
+	public static Shader createFromFile(File path) throws IOException {return createFromFile(path,false,true);}
+	public static Shader createFromFile(File path, boolean mixTexturing, boolean embedConsts) throws IOException {
 		String vertex = FileLine.readString(new File(path.getParentFile(),path.getName()+".vert"));
 		String fragment = FileLine.readString(new File(path.getParentFile(),path.getName()+".frag"));
-		return create(vertex,fragment);
+		return create(vertex,fragment,mixTexturing,embedConsts);
 	}
-	public static Shader createFromPath(String internalPath) throws IOException {
+	public static Shader createFromPath(String internalPath) throws IOException {return createFromPath(internalPath,false,true);}
+	public static Shader createFromPath(String internalPath, boolean mixTexturing, boolean embedConsts) throws IOException {
 		String vertex = FileLine.readString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".vert")));
 		String fragment = FileLine.readString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".frag")));
-		return create(vertex,fragment);
+		return create(vertex,fragment,mixTexturing,embedConsts);
 	}
-	public static Shader create(String vertex, String fragment) throws IOException {
+	public static Shader create(String vertex, String fragment) throws IOException {return create(vertex,fragment,false,true);}
+	public static Shader create(String vertex, String fragment, boolean mixTexturing, boolean embedConsts) throws IOException {
+		if (embedConsts) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("uniform sampler2D tex;\n");
+			if (mixTexturing) sb.append("uniform float mixTexturing;\n");
+			sb.append("\n");
+			fragment = sb.toString()+fragment;
+		}
+		
 		int shaderVertex = createShader(ARBVertexShader.GL_VERTEX_SHADER_ARB,vertex);
 		int shaderFragment = createShader(ARBFragmentShader.GL_FRAGMENT_SHADER_ARB,fragment);
 		if (shaderVertex == 0 || shaderFragment == 0) {
@@ -150,5 +161,6 @@ public class Shader {
 		public String path() default "assets/images/<field.name>";
 		public LoadableProcessor.AssetType type() default LoadableProcessor.AssetType.Internal;
 		public boolean mixTexturing() default false;
+		public boolean embedConsts() default true;
 	}
 }

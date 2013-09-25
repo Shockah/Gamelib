@@ -287,8 +287,8 @@ public final class LoadableProcessor {
 				Shader sdr = null;
 				String path = handlePath(loadable.path());
 				switch (loadable.type()) {
-					case File: sdr = Shader.createFromFile(new File(path)); break;
-					case Internal: sdr = Shader.createFromPath(path); break;
+					case File: sdr = Shader.createFromFile(new File(path),loadable.mixTexturing(),loadable.embedConsts()); break;
+					case Internal: sdr = Shader.createFromPath(path,loadable.mixTexturing(),loadable.embedConsts()); break;
 				}
 				if (sdr != null) sdr.setMixTexturing(loadable.mixTexturing());
 				field.set(sdr);
