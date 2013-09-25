@@ -10,11 +10,17 @@ import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.Texture;
 
 public final class GL {
-	private static boolean flipped = false, pushed = false;
+	private static boolean flipped = false;
+	private static int pushed = 0;
 	private static Texture boundTexture = null;
 	private static Surface boundSurface = null;
 	private static Shader boundShader = null;
 	private static float thickness = 1;
+	private static boolean[] masking = new boolean[4];
+	
+	static {
+		for (int i = 0; i < masking.length; i++) masking[i] = true;
+	}
 	
 	public static void setup() {
 		glEnable(GL_LINE_SMOOTH);
@@ -24,12 +30,8 @@ public final class GL {
 		initDisplay(width,height,true);
 	}
 	public static void initDisplay(int width, int height, boolean resetBlending) {
-		glEnable(GL_TEXTURE_2D);
-		glClearColor(0f,0f,0f,0f);
-		
 		if (resetBlending) Graphics.getDefaultBlendMode().apply();
 		glViewport(0,0,width,height);
-		glMatrixMode(GL_MODELVIEW);
 	}
 	
 	public static void enterOrtho(int width, int height) {
@@ -46,8 +48,17 @@ public final class GL {
 		return flipped;
 	}
 	
+	public static void colorMask(boolean r, boolean g, boolean b, boolean a) {
+		if (masking[0] != r || masking[1] != g || masking[2] != b || masking[3] != a) {
+			masking[0] = r;
+			masking[1] = g;
+			masking[2] = b;
+			masking[3] = a;
+			glColorMask(masking[0],masking[1],masking[2],masking[3]);
+		}
+	}
 	public static void color4f(Color c) {
-		glColor4f(c.Rf(),c.Gf(),c.Bf(),c.Af());
+		Graphics.setColor(c);
 	}
 	public static void translated(IVector2 v) {
 		translated(v.Xd(),v.Yd());
@@ -62,7 +73,7 @@ public final class GL {
 			return;
 		}
 		if (boundTexture != null && boundTexture.getID() == tex.getID()) return;
-		glEnable(GL_TEXTURE_2D);
+		if (boundTexture == null) glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D,tex.getID());
 		if (boundShader != null) boundShader.handleTexturing(true);
 		boundTexture = tex;
@@ -134,17 +145,20 @@ public final class GL {
 		return thickness;
 	}
 	
-	public static void pushMatrixOnce() {
-		if (pushed) return;
+	public static void pushMatrix() {
 		glPushMatrix();
-		pushed = true;
+		pushed++;
 	}
-	public static void popMatrixOnce() {
-		if (!pushed) return;
+	public static void popMatrix() {
+		if (pushed == 0) return;
 		glPopMatrix();
-		pushed = false;
+		pushed--;
 	}
 	public static boolean pushedMatrix() {
-		return pushed;
+		return pushed > 0;
+	}
+	public static void loadIdentity() {
+		glLoadIdentity();
+		pushed = 0;
 	}
 }

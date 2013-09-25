@@ -40,7 +40,6 @@ public class ImageIOTextureLoader extends TextureLoader {
 		texture.setResizeFilter(EResizeFilter.Linear);
 		GL.bind(texture);
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,fold.x,fold.y,0,bi.getColorModel().hasAlpha() ? GL_RGBA : GL_RGB,GL_UNSIGNED_BYTE,bb);
-		GL.unbindTexture();
 		
 		return texture;
 	}

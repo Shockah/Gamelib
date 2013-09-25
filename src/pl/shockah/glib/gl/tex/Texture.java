@@ -115,4 +115,7 @@ public class Texture {
 		glDeleteTextures(texId);
 		disposed = true;
 	}
+	protected void finalize() {
+		dispose();
+	}
 }

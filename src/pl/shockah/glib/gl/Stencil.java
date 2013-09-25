@@ -1,6 +1,7 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import pl.shockah.glib.gl.color.Color;
 
 public abstract class Stencil {
 	public static final Stencil
@@ -30,13 +31,12 @@ public abstract class Stencil {
 		};
 	
 	public void phaseStencil(Graphics g) {
-		glClearColor(0f,0f,0f,0f);
-		glClear(GL_STENCIL_BUFFER_BIT);
-		glColorMask(false,false,false,false);
+		g.clear(Color.TransparentBlack,false,true);
+		GL.colorMask(false,false,false,false);
 		glEnable(GL_STENCIL_TEST);
 	}
 	public void phaseTest(Graphics g) {
-		glColorMask(true,true,true,true);
+		GL.colorMask(true,true,true,true);
 	}
 	public void phasePost(Graphics g) {
 		glDisable(GL_STENCIL_TEST);

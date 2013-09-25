@@ -530,14 +530,14 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		GL.bind(getTexture());
-		glTranslated(x,y,0);
+		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
 		glBegin(GL_QUADS);
 		Rectangle texRect = getTextureRect();
 		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidth(),texRect.pos.y/getHeight(),texRect.size.x/getTextureWidth(),texRect.size.y/getHeight());
 		glEnd();
 		
-		glTranslated(-x,-y,0);
+		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 		GL.unbindTexture();
 	}
 	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
@@ -556,6 +556,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	public void dispose() {
 		getTexture().dispose();
+	}
+	protected void finalize() {
+		dispose();
 	}
 	
 	private static class PixelStoreState {

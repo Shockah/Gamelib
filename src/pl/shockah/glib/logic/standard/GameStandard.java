@@ -71,7 +71,6 @@ public class GameStandard implements IGame {
 		state.preTransitionRender(g);
 		state.renderTransition(g);
 		state.postRender(g);
-		GL.unbind();
-		if (GL.pushedMatrix()) GL.popMatrixOnce();
+		GL.loadIdentity();
 	}
 }

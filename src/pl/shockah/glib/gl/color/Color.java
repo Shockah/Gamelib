@@ -199,7 +199,6 @@ public abstract class Color implements IInterpolatable<Color> {
 	public void bind() {
 		glColor4f(Rf(),Gf(),Bf(),Af());
 	}
-	public void unbind() {}
 	
 	public Color alpha(float alpha) {
 		return new Colorb(Rf(),Gf(),Bf(),Math2.limit(Af()*alpha,0f,1f));

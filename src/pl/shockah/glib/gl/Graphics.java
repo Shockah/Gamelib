@@ -19,8 +19,9 @@ import pl.shockah.glib.state.State;
 public class Graphics {
 	private static BlendMode defaultBlendMode = BlendMode.Normal;
 	private static boolean init = false;
-	private static Color color = null;
+	private static Color color = null, clearColor = Color.TransparentBlack;
 	private static DoubleBuffer tmpTransformedClip = BufferUtils.createDoubleBuffer(4);
+	private static Rectangle lastClip = null, lastTransformedClip = null;
 	protected static Graphics lastGraphics = null;
 	
 	protected static void init() {
@@ -30,7 +31,7 @@ public class Graphics {
 	}
 	
 	public static void setColor(Color color) {
-		if (Graphics.color != null && !Graphics.color.equals(color)) color.unbind();
+		if (color.equals(Graphics.color)) return;
 		Graphics.color = color;
 		color.bind();
 	}
@@ -58,8 +59,8 @@ public class Graphics {
 		onBind();
 		
 		if (lastGraphics != this) {
-			GL.popMatrixOnce();
-			GL.pushMatrixOnce();
+			if (GL.pushedMatrix()) GL.popMatrix();
+			GL.pushMatrix();
 			if (!absolute) applyTransformations();
 			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 			applyTransformedClip(transformedClipStack.isEmpty() ? null : transformedClipStack.get(transformedClipStack.size()-1));
@@ -77,8 +78,8 @@ public class Graphics {
 	}
 	protected void unapplyTransformations() {
 		if (lastGraphics != this) return;
-		GL.popMatrixOnce();
-		GL.pushMatrixOnce();
+		if (GL.pushedMatrix()) GL.popMatrix();
+		GL.pushMatrix();
 	}
 	
 	public void translate(Vector2d v) {
@@ -150,6 +151,7 @@ public class Graphics {
 			redirect.clearClip();
 			return;
 		}
+		if (clipStack.isEmpty()) return;
 		clipStack.clear();
 		if (lastGraphics != this) return;
 		glDisable(GL_SCISSOR_TEST);
@@ -161,7 +163,11 @@ public class Graphics {
 		}
 		if (lastGraphics != this) return;
 		if (rect == null) glDisable(GL_SCISSOR_TEST); else {
-			glScissor((int)(rect.pos.x),(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
+			Rectangle newr = new Rectangle((int)(rect.pos.x),(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
+			if (!newr.equals(lastClip)) {
+				glScissor(newr.pos.Xi(),newr.pos.Yi(),newr.size.Xi(),newr.size.Yi());
+				lastClip = newr;
+			}
 			glEnable(GL_SCISSOR_TEST);
 		}
 	}
@@ -193,6 +199,7 @@ public class Graphics {
 			redirect.clearTransformedClip();
 			return;
 		}
+		if (transformedClipStack.isEmpty()) return;
 		transformedClipStack.clear();
 		if (lastGraphics != this) return;
 		glDisable(GL_CLIP_PLANE0);
@@ -212,21 +219,27 @@ public class Graphics {
 			glDisable(GL_CLIP_PLANE2);
 			glDisable(GL_CLIP_PLANE3);
 		} else {
+			Rectangle newr = new Rectangle(rect);
+			if (!newr.equals(lastTransformedClip)) {
+				tmpTransformedClip.put(1).put(0).put(0).put(-rect.pos.x).flip();
+				glClipPlane(GL_CLIP_PLANE0,tmpTransformedClip);
+				
+				tmpTransformedClip.put(-1).put(0).put(0).put(rect.pos.x+rect.size.x).flip();
+				glClipPlane(GL_CLIP_PLANE1,tmpTransformedClip);
+				
+				tmpTransformedClip.put(0).put(1).put(0).put(-rect.pos.y).flip();
+				glClipPlane(GL_CLIP_PLANE2,tmpTransformedClip);
+				
+				tmpTransformedClip.put(0).put(-1).put(0).put(rect.pos.y+rect.size.y).flip();
+				glClipPlane(GL_CLIP_PLANE3,tmpTransformedClip);
+				
+				lastTransformedClip = newr;
+			}
+			
 			glEnable(GL_CLIP_PLANE0);
-			tmpTransformedClip.put(1).put(0).put(0).put(-rect.pos.x).flip();
-			glClipPlane(GL_CLIP_PLANE0,tmpTransformedClip);
-			
 			glEnable(GL_CLIP_PLANE1);
-			tmpTransformedClip.put(-1).put(0).put(0).put(rect.pos.x+rect.size.x).flip();
-			glClipPlane(GL_CLIP_PLANE1,tmpTransformedClip);
-			
 			glEnable(GL_CLIP_PLANE2);
-			tmpTransformedClip.put(0).put(1).put(0).put(-rect.pos.y).flip();
-			glClipPlane(GL_CLIP_PLANE2,tmpTransformedClip);
-			
 			glEnable(GL_CLIP_PLANE3);
-			tmpTransformedClip.put(0).put(-1).put(0).put(rect.pos.y+rect.size.y).flip();
-			glClipPlane(GL_CLIP_PLANE3,tmpTransformedClip);
 		}
 	}
 	
@@ -238,13 +251,19 @@ public class Graphics {
 		clear(Color.Black);
 	}
 	public void clear(Color color) {
+		clear(color,true,false);
+	}
+	public void clear(Color color, boolean bitColor, boolean bitStencil) {
 		if (redirect != null) {
-			redirect.clear(color);
+			redirect.clear(color,bitColor,bitStencil);
 			return;
 		}
 		preDraw();
-		glClearColor(color.Rf(),color.Gf(),color.Bf(),color.Af());
-		glClear(GL_COLOR_BUFFER_BIT);
+		if (!color.equals(clearColor)) {
+			glClearColor(color.Rf(),color.Gf(),color.Bf(),color.Af());
+			clearColor = color;
+		}
+		glClear((bitColor ? GL_COLOR_BUFFER_BIT : 0) | (bitStencil ? GL_STENCIL_BUFFER_BIT : 0));
 	}
 	
 	public final void setRedirect(Graphics g) {
@@ -322,9 +341,9 @@ public class Graphics {
 			redirect.draw(gll,x,y);
 			return;
 		}
-		glTranslated(x,y,0);
+		if (x != 0 || y != 0) glTranslated(x,y,0);
 		glCallList(gll.getID());
-		glTranslated(-x,-y,0);
+		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 	}
 	
 	public Vector2d getMousePos() {

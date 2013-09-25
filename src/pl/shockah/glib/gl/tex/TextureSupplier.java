@@ -55,7 +55,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		
 		GL.bind(getTexture());
 		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
-		glTranslated(x,y,0);
+		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
 		preDraw(g);
 		glBegin(GL_QUADS);
@@ -64,7 +64,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		glEnd();
 		postDraw(g);
 		
-		glTranslated(-x,-y,0);
+		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
 	}
 	
@@ -76,7 +76,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		
 		GL.bind(getTexture());
 		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
-		glTranslated(x,y,0);
+		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
 		preDraw(g);
 		glBegin(GL_QUADS);
@@ -85,7 +85,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		glEnd();
 		postDraw(g);
 		
-		glTranslated(-x,-y,0);
+		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
 	}
 	
