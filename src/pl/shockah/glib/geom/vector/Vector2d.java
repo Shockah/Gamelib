@@ -28,7 +28,7 @@ public class Vector2d implements IInterpolatable<Vector2d>,IVector2 {
 		return x == v.x && y == v.y;
 	}
 	public String toString() {
-		return "[Vector2d: "+x+" | "+y+"]";
+		return "[Vector2d: "+x+", "+y+"]";
 	}
 	
 	public double Xd() {return x;}

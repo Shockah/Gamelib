@@ -25,6 +25,15 @@ public class Line extends Shape implements IInterpolatable<Line> {
 		pos2 = line.pos2.copyMe();
 	}
 	
+	public boolean equals(Object other) {
+		if (!(other instanceof Line)) return false;
+		Line e = (Line)other;
+		return pos1.equals(e.pos1) && pos2.equals(e.pos2);
+	}
+	public String toString() {
+		return String.format("[Line: %s -> %s]",pos1,pos2);
+	}
+	
 	public Shape copy() {
 		return copyMe();
 	}

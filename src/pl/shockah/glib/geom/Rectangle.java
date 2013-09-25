@@ -38,6 +38,15 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 		size = rect.size.copyMe();
 	}
 	
+	public boolean equals(Object other) {
+		if (!(other instanceof Rectangle)) return false;
+		Rectangle r = (Rectangle)other;
+		return pos.equals(r.pos) && size.equals(r.size);
+	}
+	public String toString() {
+		return String.format("[Rectangle: pos %s, size %s]",pos,size);
+	}
+	
 	public Shape copy() {
 		return copyMe();
 	}

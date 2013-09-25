@@ -36,6 +36,15 @@ public class Ellipse extends Shape implements IPolygonable,IInterpolatable<Ellip
 		radius = new Vector2d(ellipse.radius);
 	}
 	
+	public boolean equals(Object other) {
+		if (!(other instanceof Ellipse)) return false;
+		Ellipse e = (Ellipse)other;
+		return pos.equals(e.pos) && radius.equals(e.radius);
+	}
+	public String toString() {
+		return String.format("[Ellipse: pos %s, radius %s]",pos,radius);
+	}
+	
 	public Shape copy() {
 		return copyMe();
 	}

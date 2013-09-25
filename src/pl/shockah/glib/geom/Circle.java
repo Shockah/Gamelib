@@ -28,6 +28,15 @@ public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle
 		radius = circle.radius;
 	}
 	
+	public boolean equals(Object other) {
+		if (!(other instanceof Circle)) return false;
+		Circle c = (Circle)other;
+		return pos.equals(c.pos) && radius == c.radius;
+	}
+	public String toString() {
+		return String.format("[Circle: pos %s, radius %s]",pos,radius);
+	}
+	
 	public Shape copy() {
 		return copyMe();
 	}

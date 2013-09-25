@@ -175,6 +175,9 @@ public abstract class Color implements IInterpolatable<Color> {
 		Color c = (Color)other;
 		return R() == c.R() && G() == c.G() && B() == c.B() && A() == c.A();
 	}
+	public String toString() {
+		return String.format("[Color: %d,%d,%d,%d]",R(),G(),B(),A());
+	}
 	
 	public abstract int R();
 	public abstract int G();
