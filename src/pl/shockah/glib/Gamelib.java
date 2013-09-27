@@ -30,19 +30,19 @@ public final class Gamelib {
 		public boolean FBO() {return fbo;}
 		
 		public void setMultisampleSupport(boolean b) {
-			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
+			if (locked) throw new IllegalStateException("This object is locked, it can't be modified.");
 			multisample = b;
 		}
 		public void setAlphaSupport(boolean b) {
-			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
+			if (locked) throw new IllegalStateException("This object is locked, it can't be modified.");
 			alpha = b;
 		}
 		public void setStencilSupport(boolean b) {
-			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
+			if (locked) throw new IllegalStateException("This object is locked, it can't be modified.");
 			stencil = b;
 		}
 		public void setFBOSupport(boolean b) {
-			if (locked) throw new RuntimeException("This object is locked, it can't be modified.");
+			if (locked) throw new IllegalStateException("This object is locked, it can't be modified.");
 			fbo = b;
 		}
 		
