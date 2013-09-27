@@ -94,10 +94,11 @@ public final class Gamelib {
 	}
 	public static void start(IGame game, State initialState) {start(game,initialState,"Gamelib");}
 	public static void start(IGame game, State initialState, String windowTitle) {
+		System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
 		Gamelib.game = game;
 		originalDisplayMode = Display.getDesktopDisplayMode();
 		
-		if (initialState == null) throw new RuntimeException("A game can't exist without a State.");
+		if (initialState == null) throw new IllegalArgumentException("A game can't exist without a State.");
 		initialState.setup();
 		
 		if (windowTitle == null) windowTitle = "";
