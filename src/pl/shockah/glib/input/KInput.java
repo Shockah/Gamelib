@@ -2,44 +2,51 @@ package pl.shockah.glib.input;
 
 import org.lwjgl.input.Keyboard;
 
-public class KeyboardInput {
+public class KInput {
 	public static final int ANYKEY = 256;
 	
-	public KeyboardTextInput text = new KeyboardTextInput(this);
-	protected boolean[]
+	public static KTextInput text = new KTextInput();
+	protected static boolean[]
 		keyPressedOld = new boolean[257],
 		keyPressed = new boolean[257],
 		keyReleasedOld = new boolean[257],
-		keyReleased = new boolean[257];
-	protected char[] keyCharacter = new char[256];
+		keyReleased = new boolean[257],
+		keyDown = new boolean[257],
+		keyDownOld = new boolean[257];
+	protected static char[] keyCharacter = new char[256];
 	
-	public void update() {
+	public static void update() {
 		for (int i = 0; i < keyPressed.length; i++) {
 			keyPressedOld[i] = keyPressed[i];
 			keyReleasedOld[i] = keyReleased[i];
+			keyDownOld[i] = keyDown[i];
 			
 			keyPressed[i] = false;
 			keyReleased[i] = false;
 		}
 		
 		while (Keyboard.next()) {
-			boolean[] ar = Keyboard.getEventKeyState() ? keyPressed : keyReleased;
-			ar[Keyboard.getEventKey()] = true;
+			boolean pressed = Keyboard.getEventKeyState();
+			int eventKey = Keyboard.getEventKey();
+			
+			boolean[] ar = pressed ? keyPressed : keyReleased;
+			ar[eventKey] = true;
 			keyCharacter[Keyboard.getEventKey()] = Keyboard.getEventCharacter();
 			ar[ANYKEY] = true;
+			keyDown[eventKey] = pressed;
 			
 			text.handle(Keyboard.getEventKeyState(),Keyboard.getEventKey());
 		}
 		text.handleAll();
 	}
 	
-	public boolean isPressed(int key) {
+	public static boolean isPressed(int key) {
 		return keyPressed[key];
 	}
-	public boolean isReleased(int key) {
+	public static boolean isReleased(int key) {
 		return keyReleased[key];
 	}
-	public boolean isDown(int key) {
-		return keyPressed[key] || Keyboard.isKeyDown(key);
+	public static boolean isDown(int key) {
+		return keyDown[key];
 	}
 }

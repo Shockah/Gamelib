@@ -4,6 +4,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
+import pl.shockah.glib.input.KInput;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.state.State;
@@ -23,7 +24,7 @@ public class KeyboardTextInputTest extends State {
 		
 		new EntityRenderable(){
 			protected void onRender(Graphics g) {
-				font.draw(g,16,16,Gamelib.keyboard.text.toString());
+				font.draw(g,16,16,KInput.text.toString());
 			}
 		}.create();
 	}

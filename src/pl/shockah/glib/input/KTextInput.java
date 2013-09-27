@@ -3,22 +3,17 @@ package pl.shockah.glib.input;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 
-public class KeyboardTextInput {
-	protected final KeyboardInput kb;
+public class KTextInput {
 	protected StringBuilder sb = new StringBuilder();
 	protected int lastKey = -1;
 	protected long repeat = -1;
-	
-	public KeyboardTextInput(KeyboardInput kb) {
-		this.kb = kb;
-	}
 	
 	public String toString() {
 		return sb.toString();
 	}
 	
 	public void handle(boolean pressed, int kbKey) {
-		char kbChr = kb.keyCharacter[kbKey];
+		char kbChr = KInput.keyCharacter[kbKey];
 		
 		if (pressed) {
 			repeat = append(kbKey,kbChr) ? System.currentTimeMillis()+500 : -1;
@@ -31,7 +26,7 @@ public class KeyboardTextInput {
 		long millis = System.currentTimeMillis();
 		
 		if (repeat-millis <= 0) {
-			repeat = append(lastKey,kb.keyCharacter[lastKey]) ? millis+50 : -1;
+			repeat = append(lastKey,KInput.keyCharacter[lastKey]) ? millis+50 : -1;
 		}
 	}
 	
@@ -41,7 +36,7 @@ public class KeyboardTextInput {
 			sb.deleteCharAt(sb.length()-1);
 			return true;
 		}
-		if (key == Keyboard.KEY_V && kb.isDown(Keyboard.KEY_LCONTROL)) {
+		if (key == Keyboard.KEY_V && KInput.isDown(Keyboard.KEY_LCONTROL)) {
 			String clip = Sys.getClipboard();
 			if (clip != null) sb.append(clip);
 			return clip != null;

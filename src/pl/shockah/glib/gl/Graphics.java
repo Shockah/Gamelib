@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import org.lwjgl.BufferUtils;
-import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.IVector2;
@@ -14,6 +13,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.ITextureSupplier;
 import pl.shockah.glib.gl.tex.Image;
+import pl.shockah.glib.input.MInput;
 import pl.shockah.glib.state.State;
 
 public class Graphics {
@@ -348,7 +348,7 @@ public class Graphics {
 	
 	public Vector2d getMousePos() {
 		if (redirect != null) return redirect.getMousePos();
-		return Gamelib.mouse.getPos().toDouble();
+		return MInput.getPos().toDouble();
 	}
 	
 	public void drawAbsolute() {

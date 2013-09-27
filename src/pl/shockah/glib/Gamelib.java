@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
-import pl.shockah.glib.input.KeyboardInput;
-import pl.shockah.glib.input.MouseInput;
+import pl.shockah.glib.input.KInput;
+import pl.shockah.glib.input.MInput;
 import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.state.State;
 
@@ -53,8 +53,6 @@ public final class Gamelib {
 	
 	public static final Capabilities capabilities = new Capabilities();
 	public static IGame game;
-	public static KeyboardInput keyboard = new KeyboardInput();
-	public static MouseInput mouse = new MouseInput();
 	public static DisplayMode cachedDisplayMode = null;
 	protected static boolean cachedFullscreen = false;
 	protected static boolean isRunning = false;
@@ -148,8 +146,8 @@ public final class Gamelib {
 	
 	protected static void gameLoop() {
 		while (isRunning) {
-			keyboard.update();
-			mouse.update();
+			KInput.update();
+			MInput.update();
 			game.gameLoop();
 			if (State.get() != null) advanceFrame(State.get().getFPS());
 		}

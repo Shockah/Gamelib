@@ -5,7 +5,7 @@ import org.lwjgl.opengl.Display;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2i;
 
-public class MouseInput {
+public class MInput {
 	public static final int
 		LEFT = 0,
 		RIGHT = 1,
@@ -13,11 +13,11 @@ public class MouseInput {
 	
 		ANYBUTTON = -1;
 	
-	protected Vector2i pos;
-	protected boolean onPress = false;
-	protected boolean[] btnPressedOld, btnPressed, btnReleasedOld, btnReleased;
+	protected static Vector2i pos;
+	protected static boolean onPress = false;
+	protected static boolean[] btnPressedOld, btnPressed, btnReleasedOld, btnReleased;
 	
-	public void update() {
+	public static void update() {
 		btnPressedOld = new boolean[Mouse.getButtonCount()+1];
 		btnPressed = new boolean[Mouse.getButtonCount()+1];
 		btnReleasedOld = new boolean[Mouse.getButtonCount()+1];
@@ -48,25 +48,25 @@ public class MouseInput {
 		}
 	}
 	
-	public Vector2i getPos() {
+	public static Vector2i getPos() {
 		return pos;
 	}
 	
-	public boolean isPressed(int btn) {
+	public static boolean isPressed(int btn) {
 		return btnPressed[getSpecialButton(btn)];
 	}
-	public boolean isReleased(int btn) {
+	public static boolean isReleased(int btn) {
 		return btnReleased[getSpecialButton(btn)];
 	}
-	public boolean isDown(int btn) {
+	public static boolean isDown(int btn) {
 		return btnPressed[getSpecialButton(btn)] || Mouse.isButtonDown(getSpecialButton(btn));
 	}
 	
-	protected int getSpecialButton(int btn) {
+	protected static int getSpecialButton(int btn) {
 		return btn >= 0 ? btn : btnPressed.length+btn;
 	}
 	
-	public boolean inRectangle(Rectangle rect) {
+	public static boolean inRectangle(Rectangle rect) {
 		return pos.x >= rect.pos.x && pos.y >= rect.pos.y && pos.x < rect.pos.x+rect.size.x && pos.y < rect.pos.y+rect.size.y;
 	}
 }

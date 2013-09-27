@@ -7,7 +7,7 @@ import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.input.MButton;
-import pl.shockah.glib.input.MouseInput;
+import pl.shockah.glib.input.MInput;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.state.State;
@@ -22,11 +22,11 @@ public class MouseInputTest2 extends State {
 		new EntityRenderable(){
 			Vector2i drag = null;
 			
-			MButton mL = new MButton(MouseInput.LEFT);
+			MButton mL = new MButton(MInput.LEFT);
 			
 			protected void onUpdate() {
-				Vector2i mp = Gamelib.mouse.getPos();
-				if (mL.pressed() && Gamelib.mouse.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp.toDouble()).toInt();
+				Vector2i mp = MInput.getPos();
+				if (mL.pressed() && MInput.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp.toDouble()).toInt();
 				if (mL.released()) drag = null;
 				if (drag != null) pos = mp.add(drag).toDouble();
 			}

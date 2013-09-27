@@ -6,7 +6,7 @@ import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.input.KeyboardInput;
+import pl.shockah.glib.input.KInput;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 import pl.shockah.glib.logic.standard.GameStandard;
 import pl.shockah.glib.state.State;
@@ -22,11 +22,9 @@ public class KeyboardInputTest extends State {
 			Vector2d oldPos;
 			
 			protected void onUpdate() {
-				KeyboardInput kb = Gamelib.keyboard;
-				
 				oldPos = pos;
-				double xx = ((kb.isDown(Keyboard.KEY_RIGHT) ? 1 : 0)-(kb.isDown(Keyboard.KEY_LEFT) ? 1 : 0))*4;
-				double yy = ((kb.isDown(Keyboard.KEY_DOWN) ? 1 : 0)-(kb.isDown(Keyboard.KEY_UP) ? 1 : 0))*4;
+				double xx = ((KInput.isDown(Keyboard.KEY_RIGHT) ? 1 : 0)-(KInput.isDown(Keyboard.KEY_LEFT) ? 1 : 0))*4;
+				double yy = ((KInput.isDown(Keyboard.KEY_DOWN) ? 1 : 0)-(KInput.isDown(Keyboard.KEY_UP) ? 1 : 0))*4;
 				pos = pos.add(xx,yy);
 			}
 			
