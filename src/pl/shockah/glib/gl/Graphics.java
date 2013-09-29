@@ -61,6 +61,10 @@ public class Graphics {
 	protected void onUnbind() {}
 	
 	public void setColor(Color color) {
+		if (redirect != null) {
+			redirect.setColor(color);
+			return;
+		}
 		this.color = color;
 		if (lastGraphics == this) GL.bind(color);
 	}
