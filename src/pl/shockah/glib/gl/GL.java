@@ -15,6 +15,7 @@ public final class GL {
 	private static Texture boundTexture = null;
 	private static Surface boundSurface = null;
 	private static Shader boundShader = null;
+	private static Color boundColor = null;
 	private static float thickness = 1;
 	private static boolean[] masking = new boolean[4];
 	
@@ -30,7 +31,10 @@ public final class GL {
 		initDisplay(width,height,true);
 	}
 	public static void initDisplay(int width, int height, boolean resetBlending) {
-		if (resetBlending) Graphics.getDefaultBlendMode().apply();
+		if (resetBlending) {
+			Graphics.getDefaultBlendMode().apply();
+			bind(Color.White);
+		}
 		glViewport(0,0,width,height);
 	}
 	
@@ -57,14 +61,17 @@ public final class GL {
 			glColorMask(masking[0],masking[1],masking[2],masking[3]);
 		}
 	}
-	public static void color4f(Color c) {
-		Graphics.setColor(c);
-	}
 	public static void translated(IVector2 v) {
 		translated(v.Xd(),v.Yd());
 	}
 	public static void translated(double x, double y) {
 		glTranslated(x,y,0);
+	}
+	
+	public static void bind(Color c) {
+		if (c.equals(boundColor)) return;
+		boundColor = c;
+		boundColor.bind();
 	}
 	
 	public static void bind(Texture tex) {

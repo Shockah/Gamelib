@@ -31,7 +31,7 @@ public class DrawPolygonTest extends State {
 	protected void onCreate() {
 		new EntityRenderable(){
 			protected void onRender(Graphics g) {
-				Graphics.setColor(Color.Crimson);
+				g.setColor(Color.Crimson);
 				g.draw(p);
 			}
 		}.create();

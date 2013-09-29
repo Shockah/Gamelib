@@ -96,10 +96,10 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
 	}
 	private void internalDrawImageMulticolor(double x, double y, double w, double h, double tx, double ty, double tw, double th, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
-		GL.color4f(cTopLeft); glTexCoord2d(tx,ty); glVertex2d(x,y);
-		GL.color4f(cBottomLeft); glTexCoord2d(tx,ty+th); glVertex2d(x,y+h);
-		GL.color4f(cBottomRight); glTexCoord2d(tx+tw,ty+th); glVertex2d(x+w,y+h);
-		GL.color4f(cTopRight); glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
+		GL.bind(cTopLeft); glTexCoord2d(tx,ty); glVertex2d(x,y);
+		GL.bind(cBottomLeft); glTexCoord2d(tx,ty+th); glVertex2d(x,y+h);
+		GL.bind(cBottomRight); glTexCoord2d(tx+tw,ty+th); glVertex2d(x+w,y+h);
+		GL.bind(cTopRight); glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
 	}
 	
 	protected void preDraw(Graphics g) {}

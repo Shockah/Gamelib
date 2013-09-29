@@ -18,23 +18,10 @@ import pl.shockah.glib.state.State;
 
 public class Graphics {
 	private static BlendMode defaultBlendMode = BlendMode.Normal;
-	private static boolean init = false;
-	private static Color color = null, clearColor = Color.TransparentBlack;
+	private static Color clearColor = Color.TransparentBlack;
 	private static DoubleBuffer tmpTransformedClip = BufferUtils.createDoubleBuffer(4);
 	private static Rectangle lastClip = null, lastTransformedClip = null;
 	protected static Graphics lastGraphics = null;
-	
-	protected static void init() {
-		if (init) return;
-		init = true;
-		if (color == null) setColor(Color.White);
-	}
-	
-	public static void setColor(Color color) {
-		if (color.equals(Graphics.color)) return;
-		Graphics.color = color;
-		color.bind();
-	}
 	
 	public static void setDefaultBlendMode(BlendMode bm) {
 		defaultBlendMode = bm;
@@ -48,9 +35,9 @@ public class Graphics {
 	protected List<Rectangle> clipStack = new LinkedList<>();
 	protected List<Rectangle> transformedClipStack = new LinkedList<>();
 	protected boolean absolute = false;
+	protected Color color = Color.White;
 	
 	public final void preDraw() {
-		init();
 		if (redirect != null) {
 			redirect.preDraw();
 			return;
@@ -64,6 +51,7 @@ public class Graphics {
 			if (!absolute) applyTransformations();
 			applyClip(clipStack.isEmpty() ? null : clipStack.get(clipStack.size()-1));
 			applyTransformedClip(transformedClipStack.isEmpty() ? null : transformedClipStack.get(transformedClipStack.size()-1));
+			GL.bind(color);
 		}
 		lastGraphics = this;
 	}
@@ -71,6 +59,11 @@ public class Graphics {
 		GL.unbindSurface();
 	}
 	protected void onUnbind() {}
+	
+	public void setColor(Color color) {
+		this.color = color;
+		if (lastGraphics == this) GL.bind(color);
+	}
 	
 	protected void applyTransformations() {
 		if (lastGraphics != this) return;

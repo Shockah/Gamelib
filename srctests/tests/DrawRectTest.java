@@ -21,7 +21,7 @@ public class DrawRectTest extends State {
 	protected void onCreate() {
 		new EntityRenderable(){
 			protected void onRender(Graphics g) {
-				Graphics.setColor(Color.Gold);
+				g.setColor(Color.Gold);
 				g.draw(new Rectangle(100,100,200,100));
 			}
 		}.create();

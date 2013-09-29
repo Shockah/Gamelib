@@ -79,8 +79,8 @@ public class Line extends Shape implements IInterpolatable<Line> {
 		GL.unbindTexture();
 		
 		glBegin(GL_LINES);
-			GL.color4f(cPoint1); glVertex2d(pos1.x,pos1.y);
-			GL.color4f(cPoint2); glVertex2d(pos2.x,pos2.y);
+			GL.bind(cPoint1); glVertex2d(pos1.x,pos1.y);
+			GL.bind(cPoint2); glVertex2d(pos2.x,pos2.y);
 		glEnd();
 	}
 	

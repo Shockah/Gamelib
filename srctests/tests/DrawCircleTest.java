@@ -21,7 +21,7 @@ public class DrawCircleTest extends State {
 	protected void onCreate() {
 		new EntityRenderable(){
 			protected void onRender(Graphics g) {
-				Graphics.setColor(Color.Aqua);
+				g.setColor(Color.Aqua);
 				g.draw(new Circle(150,150,50));
 			}
 		}.create();

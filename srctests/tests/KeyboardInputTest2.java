@@ -34,7 +34,7 @@ public class KeyboardInputTest2 extends State {
 			}
 			
 			protected void onRender(Graphics g) {
-				Graphics.setColor(oldPos.equals(pos) ? Color.GreenYellow : Color.GreenYellow.inverse());
+				g.setColor(oldPos.equals(pos) ? Color.GreenYellow : Color.GreenYellow.inverse());
 				g.draw(new Rectangle(pos.x,pos.y,48,48));
 			}
 		}.create();

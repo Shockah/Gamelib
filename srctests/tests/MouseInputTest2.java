@@ -32,7 +32,7 @@ public class MouseInputTest2 extends State {
 			}
 			
 			protected void onRender(Graphics g) {
-				Graphics.setColor(drag == null ? Color.DeepPink : Color.DeepPink.inverse());
+				g.setColor(drag == null ? Color.DeepPink : Color.DeepPink.inverse());
 				g.draw(new Rectangle(pos.x,pos.y,48,48));
 			}
 		}.create();

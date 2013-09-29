@@ -23,7 +23,7 @@ public class SurfaceTest extends State {
 		final Surface surface = Surface.create(64,64);
 		Graphics g = surface.graphics();
 		g.clear();
-		Graphics.setColor(Color.White);
+		g.setColor(Color.White);
 		g.draw(new Circle(32,32,24));
 		
 		new EntityRenderable(){
@@ -31,7 +31,7 @@ public class SurfaceTest extends State {
 				for (int x = 0; x < 12; x++) for (int y = 0; y < 9; y++) {
 					float s = y == 4 ? 1f : (y < 4 ? y/4f : 1f);
 					float b = y == 4 ? 1f : (y > 4 ? (9-y)/4f : 1f);
-					Graphics.setColor(Color.fromHSB(x/12f,s,b));
+					g.setColor(Color.fromHSB(x/12f,s,b));
 					g.draw(surface.image,x*64,y*64);
 				}
 			}
