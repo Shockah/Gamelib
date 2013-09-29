@@ -13,7 +13,7 @@ public class MInput {
 	
 		ANYBUTTON = -1;
 	
-	protected static Vector2i pos;
+	protected static Vector2i pos, delta;
 	protected static boolean onPress = false;
 	protected static boolean[] btnPressedOld, btnPressed, btnReleasedOld, btnReleased;
 	
@@ -33,6 +33,7 @@ public class MInput {
 		
 		onPress = false;
 		pos = new Vector2i(Mouse.getX(),Display.getHeight()-Mouse.getY()-1);
+		delta = new Vector2i(Mouse.getDX(),-Mouse.getDY());
 		
 		while (Mouse.next()) {
 			if (Mouse.getEventButton() < 0) continue;
@@ -49,7 +50,10 @@ public class MInput {
 	}
 	
 	public static Vector2i getPos() {
-		return pos;
+		return pos.copyMe();
+	}
+	public static Vector2i getDeltaPos() {
+		return delta.copyMe();
 	}
 	
 	public static boolean isPressed(int btn) {
