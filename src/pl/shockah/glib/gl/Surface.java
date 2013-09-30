@@ -1,9 +1,9 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.EXTFramebufferObject.*;
+import static org.lwjgl.opengl.EXTPackedDepthStencil.*;
 import java.nio.ByteBuffer;
-import org.lwjgl.opengl.EXTFramebufferObject;
-import org.lwjgl.opengl.EXTPackedDepthStencil;
 import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.tex.Image;
@@ -14,26 +14,26 @@ public class Surface {
 		return create(v.Xi(),v.Yi());
 	}
 	public static Surface create(int w, int h) {
-		int surId = EXTFramebufferObject.glGenFramebuffersEXT();
+		int surId = glGenFramebuffersEXT();
 		int texId = glGenTextures();
-		int rbo = EXTFramebufferObject.glGenRenderbuffersEXT();
+		int rbo = glGenRenderbuffersEXT();
 		Texture tex = new Texture(texId,w,h);
 		Vector2i fold = Texture.get2Fold(w,h);
 		Surface sur = new Surface(surId,new Image(tex));
 		
 		GL.unbindTexture();
-		EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,surId);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,surId);
 		glBindTexture(GL_TEXTURE_2D,texId);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 		glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,fold.x,fold.y,0,GL_RGBA,GL_UNSIGNED_BYTE,(ByteBuffer)null);
-		EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT,GL_TEXTURE_2D,texId,0);
-		EXTFramebufferObject.glBindRenderbufferEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
-		EXTFramebufferObject.glRenderbufferStorageEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT,EXTPackedDepthStencil.GL_DEPTH_STENCIL_EXT,fold.x,fold.y);
-		EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT,EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
-		EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,EXTFramebufferObject.GL_STENCIL_ATTACHMENT_EXT,EXTFramebufferObject.GL_RENDERBUFFER_EXT,rbo);
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,GL_COLOR_ATTACHMENT0_EXT,GL_TEXTURE_2D,texId,0);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT,rbo);
+		glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT,GL_DEPTH_STENCIL_EXT,fold.x,fold.y);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,GL_DEPTH_ATTACHMENT_EXT,GL_RENDERBUFFER_EXT,rbo);
+		glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,GL_STENCIL_ATTACHMENT_EXT,GL_RENDERBUFFER_EXT,rbo);
 		glBindTexture(GL_TEXTURE_2D,0);
-		EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,0);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,0);
 		
 		sur.graphics().clear();
 		
@@ -72,7 +72,7 @@ public class Surface {
 	}
 	
 	public void dispose() {
-		EXTFramebufferObject.glDeleteFramebuffersEXT(surId);
+		glDeleteFramebuffersEXT(surId);
 		image.dispose();
 		disposed = true;
 	}
