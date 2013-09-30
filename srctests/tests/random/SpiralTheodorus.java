@@ -28,8 +28,7 @@ public class SpiralTheodorus extends State {
 				
 				TriangleFan tf = new TriangleFan();
 				tf.addPoint(v,Color.Black);
-				v.add(len,0);
-				tf.addPoint(v,Color.Red);
+				tf.addPoint(v.add(len,0),Color.Red);
 					
 				double stepsLeft = state;
 				while (stepsLeft > 0) {
