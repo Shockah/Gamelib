@@ -125,14 +125,7 @@ public class Vector2i implements IInterpolatable<Vector2i>,IVector2 {
 	}
 	public double deltaAngle(IVector2 v) {return deltaAngle(v.direction());}
 	public double deltaAngle(double angle) {
-		double a = direction();
-		while (angle <= -180) angle += 360;
-		while (angle > 180) angle -= 360;
-		while (a <= -180) a += 360;
-		while (a > 180) a -= 360;
-		
-		double r = angle-a;
-		return r+((r>180) ? -360 : (r<-180) ? 360 : 0);
+		return Math2.deltaAngle(direction(),angle);
 	}
 	
 	public Vector2i interpolate(Vector2i v, double d, Interpolate method) {

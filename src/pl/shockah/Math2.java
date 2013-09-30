@@ -11,6 +11,15 @@ public final class Math2 {
 	public static double ldirY(double dist, double angle) {
 		return Math.sin(Math.toRadians(angle+180d))*dist;
 	}
+	public static double deltaAngle(double angle1, double angle2) {
+		while (angle2 <= -180) angle2 += 360;
+		while (angle2 > 180) angle2 -= 360;
+		while (angle1 <= -180) angle1 += 360;
+		while (angle1 > 180) angle1 -= 360;
+		
+		double r = angle2-angle1;
+		return r+((r>180) ? -360 : (r<-180) ? 360 : 0);
+	}
 	
 	public static double frac(double value) {
 		double sign = Math.signum(value);
