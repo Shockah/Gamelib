@@ -60,6 +60,10 @@ public class Graphics {
 	}
 	protected void onUnbind() {}
 	
+	public Color getColor() {
+		if (redirect != null) return redirect.getColor();
+		return color;
+	}
 	public void setColor(Color color) {
 		if (redirect != null) {
 			redirect.setColor(color);
