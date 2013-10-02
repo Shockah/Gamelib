@@ -20,7 +20,6 @@ public class SpiralTheodorus extends State {
 			double state = 0d, spd = .02d;
 			
 			protected void onRender(Graphics g) {
-				g.setColor(Color.Gray);
 				state += spd;
 				
 				final double len = 30;
