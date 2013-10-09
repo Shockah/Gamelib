@@ -7,6 +7,12 @@ import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.logic.standard.EntityRenderable;
 
 public class ParticleSystem extends EntityRenderable {
+	protected static BlendMode currentBlendMode = null;
+	
+	public static BlendMode getCurrentBlendMode() {
+		return currentBlendMode;
+	}
+	
 	protected final BlendMode blendMode;
 	protected List<Particle> particles = new ArrayList<>();
 	
@@ -24,8 +30,12 @@ public class ParticleSystem extends EntityRenderable {
 	}
 	protected void onRender(Graphics g) {
 		blendMode.apply();
+		currentBlendMode = blendMode;
+		
 		for (Particle p : particles) p.render(g);
+		
 		Graphics.getDefaultBlendMode().apply();
+		currentBlendMode = null;
 	}
 	
 	public boolean isEmpty() {
