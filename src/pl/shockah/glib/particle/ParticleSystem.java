@@ -27,4 +27,11 @@ public class ParticleSystem extends EntityRenderable {
 		for (Particle p : particles) p.render(g);
 		Graphics.getDefaultBlendMode().apply();
 	}
+	
+	public boolean isEmpty() {
+		return particles.isEmpty();
+	}
+	public int particleCount() {
+		return particles.size();
+	}
 }
