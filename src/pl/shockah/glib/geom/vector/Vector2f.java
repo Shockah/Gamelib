@@ -5,7 +5,7 @@ import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 
 public class Vector2f implements IInterpolatable<Vector2f>,IVector2 {
-	public static Vector2f make(float dist, float angle) {
+	public static Vector2f make(float dist, double angle) {
 		return new Vector2f((float)Math2.ldirX(dist,angle),(float)Math2.ldirY(dist,angle));
 	}
 	
@@ -103,6 +103,12 @@ public class Vector2f implements IInterpolatable<Vector2f>,IVector2 {
 	
 	public Vector2f Vector(IVector2 v) {
 		return new Vector2f(v.Xf()-x,v.Yf()-y);
+	}
+	public Vector2f rotate(double angle) {
+		return set(Rotate(angle));
+	}
+	public Vector2f Rotate(double angle) {
+		return Vector2f.make(length(),direction()+angle);
 	}
 	
 	public float lengthSquared() {

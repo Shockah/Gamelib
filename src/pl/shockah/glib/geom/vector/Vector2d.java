@@ -104,6 +104,12 @@ public class Vector2d implements IInterpolatable<Vector2d>,IVector2 {
 	public Vector2d Vector(IVector2 v) {
 		return new Vector2d(v.Xd()-x,v.Yd()-y);
 	}
+	public Vector2d rotate(double angle) {
+		return set(Rotate(angle));
+	}
+	public Vector2d Rotate(double angle) {
+		return Vector2d.make(length(),direction()+angle);
+	}
 	
 	public double lengthSquared() {
 		return Math.pow(x,2)+Math.pow(y,2);
