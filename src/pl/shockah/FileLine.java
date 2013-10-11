@@ -46,14 +46,15 @@ public class FileLine {
 		} catch (FileNotFoundException e) {return "";}
 	}
 	
-	public static void write(File file, ArrayList<String> lines) throws IOException {
+	public static void write(File file, List<String> lines) throws IOException {
 		if (file.exists()) file.delete();
 		file.createNewFile();
 		
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),"UTF-8"));
-		for (int i = 0; i < lines.size(); i++) {
-			if (i != 0) bw.write('\n');
-			bw.write(lines.get(i));
+		boolean first = true;
+		for (String line : lines) {
+			if (first) first = false; else bw.write('\n');
+			bw.write(line);
 		}
 		bw.close();
 	}
