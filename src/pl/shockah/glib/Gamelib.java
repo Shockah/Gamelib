@@ -2,6 +2,7 @@ package pl.shockah.glib;
 
 import java.util.Arrays;
 import org.lwjgl.Sys;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GLContext;
@@ -114,8 +115,13 @@ public final class Gamelib {
 		GL.setup();
 		State.get().create();
 		
+		try {
+			AL.create();
+		} catch (Exception e) {e.printStackTrace();}
+		
 		isRunning = true;
 		gameLoop();
+		AL.destroy();
 		Display.destroy();
 	}
 	public static void stop() {

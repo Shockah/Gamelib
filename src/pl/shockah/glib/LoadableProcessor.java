@@ -15,6 +15,8 @@ import pl.shockah.BinBufferInputStream;
 import pl.shockah.FieldObj;
 import pl.shockah.FileLine;
 import pl.shockah.Pair;
+import pl.shockah.glib.al.Audio;
+import pl.shockah.glib.al.AudioLoader;
 import pl.shockah.glib.gl.Shader;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
@@ -82,6 +84,17 @@ public final class LoadableProcessor {
 				}
 			}
 			
+			AudioLoader.IntOptions aoptints = fld.getAnnotation(AudioLoader.IntOptions.class);
+			if (optints == null) {
+				final AudioLoader.IntOption aoptint = fld.getAnnotation(AudioLoader.IntOption.class);
+				if (aoptint != null) {
+					aoptints = new AudioLoader.IntOptions() {
+						public Class<? extends Annotation> annotationType() {return AudioLoader.IntOptions.class;}
+						public AudioLoader.IntOption[] value() {return new AudioLoader.IntOption[]{aoptint};}
+					};
+				}
+			}
+			
 			Image.Loadable imageLoadable = fld.getAnnotation(Image.Loadable.class);
 			if (imageLoadable != null) ret.add(new ImageLoadAction(new FieldObj(fld,o),imageLoadable,optints));
 			
@@ -98,6 +111,9 @@ public final class LoadableProcessor {
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
 			if (ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
+			
+			Audio.Loadable audioLoadable = fld.getAnnotation(Audio.Loadable.class);
+			if (audioLoadable != null) ret.add(new AudioLoadAction(new FieldObj(fld,o),audioLoadable,aoptints));
 			
 			if (handler != null) handler.handle(ret,fld,o);
 		}
@@ -331,6 +347,31 @@ public final class LoadableProcessor {
 				
 				field.set(a);
 				TextureLoader.clearOptionsGlobal();
+			} catch (Exception e) {e.printStackTrace();}
+			return true;
+		}
+	}
+	public static class AudioLoadAction extends LoadAction<Audio.Loadable> {
+		protected final AudioLoader.IntOptions optints;
+		
+		public AudioLoadAction(FieldObj field, Audio.Loadable loadable, AudioLoader.IntOptions optints) {
+			super(field,loadable);
+			this.optints = optints;
+		}
+		
+		public boolean load(AssetLoader al) {
+			try {
+				AudioLoader.clearOptionsGlobal();
+				if (optints != null) for (AudioLoader.IntOption optint : optints.value()) AudioLoader.setOptionGlobal(optint.option(),optint.value());
+				
+				Audio audio = null;
+				String path = handlePath(loadable.path());
+				switch (loadable.type()) {
+					case File: audio = Audio.load(new File(path)); break;
+					case Internal: audio = Audio.load(path); break;
+				}
+				field.set(audio);
+				AudioLoader.clearOptionsGlobal();
 			} catch (Exception e) {e.printStackTrace();}
 			return true;
 		}
