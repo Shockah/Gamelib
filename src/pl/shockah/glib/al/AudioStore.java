@@ -1,11 +1,17 @@
 package pl.shockah.glib.al;
 
+import static org.lwjgl.openal.AL10.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AudioStore {
+	private static final int musicSource;
 	private static AudioInst music = null;
-	protected static List<AudioInst> sounds = new LinkedList<>();
+	public static List<AudioInst> sounds = new LinkedList<>();
+	
+	static {
+		musicSource = alGenSources();
+	}
 	
 	public static void clearMusic() {
 		if (music != null) {
@@ -15,16 +21,17 @@ public class AudioStore {
 	}
 	public static AudioInst setMusic(Audio audio) {
 		clearMusic();
-		return music = new AudioInst(audio);
+		music = new AudioInst(audio);
+		music.id = musicSource;
+		music.dirty = false;
+		return music;
 	}
 	public static AudioInst getMusic() {
 		return music;
 	}
 	
 	public static AudioInst sound(Audio audio) {
-		for (AudioInst ai : sounds) {
-			if (ai.audio.equals(audio) && ai.isStopped()) return ai;
-		}
+		for (AudioInst ai : sounds) if (ai.isStopped()) return ai;
 		AudioInst ai = new AudioInst(audio);
 		sounds.add(ai);
 		return ai;
