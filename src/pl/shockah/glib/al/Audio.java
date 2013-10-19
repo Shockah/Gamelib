@@ -1,6 +1,6 @@
 package pl.shockah.glib.al;
 
-import static org.lwjgl.openal.AL10.alDeleteBuffers;
+import static org.lwjgl.openal.AL10.*;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,9 +11,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.nio.IntBuffer;
 import java.nio.file.Path;
-import org.lwjgl.BufferUtils;
 import pl.shockah.glib.LoadableProcessor;
 
 public class Audio {
@@ -51,25 +49,21 @@ public class Audio {
 		}
 	}
 	
-	private final IntBuffer audioId;
+	private final int audioId;
 	private boolean disposed = false;
 	
 	public Audio(int audioId) {
-		this.audioId = BufferUtils.createIntBuffer(1);
-		this.audioId.put(audioId);
+		this.audioId = audioId;
 	}
 	
 	public boolean equals(Object other) {
 		if (!(other instanceof Audio)) return false;
 		Audio audio = (Audio)other;
-		return audio.audioId.get(0) == audioId.get(0);
+		return audio.audioId == audioId;
 	}
 	
 	public int getID() {
 		if (disposed) throw new IllegalStateException("Audio already disposed");
-		return audioId.get(0);
-	}
-	public IntBuffer getIDBuffer() {
 		return audioId;
 	}
 	

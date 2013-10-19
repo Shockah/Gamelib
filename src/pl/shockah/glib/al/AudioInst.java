@@ -74,7 +74,7 @@ public class AudioInst {
 	
 	protected void findSlot() {
 		if (!dirty) return;
-		for (AudioInst ai : AudioStore.sounds) {
+		for (AudioInst ai : AudioStore.sounds.get(audio)) {
 			if (ai.dirty) continue;
 			if (ai.isStopped(false)) ai.dirty = true;
 			id = ai.id;

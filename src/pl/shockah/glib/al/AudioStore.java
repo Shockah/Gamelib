@@ -1,13 +1,15 @@
 package pl.shockah.glib.al;
 
 import static org.lwjgl.openal.AL10.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class AudioStore {
 	private static final int musicSource;
 	private static AudioInst music = null;
-	public static List<AudioInst> sounds = new LinkedList<>();
+	protected static Map<Audio,List<AudioInst>> sounds = new HashMap<>();
 	
 	static {
 		musicSource = alGenSources();
@@ -31,9 +33,14 @@ public class AudioStore {
 	}
 	
 	public static AudioInst sound(Audio audio) {
-		for (AudioInst ai : sounds) if (ai.isStopped()) return ai;
+		List<AudioInst> list = sounds.get(audio);
+		if (list == null) {
+			list = new LinkedList<>();
+			sounds.put(audio,list);
+		}
+		for (AudioInst ai : list) if (!ai.isPlaying()) return ai;
 		AudioInst ai = new AudioInst(audio);
-		sounds.add(ai);
+		list.add(ai);
 		return ai;
 	}
 }
