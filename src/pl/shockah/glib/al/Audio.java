@@ -78,8 +78,8 @@ public class Audio {
 		dispose();
 	}
 	
-	public AudioInst setMusic() {
-		return AudioStore.setMusic(this);
+	public AudioInst music() {
+		return AudioStore.music(this);
 	}
 	public AudioInst sound() {
 		return AudioStore.sound(this);

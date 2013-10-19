@@ -21,14 +21,14 @@ public class AudioStore {
 			music = null;
 		}
 	}
-	public static AudioInst setMusic(Audio audio) {
+	public static AudioInst music(Audio audio) {
 		clearMusic();
 		music = new AudioInst(audio);
 		music.id = musicSource;
 		music.dirty = false;
 		return music;
 	}
-	public static AudioInst getMusic() {
+	public static AudioInst music() {
 		return music;
 	}
 	
