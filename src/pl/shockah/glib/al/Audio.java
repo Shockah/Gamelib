@@ -88,6 +88,9 @@ public class Audio {
 	public void play() {
 		sound().play();
 	}
+	public void play(float gain, float pitch) {
+		sound().setGain(gain).setPitch(pitch).play();
+	}
 	public void play(float pitch) {
 		sound().setPitch(pitch).play();
 	}
