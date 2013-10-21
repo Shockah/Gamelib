@@ -33,13 +33,13 @@ public class AudioInst {
 		if (isPaused()) resume(); else pause();
 	}*/
 	public void stop() {
-		if (!isStopped()) return;
+		if (isStopped()) return;
 		alSourceStop(id);
 	}
 	
 	public boolean isPlaying() {
 		findSlot();
-		return alGetSourcei(id,4112) == 4114;
+		return alGetSourcei(id,AL_SOURCE_STATE) == AL_PLAYING;
 	}
 	/*public boolean isPaused() {
 		findSlot();
@@ -50,8 +50,8 @@ public class AudioInst {
 	}
 	protected boolean isStopped(boolean findSlot) {
 		if (findSlot) findSlot();
-		int state = alGetSourcei(id,4112);
-		return state != 4114/* && state != 4115*/;
+		int state = alGetSourcei(id,AL_SOURCE_STATE);
+		return state != AL_PLAYING/* && state != 4115*/;
 	}
 	
 	public AudioInst setGain(float gain) {
