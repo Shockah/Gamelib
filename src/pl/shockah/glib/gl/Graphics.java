@@ -207,6 +207,7 @@ public class Graphics {
 		glDisable(GL_CLIP_PLANE1);
 		glDisable(GL_CLIP_PLANE2);
 		glDisable(GL_CLIP_PLANE3);
+		lastTransformedClip = null;
 	}
 	protected void applyTransformedClip(Rectangle rect) {
 		if (redirect != null) {
@@ -219,9 +220,9 @@ public class Graphics {
 			glDisable(GL_CLIP_PLANE1);
 			glDisable(GL_CLIP_PLANE2);
 			glDisable(GL_CLIP_PLANE3);
+			lastTransformedClip = null;
 		} else {
-			Rectangle newr = new Rectangle(rect);
-			if (!newr.equals(lastTransformedClip)) {
+			if (!rect.equals(lastTransformedClip)) {
 				tmpTransformedClip.put(1).put(0).put(0).put(-rect.pos.x).flip();
 				glClipPlane(GL_CLIP_PLANE0,tmpTransformedClip);
 				
@@ -234,7 +235,7 @@ public class Graphics {
 				tmpTransformedClip.put(0).put(-1).put(0).put(rect.pos.y+rect.size.y).flip();
 				glClipPlane(GL_CLIP_PLANE3,tmpTransformedClip);
 				
-				lastTransformedClip = newr;
+				lastTransformedClip = new Rectangle(rect);
 			}
 			
 			glEnable(GL_CLIP_PLANE0);
