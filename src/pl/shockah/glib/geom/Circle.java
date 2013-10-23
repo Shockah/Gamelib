@@ -5,6 +5,7 @@ import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.polygon.TriangleFan;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
@@ -22,10 +23,7 @@ public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle
 		pos = new Vector2d(x,y);
 		this.radius = radius;
 	}
-	public Circle(Vector2d pos, double radius) {
-		this.pos = pos;
-		this.radius = radius;
-	}
+	public Circle(IVector2 pos, double radius) {this(pos.Xd(),pos.Yd(),radius);}
 	public Circle(Circle circle) {
 		pos = new Vector2d(circle.pos);
 		radius = circle.radius;

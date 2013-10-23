@@ -5,6 +5,7 @@ import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
+import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
@@ -23,14 +24,8 @@ public class Ellipse extends Shape implements IPolygonable,IInterpolatable<Ellip
 		pos = new Vector2d(x,y);
 		this.radius = radius;
 	}
-	public Ellipse(Vector2d pos, double radiusH, double radiusV) {
-		this.pos = pos;
-		radius = new Vector2d(radiusH,radiusV);
-	}
-	public Ellipse(Vector2d pos, Vector2d radius) {
-		this.pos = pos;
-		this.radius = radius;
-	}
+	public Ellipse(IVector2 pos, double radiusH, double radiusV) {this(pos.Xd(),pos.Yd(),radiusH,radiusV);}
+	public Ellipse(IVector2 pos, IVector2 radius) {this(pos.Xd(),pos.Yd(),radius.Xd(),radius.Yd());}
 	public Ellipse(Ellipse ellipse) {
 		pos = new Vector2d(ellipse.pos);
 		radius = new Vector2d(ellipse.radius);
