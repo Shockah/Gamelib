@@ -10,9 +10,9 @@ public class Animation {
 	protected boolean looped = false;
 	protected int loop = 0;
 	
-	public void update() {update(1);}
+	public void update() {update(updateSpeed);}
 	public void update(double by) {
-		time += updateSpeed;
+		time += by;
 		double maxTime = getMaxTime();
 		if (time > maxTime) {
 			if (looped) {
