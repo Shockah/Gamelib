@@ -75,7 +75,6 @@ public abstract class BlendMode {
 				}
 				GL.colorMask(true,true,true,true);
 				glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-				glBlendEquation(GL_FUNC_SUBTRACT);
 				glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
 			}
 			public void onReset() {
