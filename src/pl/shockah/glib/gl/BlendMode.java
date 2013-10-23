@@ -57,14 +57,14 @@ public abstract class BlendMode {
 				glBlendFunc(GL_ONE,GL_ONE);
 			}
 		},
-		MultiplyColor = new BlendMode(){
+		Multiply = new BlendMode(){
 			public void onApply() {
 				if (!blending) {
 					glEnable(GL_BLEND);
 					blending = true;
 				}
 				GL.colorMask(true,true,true,true);
-				glBlendFunc(GL_ONE_MINUS_SRC_COLOR,GL_SRC_COLOR);
+				glBlendFunc(GL_DST_COLOR,GL_ZERO);
 			}
 		},
 		Subtract = new BlendMode(){
