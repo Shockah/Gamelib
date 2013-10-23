@@ -64,7 +64,7 @@ public abstract class BlendMode {
 					blending = true;
 				}
 				GL.colorMask(true,true,true,true);
-				glBlendFunc(GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA);
+				glBlendFunc(GL_DST_COLOR,GL_ZERO);
 			}
 		},
 		Subtract = new BlendMode(){
