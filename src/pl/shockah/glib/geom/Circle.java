@@ -4,16 +4,19 @@ import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
+import pl.shockah.glib.geom.polygon.TriangleFan;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.gl.color.Color;
 
 public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle> {
 	public Vector2d pos;
 	public double radius;
 	
-	protected Vector2d lastPos;
-	protected int lastPrecision = -1;
+	protected Vector2d lastPos = null, lastTFPos = null;
+	protected int lastPrecision = -1, lastTFPrecision = -1;
 	protected Polygon lastPoly = null;
+	protected TriangleFan lastTriangleFan = null;
 	
 	public Circle(double x, double y, double radius) {
 		pos = new Vector2d(x,y);
@@ -90,6 +93,22 @@ public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle
 	}
 	public void draw(Graphics g, boolean filled, int precision) {
 		asPolygon(precision).draw(g,filled);
+	}
+	
+	public void drawMulticolor(Graphics g, Color cPointCenter, Color cPointOut) {
+		drawMulticolor(g,cPointCenter,cPointOut,(int)Math.ceil(Math.PI*radius/2));
+	}
+	public void drawMulticolor(Graphics g, Color cPointCenter, Color cPointOut, int precision) {
+		if (lastTriangleFan != null && lastTriangleFan.getPointCount() == precision && lastTFPrecision == precision && lastTFPos.equals(pos)) lastTriangleFan.draw(g);
+		
+		TriangleFan tf = new TriangleFan();
+		tf.addPoint(pos,cPointCenter);
+		for (int i = 0; i < precision+1; i++) tf.addPoint(Vector2d.make(radius,360d/precision*i).add(pos),cPointOut);
+		
+		lastTFPos = pos;
+		lastTFPrecision = precision;
+		lastTriangleFan = tf;
+		tf.draw(g);
 	}
 	
 	public Circle interpolate(Circle c, double d, Interpolate method) {
