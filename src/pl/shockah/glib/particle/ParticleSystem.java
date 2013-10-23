@@ -1,6 +1,7 @@
 package pl.shockah.glib.particle;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import pl.shockah.glib.gl.BlendMode;
 import pl.shockah.glib.gl.Graphics;
@@ -43,5 +44,8 @@ public class ParticleSystem extends EntityRenderable {
 	}
 	public int particleCount() {
 		return particles.size();
+	}
+	public List<Particle> getAll() {
+		return Collections.unmodifiableList(particles);
 	}
 }
