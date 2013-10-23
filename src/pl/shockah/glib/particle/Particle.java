@@ -15,10 +15,10 @@ public class Particle {
 		this.pt = pt;
 	}
 	
-	protected void update() {
+	public void update() {
 		pt.onUpdate(this);
 	}
-	protected void render(Graphics g) {
+	public void render(Graphics g) {
 		pt.onRender(this,g);
 	}
 }

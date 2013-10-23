@@ -12,7 +12,7 @@ public abstract class ParticleType {
 	}
 	
 	public void spawn(ParticleSystem ps, IVector2 pos, Object... args) {
-		ps.particles.add(create(ps,pos,args));
+		ps.add(create(ps,pos,args));
 	}
 	protected abstract Particle create(ParticleSystem ps, IVector2 pos, Object... args);
 	

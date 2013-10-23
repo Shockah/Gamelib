@@ -39,6 +39,10 @@ public class ParticleSystem extends EntityRenderable {
 		currentBlendMode = null;
 	}
 	
+	public void add(Particle pt) {
+		particles.add(pt);
+	}
+	
 	public boolean isEmpty() {
 		return particles.isEmpty();
 	}
