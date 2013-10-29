@@ -11,7 +11,11 @@ public class BinBuffer {
 	
 	public BinBuffer() {this(8192);}
 	public BinBuffer(int startBytes) {
+		this(startBytes,false);
+	}
+	public BinBuffer(int startBytes, boolean filled) {
 		buffer = new byte[startBytes];
+		if (filled) bytes = startBytes;
 	}
 	public BinBuffer(ByteBuffer bb) {
 		this(bb,false);
