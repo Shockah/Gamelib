@@ -101,12 +101,11 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 				glVertex2d(pos.x,pos.y+size.y);
 			glEnd();
 		} else {
-			glBegin(GL_LINE_STRIP);
+			glBegin(GL_LINE_LOOP);
 				glVertex2d(pos.x,pos.y);
 				glVertex2d(pos.x+size.x-1,pos.y);
 				glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
 				glVertex2d(pos.x,pos.y+size.y-1);
-				glVertex2d(pos.x,pos.y);
 			glEnd();
 		}
 	}
@@ -123,12 +122,11 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 				GL.bind(cBottomLeft); glVertex2d(pos.x,pos.y+size.y);
 			glEnd();
 		} else {
-			glBegin(GL_LINE_STRIP);
+			glBegin(GL_LINE_LOOP);
 				GL.bind(cTopLeft); glVertex2d(pos.x,pos.y);
 				GL.bind(cTopRight); glVertex2d(pos.x+size.x-1,pos.y);
 				GL.bind(cBottomRight); glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
 				GL.bind(cBottomLeft); glVertex2d(pos.x,pos.y+size.y-1);
-				GL.bind(cTopLeft); glVertex2d(pos.x,pos.y);
 			glEnd();
 		}
 	}

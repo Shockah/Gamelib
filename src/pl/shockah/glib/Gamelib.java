@@ -15,8 +15,6 @@ import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.state.State;
 
 public final class Gamelib {
-	public static DisplayMode originalDisplayMode;
-	
 	public static final class Capabilities {
 		private boolean multisample = true, alpha = true, stencil = true, fbo = true;
 		private boolean locked = false;
@@ -54,9 +52,12 @@ public final class Gamelib {
 	
 	public static final Capabilities capabilities = new Capabilities();
 	public static IGame game;
-	public static DisplayMode cachedDisplayMode = null;
-	protected static boolean cachedFullscreen = false;
-	protected static boolean isRunning = false;
+	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
+	protected static boolean cachedFullscreen = false, isRunning = false, useSound = true;
+	
+	public static void useSound(boolean use) {
+		useSound = use;
+	}
 	
 	public static void setDisplayMode(Vector2i v) {
 		setDisplayMode(v.x,v.y);
@@ -115,13 +116,15 @@ public final class Gamelib {
 		GL.setup();
 		State.get().create();
 		
-		try {
-			AL.create();
-		} catch (Exception e) {e.printStackTrace();}
+		if (useSound) {
+			try {
+				AL.create();
+			} catch (Exception e) {e.printStackTrace();}
+		}
 		
 		isRunning = true;
 		gameLoop();
-		AL.destroy();
+		if (useSound) AL.destroy();
 		Display.destroy();
 	}
 	public static void stop() {

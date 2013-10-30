@@ -349,23 +349,6 @@ public class Graphics {
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 	}
 	
-	public void draw(IVector2 v) {
-		draw(v.Xd(),v.Yd());
-	}
-	public void draw(double x, double y) {
-		if (redirect != null) {
-			redirect.draw(x,y);
-			return;
-		}
-		
-		preDraw();
-		GL.unbindTexture();
-		
-		glBegin(GL_POINTS);
-			glVertex2d(x,y);
-		glEnd();
-	}
-	
 	public Vector2d getMousePos() {
 		if (redirect != null) return redirect.getMousePos();
 		return MInput.getPos().toDouble();
