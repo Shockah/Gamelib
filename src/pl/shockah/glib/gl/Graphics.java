@@ -355,12 +355,7 @@ public class Graphics {
 			redirect.draw(x,y);
 			return;
 		}
-		preDraw();
-		GL.unbindTexture();
-		
-		glBegin(GL_POINTS);
-			glVertex2d(x,y);
-		glEnd();
+		draw(new Rectangle(x,y,1,1));
 	}
 	
 	public Vector2d getMousePos() {
