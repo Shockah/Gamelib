@@ -1,6 +1,7 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
+
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -346,6 +347,23 @@ public class Graphics {
 		if (x != 0 || y != 0) glTranslated(x,y,0);
 		glCallList(gll.getID());
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
+	}
+	
+	public void draw(IVector2 v) {
+		draw(v.Xd(),v.Yd());
+	}
+	public void draw(double x, double y) {
+		if (redirect != null) {
+			redirect.draw(x,y);
+			return;
+		}
+		
+		preDraw();
+		GL.unbindTexture();
+		
+		glBegin(GL_POINTS);
+			glVertex2d(x,y);
+		glEnd();
 	}
 	
 	public Vector2d getMousePos() {
