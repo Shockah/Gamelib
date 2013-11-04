@@ -15,9 +15,8 @@ import pl.shockah.glib.state.State;
 
 public class StencilTest extends State {
 	public static void main(String[] args) {
-		Gamelib.useSound(false);
 		State test = new StencilTest();
-		Gamelib.start(new GameStandard(test),test.getClass().getName());
+		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	Image image;

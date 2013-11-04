@@ -10,9 +10,8 @@ import pl.shockah.glib.state.State;
 
 public class DrawCircleTest extends State {
 	public static void main(String[] args) {
-		Gamelib.useSound(false);
 		State test = new DrawCircleTest();
-		Gamelib.start(new GameStandard(test),test.getClass().getName());
+		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	protected void onSetup() {

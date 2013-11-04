@@ -15,6 +15,17 @@ import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.state.State;
 
 public final class Gamelib {
+	public static final class Modules {
+		public final boolean graphics, sound;
+		
+		public Modules() {this(true,true);}
+		public Modules(boolean sound) {this(true,sound);}
+		public Modules(boolean graphics, boolean sound) {
+			this.graphics = graphics;
+			this.sound = sound;
+		}
+	}
+	
 	public static final class Capabilities {
 		private boolean multisample = true, alpha = true, stencil = true, fbo = true;
 		private boolean locked = false;
@@ -50,14 +61,13 @@ public final class Gamelib {
 		}
 	}
 	
+	protected static Modules modules;
 	public static final Capabilities capabilities = new Capabilities();
 	public static IGame game;
 	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
-	protected static boolean cachedFullscreen = false, isRunning = false, useSound = true;
+	protected static boolean cachedFullscreen = false, isRunning = false;
 	
-	public static void useSound(boolean use) {
-		useSound = use;
-	}
+	public static Modules modules() {return modules;}
 	
 	public static void setDisplayMode(Vector2i v) {
 		setDisplayMode(v.x,v.y);
@@ -69,6 +79,8 @@ public final class Gamelib {
 		setDisplayMode(v.x,v.y,fullscreen);
 	}
 	public static void setDisplayMode(int width, int height, boolean fullscreen) {
+		if (!modules.graphics) throw new IllegalStateException("Graphics are disabled");
+		
 		if (cachedDisplayMode == null) cachedDisplayMode = originalDisplayMode;
 		if (width == cachedDisplayMode.getWidth() && height == cachedDisplayMode.getHeight() && fullscreen == cachedFullscreen) return;
 		
@@ -88,28 +100,37 @@ public final class Gamelib {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public static void start(IGame game) {start(game,"Gamelib");}
-	public static void start(IGame game, String windowTitle) {
-		System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
+	public static void start(IGame game) {start(game,"Gamelib",new Modules());}
+	public static void start(IGame game, Modules modules) {start(game,"Gamelib",modules);}
+	public static void start(IGame game, String windowTitle) {start(game,windowTitle,new Modules());}
+	public static void start(IGame game, String windowTitle, Modules modules) {
 		Gamelib.game = game;
-		originalDisplayMode = Display.getDesktopDisplayMode();
+		Gamelib.modules = modules;
+		if (modules.graphics) {
+			System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
+			originalDisplayMode = Display.getDesktopDisplayMode();
+		}
 		
 		game.setupInitialState();
 		
 		if (windowTitle == null) windowTitle = "";
 		Display.setTitle(windowTitle);
 		
-		tryCreatingDisplay();
-		if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
+		if (modules.graphics) {
+			tryCreatingDisplay();
+			if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
+		}
 		capabilities.lock();
 		
 		game.setInitialState();
-		GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-		GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-		GL.setup();
+		if (modules.graphics) {
+			GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+			GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+			GL.setup();
+		}
 		State.get().create();
 		
-		if (useSound) {
+		if (modules.sound) {
 			try {
 				AL.create();
 			} catch (Exception e) {e.printStackTrace();}
@@ -117,8 +138,8 @@ public final class Gamelib {
 		
 		isRunning = true;
 		gameLoop();
-		if (useSound) AL.destroy();
-		Display.destroy();
+		if (modules.sound) AL.destroy();
+		if (modules.graphics) Display.destroy();
 	}
 	public static void stop() {
 		isRunning = false;
@@ -150,7 +171,7 @@ public final class Gamelib {
 	protected static void gameLoop() {
 		while (isRunning) {
 			KInput.update();
-			MInput.update();
+			if (modules.graphics) MInput.update();
 			game.gameLoop();
 			if (State.get() != null) advanceFrame(State.get().getFPS());
 		}
@@ -159,10 +180,10 @@ public final class Gamelib {
 		advanceFrame(0);
 	}
 	public static void advanceFrame(int fps) {
-		GL.unbind();
+		if (modules.graphics) GL.unbind();
 		Debug.advance();
-		if (Display.isCloseRequested()) isRunning = false;
-		Display.update();
+		if (modules.graphics && Display.isCloseRequested()) isRunning = false;
+		if (modules.graphics) Display.update();
 		if (fps > 0) Display.sync(fps);
 	}
 	

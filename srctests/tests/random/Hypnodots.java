@@ -15,9 +15,8 @@ import pl.shockah.glib.state.View;
 
 public class Hypnodots extends State {
 	public static void main(String[] args) {
-		Gamelib.useSound(false);
 		Hypnodots test = new Hypnodots();
-		Gamelib.start(new GameStandard(test),test.getClass().getName());
+		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	protected void onSetup() {
