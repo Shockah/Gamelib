@@ -349,6 +349,15 @@ public class Graphics {
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 	}
 	
+	public void draw(IVector2 v) {draw(v.Xd(),v.Yd());}
+	public void draw(double x, double y) {
+		if (redirect != null) {
+			redirect.draw(x,y);
+			return;
+		}
+		draw(new Rectangle(x,y,1,1));
+	}
+	
 	public Vector2d getMousePos() {
 		if (redirect != null) return redirect.getMousePos();
 		return MInput.getPos().toDouble();

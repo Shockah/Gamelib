@@ -25,6 +25,7 @@ public final class GL {
 	
 	public static void setup() {
 		glEnable(GL_LINE_SMOOTH);
+		glDisable(GL_DEPTH_TEST);
 	}
 	
 	public static void initDisplay(int width, int height) {
