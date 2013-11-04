@@ -3,6 +3,7 @@ package pl.shockah.glib.logic.standard;
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
+import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.logic.IGame;
@@ -51,30 +52,30 @@ public class GameStandard implements IGame {
 			entities.removeAll(entitiesRemove);
 			entitiesAdd.clear();
 			entitiesRemove.clear();
-			
 			for (EntityBase e : entities) e.update();
 		}
 		
 		if (State.get() == null) return;
-		Graphics.getDefaultBlendMode().apply();
-		g.clearClip();
-		g.clearTransformedClip();
-		g.clearTransformations();
-		state.preRender(g);
-		state.renderTransitionPre(g);
-		if (state.shouldTransitionRender(g)) {
-			renderable.removeAll(renderableRemove);
-			renderable.addAll(renderableAdd);
-			renderableRemove.clear();
-			renderableAdd.clear();
-			
-			g.clear();
-			for (Renderable r : renderable) r.render(g);
+		if (Gamelib.modules().graphics) {
+			Graphics.getDefaultBlendMode().apply();
+			g.clearClip();
+			g.clearTransformedClip();
+			g.clearTransformations();
+			state.preRender(g);
+			state.renderTransitionPre(g);
+			if (state.shouldTransitionRender(g)) {
+				renderable.removeAll(renderableRemove);
+				renderable.addAll(renderableAdd);
+				renderableRemove.clear();
+				renderableAdd.clear();
+				g.clear();
+				for (Renderable r : renderable) r.render(g);
+			}
+			state.preTransitionRender(g);
+			state.renderTransition(g);
+			state.postRender(g);
+			GL.loadIdentity();
 		}
-		state.preTransitionRender(g);
-		state.renderTransition(g);
-		state.postRender(g);
-		GL.loadIdentity();
 	}
 	
 	public void setupInitialState() {

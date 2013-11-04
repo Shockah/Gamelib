@@ -2,6 +2,7 @@ package pl.shockah.glib.logic.standard;
 
 import java.util.List;
 import pl.shockah.SortedLinkedList;
+import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.vector.IVector2;
 import pl.shockah.glib.gl.Graphics;
 
@@ -20,10 +21,12 @@ public abstract class EntityRenderable extends EntityBase {
 		register();
 	}
 	public final void destroy() {
-		listUsed = true;
-		for (Renderable r : renderables) r.destroy();
-		listUsed = false;
-		renderables.clear();
+		if (Gamelib.modules().graphics) {
+			listUsed = true;
+			for (Renderable r : renderables) r.destroy();
+			listUsed = false;
+			renderables.clear();
+		}
 		super.destroy();
 	}
 	
@@ -32,6 +35,7 @@ public abstract class EntityRenderable extends EntityBase {
 	}
 	
 	public final void setDepth(double depth) {
+		if (!Gamelib.modules().graphics) return;
 		for (Renderable r : renderables) r.setDepth(depth);
 	}
 	
@@ -41,6 +45,7 @@ public abstract class EntityRenderable extends EntityBase {
 	protected void onRender(Graphics g) {}
 	
 	private final void register() {
+		if (!Gamelib.modules().graphics) return;
 		onRegister();
 	}
 	protected void onRegister() {
