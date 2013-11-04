@@ -77,6 +77,7 @@ public class State {
 	
 	public final void setup() {
 		onSetup();
+		if (!Gamelib.modules().graphics) return;
 		if (views.isEmpty()) views.add(new View());
 		Gamelib.setDisplayMode(getDisplaySize());
 	}

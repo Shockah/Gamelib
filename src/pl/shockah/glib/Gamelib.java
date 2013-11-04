@@ -169,9 +169,12 @@ public final class Gamelib {
 	}
 	
 	protected static void gameLoop() {
+		if (State.get() != null) Display.sync(State.get().getFPS());
 		while (isRunning) {
-			KInput.update();
-			if (modules.graphics) MInput.update();
+			if (modules.graphics) {
+				KInput.update();
+				MInput.update();
+			}
 			game.gameLoop();
 			if (State.get() != null) advanceFrame(State.get().getFPS());
 		}
