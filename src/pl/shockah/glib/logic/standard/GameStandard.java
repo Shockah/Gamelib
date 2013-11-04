@@ -12,8 +12,11 @@ public class GameStandard implements IGame {
 	public static GameStandard me = null;
 	private static Graphics g = new Graphics();
 	
-	public GameStandard() {
+	protected final State initialState;
+	
+	public GameStandard(State initialState) {
 		me = this;
+		this.initialState = initialState;
 	}
 	
 	protected final List<EntityBase>
@@ -72,5 +75,13 @@ public class GameStandard implements IGame {
 		state.renderTransition(g);
 		state.postRender(g);
 		GL.loadIdentity();
+	}
+	
+	public void setupInitialState() {
+		if (initialState == null) throw new IllegalArgumentException("A game can't exist without a State.");
+		initialState.setup();
+	}
+	public void setInitialState() {
+		State.change(initialState);
 	}
 }

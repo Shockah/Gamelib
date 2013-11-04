@@ -88,20 +88,13 @@ public final class Gamelib {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	public static void start(Class<? extends IGame> cls, State initialState) {start(cls,initialState,"Gamelib");}
-	public static void start(Class<? extends IGame> cls, State initialState, String windowTitle) {
-		try {
-			start(cls.newInstance(),initialState,windowTitle);
-		} catch (Exception e) {handle(e);}
-	}
-	public static void start(IGame game, State initialState) {start(game,initialState,"Gamelib");}
-	public static void start(IGame game, State initialState, String windowTitle) {
+	public static void start(IGame game) {start(game,"Gamelib");}
+	public static void start(IGame game, String windowTitle) {
 		System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
 		Gamelib.game = game;
 		originalDisplayMode = Display.getDesktopDisplayMode();
 		
-		if (initialState == null) throw new IllegalArgumentException("A game can't exist without a State.");
-		initialState.setup();
+		game.setupInitialState();
 		
 		if (windowTitle == null) windowTitle = "";
 		Display.setTitle(windowTitle);
@@ -110,7 +103,7 @@ public final class Gamelib {
 		if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
 		capabilities.lock();
 		
-		State.change(initialState);
+		game.setInitialState();
 		GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 		GL.setup();

@@ -13,8 +13,9 @@ import pl.shockah.glib.state.State;
 
 public class KeyboardInputTest2 extends State {
 	public static void main(String[] args) {
+		Gamelib.useSound(false);
 		State test = new KeyboardInputTest2();
-		Gamelib.start(new GameStandard(),test,test.getClass().getName());
+		Gamelib.start(new GameStandard(test),test.getClass().getName());
 	}
 	
 	protected void onCreate() {
