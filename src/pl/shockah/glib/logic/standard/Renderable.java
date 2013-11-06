@@ -31,7 +31,7 @@ public abstract class Renderable implements Comparable<Renderable> {
 	}
 	
 	public final void create() {
-		if (!Gamelib.modules().graphics) return;
+		if (!Gamelib.modules().graphics()) return;
 		if (parent != null) parent.renderables.add(this);
 		GameStandard.me.renderableAdd.add(this);
 		onCreate();
@@ -39,7 +39,7 @@ public abstract class Renderable implements Comparable<Renderable> {
 	protected void onCreate() {}
 	
 	public final void destroy() {
-		if (!Gamelib.modules().graphics) return;
+		if (!Gamelib.modules().graphics()) return;
 		onDestroy();
 		GameStandard.me.renderableRemove.add(this);
 		if (parent != null && !parent.isListUsed()) parent.renderables.remove(this);
@@ -50,7 +50,7 @@ public abstract class Renderable implements Comparable<Renderable> {
 		return depth;
 	}
 	public final void setDepth(double depth) {
-		if (!Gamelib.modules().graphics) return;
+		if (!Gamelib.modules().graphics()) return;
 		this.depth = depth;
 		if (GameStandard.me.renderable.contains(this)) {
 			GameStandard.me.renderableRemove.add(this);

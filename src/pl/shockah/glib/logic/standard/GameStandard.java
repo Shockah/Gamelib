@@ -56,7 +56,7 @@ public class GameStandard implements IGame {
 		}
 		
 		if (State.get() == null) return;
-		if (Gamelib.modules().graphics) {
+		if (Gamelib.modules().graphics()) {
 			Graphics.getDefaultBlendMode().apply();
 			g.clearClip();
 			g.clearTransformedClip();

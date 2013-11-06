@@ -16,13 +16,34 @@ import pl.shockah.glib.state.State;
 
 public final class Gamelib {
 	public static final class Modules {
-		public final boolean graphics, sound;
+		private boolean graphics, sound;
+		private boolean locked = false;
 		
 		public Modules() {this(true,true);}
 		public Modules(boolean sound) {this(true,sound);}
 		public Modules(boolean graphics, boolean sound) {
 			this.graphics = graphics;
 			this.sound = sound;
+		}
+		
+		public String toString() {
+			return "[Gamelib.Modules: "+(graphics ? "" : "no ")+"graphics, "+(sound ? "" : "no ")+"sound]";
+		}
+		
+		public boolean graphics() {return graphics;}
+		public boolean sound() {return sound;}
+		
+		public void setGraphicsSupport(boolean b) {
+			if (locked) throw new IllegalStateException("This object is locked, it can't be modified.");
+			graphics = b;
+		}
+		public void setSoundSupport(boolean b) {
+			if (locked) throw new IllegalStateException("This object is locked, it can't be modified.");
+			sound = b;
+		}
+		
+		public void lock() {
+			locked = true;
 		}
 	}
 	
@@ -106,7 +127,7 @@ public final class Gamelib {
 	public static void start(IGame game, String windowTitle, Modules modules) {
 		Gamelib.game = game;
 		Gamelib.modules = modules;
-		if (modules.graphics) {
+		if (modules.graphics()) {
 			System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
 			originalDisplayMode = Display.getDesktopDisplayMode();
 		}
@@ -116,30 +137,34 @@ public final class Gamelib {
 		if (windowTitle == null) windowTitle = "";
 		Display.setTitle(windowTitle);
 		
-		if (modules.graphics) {
+		if (modules.graphics()) {
 			tryCreatingDisplay();
 			if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
 		}
 		capabilities.lock();
 		
 		game.setInitialState();
-		if (modules.graphics) {
+		if (modules.graphics()) {
 			GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 			GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
 			GL.setup();
 		}
 		State.get().create();
 		
-		if (modules.sound) {
+		if (modules.sound()) {
 			try {
 				AL.create();
-			} catch (Exception e) {e.printStackTrace();}
+			} catch (Exception e) {
+				e.printStackTrace();
+				modules.setSoundSupport(false);
+			}
 		}
 		
+		modules.lock();
 		isRunning = true;
 		gameLoop();
-		if (modules.sound) AL.destroy();
-		if (modules.graphics) Display.destroy();
+		if (modules.sound()) AL.destroy();
+		if (modules.graphics()) Display.destroy();
 	}
 	public static void stop() {
 		isRunning = false;
@@ -156,7 +181,7 @@ public final class Gamelib {
 		capabilities.setAlphaSupport(false);
 		
 		if (tryCreatingDisplay(new PixelFormat())) return;
-		throw new RuntimeException("Couldn't create display.");
+		modules.setGraphicsSupport(false);
 	}
 	private static boolean tryCreatingDisplay(PixelFormat format) {
 		try {
@@ -171,7 +196,7 @@ public final class Gamelib {
 	protected static void gameLoop() {
 		if (State.get() != null) Display.sync(State.get().getFPS());
 		while (isRunning) {
-			if (modules.graphics) {
+			if (modules.graphics()) {
 				KInput.update();
 				MInput.update();
 			}
@@ -183,10 +208,10 @@ public final class Gamelib {
 		advanceFrame(0);
 	}
 	public static void advanceFrame(int fps) {
-		if (modules.graphics) GL.unbind();
+		if (modules.graphics()) GL.unbind();
 		Debug.advance();
-		if (modules.graphics && Display.isCloseRequested()) isRunning = false;
-		if (modules.graphics) Display.update();
+		if (modules.graphics() && Display.isCloseRequested()) isRunning = false;
+		if (modules.graphics()) Display.update();
 		if (fps > 0) Display.sync(fps);
 	}
 	
