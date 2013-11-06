@@ -1,6 +1,7 @@
 package pl.shockah.glib.input;
 
 import org.lwjgl.input.Keyboard;
+import pl.shockah.glib.Gamelib;
 
 public class KInput {
 	public static final int ANYKEY = 256;
@@ -25,17 +26,19 @@ public class KInput {
 			keyReleased[i] = false;
 		}
 		
-		while (Keyboard.next()) {
-			boolean pressed = Keyboard.getEventKeyState();
-			int eventKey = Keyboard.getEventKey();
-			
-			boolean[] ar = pressed ? keyPressed : keyReleased;
-			ar[eventKey] = true;
-			keyCharacter[Keyboard.getEventKey()] = Keyboard.getEventCharacter();
-			ar[ANYKEY] = true;
-			keyDown[eventKey] = pressed;
-			
-			text.handle(Keyboard.getEventKeyState(),Keyboard.getEventKey());
+		if (Gamelib.modules().graphics()) {
+			while (Keyboard.next()) {
+				boolean pressed = Keyboard.getEventKeyState();
+				int eventKey = Keyboard.getEventKey();
+				
+				boolean[] ar = pressed ? keyPressed : keyReleased;
+				ar[eventKey] = true;
+				keyCharacter[Keyboard.getEventKey()] = Keyboard.getEventCharacter();
+				ar[ANYKEY] = true;
+				keyDown[eventKey] = pressed;
+				
+				text.handle(Keyboard.getEventKeyState(),Keyboard.getEventKey());
+			}
 		}
 		text.handleAll();
 	}

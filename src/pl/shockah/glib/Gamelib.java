@@ -169,6 +169,9 @@ public final class Gamelib {
 	public static void stop() {
 		isRunning = false;
 	}
+	public static boolean isRunning() {
+		return isRunning;
+	}
 	
 	private static void tryCreatingDisplay() {
 		if (tryCreatingDisplay(new PixelFormat(8,8,8,4))) return;
@@ -196,10 +199,8 @@ public final class Gamelib {
 	protected static void gameLoop() {
 		if (State.get() != null) Display.sync(State.get().getFPS());
 		while (isRunning) {
-			if (modules.graphics()) {
-				KInput.update();
-				MInput.update();
-			}
+			KInput.update();
+			if (modules.graphics()) MInput.update();
 			game.gameLoop();
 			if (State.get() != null) advanceFrame(State.get().getFPS());
 		}
