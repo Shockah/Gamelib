@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="gamelib" name="Build Gamelib">
+<project default="Gamelib" name="Build Gamelib">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
-    <target name="gamelib">
+    <target name="Gamelib">
     	<mkdir dir="bin"/>
     	<delete file="gamelib.jar"/>
         <jar destfile="gamelib.jar" filesetmanifest="mergewithoutmain">
