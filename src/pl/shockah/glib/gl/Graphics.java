@@ -9,7 +9,7 @@ import java.util.List;
 import org.lwjgl.BufferUtils;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.ITextureSupplier;
@@ -97,7 +97,7 @@ public class Graphics {
 		if (lastGraphics == this) t.apply();
 	}
 	
-	public void scale(IVector2 v) {
+	public void scale(Vector2 v) {
 		scale(v.Xd(),v.Yd());
 	}
 	public void scale(double x, double y) {
@@ -302,7 +302,7 @@ public class Graphics {
 	}
 	
 	public void draw(ITextureSupplier ts) {draw(ts,0,0);}
-	public void draw(ITextureSupplier ts, IVector2 v) {draw(ts,v.Xd(),v.Yd());}
+	public void draw(ITextureSupplier ts, Vector2 v) {draw(ts,v.Xd(),v.Yd());}
 	public void draw(ITextureSupplier ts, double x, double y) {
 		if (redirect != null) {
 			redirect.draw(ts,x,y);
@@ -312,7 +312,7 @@ public class Graphics {
 	}
 	
 	public void draw(Image image, double rotation) {draw(image,0,0,rotation);}
-	public void draw(Image image, IVector2 v, double rotation) {draw(image,v.Xd(),v.Yd(),rotation);}
+	public void draw(Image image, Vector2 v, double rotation) {draw(image,v.Xd(),v.Yd(),rotation);}
 	public void draw(Image image, double x, double y, double rotation) {
 		if (redirect != null) {
 			redirect.draw(image,x,y,rotation);
@@ -326,8 +326,8 @@ public class Graphics {
 	
 	public void draw(Surface surface) {draw(surface,0,0,0);}
 	public void draw(Surface surface, double rotation) {draw(surface,0,0,rotation);}
-	public void draw(Surface surface, IVector2 v) {draw(surface,v.Xd(),v.Yd(),0);}
-	public void draw(Surface surface, IVector2 v, double rotation) {draw(surface,v.Xd(),v.Yd(),rotation);}
+	public void draw(Surface surface, Vector2 v) {draw(surface,v.Xd(),v.Yd(),0);}
+	public void draw(Surface surface, Vector2 v, double rotation) {draw(surface,v.Xd(),v.Yd(),rotation);}
 	public void draw(Surface surface, double x, double y) {draw(surface,x,y,0);}
 	public void draw(Surface surface, double x, double y, double rotation) {
 		if (redirect != null) {
@@ -338,7 +338,7 @@ public class Graphics {
 	}
 	
 	public void draw(GLList gll) {draw(gll,0,0);}
-	public void draw(GLList gll, IVector2 v) {draw(gll,v.Xd(),v.Yd());}
+	public void draw(GLList gll, Vector2 v) {draw(gll,v.Xd(),v.Yd());}
 	public void draw(GLList gll, double x, double y) {
 		if (redirect != null) {
 			redirect.draw(gll,x,y);
@@ -349,7 +349,7 @@ public class Graphics {
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 	}
 	
-	public void draw(IVector2 v) {draw(v.Xd(),v.Yd());}
+	public void draw(Vector2 v) {draw(v.Xd(),v.Yd());}
 	public void draw(double x, double y) {
 		if (redirect != null) {
 			redirect.draw(x,y);

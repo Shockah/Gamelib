@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.ARBShaderObjects.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import pl.shockah.glib.Debug;
 import pl.shockah.glib.Gamelib;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.gl.tex.Texture;
 
@@ -62,7 +62,7 @@ public final class GL {
 			glColorMask(masking[0],masking[1],masking[2],masking[3]);
 		}
 	}
-	public static void translated(IVector2 v) {
+	public static void translated(Vector2 v) {
 		translated(v.Xd(),v.Yd());
 	}
 	public static void translated(double x, double y) {

@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.lwjgl.BufferUtils;
 import pl.shockah.glib.geom.Rectangle;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
@@ -209,7 +209,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	public int getHeight(String HeightString) {return fontHeight;}
 	public int getLineHeight() {return fontHeight;}
 	
-	public void draw(Graphics g, IVector2 v, CharSequence text) {draw(g,v.Xd(),v.Yd(),text);}
+	public void draw(Graphics g, Vector2 v, CharSequence text) {draw(g,v.Xd(),v.Yd(),text);}
 	public void draw(Graphics g, double x, double y, CharSequence text) {
 		drawString(x,y,text,0,text.length()-1,1f,1f);
 	}
@@ -526,7 +526,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
-	public void drawTexture(Graphics g, IVector2 v) {drawTexture(g,v.Xd(),v.Yd());}
+	public void drawTexture(Graphics g, Vector2 v) {drawTexture(g,v.Xd(),v.Yd());}
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		GL.bind(getTexture());

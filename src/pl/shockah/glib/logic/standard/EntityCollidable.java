@@ -3,7 +3,7 @@ package pl.shockah.glib.logic.standard;
 import java.util.LinkedList;
 import java.util.List;
 import pl.shockah.glib.geom.Shape;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public class EntityCollidable extends EntityRenderable {
@@ -34,7 +34,7 @@ public class EntityCollidable extends EntityRenderable {
 		e.updateShapePos();
 		return shape.collides(e.shape);
 	}
-	public boolean collidesAt(EntityCollidable e, IVector2 v) {
+	public boolean collidesAt(EntityCollidable e, Vector2 v) {
 		return collidesAt(e,v.Xd(),v.Yd());
 	}
 	public boolean collidesAt(EntityCollidable e, double x, double y) {
@@ -55,7 +55,7 @@ public class EntityCollidable extends EntityRenderable {
 		for (EntityCollidable e : list) if (collides(e,update)) return true;
 		return false;
 	}
-	public boolean collidesAt(List<EntityCollidable> list, IVector2 v) {
+	public boolean collidesAt(List<EntityCollidable> list, Vector2 v) {
 		return collidesAt(list,v.Xd(),v.Yd());
 	}
 	public boolean collidesAt(List<EntityCollidable> list, double x, double y) {
@@ -77,7 +77,7 @@ public class EntityCollidable extends EntityRenderable {
 		for (EntityCollidable e : list) if (collides(e,update)) ret.add(e);
 		return ret;
 	}
-	public List<EntityCollidable> collidesAtWith(List<EntityCollidable> list, IVector2 v) {
+	public List<EntityCollidable> collidesAtWith(List<EntityCollidable> list, Vector2 v) {
 		return collidesAtWith(list,v.Xd(),v.Yd());
 	}
 	public List<EntityCollidable> collidesAtWith(List<EntityCollidable> list, double x, double y) {

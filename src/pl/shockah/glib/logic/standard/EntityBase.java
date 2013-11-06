@@ -1,6 +1,6 @@
 package pl.shockah.glib.logic.standard;
 
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 
 public abstract class EntityBase {
@@ -11,7 +11,7 @@ public abstract class EntityBase {
 	
 	public final void create() {create(new Vector2d());}
 	public final void create(double x, double y) {create(new Vector2d(x,y));}
-	public void create(IVector2 pos) {
+	public void create(Vector2 pos) {
 		this.pos.set(pos);
 		firstTick = true;
 		GameStandard.me.entitiesAdd.add(this);

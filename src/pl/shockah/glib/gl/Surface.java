@@ -4,13 +4,13 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import static org.lwjgl.opengl.EXTPackedDepthStencil.*;
 import java.nio.ByteBuffer;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
 
 public class Surface {
-	public static Surface create(IVector2 v) {
+	public static Surface create(Vector2 v) {
 		return create(v.Xi(),v.Yi());
 	}
 	public static Surface create(int w, int h) {

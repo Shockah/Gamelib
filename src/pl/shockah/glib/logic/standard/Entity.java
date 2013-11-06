@@ -1,9 +1,9 @@
 package pl.shockah.glib.logic.standard;
 
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 
 public abstract class Entity extends EntityBase {
-	public final void create(IVector2 pos) {
+	public final void create(Vector2 pos) {
 		super.create(pos);
 	}
 	

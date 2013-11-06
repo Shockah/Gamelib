@@ -3,7 +3,7 @@ package pl.shockah.glib.logic.standard;
 import java.util.List;
 import pl.shockah.SortedLinkedList;
 import pl.shockah.glib.Gamelib;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.gl.Graphics;
 
 public abstract class EntityRenderable extends EntityBase {
@@ -16,7 +16,7 @@ public abstract class EntityRenderable extends EntityBase {
 		baseDepth = depth;
 	}
 	
-	public final void create(IVector2 pos) {
+	public final void create(Vector2 pos) {
 		super.create(pos);
 		register();
 	}

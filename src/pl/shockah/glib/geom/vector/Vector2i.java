@@ -4,7 +4,7 @@ import pl.shockah.Math2;
 import pl.shockah.glib.animfx.IInterpolatable;
 import pl.shockah.glib.animfx.Interpolate;
 
-public class Vector2i implements IInterpolatable<Vector2i>,IVector2 {
+public class Vector2i extends Vector2 implements IInterpolatable<Vector2i> {
 	public static Vector2i make(int dist, double angle) {
 		return new Vector2i((int)Math2.ldirX(dist,angle),(int)Math2.ldirY(dist,angle));
 	}
@@ -52,18 +52,18 @@ public class Vector2i implements IInterpolatable<Vector2i>,IVector2 {
 		return new Vector2d(x,y);
 	}
 	
-	public Vector2i set(IVector2 v) {return set(v.Xi(),v.Yi());}
+	public Vector2i set(Vector2 v) {return set(v.Xi(),v.Yi());}
 	public Vector2i set(int x, int y) {
 		this.x = x;
 		this.y = y;
 		return this;
 	}
-	public Vector2i setX(IVector2 v) {return setX(v.Xi());}
+	public Vector2i setX(Vector2 v) {return setX(v.Xi());}
 	public Vector2i setX(int x) {
 		this.x = x;
 		return this;
 	}
-	public Vector2i setY(IVector2 v) {return setY(v.Yi());}
+	public Vector2i setY(Vector2 v) {return setY(v.Yi());}
 	public Vector2i setY(int y) {
 		this.y = y;
 		return this;
@@ -79,29 +79,29 @@ public class Vector2i implements IInterpolatable<Vector2i>,IVector2 {
 	public Vector2i abs() {if (x < 0) x = -x; if (y < 0) y = -y; return this;}
 	public Vector2i Abs() {return new Vector2i(x >= 0 ? x : -x,y >= 0 ? y : -y);}
 	
-	public Vector2i add(IVector2 v) {return add(v.Xi(),v.Yi());}
-	public Vector2i Add(IVector2 v) {return Add(v.Xi(),v.Yi());}
+	public Vector2i add(Vector2 v) {return add(v.Xi(),v.Yi());}
+	public Vector2i Add(Vector2 v) {return Add(v.Xi(),v.Yi());}
 	public Vector2i add(int x, int y) {this.x += x; this.y += y; return this;}
 	public Vector2i Add(int x, int y) {return new Vector2i(this.x+x,this.y+y);}
 	public Vector2i sub(int x, int y) {return add(-x,-y);}
 	public Vector2i Sub(int x, int y) {return Add(-x,-y);}
-	public Vector2i sub(IVector2 v) {return sub(v.Xi(),v.Yi());}
-	public Vector2i Sub(IVector2 v) {return Sub(v.Xi(),v.Yi());}
+	public Vector2i sub(Vector2 v) {return sub(v.Xi(),v.Yi());}
+	public Vector2i Sub(Vector2 v) {return Sub(v.Xi(),v.Yi());}
 	
 	public Vector2i scale(int scale) {return scale(scale,scale);}
 	public Vector2i Scale(int scale) {return Scale(scale,scale);}
 	public Vector2i scale(int scaleH, int scaleV) {x *= scaleH; y *= scaleV; return this;}
 	public Vector2i Scale(int scaleH, int scaleV) {return new Vector2i(x*scaleH,y*scaleV);}
-	public Vector2i scale(IVector2 v) {return scale(v.Xi(),v.Yi());}
-	public Vector2i Scale(IVector2 v) {return Scale(v.Xi(),v.Yi());}
+	public Vector2i scale(Vector2 v) {return scale(v.Xi(),v.Yi());}
+	public Vector2i Scale(Vector2 v) {return Scale(v.Xi(),v.Yi());}
 	public Vector2i div(int scale) {return div(scale,scale);}
 	public Vector2i Div(int scale) {return Div(scale,scale);}
 	public Vector2i div(int scaleH, int scaleV) {x /= scaleH; y /= scaleV; return this;}
 	public Vector2i Div(int scaleH, int scaleV) {return new Vector2i(x/scaleH,y/scaleV);}
-	public Vector2i div(IVector2 v) {return div(v.Xi(),v.Yi());}
-	public Vector2i Div(IVector2 v) {return Div(v.Xi(),v.Yi());}
+	public Vector2i div(Vector2 v) {return div(v.Xi(),v.Yi());}
+	public Vector2i Div(Vector2 v) {return Div(v.Xi(),v.Yi());}
 	
-	public Vector2i Vector(IVector2 v) {
+	public Vector2i Vector(Vector2 v) {
 		return new Vector2i(v.Xi()-x,v.Yi()-y);
 	}
 	public Vector2i rotate(double angle) {
@@ -117,19 +117,19 @@ public class Vector2i implements IInterpolatable<Vector2i>,IVector2 {
 	public int length() {
 		return (int)Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
 	}
-	public int distanceSquared(IVector2 v) {
+	public int distanceSquared(Vector2 v) {
 		return (int)(Math.pow(v.Xi()-x,2)+Math.pow(v.Yi()-y,2));
 	}
-	public int distance(IVector2 v) {
+	public int distance(Vector2 v) {
 		return (int)Math.sqrt(Math.pow(v.Xi()-x,2)+Math.pow(v.Yi()-y,2));
 	}
 	public double direction() {
 		return new Vector2i().direction(this);
 	}
-	public double direction(IVector2 v) {
+	public double direction(Vector2 v) {
 		return Math.toDegrees(Math.atan2(y-v.Yi(),v.Xi()-x));
 	}
-	public double deltaAngle(IVector2 v) {return deltaAngle(v.direction());}
+	public double deltaAngle(Vector2 v) {return deltaAngle(v.direction());}
 	public double deltaAngle(double angle) {
 		return Math2.deltaAngle(direction(),angle);
 	}

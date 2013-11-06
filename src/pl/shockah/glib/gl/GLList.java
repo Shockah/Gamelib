@@ -1,7 +1,7 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
-import pl.shockah.glib.geom.vector.IVector2;
+import pl.shockah.glib.geom.vector.Vector2;
 
 public class GLList {
 	public static GLList create() {
@@ -37,7 +37,7 @@ public class GLList {
 	}
 	
 	public void draw(Graphics g) {g.draw(this);}
-	public void draw(Graphics g, IVector2 v) {g.draw(this,v);}
+	public void draw(Graphics g, Vector2 v) {g.draw(this,v);}
 	public void draw(Graphics g, double x, double y) {g.draw(this,x,y);}
 	
 	public void dispose() {
