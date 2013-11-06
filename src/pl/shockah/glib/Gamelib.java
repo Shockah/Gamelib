@@ -1,6 +1,9 @@
 package pl.shockah.glib;
 
+import java.io.File;
 import java.util.Arrays;
+
+import org.lwjgl.LWJGLUtil;
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
@@ -87,6 +90,7 @@ public final class Gamelib {
 	public static IGame game;
 	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
 	protected static boolean cachedFullscreen = false, isRunning = false;
+	protected static File nativesPath = new File("lib/native");
 	
 	public static Modules modules() {return modules;}
 	
@@ -121,13 +125,28 @@ public final class Gamelib {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
+	private static void findAndSetupNatives() {
+		System.setProperty("org.lwjgl.librarypath",nativesPath.getAbsolutePath());
+		
+		File path = null;
+		switch (LWJGLUtil.getPlatform()) {
+			case LWJGLUtil.PLATFORM_WINDOWS: path = new File(nativesPath,"windows"); break;
+			case LWJGLUtil.PLATFORM_LINUX: path = new File(nativesPath,"linux"); break;
+			case LWJGLUtil.PLATFORM_MACOSX: path = new File(nativesPath,"macosx"); break;
+		}
+		if (path != null && path.exists() && path.isDirectory()) System.setProperty("org.lwjgl.librarypath",path.getAbsolutePath());
+	}
+	public static void setNativesPath(File file) {
+		nativesPath = file;
+	}
+	
 	public static void start(IGame game) {start(game,"Gamelib",new Modules());}
 	public static void start(IGame game, Modules modules) {start(game,"Gamelib",modules);}
 	public static void start(IGame game, String windowTitle) {start(game,windowTitle,new Modules());}
 	public static void start(IGame game, String windowTitle, Modules modules) {
 		Gamelib.game = game;
 		Gamelib.modules = modules;
-		NativeLoader.load();
+		findAndSetupNatives();
 		
 		if (modules.graphics()) {
 			System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
