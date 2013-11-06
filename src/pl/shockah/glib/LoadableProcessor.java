@@ -17,6 +17,7 @@ import pl.shockah.FileLine;
 import pl.shockah.Pair;
 import pl.shockah.glib.al.Audio;
 import pl.shockah.glib.al.AudioLoader;
+import pl.shockah.glib.al.AudioNull;
 import pl.shockah.glib.gl.Shader;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
@@ -52,8 +53,10 @@ public final class LoadableProcessor {
 			if (loadable != null) ret.add(new FontLoadAction(null,loadable));
 		}
 		for (Field fld : cls.getFields()) {
+			FieldObj fo = new FieldObj(fld,o);
+			
 			TextureLoader.IntOptions optints = fld.getAnnotation(TextureLoader.IntOptions.class);
-			if (optints == null) {
+			if (Gamelib.modules().graphics() && optints == null) {
 				final TextureLoader.IntOption optint = fld.getAnnotation(TextureLoader.IntOption.class);
 				if (optint != null) {
 					optints = new TextureLoader.IntOptions() {
@@ -96,24 +99,30 @@ public final class LoadableProcessor {
 			}
 			
 			Image.Loadable imageLoadable = fld.getAnnotation(Image.Loadable.class);
-			if (Gamelib.modules().graphics() && imageLoadable != null) ret.add(new ImageLoadAction(new FieldObj(fld,o),imageLoadable,optints));
+			if (Gamelib.modules().graphics() && imageLoadable != null) ret.add(new ImageLoadAction(fo,imageLoadable,optints));
 			
 			SpriteSheet.Loadable sheetLoadable = fld.getAnnotation(SpriteSheet.Loadable.class);
-			if (Gamelib.modules().graphics() && sheetLoadable != null) ret.add(new SpriteSheetLoadAction(new FieldObj(fld,o),sheetLoadable,optints));
+			if (Gamelib.modules().graphics() && sheetLoadable != null) ret.add(new SpriteSheetLoadAction(fo,sheetLoadable,optints));
 			SpriteSheet.ZIPLoadable zipSSLoadable = fld.getAnnotation(SpriteSheet.ZIPLoadable.class);
-			if (Gamelib.modules().graphics() && zipSSLoadable != null) ret.add(new ZIPSpriteSheetLoadAction(new FieldObj(fld,o),zipSSLoadable,optints));
+			if (Gamelib.modules().graphics() && zipSSLoadable != null) ret.add(new ZIPSpriteSheetLoadAction(fo,zipSSLoadable,optints));
 			
 			Shader.Loadable shaderLoadable = fld.getAnnotation(Shader.Loadable.class);
-			if (Gamelib.modules().graphics() && shaderLoadable != null) ret.add(new ShaderLoadAction(new FieldObj(fld,o),shaderLoadable));
+			if (Gamelib.modules().graphics() && shaderLoadable != null) ret.add(new ShaderLoadAction(fo,shaderLoadable));
 			
 			Atlas.Loadable atlasLoadable = fld.getAnnotation(Atlas.Loadable.class);
-			if (Gamelib.modules().graphics() && atlasLoadable != null) ret.add(new AtlasLoadAction(new FieldObj(fld,o),atlasLoadable,optints));
+			if (Gamelib.modules().graphics() && atlasLoadable != null) ret.add(new AtlasLoadAction(fo,atlasLoadable,optints));
 			
 			TrueTypeFont.Loadable ttfLoadable = fld.getAnnotation(TrueTypeFont.Loadable.class);
-			if (Gamelib.modules().graphics() && ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(new FieldObj(fld,o),ttfLoadable));
+			if (Gamelib.modules().graphics() && ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(fo,ttfLoadable));
 			
 			Audio.Loadable audioLoadable = fld.getAnnotation(Audio.Loadable.class);
-			if (Gamelib.modules().sound() && audioLoadable != null) ret.add(new AudioLoadAction(new FieldObj(fld,o),audioLoadable,aoptints));
+			if (Gamelib.modules().sound()) {
+				if (audioLoadable != null) ret.add(new AudioLoadAction(fo,audioLoadable,aoptints));
+			} else {
+				try {
+					fo.set(new AudioNull());
+				} catch (Exception e) {}
+			}
 			
 			if (handler != null) handler.handle(ret,fld,o);
 		}

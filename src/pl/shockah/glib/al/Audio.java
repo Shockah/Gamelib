@@ -49,8 +49,8 @@ public class Audio {
 		}
 	}
 	
-	private final int audioId;
-	private boolean disposed = false;
+	protected final int audioId;
+	protected boolean disposed = false;
 	
 	public Audio(int audioId) {
 		this.audioId = audioId;

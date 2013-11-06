@@ -146,7 +146,12 @@ public final class Gamelib {
 	public static void start(IGame game, String windowTitle, Modules modules) {
 		Gamelib.game = game;
 		Gamelib.modules = modules;
-		findAndSetupNatives();
+		try {
+			//just anything to actually try to load LWJGL
+			Display.getVersion();
+		} catch (Exception e) {
+			findAndSetupNatives();
+		}
 		
 		if (modules.graphics()) {
 			System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");

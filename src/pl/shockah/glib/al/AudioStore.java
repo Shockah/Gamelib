@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import pl.shockah.glib.Gamelib;
+
 public class AudioStore {
 	private static final int musicSource;
 	private static AudioInst music = null;
@@ -29,6 +31,7 @@ public class AudioStore {
 		return music;
 	}
 	public static AudioInst music() {
+		if (!Gamelib.modules().sound()) return AudioNull.instNull;
 		return music;
 	}
 	
