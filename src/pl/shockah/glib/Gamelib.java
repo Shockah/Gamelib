@@ -127,6 +127,8 @@ public final class Gamelib {
 	public static void start(IGame game, String windowTitle, Modules modules) {
 		Gamelib.game = game;
 		Gamelib.modules = modules;
+		NativeLoader.load();
+		
 		if (modules.graphics()) {
 			System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
 			originalDisplayMode = Display.getDesktopDisplayMode();
