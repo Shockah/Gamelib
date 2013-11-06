@@ -235,4 +235,8 @@ public abstract class Color implements IInterpolatable<Color> {
 	public Color interpolate(Color c, double d, Interpolate method) {
 		return new ColorbMutable(method.interpolate(Rf(),c.Rf(),d),method.interpolate(Gf(),c.Gf(),d),method.interpolate(Bf(),c.Bf(),d),method.interpolate(Af(),c.Af(),d));
 	}
+	
+	public float[] toHSB() {
+		return java.awt.Color.RGBtoHSB(R(),G(),B(),null);
+	}
 }
