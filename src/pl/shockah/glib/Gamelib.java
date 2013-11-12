@@ -2,8 +2,6 @@ package pl.shockah.glib;
 
 import java.io.File;
 import java.util.Arrays;
-
-import org.lwjgl.LWJGLUtil;
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
@@ -126,15 +124,16 @@ public final class Gamelib {
 	}
 	
 	private static void findAndSetupNatives() {
-		System.setProperty("org.lwjgl.librarypath",nativesPath.getAbsolutePath());
-		
-		File path = null;
-		switch (LWJGLUtil.getPlatform()) {
-			case LWJGLUtil.PLATFORM_WINDOWS: path = new File(nativesPath,"windows"); break;
-			case LWJGLUtil.PLATFORM_LINUX: path = new File(nativesPath,"linux"); break;
-			case LWJGLUtil.PLATFORM_MACOSX: path = new File(nativesPath,"macosx"); break;
+		String osName = System.getProperty("os.name");
+		File nativeDir = nativesPath;
+		if (osName.startsWith("Windows")) nativeDir = new File(nativeDir,"windows");
+		else if (osName.startsWith("Linux") || osName.startsWith("FreeBSD")) nativeDir = new File(nativeDir,"linux");
+		else if (osName.startsWith("Mac OS X")) nativeDir = new File(nativeDir,"macosx");
+		else {
+			System.out.println("Unsupported OS: "+osName+". Exiting.");
+			System.exit(-1);
 		}
-		if (path != null && path.exists() && path.isDirectory()) System.setProperty("org.lwjgl.librarypath",path.getAbsolutePath());
+		System.setProperty("org.lwjgl.librarypath",nativeDir.getAbsolutePath());
 	}
 	public static void setNativesPath(File file) {
 		nativesPath = file;
@@ -146,12 +145,7 @@ public final class Gamelib {
 	public static void start(IGame game, String windowTitle, Modules modules) {
 		Gamelib.game = game;
 		Gamelib.modules = modules;
-		try {
-			//just anything to actually try to load LWJGL
-			Display.getVersion();
-		} catch (Exception e) {
-			findAndSetupNatives();
-		}
+		findAndSetupNatives();
 		
 		if (modules.graphics()) {
 			System.setProperty("org.lwjgl.input.Mouse.allowNegativeMouseCoords","true");
