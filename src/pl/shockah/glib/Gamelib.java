@@ -2,6 +2,9 @@ package pl.shockah.glib;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import org.lwjgl.LWJGLUtil;
 import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
@@ -88,7 +91,6 @@ public final class Gamelib {
 	public static IGame game;
 	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
 	protected static boolean cachedFullscreen = false, isRunning = false;
-	protected static File nativesPath = new File("lib/native");
 	
 	public static Modules modules() {return modules;}
 	
@@ -124,19 +126,36 @@ public final class Gamelib {
 	}
 	
 	private static void findAndSetupNatives() {
-		String osName = System.getProperty("os.name");
-		File nativeDir = nativesPath;
-		if (osName.startsWith("Windows")) nativeDir = new File(nativeDir,"windows");
-		else if (osName.startsWith("Linux") || osName.startsWith("FreeBSD")) nativeDir = new File(nativeDir,"linux");
-		else if (osName.startsWith("Mac OS X")) nativeDir = new File(nativeDir,"macosx");
-		else {
-			System.out.println("Unsupported OS: "+osName+". Exiting.");
-			System.exit(-1);
-		}
-		System.setProperty("org.lwjgl.librarypath",nativeDir.getAbsolutePath());
+		File dir = null;
+		try {
+			List<File> check = new LinkedList<>();
+			check.add(new File("").getAbsoluteFile());
+			String lookFor = lookForFile();
+			
+			while (!check.isEmpty()) {
+				File f = check.remove(0);
+				if (f.isDirectory()) {
+					for (File f2 : f.listFiles()) {
+						if (f2.getName().matches("^\\.+.*$")) continue;
+						check.add(f2);
+					}
+				} else {
+					if (f.getName().equals(lookFor)) {
+						dir = f.getParentFile();
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {}
+		System.setProperty("org.lwjgl.librarypath",dir.getAbsolutePath());
 	}
-	public static void setNativesPath(File file) {
-		nativesPath = file;
+	private static String lookForFile() {
+		switch (LWJGLUtil.getPlatform()) {
+			case LWJGLUtil.PLATFORM_WINDOWS: return "lwjgl.dll";
+			case LWJGLUtil.PLATFORM_LINUX: return "liblwjgl.so";
+			case LWJGLUtil.PLATFORM_MACOSX: return "liblwjgl.jnilib";
+		}
+		throw new IllegalStateException("Couldn't detect operating system type.");
 	}
 	
 	public static void start(IGame game) {start(game,"Gamelib",new Modules());}
