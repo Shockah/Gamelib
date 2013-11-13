@@ -194,7 +194,6 @@ public final class Gamelib {
 			try {
 				AL.create();
 			} catch (Exception e) {
-				e.printStackTrace();
 				modules.setSoundSupport(false);
 			}
 		}
