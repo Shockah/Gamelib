@@ -147,7 +147,7 @@ public final class Gamelib {
 				}
 			}
 		} catch (Exception e) {}
-		System.setProperty("org.lwjgl.librarypath",dir.getAbsolutePath());
+		if (dir != null) System.setProperty("org.lwjgl.librarypath",dir.getAbsolutePath());
 	}
 	private static String lookForFile() {
 		switch (LWJGLUtil.getPlatform()) {
