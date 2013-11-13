@@ -15,7 +15,7 @@ public class AudioInst {
 	public void play() {play(false);}
 	public void play(boolean loop) {
 		findSlot();
-		if (isPlaying()) stop();
+		stop();
 		
 		alSourcef(id,AL_BUFFER,audio.getID());
 		alSourcef(id,AL_GAIN,gain);
