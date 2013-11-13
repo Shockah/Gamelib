@@ -53,6 +53,11 @@ public final class GL {
 		return flipped;
 	}
 	
+	public static boolean[] getColorMask() {return new boolean[]{masking[0],masking[1],masking[2],masking[3]};}
+	public static void colorMask(boolean[] mask) {
+		if (masking == null || masking.length != 4) throw new IllegalArgumentException();
+		colorMask(mask[0],mask[1],mask[2],mask[3]);
+	}
 	public static void colorMask(boolean r, boolean g, boolean b, boolean a) {
 		if (masking[0] != r || masking[1] != g || masking[2] != b || masking[3] != a) {
 			masking[0] = r;
