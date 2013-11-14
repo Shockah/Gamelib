@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic.standard;
+package pl.shockah.glib.logic;
 
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -14,14 +14,14 @@ public abstract class EntityBase {
 	public void create(Vector2 pos) {
 		this.pos.set(pos);
 		firstTick = true;
-		GameStandard.me.entitiesAdd.add(this);
+		Game.me.entitiesAdd.add(this);
 		onCreate();
 	}
 	protected void onCreate() {}
 	
 	public void destroy() {
 		onDestroy();
-		GameStandard.me.entitiesRemove.add(this);
+		Game.me.entitiesRemove.add(this);
 	}
 	protected void onDestroy() {}
 	

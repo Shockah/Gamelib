@@ -8,15 +8,14 @@ import pl.shockah.glib.geom.Circle;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.GameStandard;
+import pl.shockah.glib.logic.EntityRenderable;
 import pl.shockah.glib.state.State;
 import pl.shockah.glib.state.View;
 
 public class Hypnodots2 extends State {
 	public static void main(String[] args) {
 		Hypnodots2 test = new Hypnodots2();
-		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
+		Gamelib.start(test,test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	protected void onSetup() {

@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic.standard;
+package pl.shockah.glib.logic;
 
 import pl.shockah.glib.gl.Graphics;
 

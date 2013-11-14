@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic.standard;
+package pl.shockah.glib.logic;
 
 public interface IEntityFilter {
 	public boolean accept(EntityBase e);

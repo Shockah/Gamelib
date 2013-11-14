@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic.standard;
+package pl.shockah.glib.logic;
 
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
@@ -33,7 +33,7 @@ public abstract class Renderable implements Comparable<Renderable> {
 	public final void create() {
 		if (!Gamelib.modules().graphics()) return;
 		if (parent != null) parent.renderables.add(this);
-		GameStandard.me.renderableAdd.add(this);
+		Game.me.renderableAdd.add(this);
 		onCreate();
 	}
 	protected void onCreate() {}
@@ -41,7 +41,7 @@ public abstract class Renderable implements Comparable<Renderable> {
 	public final void destroy() {
 		if (!Gamelib.modules().graphics()) return;
 		onDestroy();
-		GameStandard.me.renderableRemove.add(this);
+		Game.me.renderableRemove.add(this);
 		if (parent != null && !parent.isListUsed()) parent.renderables.remove(this);
 	}
 	protected void onDestroy() {}
@@ -52,9 +52,9 @@ public abstract class Renderable implements Comparable<Renderable> {
 	public final void setDepth(double depth) {
 		if (!Gamelib.modules().graphics()) return;
 		this.depth = depth;
-		if (GameStandard.me.renderable.contains(this)) {
-			GameStandard.me.renderableRemove.add(this);
-			GameStandard.me.renderableAdd.add(this);
+		if (Game.me.renderable.contains(this)) {
+			Game.me.renderableRemove.add(this);
+			Game.me.renderableAdd.add(this);
 		}
 	}
 	

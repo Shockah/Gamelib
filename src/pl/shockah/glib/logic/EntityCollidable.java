@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic.standard;
+package pl.shockah.glib.logic;
 
 import java.util.LinkedList;
 import java.util.List;

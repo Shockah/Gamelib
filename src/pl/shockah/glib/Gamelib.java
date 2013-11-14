@@ -15,7 +15,7 @@ import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.input.KInput;
 import pl.shockah.glib.input.MInput;
-import pl.shockah.glib.logic.IGame;
+import pl.shockah.glib.logic.Game;
 import pl.shockah.glib.state.State;
 
 public final class Gamelib {
@@ -88,9 +88,10 @@ public final class Gamelib {
 	
 	protected static Modules modules;
 	public static final Capabilities capabilities = new Capabilities();
-	public static IGame game;
+	public static Game game;
 	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
 	protected static boolean cachedFullscreen = false, isRunning = false;
+	protected static double lastFrame = 0d, lastDelta = 0d;
 	
 	public static Modules modules() {return modules;}
 	
@@ -158,11 +159,11 @@ public final class Gamelib {
 		throw new IllegalStateException("Couldn't detect operating system type.");
 	}
 	
-	public static void start(IGame game) {start(game,"Gamelib",new Modules());}
-	public static void start(IGame game, Modules modules) {start(game,"Gamelib",modules);}
-	public static void start(IGame game, String windowTitle) {start(game,windowTitle,new Modules());}
-	public static void start(IGame game, String windowTitle, Modules modules) {
-		Gamelib.game = game;
+	public static void start(State state) {start(state,"Gamelib",new Modules());}
+	public static void start(State state, Modules modules) {start(state,"Gamelib",modules);}
+	public static void start(State state, String windowTitle) {start(state,windowTitle,new Modules());}
+	public static void start(State state, String windowTitle, Modules modules) {
+		Gamelib.game = new Game(state);
 		Gamelib.modules = modules;
 		findAndSetupNatives();
 		
@@ -236,6 +237,7 @@ public final class Gamelib {
 	
 	protected static void gameLoop() {
 		if (State.get() != null) Display.sync(State.get().getFPS());
+		advanceFrame();
 		while (isRunning) {
 			KInput.update();
 			if (modules.graphics()) MInput.update();
@@ -249,6 +251,7 @@ public final class Gamelib {
 	public static void advanceFrame(int fps) {
 		if (modules.graphics()) GL.unbind();
 		Debug.advance();
+		updateDelta();
 		if (modules.graphics() && Display.isCloseRequested()) isRunning = false;
 		if (modules.graphics()) Display.update();
 		if (fps > 0) Display.sync(fps);
@@ -260,5 +263,14 @@ public final class Gamelib {
 	
 	public static double getDoubleTime() {
 		return 1d*Sys.getTime()/Sys.getTimerResolution();
+	}
+	public static double getDelta() {
+		return lastDelta;
+	}
+	protected static double updateDelta() {
+		double time = Gamelib.getDoubleTime();
+	    double delta = time-lastFrame;
+	    lastFrame = time;
+	    return lastDelta = delta;
 	}
 }

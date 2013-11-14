@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic.standard;
+package pl.shockah.glib.logic;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -6,16 +6,15 @@ import pl.shockah.SortedLinkedList;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.logic.IGame;
 import pl.shockah.glib.state.State;
 
-public class GameStandard implements IGame {
-	public static GameStandard me = null;
+public class Game {
+	public static Game me = null;
 	private static Graphics g = new Graphics();
 	
 	protected final State initialState;
 	
-	public GameStandard(State initialState) {
+	public Game(State initialState) {
 		me = this;
 		this.initialState = initialState;
 	}

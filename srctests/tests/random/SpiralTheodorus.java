@@ -5,14 +5,13 @@ import pl.shockah.glib.geom.polygon.TriangleFan;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.GameStandard;
+import pl.shockah.glib.logic.EntityRenderable;
 import pl.shockah.glib.state.State;
 
 public class SpiralTheodorus extends State {
 	public static void main(String[] args) {
 		SpiralTheodorus test = new SpiralTheodorus();
-		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
+		Gamelib.start(test,test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	protected void onCreate() {

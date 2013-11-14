@@ -8,14 +8,13 @@ import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.input.MButton;
 import pl.shockah.glib.input.MInput;
-import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.GameStandard;
+import pl.shockah.glib.logic.EntityRenderable;
 import pl.shockah.glib.state.State;
 
 public class MouseInputTest2 extends State {
 	public static void main(String[] args) {
 		State test = new MouseInputTest2();
-		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
+		Gamelib.start(test,test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	protected void onCreate() {

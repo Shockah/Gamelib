@@ -5,14 +5,13 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
-import pl.shockah.glib.logic.standard.EntityRenderable;
-import pl.shockah.glib.logic.standard.GameStandard;
+import pl.shockah.glib.logic.EntityRenderable;
 import pl.shockah.glib.state.State;
 
 public class ImageTest extends State {
 	public static void main(String[] args) {
 		State test = new ImageTest();
-		Gamelib.start(new GameStandard(test),test.getClass().getName(),new Gamelib.Modules(false));
+		Gamelib.start(test,test.getClass().getName(),new Gamelib.Modules(false));
 	}
 	
 	Image image1, image2;
