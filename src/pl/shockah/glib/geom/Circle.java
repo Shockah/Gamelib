@@ -109,6 +109,9 @@ public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle
 		tf.draw(g);
 	}
 	
+	public Circle interpolate(Circle c, double d) {
+		return interpolate(c,d,Interpolate.Linear);
+	}
 	public Circle interpolate(Circle c, double d, Interpolate method) {
 		return new Circle(pos.interpolate(c.pos,d,method),method.interpolate(radius,c.radius,d));
 	}

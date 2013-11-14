@@ -84,6 +84,9 @@ public class Line extends Shape implements IInterpolatable<Line> {
 		glEnd();
 	}
 	
+	public Line interpolate(Line l, double d) {
+		return interpolate(l,d,Interpolate.Linear);
+	}
 	public Line interpolate(Line l, double d, Interpolate method) {
 		return new Line(pos1.interpolate(l.pos1,d,method),pos2.interpolate(l.pos2,d,method));
 	}

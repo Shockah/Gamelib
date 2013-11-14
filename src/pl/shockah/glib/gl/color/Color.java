@@ -232,6 +232,9 @@ public abstract class Color implements IInterpolatable<Color> {
 		return new Colorf(Rf(),Gf(),Bf(),Af());
 	}
 	
+	public Color interpolate(Color c, double d) {
+		return interpolate(c,d,Interpolate.Linear);
+	}
 	public Color interpolate(Color c, double d, Interpolate method) {
 		return new ColorbMutable(method.interpolate(Rf(),c.Rf(),d),method.interpolate(Gf(),c.Gf(),d),method.interpolate(Bf(),c.Bf(),d),method.interpolate(Af(),c.Af(),d));
 	}

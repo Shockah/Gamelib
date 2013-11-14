@@ -131,6 +131,9 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 		}
 	}
 	
+	public Rectangle interpolate(Rectangle r, double d) {
+		return interpolate(r,d,Interpolate.Linear);
+	}
 	public Rectangle interpolate(Rectangle r, double d, Interpolate method) {
 		return new Rectangle(pos.interpolate(r.pos,d,method),size.interpolate(r.size,d,method));
 	}

@@ -84,6 +84,9 @@ public class Ellipse extends Shape implements IPolygonable,IInterpolatable<Ellip
 		asPolygon(precision).draw(g,filled);
 	}
 	
+	public Ellipse interpolate(Ellipse e, double d) {
+		return interpolate(e,d,Interpolate.Linear);
+	}
 	public Ellipse interpolate(Ellipse e, double d, Interpolate method) {
 		return new Ellipse(pos.interpolate(e.pos,d,method),radius.interpolate(e.radius,d,method));
 	}

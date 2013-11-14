@@ -134,6 +134,9 @@ public class Vector2i extends Vector2 implements IInterpolatable<Vector2i> {
 		return Math2.deltaAngle(direction(),angle);
 	}
 	
+	public Vector2i interpolate(Vector2i v, double d) {
+		return interpolate(v,d,Interpolate.Linear);
+	}
 	public Vector2i interpolate(Vector2i v, double d, Interpolate method) {
 		return new Vector2i(method.interpolate(x,v.x,d),method.interpolate(y,v.y,d));
 	}
