@@ -13,7 +13,7 @@ import java.util.zip.ZipInputStream;
 import pl.shockah.BinBuffer;
 import pl.shockah.BinBufferInputStream;
 import pl.shockah.FieldObj;
-import pl.shockah.FileLine;
+import pl.shockah.FileIO;
 import pl.shockah.Pair;
 import pl.shockah.glib.al.Audio;
 import pl.shockah.glib.al.AudioLoader;
@@ -343,12 +343,12 @@ public final class LoadableProcessor {
 						File f = new File(path);
 						String ext = f.getName().substring(f.getName().lastIndexOf('.'));
 						tex = Texture.load(f);
-						j = new JSONParser().parseObject(FileLine.readString(new File(f.getParentFile(),f.getName().substring(0,f.getName().length()-ext.length())+".json")));
+						j = new JSONParser().parseObject(FileIO.readWholeString(new File(f.getParentFile(),f.getName().substring(0,f.getName().length()-ext.length())+".json")));
 					} break;
 					case Internal: {
 						String ext = path.substring(path.lastIndexOf('.'));
 						tex = Texture.load(path);
-						j = new JSONParser().parseObject(FileLine.readString(getClass().getClassLoader().getResourceAsStream(path.substring(0,path.length()-ext.length())+".json")));
+						j = new JSONParser().parseObject(FileIO.readWholeString(getClass().getClassLoader().getResourceAsStream(path.substring(0,path.length()-ext.length())+".json")));
 					} break;
 				}
 				Atlas a = new Atlas(tex);

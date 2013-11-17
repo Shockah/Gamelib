@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
-import pl.shockah.FileLine;
+import pl.shockah.FileIO;
 import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
@@ -21,14 +21,14 @@ import pl.shockah.glib.geom.vector.Vector2i;
 public class Shader {
 	public static Shader createFromFile(File path) throws IOException {return createFromFile(path,false,true);}
 	public static Shader createFromFile(File path, boolean mixTexturing, boolean embedConsts) throws IOException {
-		String vertex = FileLine.readString(new File(path.getParentFile(),path.getName()+".vert"));
-		String fragment = FileLine.readString(new File(path.getParentFile(),path.getName()+".frag"));
+		String vertex = FileIO.readWholeString(new File(path.getParentFile(),path.getName()+".vert"));
+		String fragment = FileIO.readWholeString(new File(path.getParentFile(),path.getName()+".frag"));
 		return create(vertex,fragment,mixTexturing,embedConsts);
 	}
 	public static Shader createFromPath(String internalPath) throws IOException {return createFromPath(internalPath,false,true);}
 	public static Shader createFromPath(String internalPath, boolean mixTexturing, boolean embedConsts) throws IOException {
-		String vertex = FileLine.readString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".vert")));
-		String fragment = FileLine.readString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".frag")));
+		String vertex = FileIO.readWholeString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".vert")));
+		String fragment = FileIO.readWholeString(new BufferedInputStream(Shader.class.getClassLoader().getResourceAsStream(internalPath+".frag")));
 		return create(vertex,fragment,mixTexturing,embedConsts);
 	}
 	public static Shader create(String vertex, String fragment) throws IOException {return create(vertex,fragment,false,true);}
