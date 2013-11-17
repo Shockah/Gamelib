@@ -5,16 +5,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class Entities {
-	public static List<EntityBase> get() {
+	public static List<Entity> get() {
 		return Collections.unmodifiableList(Game.me.entities);
 	}
 	public static List<Renderable> getRenderable() {
 		return Collections.unmodifiableList(Game.me.renderable);
 	}
 	
-	@SuppressWarnings("unchecked") public static <T extends EntityBase> List<T> getType(IEntityFilter filter, Class<T> cls) {
+	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> getType(IEntityFilter filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
-		for (EntityBase entity : Game.me.entities) {
+		for (Entity entity : Game.me.entities) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(entity)) b = false;
 			if (b && cls != null) if (!cls.isAssignableFrom(entity.getClass())) b = false;
@@ -22,18 +22,18 @@ public final class Entities {
 		}
 		return list;
 	}
-	public static <T extends EntityBase> List<T> getType(Class<T> cls) {
+	public static <T extends Entity> List<T> getType(Class<T> cls) {
 		return getType(null,cls);
 	}
 	
-	@SafeVarargs public static List<EntityBase> getTypes(IEntityFilter filter, Class<? extends EntityBase>... entityClasses) {
-		List<EntityBase> list = new LinkedList<>();
-		for (EntityBase entity : Game.me.entities) {
+	@SafeVarargs public static List<Entity> getTypes(IEntityFilter filter, Class<? extends Entity>... entityClasses) {
+		List<Entity> list = new LinkedList<>();
+		for (Entity entity : Game.me.entities) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(entity)) b = false;
 			if (b && entityClasses.length != 0) {
 				b = false;
-				for (Class<? extends EntityBase> cls : entityClasses) {
+				for (Class<? extends Entity> cls : entityClasses) {
 					if (cls.isAssignableFrom(entity.getClass())) {
 						b = true;
 						break;
@@ -44,7 +44,7 @@ public final class Entities {
 		}
 		return list;
 	}
-	@SafeVarargs public static List<EntityBase> getTypes(Class<? extends EntityBase>... entityClasses) {
+	@SafeVarargs public static List<Entity> getTypes(Class<? extends Entity>... entityClasses) {
 		return getTypes(null,entityClasses);
 	}
 }

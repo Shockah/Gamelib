@@ -19,7 +19,7 @@ public class Game {
 		this.initialState = initialState;
 	}
 	
-	protected final List<EntityBase>
+	protected final List<Entity>
 		entities = new LinkedList<>(),
 		entitiesAdd = new LinkedList<>(),
 		entitiesRemove = new LinkedList<>();
@@ -51,7 +51,7 @@ public class Game {
 			entities.removeAll(entitiesRemove);
 			entitiesAdd.clear();
 			entitiesRemove.clear();
-			for (EntityBase e : entities) e.update();
+			for (Entity e : entities) e.update();
 		}
 		
 		if (State.get() == null) return;

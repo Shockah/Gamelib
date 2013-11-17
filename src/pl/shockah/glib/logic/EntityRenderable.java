@@ -6,7 +6,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.gl.Graphics;
 
-public abstract class EntityRenderable extends EntityBase {
+public abstract class EntityRenderable extends Entity {
 	protected final List<Renderable> renderables = new SortedLinkedList<>();
 	private boolean listUsed = false;
 	protected double baseDepth = 0d;
