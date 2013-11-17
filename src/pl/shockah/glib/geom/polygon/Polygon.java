@@ -115,7 +115,7 @@ public class Polygon extends Shape {
 			glBegin(GL_LINE_LOOP);
 				for (int i = 0; i < points.size(); i++) {
 					Vector2d v = points.get(i);
-					glVertex2d(v.x,v.y);
+					glVertex2d(v.x+.5f,v.y+.5f);
 				}
 			glEnd();
 		}

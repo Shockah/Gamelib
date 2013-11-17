@@ -102,10 +102,10 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 			glEnd();
 		} else {
 			glBegin(GL_LINE_LOOP);
-				glVertex2d(pos.x,pos.y);
-				glVertex2d(pos.x+size.x-1,pos.y);
-				glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
-				glVertex2d(pos.x,pos.y+size.y-1);
+				glVertex2d(pos.x+.5f,pos.y+.5f);
+				glVertex2d(pos.x+size.x-1+.5f,pos.y+.5f);
+				glVertex2d(pos.x+size.x-1+.5f,pos.y+size.y-1+.5f);
+				glVertex2d(pos.x+.5f,pos.y+size.y-1+.5f);
 			glEnd();
 		}
 	}
@@ -123,10 +123,10 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 			glEnd();
 		} else {
 			glBegin(GL_LINE_LOOP);
-				GL.bind(cTopLeft); glVertex2d(pos.x,pos.y);
-				GL.bind(cTopRight); glVertex2d(pos.x+size.x-1,pos.y);
-				GL.bind(cBottomRight); glVertex2d(pos.x+size.x-1,pos.y+size.y-1);
-				GL.bind(cBottomLeft); glVertex2d(pos.x,pos.y+size.y-1);
+				GL.bind(cTopLeft); glVertex2d(pos.x+.5f,pos.y+.5f);
+				GL.bind(cTopRight); glVertex2d(pos.x+size.x-1+.5f,pos.y+.5f);
+				GL.bind(cBottomRight); glVertex2d(pos.x+size.x-1+.5f,pos.y+size.y-1+.5f);
+				GL.bind(cBottomLeft); glVertex2d(pos.x+.5f,pos.y+size.y-1+.5f);
 			glEnd();
 		}
 	}
