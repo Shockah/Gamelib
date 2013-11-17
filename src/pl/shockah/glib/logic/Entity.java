@@ -9,10 +9,10 @@ public abstract class Entity {
 	
 	protected Entity() {}
 	
-	public final void create() {create(new Vector2d());}
+	public final void create() {create(null);}
 	public final void create(double x, double y) {create(new Vector2d(x,y));}
 	public void create(Vector2 pos) {
-		this.pos.set(pos);
+		if (pos != null) this.pos.set(pos);
 		firstTick = true;
 		Game.me.entitiesAdd.add(this);
 		onCreate();
