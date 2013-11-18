@@ -16,6 +16,7 @@ public class MInput {
 	protected static Vector2i pos, delta;
 	protected static boolean onPress = false;
 	protected static boolean[] btnPressedOld, btnPressed, btnReleasedOld, btnReleased;
+	protected static int mouseScroll = 0;
 	
 	public static void update() {
 		btnPressedOld = new boolean[Mouse.getButtonCount()+1];
@@ -47,6 +48,8 @@ public class MInput {
 				if (ar == btnPressed) onPress = true;
 			}
 		}
+		
+		mouseScroll = Mouse.getEventDWheel();
 	}
 	
 	public static Vector2i getPos() {
@@ -54,6 +57,10 @@ public class MInput {
 	}
 	public static Vector2i getDeltaPos() {
 		return delta.copyMe();
+	}
+	
+	public static int getScroll() {
+		return mouseScroll;
 	}
 	
 	public static boolean isPressed(int btn) {
