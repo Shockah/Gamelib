@@ -1,6 +1,6 @@
 package pl.shockah;
 
-public final class StringUtil {
+public final class Strings {
 	public static String implode(Object[] objs, String separator) {
 		return implode(objs,separator,0,objs.length-1);
 	}

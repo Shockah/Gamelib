@@ -1,7 +1,6 @@
 package pl.shockah;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public final class Util {
@@ -15,12 +14,6 @@ public final class Util {
 			} catch (Exception e) {e.printStackTrace();}
 		}
 		return null;
-	}
-	
-	@SuppressWarnings("unchecked") public static <K,V> List<V> getAllOf(List<K> list, Class<V> cls) {
-		List<V> ret = new LinkedList<>();
-		for (Object o : list) if (o != null && cls.isAssignableFrom(o.getClass())) ret.add((V)o);
-		return ret;
 	}
 	
 	public static void sleep(long ms) {
