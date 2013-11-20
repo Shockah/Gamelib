@@ -12,6 +12,7 @@ import pl.shockah.glib.geom.Shape;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.color.Color;
+import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.tex.ITextureSupplier;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.input.MInput;
@@ -347,6 +348,16 @@ public class Graphics {
 		if (x != 0 || y != 0) glTranslated(x,y,0);
 		glCallList(gll.getID());
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
+	}
+	
+	public void draw(Font font, CharSequence text) {draw(font,0,0,text);}
+	public void draw(Font font, Vector2 v, CharSequence text) {draw(font,v.Xd(),v.Yd(),text);}
+	public void draw(Font font, double x, double y, CharSequence text) {
+		if (redirect != null) {
+			redirect.draw(font,x,y,text);
+			return;
+		}
+		font.draw(this,x,y,text);
 	}
 	
 	public void draw(Vector2 v) {draw(v.Xd(),v.Yd());}
