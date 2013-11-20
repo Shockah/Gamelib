@@ -14,16 +14,17 @@ public class State {
 	public static State get() {
 		return current;
 	}
-	public static void change(State state) {change(state,null,null);}
-	public static void change(State state, Transition transition) {change(state,transition,transition);}
-	public static void change(State state, Transition out, Transition in) {
-		if (transitionState != null) return;
+	public static boolean change(State state) {return change(state,null,null);}
+	public static boolean change(State state, Transition transition) {return change(state,transition,transition);}
+	public static boolean change(State state, Transition out, Transition in) {
+		if (transitionState != null) return false;
 		if (current == null) {
 			current = state;
-			return;
+			return true;
 		}
 		transitionState = new TransitionState(state,out,in);
 		transitionState.init();
+		return true;
 	}
 	
 	static void set(State state) {
