@@ -215,6 +215,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	public void drawString(double x, double y, CharSequence whatchars, int startIndex, int endIndex, float scaleX, float scaleY) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
+		if (whatchars == null) return;
 		IntObject intObject = null;
 		int charCurrent;
 		

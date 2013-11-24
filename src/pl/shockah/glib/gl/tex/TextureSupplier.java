@@ -41,7 +41,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		return new Rectangle(0,0,getTextureWidth(),getTextureHeight());
 	}
 	
-	public Vector2i getSize() {return getTextureSize();}
+	public Vector2i getSize() {return getTextureRect().size.toInt();}
 	public double getWidth() {return getTextureRect().size.x;}
 	public double getHeight() {return getTextureRect().size.y;}
 	public double getWidthScaled() {return getWidth()*scale.x;}

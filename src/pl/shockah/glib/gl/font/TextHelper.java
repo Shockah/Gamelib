@@ -86,6 +86,7 @@ public final class TextHelper {
 	public static void draw(Graphics g, Font font, double x, double y, CharSequence text) {draw(g,font,x,y,text,ETextAlign.TopLeft);}
 	public static void draw(Graphics g, Font font, double x, double y, CharSequence text, ETextAlign align) {draw(g,font,x,y,text,align.getScale());}
 	public static void draw(Graphics g, Font font, double x, double y, CharSequence text, Vector2d alignScale) {
+		if (text == null) return;
 		String[] ss = prepare(text).toString().split("\\r?\\n");
 		
 		Rectangle rect = new Rectangle(0,0,0,0);
