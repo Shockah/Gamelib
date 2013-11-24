@@ -1,7 +1,6 @@
 package pl.shockah.glib.gl;
 
 import static org.lwjgl.opengl.GL11.*;
-
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,7 +36,7 @@ public class Graphics {
 	protected List<Rectangle> clipStack = new LinkedList<>();
 	protected List<Rectangle> transformedClipStack = new LinkedList<>();
 	protected boolean absolute = false;
-	protected Color color = Color.White;
+	protected Color color = Color.White, baseColor = Color.White;
 	
 	public final void preDraw() {
 		if (redirect != null) {
@@ -62,6 +61,19 @@ public class Graphics {
 	}
 	protected void onUnbind() {}
 	
+	public Color getBaseColor() {
+		if (redirect != null) return redirect.getBaseColor();
+		return color;
+	}
+	public void setBaseColor(Color color) {
+		if (redirect != null) {
+			redirect.setBaseColor(color);
+			return;
+		}
+		this.baseColor = color;
+		if (lastGraphics == this) GL.bind(this.color.multiply(color));
+	}
+	
 	public Color getColor() {
 		if (redirect != null) return redirect.getColor();
 		return color;
@@ -72,7 +84,7 @@ public class Graphics {
 			return;
 		}
 		this.color = color;
-		if (lastGraphics == this) GL.bind(color);
+		if (lastGraphics == this) GL.bind(color.multiply(baseColor));
 	}
 	
 	protected void applyTransformations() {

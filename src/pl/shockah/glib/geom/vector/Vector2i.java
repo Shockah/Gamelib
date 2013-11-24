@@ -14,8 +14,8 @@ public class Vector2i extends Vector2 implements IInterpolatable<Vector2i> {
 	public Vector2i() {
 		this(0,0);
 	}
-	public Vector2i(Vector2i v) {
-		this(v.x,v.y);
+	public Vector2i(Vector2 v) {
+		this(v.Xi(),v.Yi());
 	}
 	public Vector2i(int x, int y) {
 		this.x = x;
