@@ -29,13 +29,12 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 	public Rectangle(Vector2 pos, double w, double h) {
 		this(pos,new Vector2d(w,h));
 	}
+	public Rectangle(Rectangle rect) {
+		this(rect.pos,rect.size);
+	}
 	public Rectangle(Vector2 pos, Vector2 size) {
 		this.pos = pos.toDouble();
 		this.size = size.toDouble();
-	}
-	public Rectangle(Rectangle rect) {
-		pos = rect.pos.copyMe();
-		size = rect.size.copyMe();
 	}
 	
 	public boolean equals(Object other) {
