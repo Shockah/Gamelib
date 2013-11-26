@@ -337,6 +337,20 @@ public class Graphics {
 		image.rotation.angle = rot;
 	}
 	
+	public void draw(Image image, Vector2 v, Vector2 scale) {draw(image,v.Xd(),v.Yd(),scale.Xd(),scale.Yd());}
+	public void draw(Image image, Vector2 v, double scaleX, double scaleY) {draw(image,v.Xd(),v.Yd(),scaleX,scaleY);}
+	public void draw(Image image, double x, double y, Vector2 scale) {draw(image,x,y,scale.Xd(),scale.Yd());}
+	public void draw(Image image, double x, double y, double scaleX, double scaleY) {
+		if (redirect != null) {
+			redirect.draw(image,x,y,scaleX,scaleY);
+			return;
+		}
+		Vector2d sc = image.scale.copyMe();
+		image.scale.set(scaleX,scaleY);
+		image.drawTexture(this,x,y);
+		image.scale.set(sc);
+	}
+	
 	public void draw(Surface surface) {draw(surface,0,0,0);}
 	public void draw(Surface surface, double rotation) {draw(surface,0,0,rotation);}
 	public void draw(Surface surface, Vector2 v) {draw(surface,v.Xd(),v.Yd(),0);}
