@@ -71,51 +71,50 @@ public class Rectangle9 extends Rectangle {
 		copyColors(g);
 		
 		if (filled) {
+			glBegin(GL_TRIANGLES);
+				GL.bind(cOut); glVertex2d(pos.x+offTL.x,pos.y);
+				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+offTL.y);
+				GL.bind(cOut); glVertex2d(pos.x,pos.y+offTL.y);
+				
+				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y-offBR.y);
+				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+size.y-offBR.y);
+				GL.bind(cOut); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y);
+				
+				GL.bind(cOut); glVertex2d(pos.x+size.x-offBR.x,pos.y);
+				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+offTL.y);
+				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+offTL.y);
+				
+				GL.bind(cOut); glVertex2d(pos.x,pos.y+size.y-offBR.y);
+				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+size.y-offBR.y);
+				GL.bind(cOut); glVertex2d(pos.x+offTL.x,pos.y+size.y);
+			glEnd();
+			
 			glBegin(GL_QUADS);
-				GL.bind(cOut); glVertex2d(pos.x,pos.y);
-				GL.bind(cOut); glVertex2d(pos.x+offTL.x,pos.y);
-				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+offTL.y);
-				GL.bind(cOut); glVertex2d(pos.x,pos.y+offTL.y);
-				
 				GL.bind(cOut); glVertex2d(pos.x+offTL.x,pos.y);
 				GL.bind(cOut); glVertex2d(pos.x+size.x-offBR.x,pos.y);
 				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+offTL.y);
 				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+offTL.y);
-				
-				GL.bind(cOut); glVertex2d(pos.x+size.x-offBR.x,pos.y);
-				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y);
-				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+offTL.y);
-				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+offTL.y);
 				
 				GL.bind(cOut); glVertex2d(pos.x,pos.y+offTL.y);
 				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+offTL.y);
 				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+size.y-offBR.y);
 				GL.bind(cOut); glVertex2d(pos.x,pos.y+size.y-offBR.y);
 				
-				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+offTL.y);
-				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+offTL.y);
-				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y-offBR.y);
-				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+size.y-offBR.y);
-				
 				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+offTL.y);
 				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+offTL.y);
 				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+size.y-offBR.y);
 				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y-offBR.y);
 				
-				GL.bind(cOut); glVertex2d(pos.x,pos.y+size.y-offBR.y);
-				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+size.y-offBR.y);
-				GL.bind(cOut); glVertex2d(pos.x+offTL.x,pos.y+size.y);
-				GL.bind(cOut); glVertex2d(pos.x,pos.y+size.y);
-				
 				GL.bind(cIn); glVertex2d(pos.x+offTL.x,pos.y+size.y-offBR.y);
 				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y-offBR.y);
 				GL.bind(cOut); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y);
 				GL.bind(cOut); glVertex2d(pos.x+offTL.x,pos.y+size.y);
-				
-				GL.bind(cIn); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y-offBR.y);
-				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+size.y-offBR.y);
-				GL.bind(cOut); glVertex2d(pos.x+size.x,pos.y+size.y);
-				GL.bind(cOut); glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y);
+
+				GL.bind(cIn);
+				glVertex2d(pos.x+offTL.x,pos.y+offTL.y);
+				glVertex2d(pos.x+size.x-offBR.x,pos.y+offTL.y);
+				glVertex2d(pos.x+size.x-offBR.x,pos.y+size.y-offBR.y);
+				glVertex2d(pos.x+offTL.x,pos.y+size.y-offBR.y);
 			glEnd();
 		} else {
 			throw new UnsupportedOperationException();
