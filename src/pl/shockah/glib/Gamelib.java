@@ -1,5 +1,6 @@
 package pl.shockah.glib;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,7 +10,6 @@ import org.lwjgl.Sys;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2i;
@@ -89,10 +89,13 @@ public final class Gamelib {
 	
 	protected static Modules modules;
 	public static final Capabilities capabilities = new Capabilities();
+	public static final boolean useAWT = true;
+	private static AWTWindow windowAWT = null;
 	public static Game game;
 	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
 	protected static boolean cachedFullscreen = false, isRunning = false;
 	protected static double lastFrame = 0d, lastDelta = 0d;
+	private static boolean displayChanged = false;
 	
 	public static Modules modules() {return modules;}
 	
@@ -122,11 +125,14 @@ public final class Gamelib {
 		} else cachedDisplayMode = new DisplayMode(width,height);
 		
 		try {
+			if (useAWT) {
+				windowAWT.getContentPane().setPreferredSize(new Dimension(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight()));
+				windowAWT.pack();
+				windowAWT.setLocationRelativeTo(null);
+			}
 			Display.setDisplayMode(cachedDisplayMode);
 			Display.setFullscreen(fullscreen);
-			
-			State state = State.get();
-			if (state != null) state.displayChange(new Vector2i(Display.getWidth(),Display.getHeight()),Display.isFullscreen());
+			displayChanged = true;
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
@@ -176,14 +182,20 @@ public final class Gamelib {
 			originalDisplayMode = Display.getDesktopDisplayMode();
 		}
 		
+		if (windowTitle == null) windowTitle = "";
+		if (modules.graphics() && useAWT) windowAWT = new AWTWindow(windowTitle);
+		setTitle(windowTitle);
+		
 		game.setupInitialState();
 		
-		if (windowTitle == null) windowTitle = "";
-		Display.setTitle(windowTitle);
-		
 		if (modules.graphics()) {
+			if (useAWT) {
+				windowAWT.setLocationRelativeTo(null);
+				windowAWT.setVisible(true);
+				windowAWT.setup();
+			}
 			tryCreatingDisplay();
-			if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
+			//if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
 		}
 		capabilities.lock();
 		
@@ -208,12 +220,28 @@ public final class Gamelib {
 		gameLoop();
 		if (modules.sound()) AL.destroy();
 		if (modules.graphics()) Display.destroy();
+		System.exit(0);
 	}
 	public static void stop() {
 		isRunning = false;
 	}
 	public static boolean isRunning() {
 		return isRunning;
+	}
+	
+	public static void setTitle(String title) {
+		if (useAWT) {
+			windowAWT.setTitle(title);
+		} else {
+			Display.setTitle(title);
+		}
+	}
+	public static boolean closeRequested() {
+		if (useAWT) {
+			return windowAWT.closeRequested;
+		} else {
+			return Display.isCloseRequested();
+		}
 	}
 	
 	private static void tryCreatingDisplay() {
@@ -256,15 +284,19 @@ public final class Gamelib {
 		if (modules.graphics()) GL.unbind();
 		Debug.advance();
 		updateDelta();
-		if (modules.graphics() && Display.isCloseRequested()) isRunning = false;
+		if (modules.graphics() && closeRequested()) isRunning = false;
 		if (modules.graphics()) {
 			Display.update();
-			if (Display.wasResized()) {
+			if (displayChanged) {
 				State state = State.get();
 				if (state != null) state.displayChange(new Vector2i(Display.getWidth(),Display.getHeight()),Display.isFullscreen());
 			}
 		}
 		if (fps > 0) Display.sync(fps);
+	}
+	
+	protected static void displayChange() {
+		displayChanged = true;
 	}
 	
 	public static void handle(Throwable t) {
