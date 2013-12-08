@@ -11,6 +11,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.input.KInput;
@@ -95,8 +96,8 @@ public final class Gamelib {
 	
 	public static Modules modules() {return modules;}
 	
-	public static void setDisplayMode(Vector2i v) {
-		setDisplayMode(v.x,v.y);
+	public static void setDisplayMode(Vector2 v) {
+		setDisplayMode(v.Xi(),v.Yi());
 	}
 	public static void setDisplayMode(int width, int height) {
 		setDisplayMode(width,height,cachedFullscreen);
@@ -123,6 +124,9 @@ public final class Gamelib {
 		try {
 			Display.setDisplayMode(cachedDisplayMode);
 			Display.setFullscreen(fullscreen);
+			
+			State state = State.get();
+			if (state != null) state.displayChange(new Vector2i(Display.getWidth(),Display.getHeight()),Display.isFullscreen());
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	
@@ -253,7 +257,13 @@ public final class Gamelib {
 		Debug.advance();
 		updateDelta();
 		if (modules.graphics() && Display.isCloseRequested()) isRunning = false;
-		if (modules.graphics()) Display.update();
+		if (modules.graphics()) {
+			Display.update();
+			if (Display.wasResized()) {
+				State state = State.get();
+				if (state != null) state.displayChange(new Vector2i(Display.getWidth(),Display.getHeight()),Display.isFullscreen());
+			}
+		}
 		if (fps > 0) Display.sync(fps);
 	}
 	

@@ -31,6 +31,7 @@ public class State {
 		current = state;
 		if (current != null) {
 			Gamelib.game.reset();
+			current.setup();
 			current.create();
 		} else Gamelib.stop();
 	}
@@ -108,4 +109,13 @@ public class State {
 		onPostRender(g);
 	}
 	protected void onPostRender(Graphics g) {}
+	
+	public final void displayChange(Vector2i size, boolean fullscreen) {
+		onDisplayChange(size,fullscreen);
+	}
+	protected void onDisplayChange(Vector2i size, boolean fullscreen) {}
+	
+	public List<View> getViews() {
+		return new LinkedList<>(views);
+	}
 }
