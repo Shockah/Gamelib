@@ -200,11 +200,6 @@ public final class Gamelib {
 		capabilities.lock();
 		
 		game.setInitialState();
-		if (modules.graphics()) {
-			GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-			GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
-			GL.setup();
-		}
 		State.get().create();
 		
 		if (modules.sound()) {
@@ -227,6 +222,14 @@ public final class Gamelib {
 	}
 	public static boolean isRunning() {
 		return isRunning;
+	}
+	
+	public static void resetGL() {
+		if (modules.graphics()) {
+			GL.initDisplay(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+			GL.enterOrtho(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight());
+			GL.setup();
+		}
 	}
 	
 	public static void setTitle(String title) {
@@ -290,13 +293,16 @@ public final class Gamelib {
 			if (displayChanged) {
 				State state = State.get();
 				if (state != null) state.displayChange(new Vector2i(Display.getWidth(),Display.getHeight()),Display.isFullscreen());
+				resetGL();
+				displayChanged = false;
 			}
 		}
 		if (fps > 0) Display.sync(fps);
 	}
 	
-	protected static void displayChange() {
+	protected static void displayChange(Vector2 v) {
 		displayChanged = true;
+		cachedDisplayMode = new DisplayMode(v.Xi(),v.Yi());
 	}
 	
 	public static void handle(Throwable t) {

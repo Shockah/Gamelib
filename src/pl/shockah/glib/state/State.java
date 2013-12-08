@@ -32,6 +32,7 @@ public class State {
 		if (current != null) {
 			Gamelib.game.reset();
 			current.setup();
+			Gamelib.resetGL();
 			current.create();
 		} else Gamelib.stop();
 	}

@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import org.lwjgl.opengl.Display;
+import pl.shockah.glib.geom.vector.Vector2i;
 
 public final class AWTWindow extends JFrame implements WindowListener {
 	private static final long serialVersionUID = 1673765420259835870L;
@@ -46,7 +47,7 @@ public final class AWTWindow extends JFrame implements WindowListener {
 	}
 	
 	protected void displayResized(int w, int h) {
-		Gamelib.displayChange();
+		Gamelib.displayChange(new Vector2i(w,h));
 	}
 	
 	public void windowClosing(WindowEvent e) {closeRequested = true;}	  
