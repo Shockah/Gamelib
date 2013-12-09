@@ -1,6 +1,5 @@
 package pl.shockah.glib;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -89,7 +88,6 @@ public final class Gamelib {
 	
 	protected static Modules modules;
 	public static final Capabilities capabilities = new Capabilities();
-	public static final boolean useAWT = true;
 	private static AWTWindow windowAWT = null;
 	public static Game game;
 	public static DisplayMode originalDisplayMode, cachedDisplayMode = null;
@@ -125,11 +123,7 @@ public final class Gamelib {
 		} else cachedDisplayMode = new DisplayMode(width,height);
 		
 		try {
-			if (useAWT) {
-				windowAWT.getContentPane().setPreferredSize(new Dimension(cachedDisplayMode.getWidth(),cachedDisplayMode.getHeight()));
-				windowAWT.pack();
-				windowAWT.setLocationRelativeTo(null);
-			}
+			windowAWT.updateSize(cachedDisplayMode);
 			Display.setDisplayMode(cachedDisplayMode);
 			Display.setFullscreen(fullscreen);
 			displayChanged = true;
@@ -183,17 +177,14 @@ public final class Gamelib {
 		}
 		
 		if (windowTitle == null) windowTitle = "";
-		if (modules.graphics() && useAWT) windowAWT = new AWTWindow(windowTitle);
-		setTitle(windowTitle);
+		if (modules.graphics()) windowAWT = new AWTWindow(windowTitle);
 		
 		game.setupInitialState();
 		
 		if (modules.graphics()) {
-			if (useAWT) {
-				windowAWT.setLocationRelativeTo(null);
-				windowAWT.setVisible(true);
-				windowAWT.setup();
-			}
+			windowAWT.setLocationRelativeTo(null);
+			windowAWT.setVisible(true);
+			windowAWT.setup();
 			tryCreatingDisplay();
 			//if (!GLContext.getCapabilities().GL_EXT_framebuffer_object) capabilities.setFBOSupport(false);
 		}
@@ -213,6 +204,7 @@ public final class Gamelib {
 		modules.lock();
 		isRunning = true;
 		gameLoop();
+		Display.setTitle(windowTitle);
 		if (modules.sound()) AL.destroy();
 		if (modules.graphics()) Display.destroy();
 		System.exit(0);
@@ -232,19 +224,18 @@ public final class Gamelib {
 		}
 	}
 	
-	public static void setTitle(String title) {
-		if (useAWT) {
-			windowAWT.setTitle(title);
-		} else {
-			Display.setTitle(title);
-		}
-	}
 	public static boolean closeRequested() {
-		if (useAWT) {
-			return windowAWT.closeRequested;
-		} else {
-			return Display.isCloseRequested();
-		}
+		return windowAWT.closeRequested || Display.isCloseRequested();
+	}
+	
+	public static void maximize() {
+		windowAWT.maximize();
+	}
+	public static void unmaximize() {
+		windowAWT.unmaximize();
+	}
+	public static boolean maximized() {
+		return windowAWT.maximized();
 	}
 	
 	private static void tryCreatingDisplay() {

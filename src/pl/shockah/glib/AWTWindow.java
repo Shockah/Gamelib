@@ -1,13 +1,15 @@
 package pl.shockah.glib;
 
-import java.awt.BorderLayout;
 import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import pl.shockah.glib.geom.vector.Vector2i;
 
 public final class AWTWindow extends JFrame implements WindowListener {
@@ -26,7 +28,7 @@ public final class AWTWindow extends JFrame implements WindowListener {
 			}
 		});
 		
-		add(canvas,BorderLayout.CENTER);
+		add(canvas);
 		addWindowListener(this);
 	}
 	
@@ -35,15 +37,26 @@ public final class AWTWindow extends JFrame implements WindowListener {
 			Display.setParent(canvas);
 		} catch (Exception e) {e.printStackTrace();}
 	}
+	public void updateSize(final DisplayMode dm) {
+		try {
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run() {
+					getContentPane().setPreferredSize(new Dimension(dm.getWidth(),dm.getHeight()));
+					pack();
+					setLocationRelativeTo(null);
+				}
+			});
+		} catch (Exception e) {e.printStackTrace();}
+	}
 	
 	public boolean maximized() {
 		return getExtendedState() == JFrame.MAXIMIZED_BOTH;
 	}
 	public void maximize() {
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setExtendedState(getExtendedState()|JFrame.MAXIMIZED_BOTH);
 	}
 	public void unmaximize() {
-		setExtendedState(JFrame.NORMAL);
+		setExtendedState(getExtendedState()&(~JFrame.MAXIMIZED_BOTH));
 	}
 	
 	protected void displayResized(int w, int h) {
