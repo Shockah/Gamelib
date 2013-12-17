@@ -123,12 +123,6 @@ public class Vector2d extends Vector2 implements IInterpolatable<Vector2d> {
 	public double distance(Vector2 v) {
 		return Math.sqrt(distanceSquared(v));
 	}
-	public double direction() {
-		return new Vector2d().direction(this);
-	}
-	public double direction(Vector2 v) {
-		return Math.toDegrees(Math.atan2(y-v.Yd(),v.Xd()-x));
-	}
 	public double deltaAngle(Vector2 v) {return deltaAngle(v.direction());}
 	public double deltaAngle(double angle) {
 		return Math2.deltaAngle(direction(),angle);

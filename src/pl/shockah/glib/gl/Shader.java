@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import pl.shockah.FileIO;
 import pl.shockah.glib.LoadableProcessor;
+import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
 import pl.shockah.glib.geom.vector.Vector2i;
 
@@ -116,6 +117,7 @@ public class Shader {
 		return loc;
 	}
 	
+	public void setUniform(String name, double d) {setUniform(name,(float)d);}
 	public void setUniform(String name, float f) {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
@@ -129,6 +131,8 @@ public class Shader {
 		if (!equals(old)) GL.bind(old);
 	}
 	
+	public void setUniform(String name, Vector2d v) {setUniform(name,v.toFloat());}
+	public void setUniform(String name, double d1, double d2) {setUniform(name,(float)d1,(float)d2);}
 	public void setUniform(String name, Vector2f v) {setUniform(name,v.x,v.y);}
 	public void setUniform(String name, float f1, float f2) {
 		Shader old = GL.boundShader();
@@ -144,12 +148,8 @@ public class Shader {
 		if (!equals(old)) GL.bind(old);
 	}
 	
-	public void setMixTexturing(boolean b) {
-		mixTexturing = b;
-	}
-	public boolean getMixTexturing() {
-		return mixTexturing;
-	}
+	public void setMixTexturing(boolean b) {mixTexturing = b;}
+	public boolean getMixTexturing() {return mixTexturing;}
 	
 	public void handleTexturing(boolean texturing) {
 		if (!mixTexturing) return;

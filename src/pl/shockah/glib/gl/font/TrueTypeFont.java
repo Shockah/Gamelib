@@ -552,15 +552,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		glVertex2d(x+w,y);
 	}
 	
-	public boolean disposed() {
-		return getTexture().disposed();
-	}
-	public void dispose() {
-		getTexture().dispose();
-	}
-	protected void finalize() {
-		dispose();
-	}
+	protected void finalize() {dispose();}
+	public boolean disposed() {return getTexture().disposed();}
+	public void dispose() {getTexture().dispose();}
 	
 	private static class PixelStoreState {
 		public int unpackRowLength;

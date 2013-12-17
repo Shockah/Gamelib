@@ -9,8 +9,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
  */
 public class BasicTriangulator implements ITriangulator {
 	private static final float EPSILON = 0.0000000001f;
-	private List<Vector2d> poly = new ArrayList<>();
-	private List<Vector2d> tris = new ArrayList<>();
+	private List<Vector2d> poly = new ArrayList<>(), tris = new ArrayList<>();
 	private boolean tried;
 	
 	public void addPolyPoint(Vector2d point) {
@@ -31,12 +30,12 @@ public class BasicTriangulator implements ITriangulator {
 	}
 	
 	public int getTriangleCount() {
-		if (!tried) throw new IllegalStateException("Call triangulate() before accessing triangles");
-		return tris.size() / 3;
+		if (!tried) triangulate();
+		return tris.size()/3;
 	}
 	
 	public Vector2d getTrianglePoint(int tri, int i) {
-		if (!tried) throw new IllegalStateException("Call triangulate() before accessing triangles");
+		if (!tried) triangulate();
 		return tris.get((tri*3)+i);
 	}
 	
@@ -143,6 +142,4 @@ public class BasicTriangulator implements ITriangulator {
 		}
 		return true;
 	}
-
-	public void startHole() {}
 }

@@ -108,14 +108,10 @@ public class Texture {
 		resizeFilter.set();
 	}
 	
-	public boolean disposed() {
-		return disposed;
-	}
+	protected void finalize() {dispose();}
+	public boolean disposed() {return disposed;}
 	public void dispose() {
 		glDeleteTextures(texId);
 		disposed = true;
-	}
-	protected void finalize() {
-		dispose();
 	}
 }

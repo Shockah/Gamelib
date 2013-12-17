@@ -6,10 +6,9 @@ import pl.shockah.glib.geom.vector.Vector2d;
  * code taken from Slick2D - http://slick.ninjacave.com/
  */
 public class NeatTriangulator implements ITriangulator {
-	static final float EPSILON = 1E-006F;
+	private static final float EPSILON = 1E-006F;
 	
-	private double pointsX[];
-	private double pointsY[];
+	private double pointsX[], pointsY[];
 	private int numPoints;
 	private Edge edges[];
 	private int V[];
@@ -255,6 +254,4 @@ public class NeatTriangulator implements ITriangulator {
 		double yp = pointsY[triangles[tri].v[i]];
 		return new Vector2d(xp,yp);
 	}
-	
-	public void startHole() {}
 }
