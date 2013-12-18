@@ -10,7 +10,7 @@ import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 
-public class TriangleFan extends Shape {
+public class TriangleFan extends Shape implements IPolygonable {
 	protected List<Point> points = new ArrayList<>();
 	
 	public Shape copy() {
@@ -88,6 +88,12 @@ public class TriangleFan extends Shape {
 		} else {
 			throw new UnsupportedOperationException();
 		}
+	}
+	
+	public Polygon asPolygon() {
+		Polygon p = new Polygon();
+		for (int i = 1; i < points.size(); i++) p.addPoint(points.get(i).pos);
+		return p;
 	}
 	
 	public static class Point {

@@ -8,6 +8,7 @@ import java.util.List;
 import pl.shockah.glib.geom.Line;
 import pl.shockah.glib.geom.Rectangle;
 import pl.shockah.glib.geom.Shape;
+import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
@@ -55,8 +56,8 @@ public class Polygon extends Shape {
 	public Polygon addPoint(double x, double y) {
 		return addPoint(new Vector2d(x,y));
 	}
-	public Polygon addPoint(Vector2d point) {
-		points.add(point);
+	public Polygon addPoint(Vector2 point) {
+		points.add(point.toDouble());
 		dirty = true;
 		return this;
 	}
