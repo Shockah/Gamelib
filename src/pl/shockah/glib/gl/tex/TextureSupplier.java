@@ -105,10 +105,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	protected void preDraw(Graphics g) {}
 	protected void postDraw(Graphics g) {}
 	
-	public boolean disposed() {
-		return tex.disposed();
-	}
-	public void dispose() {
-		tex.dispose();
-	}
+	protected void finalize() {dispose();}
+	public boolean disposed() {return tex.disposed();}
+	public void dispose() {tex.dispose();}
 }

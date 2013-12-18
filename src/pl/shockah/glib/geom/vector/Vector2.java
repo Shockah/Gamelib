@@ -16,8 +16,12 @@ public abstract class Vector2 {
 	public double dotProduct(Vector2 v) {
 		return Xd()*v.Xd()+Yd()*v.Yd();
 	}
-	public abstract double direction();
-	public abstract double direction(Vector2 v);
+	public double direction() {
+		return new Vector2d().direction(this);
+	}
+	public double direction(Vector2 v) {
+		return Math.toDegrees(Math.atan2(Yd()-v.Yd(),v.Xd()-Xd()));
+	}
 	public abstract double deltaAngle(Vector2 v);
 	public abstract double deltaAngle(double angle);
 }

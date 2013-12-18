@@ -40,6 +40,8 @@ public class GLList {
 	public void draw(Graphics g, Vector2 v) {g.draw(this,v);}
 	public void draw(Graphics g, double x, double y) {g.draw(this,x,y);}
 	
+	protected void finalize() {dispose();}
+	public boolean disposed() {return disposed;}
 	public void dispose() {
 		if (compiling) g.onUnbind();
 		glDeleteLists(getID(),1);

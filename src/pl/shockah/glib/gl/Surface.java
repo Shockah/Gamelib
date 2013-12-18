@@ -71,6 +71,8 @@ public class Surface {
 		return g;
 	}
 	
+	protected void finalize() {dispose();}
+	public boolean disposed() {return disposed;}
 	public void dispose() {
 		glDeleteFramebuffersEXT(surId);
 		image.dispose();
