@@ -27,8 +27,8 @@ public class Line extends Shape implements IInterpolatable<Line> {
 	
 	public boolean equals(Object other) {
 		if (!(other instanceof Line)) return false;
-		Line e = (Line)other;
-		return pos1.equals(e.pos1) && pos2.equals(e.pos2);
+		Line l = (Line)other;
+		return pos1.equals(l.pos1) && pos2.equals(l.pos2);
 	}
 	public String toString() {
 		return String.format("[Line: %s -> %s]",pos1,pos2);

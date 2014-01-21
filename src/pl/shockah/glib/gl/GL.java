@@ -67,11 +67,19 @@ public final class GL {
 			glColorMask(masking[0],masking[1],masking[2],masking[3]);
 		}
 	}
+	
 	public static void translated(Vector2 v) {
 		translated(v.Xd(),v.Yd());
 	}
 	public static void translated(double x, double y) {
 		glTranslated(x,y,0);
+	}
+	
+	public static void vertex2d(Vector2 v) {
+		vertex2d(v.Xd(),v.Yd());
+	}
+	public static void vertex2d(double x, double y) {
+		glVertex2d(x,y);
 	}
 	
 	public static void bind(Color c) {
