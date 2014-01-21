@@ -25,9 +25,9 @@ public class MouseInputTest2 extends State {
 			
 			protected void onUpdate() {
 				Vector2i mp = MInput.getPos();
-				if (mL.pressed() && MInput.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp.toDouble()).toInt();
+				if (mL.pressed() && MInput.inRectangle(new Rectangle(pos,new Vector2d(48,48)))) drag = pos.sub(mp).toInt();
 				if (mL.released()) drag = null;
-				if (drag != null) pos = mp.add(drag).toDouble();
+				if (drag != null) pos = mp.Add(drag).toDouble();
 			}
 			
 			protected void onRender(Graphics g) {

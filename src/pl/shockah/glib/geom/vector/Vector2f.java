@@ -39,18 +39,11 @@ public class Vector2f extends Vector2 implements IInterpolatable<Vector2f> {
 	public float Yf() {return y;}
 	public int Yi() {return (int)y;}
 	
-	public Vector2f copyMe() {
-		return new Vector2f(this);
-	}
-	public Vector2i toInt() {
-		return new Vector2i((int)x,(int)y);
-	}
-	public Vector2f toFloat() {
-		return copyMe();
-	}
-	public Vector2d toDouble() {
-		return new Vector2d(x,y);
-	}
+	public Vector2f copyMe() {return new Vector2f(this);}
+	public Vector2i ToInt() {return new Vector2i((int)x,(int)y);}
+	public Vector2f ToFloat() {return copyMe();}
+	public Vector2d ToDouble() {return new Vector2d(x,y);}
+	public Vector2f toFloat() {return this;}
 	
 	public Vector2f set(Vector2 v) {return set(v.Xf(),v.Yf());}
 	public Vector2f set(float x, float y) {

@@ -38,10 +38,10 @@ public class StencilTest extends State {
 				Vector2i size = State.get().getDisplaySize();
 				
 				StencilMask sm = new StencilMask(g,Stencil.Drop).proceed();
-				g.draw(new Circle(size.toDouble().div(2).add(-48,0),48));
-				g.draw(new Circle(size.toDouble().div(2).add(48,0),48));
-				g.draw(new Circle(size.toDouble().div(2).add(0,-48),48));
-				g.draw(new Circle(size.toDouble().div(2).add(0,48),48));
+				g.draw(new Circle(size.ToDouble().div(2).add(-48,0),48));
+				g.draw(new Circle(size.ToDouble().div(2).add(48,0),48));
+				g.draw(new Circle(size.ToDouble().div(2).add(0,-48),48));
+				g.draw(new Circle(size.ToDouble().div(2).add(0,48),48));
 				
 				sm.proceed();
 				g.draw(image,size.Div(2));

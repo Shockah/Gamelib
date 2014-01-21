@@ -9,9 +9,12 @@ public abstract class Vector2 {
 	public abstract float Yf();
 	public abstract int Yi();
 	
-	public abstract Vector2d toDouble();
-	public abstract Vector2f toFloat();
-	public abstract Vector2i toInt();
+	public Vector2d toDouble() {return ToDouble();}
+	public Vector2f toFloat() {return ToFloat();}
+	public Vector2i toInt() {return ToInt();}
+	public abstract Vector2d ToDouble();
+	public abstract Vector2f ToFloat();
+	public abstract Vector2i ToInt();
 	
 	public double dotProduct(Vector2 v) {
 		return Xd()*v.Xd()+Yd()*v.Yd();

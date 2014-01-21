@@ -17,8 +17,8 @@ public class Line extends Shape implements IInterpolatable<Line> {
 		pos2 = new Vector2d(x2,y2);
 	}
 	public Line(Vector2 pos1, Vector2 pos2) {
-		this.pos1 = pos1.toDouble();
-		this.pos2 = pos2.toDouble();
+		this.pos1 = pos1.ToDouble();
+		this.pos2 = pos2.ToDouble();
 	}
 	public Line(Line line) {
 		pos1 = line.pos1.copyMe();

@@ -29,8 +29,8 @@ public class Curve extends Shape implements IInterpolatable<Curve> {
 		pos2 = new Vector2d(x2,y2);
 	}
 	public Curve(Vector2 pos1, Vector2 pos2) {
-		this.pos1 = pos1.toDouble();
-		this.pos2 = pos2.toDouble();
+		this.pos1 = pos1.ToDouble();
+		this.pos2 = pos2.ToDouble();
 	}
 	public Curve(Curve curve) {
 		pos1 = curve.pos1.copyMe();

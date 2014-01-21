@@ -33,8 +33,8 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 		this(rect.pos,rect.size);
 	}
 	public Rectangle(Vector2 pos, Vector2 size) {
-		this.pos = pos.toDouble();
-		this.size = size.toDouble();
+		this.pos = pos.ToDouble();
+		this.size = size.ToDouble();
 	}
 	
 	public boolean equals(Object other) {

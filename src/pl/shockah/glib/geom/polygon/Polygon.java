@@ -57,7 +57,7 @@ public class Polygon extends Shape {
 		return addPoint(new Vector2d(x,y));
 	}
 	public Polygon addPoint(Vector2 point) {
-		points.add(point.toDouble());
+		points.add(point.ToDouble());
 		dirty = true;
 		return this;
 	}
