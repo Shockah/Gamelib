@@ -203,8 +203,8 @@ public final class Gamelib {
 		
 		modules.lock();
 		isRunning = true;
-		gameLoop();
 		Display.setTitle(windowTitle);
+		gameLoop();
 		if (modules.sound()) AL.destroy();
 		if (modules.graphics()) Display.destroy();
 		System.exit(0);
