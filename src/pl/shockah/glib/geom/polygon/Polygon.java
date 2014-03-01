@@ -99,7 +99,7 @@ public class Polygon extends Shape {
 		}
 		dirty = false;
 	}
-	protected List<Triangle> getTriangles() {
+	public List<Triangle> getTriangles() {
 		return Collections.unmodifiableList(triangles);
 	}
 	
