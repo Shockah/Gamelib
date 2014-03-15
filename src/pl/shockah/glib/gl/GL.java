@@ -69,17 +69,41 @@ public final class GL {
 	}
 	
 	public static void translated(Vector2 v) {
-		translated(v.Xd(),v.Yd());
+		glTranslated(v.Xd(),v.Yd(),0);
 	}
 	public static void translated(double x, double y) {
 		glTranslated(x,y,0);
 	}
 	
 	public static void vertex2d(Vector2 v) {
-		vertex2d(v.Xd(),v.Yd());
+		glVertex2d(v.Xd(),v.Yd());
 	}
 	public static void vertex2d(double x, double y) {
 		glVertex2d(x,y);
+	}
+	
+	public static void texCoord2d(Vector2 v) {
+		glTexCoord2d(v.Xd(),v.Yd());
+	}
+	public static void texCoord2d(double x, double y) {
+		glTexCoord2d(x,y);
+	}
+	
+	public static void texCoordAndVertex2d(Vector2 coord, double vx, double vy) {texCoordAndVertex2d(coord.Xd(),coord.Yd(),vx,vy);}
+	public static void texCoordAndVertex2d(double cx, double cy, Vector2 v) {texCoordAndVertex2d(cx,cy,v.Xd(),v.Yd());}
+	public static void texCoordAndVertex2d(Vector2 coord, Vector2 v) {texCoordAndVertex2d(coord.Xd(),coord.Yd(),v.Xd(),v.Yd());}
+	public static void texCoordAndVertex2d(double cx, double cy, double vx, double vy) {
+		texCoord2d(cx,cy);
+		vertex2d(vx,vy);
+	}
+	
+	public static void colorAndTexCoordAndVertex2d(Vector2 coord, double vx, double vy, Color color) {colorAndTexCoordAndVertex2d(coord.Xd(),coord.Yd(),vx,vy,color);}
+	public static void colorAndTexCoordAndVertex2d(double cx, double cy, Vector2 v, Color color) {colorAndTexCoordAndVertex2d(cx,cy,v.Xd(),v.Yd(),color);}
+	public static void colorAndTexCoordAndVertex2d(Vector2 coord, Vector2 v, Color color) {colorAndTexCoordAndVertex2d(coord.Xd(),coord.Yd(),v.Xd(),v.Yd(),color);}
+	public static void colorAndTexCoordAndVertex2d(double cx, double cy, double vx, double vy, Color color) {
+		bind(color);
+		texCoord2d(cx,cy);
+		vertex2d(vx,vy);
 	}
 	
 	public static void bind(Color c) {

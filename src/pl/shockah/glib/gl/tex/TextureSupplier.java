@@ -31,6 +31,9 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public int getTextureHeight() {
 		return tex.getHeight();
 	}
+	public Vector2i getTextureSizeFold() {
+		return tex.getSizeFold();
+	}
 	public int getTextureWidthFold() {
 		return tex.getWidthFold();
 	}
@@ -60,7 +63,10 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		preDraw(g);
 		glBegin(GL_QUADS);
 			Rectangle texRect = getTextureRect();
-			internalDrawImage(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold());
+			internalDrawImage(
+					0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,
+					texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold()
+			);
 		glEnd();
 		postDraw(g);
 		
@@ -81,7 +87,11 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		preDraw(g);
 		glBegin(GL_QUADS);
 			Rectangle texRect = getTextureRect();
-			internalDrawImageMulticolor(0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold(),cTopLeft,cTopRight,cBottomLeft,cBottomRight);
+			internalDrawImageMulticolor(
+					0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,
+					texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold(),
+					cTopLeft,cTopRight,cBottomLeft,cBottomRight
+			);
 		glEnd();
 		postDraw(g);
 		
@@ -89,17 +99,17 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		if (offset.x != 0 || offset.y != 0) glTranslated(offset.x*scale.x,offset.y*scale.y,0);
 	}
 	
-	private void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
-		glTexCoord2d(tx,ty); glVertex2d(x,y);
-		glTexCoord2d(tx,ty+th); glVertex2d(x,y+h);
-		glTexCoord2d(tx+tw,ty+th); glVertex2d(x+w,y+h);
-		glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
+	protected void internalDrawImage(double x, double y, double w, double h, double tx, double ty, double tw, double th) {
+		GL.texCoordAndVertex2d(tx,ty,x,y);
+		GL.texCoordAndVertex2d(tx,ty+th,x,y+h);
+		GL.texCoordAndVertex2d(tx+tw,ty+th,x+w,y+h);
+		GL.texCoordAndVertex2d(tx+tw,ty,x+w,y);
 	}
-	private void internalDrawImageMulticolor(double x, double y, double w, double h, double tx, double ty, double tw, double th, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
-		GL.bind(cTopLeft); glTexCoord2d(tx,ty); glVertex2d(x,y);
-		GL.bind(cBottomLeft); glTexCoord2d(tx,ty+th); glVertex2d(x,y+h);
-		GL.bind(cBottomRight); glTexCoord2d(tx+tw,ty+th); glVertex2d(x+w,y+h);
-		GL.bind(cTopRight); glTexCoord2d(tx+tw,ty); glVertex2d(x+w,y);
+	protected void internalDrawImageMulticolor(double x, double y, double w, double h, double tx, double ty, double tw, double th, Color cTopLeft, Color cTopRight, Color cBottomLeft, Color cBottomRight) {
+		GL.colorAndTexCoordAndVertex2d(tx,ty,x,y,cTopLeft);
+		GL.colorAndTexCoordAndVertex2d(tx,ty+th,x,y+h,cTopRight);
+		GL.colorAndTexCoordAndVertex2d(tx+tw,ty+th,x+w,y+h,cBottomRight);
+		GL.colorAndTexCoordAndVertex2d(tx+tw,ty,x+w,y,cBottomLeft);
 	}
 	
 	protected void preDraw(Graphics g) {}

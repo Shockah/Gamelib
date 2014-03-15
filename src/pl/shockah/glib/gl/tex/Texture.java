@@ -82,7 +82,6 @@ public class Texture {
 	}
 	
 	public Vector2i getSize() {
-		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return new Vector2i(getWidth(),getHeight());
 	}
 	public int getWidth() {
@@ -92,6 +91,9 @@ public class Texture {
 	public int getHeight() {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return height;
+	}
+	public Vector2i getSizeFold() {
+		return new Vector2i(getWidthFold(),getHeightFold());
 	}
 	public int getWidthFold() {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
@@ -106,6 +108,11 @@ public class Texture {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		GL.bind(this);
 		resizeFilter.set();
+	}
+	public void setEdgeFilter(EEdgeFilter edgeFilter) {
+		if (disposed) throw new IllegalStateException("Texture already disposed");
+		GL.bind(this);
+		edgeFilter.set();
 	}
 	
 	protected void finalize() {dispose();}
