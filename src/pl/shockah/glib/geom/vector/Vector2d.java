@@ -46,6 +46,7 @@ public class Vector2d extends Vector2 implements IInterpolatable<Vector2d> {
 	public Vector2d toDouble() {return this;}
 	
 	public Vector2d set(Vector2 v) {return set(v.Xd(),v.Yd());}
+	public Vector2d set(double value) {return set(value,value);}
 	public Vector2d set(double x, double y) {
 		this.x = x;
 		this.y = y;

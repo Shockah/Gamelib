@@ -46,6 +46,7 @@ public class Vector2i extends Vector2 implements IInterpolatable<Vector2i> {
 	public Vector2i toInt() {return this;}
 	
 	public Vector2i set(Vector2 v) {return set(v.Xi(),v.Yi());}
+	public Vector2i set(int value) {return set(value,value);}
 	public Vector2i set(int x, int y) {
 		this.x = x;
 		this.y = y;

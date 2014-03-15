@@ -46,6 +46,7 @@ public class Vector2f extends Vector2 implements IInterpolatable<Vector2f> {
 	public Vector2f toFloat() {return this;}
 	
 	public Vector2f set(Vector2 v) {return set(v.Xf(),v.Yf());}
+	public Vector2f set(float value) {return set(value,value);}
 	public Vector2f set(float x, float y) {
 		this.x = x;
 		this.y = y;
