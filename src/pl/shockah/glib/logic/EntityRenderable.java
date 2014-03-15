@@ -34,9 +34,10 @@ public abstract class EntityRenderable extends Entity {
 		return listUsed;
 	}
 	
-	public final void setDepth(double depth) {
-		if (!Gamelib.modules().graphics()) return;
+	public final EntityRenderable setDepth(double depth) {
+		if (!Gamelib.modules().graphics()) return this;
 		for (Renderable r : renderables) r.setDepth(depth);
+		return this;
 	}
 	
 	public final void render(Graphics g) {
