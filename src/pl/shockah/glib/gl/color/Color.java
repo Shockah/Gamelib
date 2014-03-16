@@ -214,6 +214,9 @@ public abstract class Color implements IInterpolatable<Color> {
 	public Color inverse() {
 		return new Colorb(255-R(),255-G(),255-B(),A());
 	}
+	public Color multiply(float c) {
+		return new Colorf(Rf()*c,Gf()*c,Bf()*c,Af()*c);
+	}
 	public Color multiply(Color c) {
 		return new Colorf(Rf()*c.Rf(),Gf()*c.Gf(),Bf()*c.Bf(),Af()*c.Af());
 	}
