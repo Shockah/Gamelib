@@ -10,6 +10,7 @@ import pl.shockah.glib.gl.color.Color;
 
 public class TextureVertexBuilder extends TextureSupplier {
 	public final int splitX, splitY;
+	public boolean clampTextureCoord = true;
 	protected final Vector2d[][] vertexPos;
 	protected final Vector2d[][] vertexCoord;
 	protected final Color[][] vertexColor;
@@ -86,8 +87,10 @@ public class TextureVertexBuilder extends TextureSupplier {
 	}
 	protected void fixedVertexTexCoord(int xx, int yy) {
 		double cx = vertexCoord[xx][yy].x, cy = vertexCoord[xx][yy].y;
-		while (cx < 0) cx += 1; while (cx >= 1) cx -= 1;
-		while (cy < 0) cy += 1; while (cy >= 1) cy -= 1;
+		if (clampTextureCoord) {
+			while (cx < 0) cx += 1; while (cx >= 1) cx -= 1;
+			while (cy < 0) cy += 1; while (cy >= 1) cy -= 1;
+		}
 		Vector2i size = getTexture().getSize(), sizeFold = getTexture().getSizeFold();
 		GL.texCoord2d(1d*size.x/sizeFold.x*cx,1d*size.y/sizeFold.y*cy);
 	}
