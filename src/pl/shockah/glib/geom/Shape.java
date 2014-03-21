@@ -14,7 +14,7 @@ public abstract class Shape {
 	public Vector2d translateTo(Vector2 v) {return translateTo(v.Xd(),v.Yd());}
 	public abstract Vector2d translateTo(double x, double y);
 	
-	public boolean collides(Shape shape) {
+	public final boolean collides(Shape shape) {
 		return collides(shape,false);
 	}
 	protected boolean collides(Shape shape, boolean secondTry) {
