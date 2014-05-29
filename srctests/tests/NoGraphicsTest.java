@@ -1,7 +1,7 @@
 package tests;
 
 import pl.shockah.glib.Gamelib;
-import pl.shockah.glib.logic.Entity;
+import pl.shockah.glib.logic.actor.Actor;
 import pl.shockah.glib.state.State;
 
 public class NoGraphicsTest extends State {
@@ -15,7 +15,7 @@ public class NoGraphicsTest extends State {
 	}
 	
 	protected void onCreate() {
-		new Entity(){
+		new Actor(){
 			protected void onUpdate() {
 				System.out.println("a");
 			}

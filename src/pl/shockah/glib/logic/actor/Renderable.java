@@ -1,10 +1,10 @@
-package pl.shockah.glib.logic;
+package pl.shockah.glib.logic.actor;
 
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
 
 public abstract class Renderable implements Comparable<Renderable> {
-	protected final EntityRenderable parent;
+	protected final ActorRenderable parent;
 	private double depth = 0;
 	
 	public Renderable() {
@@ -13,10 +13,10 @@ public abstract class Renderable implements Comparable<Renderable> {
 	public Renderable(double depth) {
 		this(null,depth);
 	}
-	public Renderable(EntityRenderable er) {
+	public Renderable(ActorRenderable er) {
 		this(er,er.baseDepth);
 	}
-	public Renderable(EntityRenderable er, double depth) {
+	public Renderable(ActorRenderable er, double depth) {
 		parent = er;
 		this.depth = depth;
 	}
@@ -26,14 +26,14 @@ public abstract class Renderable implements Comparable<Renderable> {
 		return depth > r.depth ? -1 : 1;
 	}
 	
-	public final EntityRenderable getParent() {
+	public final ActorRenderable getParent() {
 		return parent;
 	}
 	
 	public final void create() {
 		if (!Gamelib.modules().graphics()) return;
 		if (parent != null) parent.renderables.add(this);
-		Game.me.renderableAdd.add(this);
+		GameActor.me.renderableAdd.add(this);
 		onCreate();
 	}
 	protected void onCreate() {}
@@ -41,7 +41,7 @@ public abstract class Renderable implements Comparable<Renderable> {
 	public final void destroy() {
 		if (!Gamelib.modules().graphics()) return;
 		onDestroy();
-		Game.me.renderableRemove.add(this);
+		GameActor.me.renderableRemove.add(this);
 		if (parent != null && !parent.isListUsed()) parent.renderables.remove(this);
 	}
 	protected void onDestroy() {}
@@ -52,9 +52,9 @@ public abstract class Renderable implements Comparable<Renderable> {
 	public final void setDepth(double depth) {
 		if (!Gamelib.modules().graphics()) return;
 		this.depth = depth;
-		if (Game.me.renderable.contains(this)) {
-			Game.me.renderableRemove.add(this);
-			Game.me.renderableAdd.add(this);
+		if (GameActor.me.renderable.contains(this)) {
+			GameActor.me.renderableRemove.add(this);
+			GameActor.me.renderableAdd.add(this);
 		}
 	}
 	

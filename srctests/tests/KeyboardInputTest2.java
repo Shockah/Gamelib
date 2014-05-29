@@ -7,7 +7,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.input.Key;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class KeyboardInputTest2 extends State {
@@ -17,7 +17,7 @@ public class KeyboardInputTest2 extends State {
 	}
 	
 	protected void onCreate() {
-		new EntityRenderable(){
+		new ActorRenderable(){
 			Vector2d oldPos;
 			Key
 				kL = new Key(Keyboard.KEY_LEFT,Keyboard.KEY_A),

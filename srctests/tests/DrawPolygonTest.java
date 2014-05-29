@@ -6,7 +6,7 @@ import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class DrawPolygonTest extends State {
@@ -28,7 +28,7 @@ public class DrawPolygonTest extends State {
 	}
 	
 	protected void onCreate() {
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onRender(Graphics g) {
 				g.setColor(Color.Crimson);
 				g.draw(p);

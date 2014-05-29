@@ -7,7 +7,7 @@ import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.Shader;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class ShaderTest extends State {
@@ -29,7 +29,7 @@ public class ShaderTest extends State {
 			shader = Shader.createFromPath("assets/shader1");
 		} catch (IOException e) {e.printStackTrace();}
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onRender(Graphics g) {
 				GL.bind(shader);
 				shader.setUniform("texture1",0);

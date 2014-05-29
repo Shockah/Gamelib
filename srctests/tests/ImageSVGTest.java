@@ -6,7 +6,7 @@ import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
 import pl.shockah.glib.gl.tex.TextureLoader;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class ImageSVGTest extends State {
@@ -27,7 +27,7 @@ public class ImageSVGTest extends State {
 			image = new Image(Texture.load("assets/imagesvg1.svg"));
 		} catch (IOException e) {e.printStackTrace();}
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onRender(Graphics g) {
 				g.draw(image);
 			}

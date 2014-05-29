@@ -9,7 +9,7 @@ import pl.shockah.glib.gl.Stencil;
 import pl.shockah.glib.gl.StencilMask;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class StencilTest extends State {
@@ -30,7 +30,7 @@ public class StencilTest extends State {
 			image.center();
 		} catch (IOException e) {e.printStackTrace();}
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onUpdate() {
 				image.rotation.angle += 1;
 			}

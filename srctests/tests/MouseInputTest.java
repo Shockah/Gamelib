@@ -7,7 +7,7 @@ import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.input.MInput;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class MouseInputTest extends State {
@@ -17,7 +17,7 @@ public class MouseInputTest extends State {
 	}
 	
 	protected void onCreate() {
-		new EntityRenderable(){
+		new ActorRenderable(){
 			Vector2i drag = null;
 			
 			protected void onUpdate() {

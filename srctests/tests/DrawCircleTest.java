@@ -4,7 +4,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.Circle;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class DrawCircleTest extends State {
@@ -18,7 +18,7 @@ public class DrawCircleTest extends State {
 	}
 	
 	protected void onCreate() {
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onRender(Graphics g) {
 				g.setColor(Color.Aqua);
 				g.draw(new Circle(150,150,50));

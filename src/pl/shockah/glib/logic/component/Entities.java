@@ -1,20 +1,18 @@
-package pl.shockah.glib.logic;
+package pl.shockah.glib.logic.component;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import pl.shockah.glib.logic.IFilter;
 
 public final class Entities {
 	public static List<Entity> get() {
-		return Collections.unmodifiableList(Game.me.entities);
-	}
-	public static List<Renderable> getRenderable() {
-		return Collections.unmodifiableList(Game.me.renderable);
+		return Collections.unmodifiableList(GameEntity.me.entities);
 	}
 	
-	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> getType(IEntityFilter filter, Class<T> cls) {
+	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> getType(IFilter<Entity> filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
-		for (Entity entity : Game.me.entities) {
+		for (Entity entity : GameEntity.me.entities) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(entity)) b = false;
 			if (b && cls != null) if (!cls.isAssignableFrom(entity.getClass())) b = false;
@@ -26,9 +24,9 @@ public final class Entities {
 		return getType(null,cls);
 	}
 	
-	@SafeVarargs public static List<Entity> getTypes(IEntityFilter filter, Class<? extends Entity>... entityClasses) {
+	@SafeVarargs public static List<Entity> getTypes(IFilter<Entity> filter, Class<? extends Entity>... entityClasses) {
 		List<Entity> list = new LinkedList<>();
-		for (Entity entity : Game.me.entities) {
+		for (Entity entity : GameEntity.me.entities) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(entity)) b = false;
 			if (b && entityClasses.length != 0) {

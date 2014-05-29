@@ -5,7 +5,7 @@ import pl.shockah.glib.geom.Circle;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.Surface;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class SurfaceTest extends State {
@@ -25,7 +25,7 @@ public class SurfaceTest extends State {
 		g.setColor(Color.White);
 		g.draw(new Circle(32,32,24));
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onRender(Graphics g) {
 				for (int x = 0; x < 12; x++) for (int y = 0; y < 9; y++) {
 					float s = y == 4 ? 1f : (y < 4 ? y/4f : 1f);

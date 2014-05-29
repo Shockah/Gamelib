@@ -1,33 +1,32 @@
-package pl.shockah.glib.logic;
+package pl.shockah.glib.logic.actor;
 
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
+import pl.shockah.glib.logic.GameObject;
 
-public abstract class Entity {
+public abstract class Actor extends GameObject {
 	public Vector2d pos = new Vector2d();
-	private boolean firstTick = true, created = false, destroyed = false;
+	private boolean firstTick = true;
 	
-	protected Entity() {}
+	protected Actor() {}
 	
 	public final void create() {create(null);}
 	public final void create(double x, double y) {create(new Vector2d(x,y));}
 	public void create(Vector2 pos) {
-		created = true;
+		super.create();
 		if (pos != null) this.pos.set(pos);
 		firstTick = true;
-		Game.me.entitiesAdd.add(this);
+		GameActor.me.actorsAdd.add(this);
 		onCreate();
 	}
 	protected void onCreate() {}
-	public final boolean created() {return created;}
 	
 	public void destroy() {
 		onDestroy();
-		Game.me.entitiesRemove.add(this);
-		destroyed = true;
+		GameActor.me.actorsRemove.add(this);
+		super.destroy();
 	}
 	protected void onDestroy() {}
-	public final boolean destroyed() {return destroyed;}
 	
 	public final void update() {
 		firstUpdate();

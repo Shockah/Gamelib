@@ -10,7 +10,7 @@ import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class CurveTest extends State {
@@ -41,7 +41,7 @@ public class CurveTest extends State {
 		linePos3.add(300,197);
 		linePos3.add(-300,197*2);
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onUpdate() {
 				anim1.update();
 				anim2.update();

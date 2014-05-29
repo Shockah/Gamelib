@@ -1,9 +1,9 @@
-package pl.shockah.glib.logic;
+package pl.shockah.glib.logic.actor;
 
 import pl.shockah.glib.gl.Graphics;
 
 public class RenderableDefault extends Renderable {
-	public RenderableDefault(EntityRenderable er) {
+	public RenderableDefault(ActorRenderable er) {
 		super(er);
 	}
 	

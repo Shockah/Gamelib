@@ -16,6 +16,7 @@ import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.input.KInput;
 import pl.shockah.glib.input.MInput;
 import pl.shockah.glib.logic.Game;
+import pl.shockah.glib.logic.actor.GameActor;
 import pl.shockah.glib.state.State;
 
 public final class Gamelib {
@@ -166,8 +167,12 @@ public final class Gamelib {
 	public static void start(State state) {start(state,"Gamelib",new Modules());}
 	public static void start(State state, Modules modules) {start(state,"Gamelib",modules);}
 	public static void start(State state, String windowTitle) {start(state,windowTitle,new Modules());}
-	public static void start(State state, String windowTitle, Modules modules) {
-		Gamelib.game = new Game(state);
+	public static void start(State state, String windowTitle, Modules modules) {start(new GameActor(state),windowTitle,modules);}
+	public static void start(Game game) {start(game,"Gamelib",new Modules());}
+	public static void start(Game game, Modules modules) {start(game,"Gamelib",modules);}
+	public static void start(Game game, String windowTitle) {start(game,windowTitle,new Modules());}
+	public static void start(Game game, String windowTitle, Modules modules) {
+		Gamelib.game = game;
 		Gamelib.modules = modules;
 		findAndSetupNatives();
 		
@@ -204,6 +209,7 @@ public final class Gamelib {
 		modules.lock();
 		isRunning = true;
 		Display.setTitle(windowTitle);
+		game.setup();
 		gameLoop();
 		if (modules.sound()) AL.destroy();
 		if (modules.graphics()) Display.destroy();

@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import pl.shockah.glib.gl.BlendMode;
 import pl.shockah.glib.gl.Graphics;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 
-public class ParticleSystem extends EntityRenderable {
+public class ParticleSystem extends ActorRenderable {
 	protected static BlendMode currentBlendMode = null;
 	
 	public static BlendMode getCurrentBlendMode() {

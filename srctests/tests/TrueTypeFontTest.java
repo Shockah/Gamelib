@@ -4,7 +4,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class TrueTypeFontTest extends State {
@@ -28,7 +28,7 @@ public class TrueTypeFontTest extends State {
 			//could use too: font2 = new TrueTypeFont(Font.registerNew("assets/fontttf1.ttf"),24);
 		} catch (Exception e) {e.printStackTrace();}
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onRender(Graphics g) {
 				font1.draw(g,16,16,"Does it work?");
 				font2.draw(g,32,64,"It works!");

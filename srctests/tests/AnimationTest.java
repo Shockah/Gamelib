@@ -10,7 +10,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class AnimationTest extends State {
@@ -55,7 +55,7 @@ public class AnimationTest extends State {
 		lineY2.add(400d,100);
 		lineY2.add(250d,200);
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onUpdate() {
 				anim.update();
 				anim2.update();

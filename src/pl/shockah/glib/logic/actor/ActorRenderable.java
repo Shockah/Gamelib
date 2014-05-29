@@ -1,4 +1,4 @@
-package pl.shockah.glib.logic;
+package pl.shockah.glib.logic.actor;
 
 import java.util.List;
 import pl.shockah.SortedLinkedList;
@@ -6,13 +6,13 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.gl.Graphics;
 
-public abstract class EntityRenderable extends Entity {
+public abstract class ActorRenderable extends Actor {
 	protected final List<Renderable> renderables = new SortedLinkedList<>();
 	private boolean listUsed = false;
 	protected double baseDepth = 0d;
 	
-	public EntityRenderable() {}
-	public EntityRenderable(double depth) {
+	public ActorRenderable() {}
+	public ActorRenderable(double depth) {
 		baseDepth = depth;
 	}
 	
@@ -34,7 +34,7 @@ public abstract class EntityRenderable extends Entity {
 		return listUsed;
 	}
 	
-	public final EntityRenderable setDepth(double depth) {
+	public final ActorRenderable setDepth(double depth) {
 		if (!Gamelib.modules().graphics()) return this;
 		for (Renderable r : renderables) r.setDepth(depth);
 		return this;

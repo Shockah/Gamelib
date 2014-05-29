@@ -8,7 +8,7 @@ import pl.shockah.glib.geom.Circle;
 import pl.shockah.glib.geom.vector.Vector2i;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 import pl.shockah.glib.state.View;
 
@@ -23,7 +23,7 @@ public class Hypnodots2 extends State {
 	}
 	
 	protected void onCreate() {
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected final Animation anim = new Animation().setLooped();
 			protected final TimelineDouble line = new TimelineDouble();
 			protected int ticks = 360;

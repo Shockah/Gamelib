@@ -5,7 +5,7 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.tex.Image;
 import pl.shockah.glib.gl.tex.Texture;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class ImageTest extends State {
@@ -29,7 +29,7 @@ public class ImageTest extends State {
 			image2.rotation.center();
 		} catch (IOException e) {e.printStackTrace();}
 		
-		new EntityRenderable(){
+		new ActorRenderable(){
 			protected void onUpdate() {
 				image1.rotation.angle -= 2;
 				image2.rotation.angle += 1;

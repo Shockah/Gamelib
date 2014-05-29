@@ -5,7 +5,7 @@ import pl.shockah.glib.geom.polygon.TriangleFan;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
-import pl.shockah.glib.logic.EntityRenderable;
+import pl.shockah.glib.logic.actor.ActorRenderable;
 import pl.shockah.glib.state.State;
 
 public class SpiralTheodorus extends State {
@@ -15,7 +15,7 @@ public class SpiralTheodorus extends State {
 	}
 	
 	protected void onCreate() {
-		new EntityRenderable(){
+		new ActorRenderable(){
 			double state = 0d, spd = .02d;
 			
 			protected void onRender(Graphics g) {
