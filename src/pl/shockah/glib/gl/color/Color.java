@@ -2,10 +2,10 @@ package pl.shockah.glib.gl.color;
 
 import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.Math2;
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 
-public abstract class Color implements IInterpolatable<Color> {
+public abstract class Color implements IEasable<Color> {
 	public static final Color
 		Black = new Colorb(0),
 		TransparentBlack = new Colorb(0,0),
@@ -238,11 +238,11 @@ public abstract class Color implements IInterpolatable<Color> {
 		return new Colorf(Rf(),Gf(),Bf(),Af());
 	}
 	
-	public Color interpolate(Color c, double d) {
-		return interpolate(c,d,Interpolate.Linear);
+	public Color ease(Color c, double d) {
+		return ease(c,d,Ease.Linear);
 	}
-	public Color interpolate(Color c, double d, Interpolate method) {
-		return new ColorbMutable(method.interpolate(Rf(),c.Rf(),d),method.interpolate(Gf(),c.Gf(),d),method.interpolate(Bf(),c.Bf(),d),method.interpolate(Af(),c.Af(),d));
+	public Color ease(Color c, double d, Ease method) {
+		return new ColorbMutable(method.ease(Rf(),c.Rf(),d),method.ease(Gf(),c.Gf(),d),method.ease(Bf(),c.Bf(),d),method.ease(Af(),c.Af(),d));
 	}
 	
 	public float[] toHSB() {

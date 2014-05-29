@@ -3,7 +3,7 @@ package tests;
 import java.io.IOException;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.animfx.Animation;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.Ease;
 import pl.shockah.glib.animfx.TimelineDouble;
 import pl.shockah.glib.animfx.TimelineObject;
 import pl.shockah.glib.geom.vector.Vector2d;
@@ -32,12 +32,12 @@ public class AnimationTest extends State {
 		} catch (IOException e) {e.printStackTrace();}
 		
 		final Animation anim = new Animation().setLooped(true);
-		final TimelineObject<Vector2d> linePos = new TimelineObject<>(Interpolate.Back.InOut); anim.add(linePos);
-		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Interpolate.Bounce.Out); anim.add(linePos2);
+		final TimelineObject<Vector2d> linePos = new TimelineObject<>(Ease.Back.InOut); anim.add(linePos);
+		final TimelineObject<Vector2d> linePos2 = new TimelineObject<>(Ease.Bounce.Out); anim.add(linePos2);
 		
 		final Animation anim2 = new Animation().setLooped(true);
-		final TimelineDouble lineY = new TimelineDouble(Interpolate.Smoothstep.P3); anim2.add(lineY);
-		final TimelineDouble lineY2 = new TimelineDouble(Interpolate.Linear); anim2.add(lineY2);
+		final TimelineDouble lineY = new TimelineDouble(Ease.Smoothstep.P3); anim2.add(lineY);
+		final TimelineDouble lineY2 = new TimelineDouble(Ease.Linear); anim2.add(lineY2);
 		
 		linePos.add(new Vector2d(0,0),0);
 		linePos.add(new Vector2d(300,50),120);

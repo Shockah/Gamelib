@@ -1,15 +1,15 @@
 package pl.shockah.glib.animfx;
 
-@SuppressWarnings("unchecked") public class FxObject<T extends IInterpolatable<T>> extends Fx<T> {
-	public FxObject(IInterpolatable<T> step, double time) {
+@SuppressWarnings("unchecked") public class FxObject<T extends IEasable<T>> extends Fx<T> {
+	public FxObject(IEasable<T> step, double time) {
 		super((T)step,time);
 	}
-	public FxObject(IInterpolatable<T> step, double time, Interpolate method) {
+	public FxObject(IEasable<T> step, double time, Ease method) {
 		super((T)step,time,method);
 	}
 	
-	public T getState(Fx<?> fx, double d, Interpolate method) {
+	public T getState(Fx<?> fx, double d, Ease method) {
 		if (fx == null) fx = this;
-		return step.interpolate(((Fx<T>)fx).step,d,method);
+		return step.ease(((Fx<T>)fx).step,d,method);
 	}
 }

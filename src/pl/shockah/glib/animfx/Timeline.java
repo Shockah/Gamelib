@@ -5,11 +5,11 @@ import pl.shockah.SortedLinkedList;
 
 public abstract class Timeline<T,F extends Fx<T>> {
 	protected final List<F> fxs = new SortedLinkedList<>();
-	protected final Interpolate method;
+	protected final Ease method;
 	protected double maxTime = 0;
 	
-	Timeline() {this(Interpolate.Smoothstep.P1);}
-	Timeline(Interpolate method) {
+	Timeline() {this(Ease.Smoothstep.P1);}
+	Timeline(Ease method) {
 		this.method = method;
 	}
 	
@@ -45,8 +45,8 @@ public abstract class Timeline<T,F extends Fx<T>> {
 	
 	public abstract void copyFirst(double time);
 	public abstract void copyLast(double time);
-	public abstract void copyFirst(double time, Interpolate method);
-	public abstract void copyLast(double time, Interpolate method);
+	public abstract void copyFirst(double time, Ease method);
+	public abstract void copyLast(double time, Ease method);
 	
 	public double getMaxTime() {
 		return maxTime;

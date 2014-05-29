@@ -1,7 +1,7 @@
 package pl.shockah.glib.geom;
 
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.polygon.TriangleFan;
@@ -10,7 +10,7 @@ import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 
-public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle> {
+public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 	public Vector2d pos;
 	public double radius;
 	
@@ -109,10 +109,10 @@ public class Circle extends Shape implements IPolygonable,IInterpolatable<Circle
 		tf.draw(g);
 	}
 	
-	public Circle interpolate(Circle c, double d) {
-		return interpolate(c,d,Interpolate.Linear);
+	public Circle ease(Circle c, double d) {
+		return ease(c,d,Ease.Linear);
 	}
-	public Circle interpolate(Circle c, double d, Interpolate method) {
-		return new Circle(pos.interpolate(c.pos,d,method),method.interpolate(radius,c.radius,d));
+	public Circle ease(Circle c, double d, Ease method) {
+		return new Circle(pos.ease(c.pos,d,method),method.ease(radius,c.radius,d));
 	}
 }

@@ -3,21 +3,21 @@ package pl.shockah.glib.geom;
 import static org.lwjgl.opengl.GL11.*;
 import java.util.ArrayList;
 import java.util.List;
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 
-public class Curve extends Shape implements IInterpolatable<Curve> {
+public class Curve extends Shape implements IEasable<Curve> {
 	public static Vector2d calculateBezierPoint(double d, Vector2... vs) {
 		if (vs.length == 0) throw new IllegalArgumentException();
 		if (vs.length == 1) return vs[0].toDouble();
 		
 		Vector2[] vs2 = new Vector2[vs.length-1];
-		for (int i = 0; i < vs2.length; i++) vs2[i] = vs[i].toDouble().interpolate(vs[i+1].toDouble(),d);
+		for (int i = 0; i < vs2.length; i++) vs2[i] = vs[i].toDouble().ease(vs[i+1].toDouble(),d);
 		return calculateBezierPoint(d,vs2);
 	}
 	
@@ -122,7 +122,7 @@ public class Curve extends Shape implements IInterpolatable<Curve> {
 		glBegin(GL_LINE_STRIP);
 			for (int i = 0; i < precision; i++) {
 				double d = 1d*i/(precision-1);
-				GL.bind(cPoint1.interpolate(cPoint2,d));
+				GL.bind(cPoint1.ease(cPoint2,d));
 				GL.vertex2d(calculateBezierPoint(d,points));
 			}
 		glEnd();
@@ -142,13 +142,13 @@ public class Curve extends Shape implements IInterpolatable<Curve> {
 		return d;
 	}
 	
-	public Curve interpolate(Curve c, double d) {
-		return interpolate(c,d,Interpolate.Linear);
+	public Curve ease(Curve c, double d) {
+		return ease(c,d,Ease.Linear);
 	}
-	public Curve interpolate(Curve c, double d, Interpolate method) {
+	public Curve ease(Curve c, double d, Ease method) {
 		if (controlPoints.size() != c.controlPoints.size()) throw new IllegalArgumentException();
-		Curve ret = new Curve(pos1.interpolate(c.pos1,d,method),pos2.interpolate(c.pos2,d,method));
-		for (int i = 0; i < controlPoints.size(); i++) ret.addControlPoint(controlPoints.get(i).interpolate(c.controlPoints.get(i),d,method));
+		Curve ret = new Curve(pos1.ease(c.pos1,d,method),pos2.ease(c.pos2,d,method));
+		for (int i = 0; i < controlPoints.size(); i++) ret.addControlPoint(controlPoints.get(i).ease(c.controlPoints.get(i),d,method));
 		return ret;
 	}
 }

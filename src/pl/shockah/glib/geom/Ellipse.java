@@ -1,15 +1,15 @@
 package pl.shockah.glib.geom;
 
 import pl.shockah.Math2;
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.Graphics;
 
-public class Ellipse extends Shape implements IPolygonable,IInterpolatable<Ellipse> {
+public class Ellipse extends Shape implements IPolygonable,IEasable<Ellipse> {
 	public Vector2d pos, radius;
 	
 	protected Vector2d lastPos;
@@ -84,10 +84,10 @@ public class Ellipse extends Shape implements IPolygonable,IInterpolatable<Ellip
 		asPolygon(precision).draw(g,filled);
 	}
 	
-	public Ellipse interpolate(Ellipse e, double d) {
-		return interpolate(e,d,Interpolate.Linear);
+	public Ellipse ease(Ellipse e, double d) {
+		return ease(e,d,Ease.Linear);
 	}
-	public Ellipse interpolate(Ellipse e, double d, Interpolate method) {
-		return new Ellipse(pos.interpolate(e.pos,d,method),radius.interpolate(e.radius,d,method));
+	public Ellipse ease(Ellipse e, double d, Ease method) {
+		return new Ellipse(pos.ease(e.pos,d,method),radius.ease(e.radius,d,method));
 	}
 }

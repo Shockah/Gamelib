@@ -1,15 +1,15 @@
 package pl.shockah.glib.animfx;
 
-public abstract class Interpolate {
-	public static final Interpolate
-		Linear = new Interpolate(){
-			protected double interpolateBase(double d1, double d2, double d) {
+public abstract class Ease {
+	public static final Ease
+		Linear = new Ease(){
+			protected double easeBase(double d1, double d2, double d) {
 				return d1+(d2-d1)*d;
 			}
 		};
 	
-	private static class InterpolateSmoothstep extends Interpolate {
-		protected final double interpolateBase(double d1, double d2, double d) {
+	private static class EaseSmoothstep extends Ease {
+		protected final double easeBase(double d1, double d2, double d) {
 			return d1+(d2-d1)*smoothstepModifier(d);
 		}
 		protected double smoothstepModifier(double d) {
@@ -18,22 +18,22 @@ public abstract class Interpolate {
 	}
 	
 	public static final class Smoothstep {
-		public static final Interpolate
-			P1 = new InterpolateSmoothstep(),
-			P2 = new InterpolateSmoothstep(){
+		public static final Ease
+			P1 = new EaseSmoothstep(),
+			P2 = new EaseSmoothstep(){
 				protected double smoothstepModifier(double d) {
 					return Math.pow(super.smoothstepModifier(d),2);
 				}
 			},
-			P3 = new InterpolateSmoothstep(){
+			P3 = new EaseSmoothstep(){
 				protected double smoothstepModifier(double d) {
 					return Math.pow(super.smoothstepModifier(d),3);
 				}
 			};
 	}
 		
-	private static abstract class InterpolateEase extends Interpolate {
-		protected double interpolateBase(double d1, double d2, double d) {
+	private static abstract class EaseEase extends Ease {
+		protected double easeBase(double d1, double d2, double d) {
 			return ease(d,d1,d2-d1,1);
 		}
 		protected abstract double ease(double t, double b, double c, double d);
@@ -41,36 +41,36 @@ public abstract class Interpolate {
 	
 	//original code: http://github.com/jesusgollonet/processing-penner-easing
 	public static final class Sine {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return -c * Math.cos(t/d * (Math.PI/2)) + c + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c * Math.sin(t/d * (Math.PI/2)) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
 				}
 			};
 	}
 	public static final class Quad {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*(t/=d)*t + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return -c *(t/=d)*(t-2) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if ((t/=d/2) < 1) return c/2*t*t + b;
 					return -c/2 * ((--t)*(t-2) - 1) + b;
@@ -78,18 +78,18 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Cubic {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*(t/=d)*t*t + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*((t=t/d-1)*t*t + 1) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if ((t/=d/2) < 1) return c/2*t*t*t + b;
 					return c/2*((t-=2)*t*t + 2) + b;
@@ -97,18 +97,18 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Quart {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*(t/=d)*t*t*t + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return -c * ((t=t/d-1)*t*t*t - 1) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
 					return -c/2 * ((t-=2)*t*t*t - 2) + b;
@@ -116,18 +116,18 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Quint {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*(t/=d)*t*t*t*t + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*((t=t/d-1)*t*t*t*t + 1) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if ((t/=d/2) < 1) return c/2*t*t*t*t*t + b;
 					return c/2*((t-=2)*t*t*t*t + 2) + b;
@@ -135,18 +135,18 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Expo {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return (t==0) ? b : c * Math.pow(2, 10 * (t/d - 1)) + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;	
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if (t==0) return b;
 					if (t==d) return b+c;
@@ -156,18 +156,18 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Circ {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c * Math.sqrt(1 - (t=t/d-1)*t) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if ((t/=d/2) < 1) return -c/2 * (Math.sqrt(1 - t*t) - 1) + b;
 					return c/2 * (Math.sqrt(1 - (t-=2)*t) + 1) + b;
@@ -177,18 +177,18 @@ public abstract class Interpolate {
 	public static final class Back {
 		protected static final double s = 1.70158d;
 		
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*(t/=d)*t*((s+1)*t - s) + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					double s = Back.s;
 					if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525d))+1)*t - s)) + b;
@@ -197,8 +197,8 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Elastic {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if (t==0) return b; if ((t/=d)==1) return b+c;
 					double p=d*.3d;
@@ -207,7 +207,7 @@ public abstract class Interpolate {
 					return (a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b);	
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if (t==0) return b; if ((t/=d)==1) return b+c;
 					double p=d*.3d;
@@ -216,7 +216,7 @@ public abstract class Interpolate {
 					return -(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if (t==0) return b; if ((t/=d/2)==2) return b+c;
 					double p=d*(.3d*1.5d);
@@ -228,13 +228,13 @@ public abstract class Interpolate {
 			};
 	}
 	public static final class Bounce {
-		public static final Interpolate
-			In = new InterpolateEase(){
+		public static final Ease
+			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
-					return c - ((InterpolateEase)Out).ease (d-t, 0, c, d) + b;
+					return c - ((EaseEase)Out).ease (d-t, 0, c, d) + b;
 				}
 			},
-			Out = new InterpolateEase(){
+			Out = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
 					if ((t/=d) < (1/2.75d)) {
 						return c*(7.5625d*t*t) + b;
@@ -247,17 +247,17 @@ public abstract class Interpolate {
 					}
 				}
 			},
-			InOut = new InterpolateEase(){
+			InOut = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
-					if (t < d/2) return ((InterpolateEase)In).ease (t*2, 0, c, d) * .5f + b;
-					else return ((InterpolateEase)Out).ease (t*2-d, 0, c, d) * .5f + c*.5f + b;
+					if (t < d/2) return ((EaseEase)In).ease (t*2, 0, c, d) * .5f + b;
+					else return ((EaseEase)Out).ease (t*2-d, 0, c, d) * .5f + c*.5f + b;
 				}
 			};
 	}
 	
-	public int interpolate(int i1, int i2, double d) {return (int)interpolateBase(i1,i2,d);}
-	public float interpolate(float f1, float f2, double d) {return (float)interpolateBase(f1,f2,d);}
-	public double interpolate(double d1, double d2, double d) {return interpolateBase(d1,d2,d);}
+	public int ease(int i1, int i2, double d) {return (int)easeBase(i1,i2,d);}
+	public float ease(float f1, float f2, double d) {return (float)easeBase(f1,f2,d);}
+	public double ease(double d1, double d2, double d) {return easeBase(d1,d2,d);}
 	
-	protected abstract double interpolateBase(double d1, double d2, double d);
+	protected abstract double easeBase(double d1, double d2, double d);
 }

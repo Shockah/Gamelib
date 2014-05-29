@@ -1,10 +1,10 @@
 package pl.shockah.glib.geom.vector;
 
 import pl.shockah.Math2;
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 
-public class Vector2f extends Vector2 implements IInterpolatable<Vector2f> {
+public class Vector2f extends Vector2 implements IEasable<Vector2f> {
 	public static Vector2f make(float dist, double angle) {
 		return new Vector2f((float)Math2.ldirX(dist,angle),(float)Math2.ldirY(dist,angle));
 	}
@@ -122,10 +122,10 @@ public class Vector2f extends Vector2 implements IInterpolatable<Vector2f> {
 		return Math2.deltaAngle(direction(),angle);
 	}
 	
-	public Vector2f interpolate(Vector2f v, double d) {
-		return interpolate(v,d,Interpolate.Linear);
+	public Vector2f ease(Vector2f v, double d) {
+		return ease(v,d,Ease.Linear);
 	}
-	public Vector2f interpolate(Vector2f v, double d, Interpolate method) {
-		return new Vector2f(method.interpolate(x,v.x,d),method.interpolate(y,v.y,d));
+	public Vector2f ease(Vector2f v, double d, Ease method) {
+		return new Vector2f(method.ease(x,v.x,d),method.ease(y,v.y,d));
 	}
 }

@@ -1,15 +1,15 @@
 package pl.shockah.glib.geom;
 
 import static org.lwjgl.opengl.GL11.*;
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 import pl.shockah.glib.geom.vector.Vector2;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 
-public class Line extends Shape implements IInterpolatable<Line> {
+public class Line extends Shape implements IEasable<Line> {
 	public Vector2d pos1, pos2;
 	
 	public Line(double x1, double y1, double x2, double y2) {
@@ -84,10 +84,10 @@ public class Line extends Shape implements IInterpolatable<Line> {
 		glEnd();
 	}
 	
-	public Line interpolate(Line l, double d) {
-		return interpolate(l,d,Interpolate.Linear);
+	public Line ease(Line l, double d) {
+		return ease(l,d,Ease.Linear);
 	}
-	public Line interpolate(Line l, double d, Interpolate method) {
-		return new Line(pos1.interpolate(l.pos1,d,method),pos2.interpolate(l.pos2,d,method));
+	public Line ease(Line l, double d, Ease method) {
+		return new Line(pos1.ease(l.pos1,d,method),pos2.ease(l.pos2,d,method));
 	}
 }

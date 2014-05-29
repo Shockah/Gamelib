@@ -1,8 +1,8 @@
 package pl.shockah.glib.geom;
 
 import static org.lwjgl.opengl.GL11.*;
-import pl.shockah.glib.animfx.IInterpolatable;
-import pl.shockah.glib.animfx.Interpolate;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.animfx.Ease;
 import pl.shockah.glib.geom.polygon.IPolygonable;
 import pl.shockah.glib.geom.polygon.Polygon;
 import pl.shockah.glib.geom.vector.Vector2;
@@ -11,7 +11,7 @@ import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 
-public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rectangle> {
+public class Rectangle extends Shape implements IPolygonable,IEasable<Rectangle> {
 	public Vector2d pos, size;
 	
 	public Rectangle(double w, double h) {
@@ -130,10 +130,10 @@ public class Rectangle extends Shape implements IPolygonable,IInterpolatable<Rec
 		}
 	}
 	
-	public Rectangle interpolate(Rectangle r, double d) {
-		return interpolate(r,d,Interpolate.Linear);
+	public Rectangle ease(Rectangle r, double d) {
+		return ease(r,d,Ease.Linear);
 	}
-	public Rectangle interpolate(Rectangle r, double d, Interpolate method) {
-		return new Rectangle(pos.interpolate(r.pos,d,method),size.interpolate(r.size,d,method));
+	public Rectangle ease(Rectangle r, double d, Ease method) {
+		return new Rectangle(pos.ease(r.pos,d,method),size.ease(r.size,d,method));
 	}
 }
