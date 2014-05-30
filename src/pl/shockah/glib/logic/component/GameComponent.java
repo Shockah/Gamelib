@@ -9,15 +9,18 @@ import pl.shockah.glib.state.State;
 public class GameComponent extends Game {
 	@SuppressWarnings("hiding") public static GameComponent me = null;
 	
+	protected final IModifyComponentSystems imcs;
 	protected final List<Entity>
 		entities = new LinkedList<>(),
 		entitiesAdd = new LinkedList<>(),
 		entitiesRemove = new LinkedList<>();
 	protected final List<ComponentSystem<?>> systems = new LinkedList<>();
 	
-	public GameComponent(State initialState) {
+	public GameComponent(State initialState) {this(initialState, null);}
+	public GameComponent(State initialState, IModifyComponentSystems imcs) {
 		super(initialState);
 		me = this;
+		this.imcs = imcs;
 	}
 	
 	public ComponentSystem<?> getComponentSystemFor(Component component) {
@@ -26,7 +29,10 @@ public class GameComponent extends Game {
 	}
 	
 	public void setup() {
-		if (Gamelib.modules().graphics()) new CRenderSystem().create();
+		List<ComponentSystem<?>> list = new LinkedList<>();
+		if (Gamelib.modules().graphics()) list.add(new CRenderSystem());
+		if (imcs != null) imcs.modifyComponentSystems(list);
+		for (ComponentSystem<?> system : list) system.create();
 	}
 	
 	public void reset() {
