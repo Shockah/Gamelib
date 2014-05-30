@@ -7,7 +7,7 @@ import pl.shockah.glib.logic.IFilter;
 public final class Components {
 	@SuppressWarnings("unchecked") public static <T extends Component> List<T> getType(IFilter<Component> filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
-		for (ComponentSystem<?> system : GameEntity.me.systems) {
+		for (ComponentSystem<?> system : GameComponent.me.systems) {
 			if (cls != null && !system.cls.isAssignableFrom(cls)) continue;
 			for (Component component : system.cache) {
 				boolean b = true;
@@ -23,7 +23,7 @@ public final class Components {
 	
 	@SafeVarargs public static List<Component> getTypes(IFilter<Component> filter, Class<? extends Component>... componentClasses) {
 		List<Component> list = new LinkedList<>();
-		for (ComponentSystem<?> system : GameEntity.me.systems) {
+		for (ComponentSystem<?> system : GameComponent.me.systems) {
 			boolean b = true;
 			if (componentClasses.length != 0) {
 				for (Class<? extends Component> cls : componentClasses) {

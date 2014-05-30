@@ -9,14 +9,14 @@ public class Entity extends GameObject {
 	
 	public final void create() {
 		super.create();
-		GameEntity.me.entitiesAdd.add(this);
+		GameComponent.me.entitiesAdd.add(this);
 		onCreate();
 	}
 	protected void onCreate() {}
 	
 	public final void destroy() {
 		onDestroy();
-		GameEntity.me.entitiesRemove.add(this);
+		GameComponent.me.entitiesRemove.add(this);
 		super.destroy();
 	}
 	protected void onDestroy() {}

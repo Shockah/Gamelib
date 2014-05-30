@@ -7,12 +7,12 @@ import pl.shockah.glib.logic.IFilter;
 
 public final class Entities {
 	public static List<Entity> get() {
-		return Collections.unmodifiableList(GameEntity.me.entities);
+		return Collections.unmodifiableList(GameComponent.me.entities);
 	}
 	
 	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> getType(IFilter<Entity> filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
-		for (Entity entity : GameEntity.me.entities) {
+		for (Entity entity : GameComponent.me.entities) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(entity)) b = false;
 			if (b && cls != null) if (!cls.isAssignableFrom(entity.getClass())) b = false;
@@ -26,7 +26,7 @@ public final class Entities {
 	
 	@SafeVarargs public static List<Entity> getTypes(IFilter<Entity> filter, Class<? extends Entity>... entityClasses) {
 		List<Entity> list = new LinkedList<>();
-		for (Entity entity : GameEntity.me.entities) {
+		for (Entity entity : GameComponent.me.entities) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(entity)) b = false;
 			if (b && entityClasses.length != 0) {

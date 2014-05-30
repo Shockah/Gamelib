@@ -12,7 +12,7 @@ public class ComponentSystem<T extends Component> {
 	}
 	
 	public void create() {
-		GameEntity.me.systems.add(this);
+		GameComponent.me.systems.add(this);
 	}
 	
 	public void reset() {

@@ -6,8 +6,8 @@ import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.logic.Game;
 import pl.shockah.glib.state.State;
 
-public class GameEntity extends Game {
-	@SuppressWarnings("hiding") public static GameEntity me = null;
+public class GameComponent extends Game {
+	@SuppressWarnings("hiding") public static GameComponent me = null;
 	
 	protected final List<Entity>
 		entities = new LinkedList<>(),
@@ -15,7 +15,7 @@ public class GameEntity extends Game {
 		entitiesRemove = new LinkedList<>();
 	protected final List<ComponentSystem<?>> systems = new LinkedList<>();
 	
-	public GameEntity(State initialState) {
+	public GameComponent(State initialState) {
 		super(initialState);
 		me = this;
 	}

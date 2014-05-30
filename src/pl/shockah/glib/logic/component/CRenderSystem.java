@@ -11,7 +11,7 @@ public class CRenderSystem extends ComponentSystem<CRenderable> {
 	}
 	
 	protected void onUpdate() {
-		Graphics g = GameEntity.me.getGraphics();
+		Graphics g = GameComponent.me.getGraphics();
 		State state = State.get();
 		
 		if (state == null) return;
