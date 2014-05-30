@@ -14,7 +14,7 @@ public class GameComponent extends Game {
 		entities = new LinkedList<>(),
 		entitiesAdd = new LinkedList<>(),
 		entitiesRemove = new LinkedList<>();
-	protected final List<ComponentSystem<?>> systems = new LinkedList<>();
+	protected final List<ComponentSystem> systems = new LinkedList<>();
 	
 	public GameComponent(State initialState) {this(initialState, null);}
 	public GameComponent(State initialState, IModifyComponentSystems imcs) {
@@ -23,23 +23,18 @@ public class GameComponent extends Game {
 		this.imcs = imcs;
 	}
 	
-	public ComponentSystem<?> getComponentSystemFor(Component component) {
-		for (ComponentSystem<?> system : systems) if (component.getClass().isAssignableFrom(system.cls)) return system;
-		return null;
-	}
-	
 	public void setup() {
-		List<ComponentSystem<?>> list = new LinkedList<>();
+		List<ComponentSystem> list = new LinkedList<>();
 		if (Gamelib.modules().graphics()) list.add(new CRenderSystem());
 		if (imcs != null) imcs.modifyComponentSystems(list);
-		for (ComponentSystem<?> system : list) system.create();
+		for (ComponentSystem system : list) system.create();
 	}
 	
 	public void reset() {
 		entities.clear();
 		entitiesAdd.clear();
 		entitiesRemove.clear();
-		for (ComponentSystem<?> system : systems) system.reset();
+		for (ComponentSystem system : systems) system.reset();
 	}
 	
 	public void gameLoop() {
@@ -50,12 +45,12 @@ public class GameComponent extends Game {
 		state.preUpdate();
 		if (state.shouldTransitionUpdate()) {
 			entities.addAll(entitiesAdd);
-			for (ComponentSystem<?> system : systems) for (Entity e : entitiesAdd) for (Component component : e.components) system.addCacheOnMatch(component);
+			for (ComponentSystem system : systems) for (Entity entity : entitiesAdd) system.addCacheOnMatch(entity);
 			entities.removeAll(entitiesRemove);
-			for (ComponentSystem<?> system : systems) for (Entity e : entitiesRemove) for (Component component : e.components) system.removeCache(component);
+			for (ComponentSystem system : systems) for (Entity entity : entitiesRemove) system.removeCache(entity);
 			entitiesAdd.clear();
 			entitiesRemove.clear();
-			for (ComponentSystem<?> system : systems) system.update();
+			for (ComponentSystem system : systems) system.update();
 		}
 	}
 }

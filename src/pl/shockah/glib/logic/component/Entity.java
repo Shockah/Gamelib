@@ -20,4 +20,21 @@ public class Entity extends GameObject {
 		super.destroy();
 	}
 	protected void onDestroy() {}
+	
+	@SuppressWarnings("unchecked") public final <T extends Component> T getComponent(Class<T> cls) {
+		for (Component component : components) if (cls.isAssignableFrom(component.getClass())) return (T)component;
+		return null;
+	}
+	@SuppressWarnings("unchecked") public final <T extends Component> List<T> getComponents(Class<T> cls) {
+		List<T> list = new LinkedList<>();
+		for (Component component : components) if (cls.isAssignableFrom(component.getClass())) list.add((T)component);
+		return list;
+	}
+	public final boolean hasComponent(Class<? extends Component> cls) {
+		return getComponent(cls) != null;
+	}
+	@SafeVarargs public final boolean hasComponents(Class<? extends Component>... clss) {
+		for (Class<? extends Component> cls : clss) if (!hasComponent(cls)) return false;
+		return true;
+	}
 }

@@ -3,13 +3,8 @@ package pl.shockah.glib.logic.component;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ComponentSystem<T extends Component> {
-	protected final Class<? extends T> cls;
-	protected final List<T> cache = new LinkedList<>();
-	
-	public ComponentSystem(Class<? extends T> cls) {
-		this.cls = cls;
-	}
+public abstract class ComponentSystem {
+	protected final List<Entity> cache = new LinkedList<>();
 	
 	public void create() {
 		GameComponent.me.systems.add(this);
@@ -18,22 +13,26 @@ public class ComponentSystem<T extends Component> {
 	public void reset() {
 		cache.clear();
 	}
-	@SuppressWarnings("unchecked") public void reset(List<Entity> entities) {
+	public void reset(List<Entity> entities) {
 		reset();
-		for (Entity e : entities) for (Component component : e.components) if (matches(component)) cache.add((T)component);
+		for (Entity entity : entities) if (matches(entity)) addCache(entity);
 	}
 	
-	public boolean matches(Component component) {
-		return cls.isAssignableFrom(component.getClass());
+	public abstract boolean matches(Entity entity);
+	public void addCache(Entity entity) {
+		cache.add(entity);
 	}
-	public void addCache(T component) {
-		cache.add(component);
+	public void addCacheOnMatch(Entity entity) {
+		if (matches(entity)) addCache(entity);
 	}
-	@SuppressWarnings("unchecked") public void addCacheOnMatch(Component component) {
-		if (matches(component)) addCache((T)component);
+	public void removeCache(Entity entity) {
+		if (matches(entity)) cache.remove(entity);
 	}
-	public void removeCache(Component component) {
-		if (matches(component)) cache.remove(component);
+	
+	@SuppressWarnings("unchecked") public <T extends Component> List<T> getComponents(Class<T> cls) {
+		List<T> list = new LinkedList<>();
+		for (Entity entity : cache) for (Component component : entity.components) if (cls.isAssignableFrom(component.getClass())) list.add((T)component);
+		return list;
 	}
 	
 	public final void update() {

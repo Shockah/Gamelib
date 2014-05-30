@@ -5,7 +5,7 @@ import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.state.State;
 
-public class CRenderSystem extends ComponentSystem<CRenderable> {
+public class CRenderSystem extends ComponentSystemByClass {
 	public CRenderSystem() {
 		super(CRenderable.class);
 	}
@@ -24,7 +24,7 @@ public class CRenderSystem extends ComponentSystem<CRenderable> {
 			state.renderTransitionPre(g);
 			if (state.shouldTransitionRender(g)) {
 				g.clear();
-				for (CRenderable component : cache) component.render(g);
+				for (CRenderable component : getComponents(CRenderable.class)) component.render(g);
 			}
 			state.preTransitionRender(g);
 			state.renderTransition(g);
