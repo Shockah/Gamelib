@@ -13,7 +13,7 @@ public class Animation {
 	public void update() {update(updateSpeed);}
 	public void update(double by) {
 		time += by;
-		double maxTime = getMaxTime();
+		double maxTime = maxTime();
 		if (time > maxTime) {
 			if (looped) {
 				time -= maxTime;
@@ -31,7 +31,7 @@ public class Animation {
 		loop = 0;
 	}
 	
-	public double getTime() {return time;}
+	public double time() {return time;}
 	public void setTime(double time) {this.time = time;}
 	
 	public void add(Timeline<?,?> timeline) {
@@ -41,34 +41,34 @@ public class Animation {
 		tags.add(tag);
 		timelines.add(timeline);
 	}
-	public Timeline<?,?> getTimeline(String tag) {
+	public Timeline<?,?> timeline(String tag) {
 		return timelines.get(tags.indexOf(tag));
 	}
-	public Object getState(String tag) {
-		return getTimeline(tag).getState(this);
+	public Object state(String tag) {
+		return timeline(tag).state(this);
 	}
 	
-	public double getMaxTime() {
+	public double maxTime() {
 		double max = 0;
-		for (Timeline<?,?> timeline : timelines) if (timeline.getMaxTime() > max) max = timeline.getMaxTime();
+		for (Timeline<?,?> timeline : timelines) if (timeline.maxTime() > max) max = timeline.maxTime();
 		return max;
 	}
-	public boolean isFinished() {
+	public boolean finished() {
 		if (looped) return false;
-		return time == getMaxTime();
+		return time == maxTime();
 	}
 	public int getLoopNumber() {
 		return loop;
 	}
 	
-	public boolean isLooped() {return looped;}
+	public boolean looped() {return looped;}
 	public Animation setLooped() {return setLooped(true);}
 	public Animation setLooped(boolean looped) {
 		this.looped = looped;
 		return this;
 	}
 	
-	public double getUpdateSpeed() {return updateSpeed;}
+	public double updateSpeed() {return updateSpeed;}
 	public Animation resetUpdateSpeed() {return setUpdateSpeed(1d);}
 	public Animation setUpdateSpeed(double updateSpeed) {
 		this.updateSpeed = updateSpeed;

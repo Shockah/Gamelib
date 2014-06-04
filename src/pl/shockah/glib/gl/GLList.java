@@ -9,25 +9,20 @@ public class GLList {
 		return new GLList(listId);
 	}
 	
-	private final int listId;
+	public final int id;
 	private boolean disposed = false;
 	protected boolean compiling = false, finalized = false;
 	public final Graphics g;
 	
 	public GLList(int listId) {
-		this.listId = listId;
+		this.id = listId;
 		g = new GraphicsGLList(this);
 	}
 	
 	public boolean equals(Object other) {
 		if (!(other instanceof GLList)) return false;
 		GLList gll = (GLList)other;
-		return gll.listId == listId;
-	}
-	
-	public int getID() {
-		if (disposed) throw new IllegalStateException("GLList already disposed");
-		return listId;
+		return gll.id == id;
 	}
 	
 	public Graphics graphics() {
@@ -44,7 +39,7 @@ public class GLList {
 	public boolean disposed() {return disposed;}
 	public void dispose() {
 		if (compiling) g.onUnbind();
-		glDeleteLists(getID(),1);
+		glDeleteLists(id,1);
 		disposed = true;
 	}
 }

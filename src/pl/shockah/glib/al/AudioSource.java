@@ -85,10 +85,10 @@ public class AudioSource {
 	}
 	
 	public void play() {
-		if (isPaused()) stop();
+		if (paused()) stop();
 		alSourcePlay(id);
 	}
-	public boolean isPlaying() {
+	public boolean playing() {
 		if (cacheAudio == null) return false;
 		return getAlSourceState() == AL_PLAYING;
 	}
@@ -98,9 +98,9 @@ public class AudioSource {
 		alSourcePause(id);
 	}
 	public void resume() {
-		if (isPaused()) alSourcePlay(id);
+		if (paused()) alSourcePlay(id);
 	}
-	public boolean isPaused() {
+	public boolean paused() {
 		if (cacheAudio == null) return false;
 		return getAlSourceState() == AL_PAUSED;
 	}
@@ -109,7 +109,7 @@ public class AudioSource {
 		if (cacheAudio == null) return;
 		alSourceStop(id);
 	}
-	public boolean isStopped() {
+	public boolean stopped() {
 		if (cacheAudio == null) return true;
 		int state = getAlSourceState();
 		return state != AL_PLAYING && state != AL_PAUSED;

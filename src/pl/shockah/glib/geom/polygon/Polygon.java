@@ -27,7 +27,7 @@ public class Polygon extends Shape {
 		return p;
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		
 		for (int i = 0; i < points.size(); i++) {
@@ -49,7 +49,7 @@ public class Polygon extends Shape {
 		return new Vector2d(x,y);
 	}
 	public Vector2d translateTo(double x, double y) {
-		Rectangle bb = getBoundingBox();
+		Rectangle bb = boundingBox();
 		return translate(x-bb.pos.x,y-bb.pos.y);
 	}
 	
@@ -65,41 +65,41 @@ public class Polygon extends Shape {
 		dirty = true;
 		return points.remove(index);
 	}
-	public Vector2d getPoint(int index) {
+	public Vector2d point(int index) {
 		return points.get(index);
 	}
-	public Vector2d[] getPoints() {
+	public Vector2d[] points() {
 		return points.toArray(new Vector2d[0]);
 	}
-	public int getPointCount() {
+	public int pointCount() {
 		return points.size();
 	}
-	public Line[] getLines() {
-		return getLines(true);
+	public Line[] lines() {
+		return lines(true);
 	}
-	public Line[] getLines(boolean closed) {
+	public Line[] lines(boolean closed) {
 		Line[] ret = new Line[closed ? points.size() : points.size()-1];
 		for (int i = 0; i < (closed ? points.size() : points.size()-1); i++) ret[i] = new Line(points.get(i),points.get(i == points.size()-1 ? 0 : i+1));
 		return ret;
 	}
 	
-	public ITriangulator getTriangulator() {
+	public ITriangulator triangulator() {
 		return new NeatTriangulator();
 	}
 	public void updateTriangles() {
 		if (!dirty) return;
 		
 		triangles.clear();
-		ITriangulator tris = getTriangulator();
-		for (Vector2d v : getPoints()) tris.addPolyPoint(new Vector2d(v.x,v.y));
+		ITriangulator tris = triangulator();
+		for (Vector2d v : points()) tris.addPolyPoint(new Vector2d(v.x,v.y));
 		tris.triangulate();
 		
-		for (int i = 0; i < tris.getTriangleCount(); i++) {
-			triangles.add(new Triangle(tris.getTrianglePoint(i,0),tris.getTrianglePoint(i,1),tris.getTrianglePoint(i,2)));
+		for (int i = 0; i < tris.triangleCount(); i++) {
+			triangles.add(new Triangle(tris.trianglePoint(i,0),tris.trianglePoint(i,1),tris.trianglePoint(i,2)));
 		}
 		dirty = false;
 	}
-	public List<Triangle> getTriangles() {
+	public List<Triangle> triangles() {
 		return Collections.unmodifiableList(triangles);
 	}
 	
@@ -110,7 +110,7 @@ public class Polygon extends Shape {
 		if (filled) {
 			updateTriangles();
 			glBegin(GL_TRIANGLES);
-				for (Triangle triangle : triangles) for (Vector2d v : triangle.getPoints()) glVertex2d(v.x,v.y);
+				for (Triangle triangle : triangles) for (Vector2d v : triangle.points()) glVertex2d(v.x,v.y);
 			glEnd();
 		} else {
 			glBegin(GL_LINE_LOOP);
@@ -123,7 +123,7 @@ public class Polygon extends Shape {
 	}
 	
 	public static class NoHoles extends Polygon {
-		public ITriangulator getTriangulator() {
+		public ITriangulator triangulator() {
 			return new BasicTriangulator();
 		}
 	}

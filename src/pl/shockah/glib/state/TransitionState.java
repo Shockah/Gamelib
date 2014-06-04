@@ -14,7 +14,7 @@ public final class TransitionState {
 		this.tIn = tIn;
 	}
 	
-	public Transition getCurrent() {
+	public Transition current() {
 		switch (trans) {
 			case Out: return tOut;
 			case In: return tIn;
@@ -22,24 +22,24 @@ public final class TransitionState {
 		}
 	}
 	public void init() {
-		Transition current = getCurrent();
+		Transition current = current();
 		if (current == null) return;
 		current.init(trans == ETransition.In);
 	}
 	
 	public boolean shouldUpdate() {
-		Transition current = getCurrent();
+		Transition current = current();
 		if (current == null) return true;
 		return current.shouldUpdate();
 	}
 	public boolean shouldRender(Graphics g) {
-		Transition current = getCurrent();
+		Transition current = current();
 		if (current == null) return true;
 		return current.shouldRender(g);
 	}
 	
 	public boolean update() {
-		Transition current = getCurrent();
+		Transition current = current();
 		if (current == null || current.update()) {
 			switch (trans) {
 				case Out: {
@@ -60,12 +60,12 @@ public final class TransitionState {
 		return false;
 	}
 	public void render(Graphics g) {
-		Transition current = getCurrent();
+		Transition current = current();
 		if (current == null) return;
 		current.render(g);
 	}
 	public void preRender(Graphics g) {
-		Transition current = getCurrent();
+		Transition current = current();
 		if (current == null) return;
 		current.preRender(g);
 	}

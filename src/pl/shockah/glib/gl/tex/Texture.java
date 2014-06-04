@@ -35,37 +35,37 @@ public class Texture {
 	}
 	public static Texture load(InputStream is, String format) throws IOException {
 		if (format == null) {
-			for (TextureLoader tl : TextureLoader.getAll()) try {
+			for (TextureLoader tl : TextureLoader.all()) try {
 				Texture tex = tl.load(is);
 				if (tex != null) return tex;
 			} catch (Exception e) {}
 			throw new UnsupportedOperationException("Unsupported image format.");
 		} else {
-			TextureLoader tl = TextureLoader.getTextureLoader(format);
+			TextureLoader tl = TextureLoader.textureLoader(format);
 			if (tl == null) throw new UnsupportedOperationException("Unsupported image format: "+format+".");
 			return tl.load(is);
 		}
 	}
 	
-	public static Vector2i get2Fold(Vector2 v) {
-		return get2Fold(v.Xi(),v.Yi());
+	public static Vector2i fold(Vector2 v) {
+		return fold(v.Xi(),v.Yi());
 	}
-	public static Vector2i get2Fold(int x, int y) {
+	public static Vector2i fold(int x, int y) {
 		int xx = 2, yy = 2;
 		while (x > xx) xx <<= 1;
 		while (y > yy) yy <<= 1;
 		return new Vector2i(xx,yy);
 	}
 	
-	private final int texId;
+	public final int id;
 	private final int width, height, widthFold, heightFold;
 	private boolean disposed = false;
 	
 	public Texture(int texId, int width, int height) {
-		this.texId = texId;
+		this.id = texId;
 		this.width = width;
 		this.height = height;
-		Vector2i fold = get2Fold(width,height);
+		Vector2i fold = fold(width,height);
 		widthFold = fold.x;
 		heightFold = fold.y;
 	}
@@ -73,33 +73,28 @@ public class Texture {
 	public boolean equals(Object other) {
 		if (!(other instanceof Texture)) return false;
 		Texture tex = (Texture)other;
-		return tex.texId == texId;
+		return tex.id == id;
 	}
 	
-	public int getID() {
-		if (disposed) throw new IllegalStateException("Texture already disposed");
-		return texId;
+	public Vector2i size() {
+		return new Vector2i(width(),height());
 	}
-	
-	public Vector2i getSize() {
-		return new Vector2i(getWidth(),getHeight());
-	}
-	public int getWidth() {
+	public int width() {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return width;
 	}
-	public int getHeight() {
+	public int height() {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return height;
 	}
-	public Vector2i getSizeFold() {
-		return new Vector2i(getWidthFold(),getHeightFold());
+	public Vector2i sizeFold() {
+		return new Vector2i(widthFold(),heightFold());
 	}
-	public int getWidthFold() {
+	public int widthFold() {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return widthFold;
 	}
-	public int getHeightFold() {
+	public int heightFold() {
 		if (disposed) throw new IllegalStateException("Texture already disposed");
 		return heightFold;
 	}
@@ -118,7 +113,7 @@ public class Texture {
 	protected void finalize() {dispose();}
 	public boolean disposed() {return disposed;}
 	public void dispose() {
-		glDeleteTextures(texId);
+		glDeleteTextures(id);
 		disposed = true;
 	}
 }

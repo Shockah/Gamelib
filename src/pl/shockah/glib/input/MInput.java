@@ -41,7 +41,7 @@ public class MInput {
 			
 			boolean[] ar = Mouse.getEventButtonState() ? btnPressed : btnReleased;
 			ar[Mouse.getEventButton()] = true;
-			ar[getSpecialButton(ANYBUTTON)] = true;
+			ar[specialButton(ANYBUTTON)] = true;
 			
 			if (!onPress) {
 				pos = new Vector2i(Mouse.getEventX(),Display.getHeight()-Mouse.getEventY()-1);
@@ -52,28 +52,28 @@ public class MInput {
 		mouseScroll = Mouse.getEventDWheel();
 	}
 	
-	public static Vector2i getPos() {
+	public static Vector2i pos() {
 		return pos.copyMe();
 	}
-	public static Vector2i getDeltaPos() {
+	public static Vector2i deltaPos() {
 		return delta.copyMe();
 	}
 	
-	public static int getScroll() {
+	public static int scroll() {
 		return mouseScroll;
 	}
 	
-	public static boolean isPressed(int btn) {
-		return btnPressed[getSpecialButton(btn)];
+	public static boolean pressed(int btn) {
+		return btnPressed[specialButton(btn)];
 	}
-	public static boolean isReleased(int btn) {
-		return btnReleased[getSpecialButton(btn)];
+	public static boolean released(int btn) {
+		return btnReleased[specialButton(btn)];
 	}
-	public static boolean isDown(int btn) {
-		return btnPressed[getSpecialButton(btn)] || Mouse.isButtonDown(getSpecialButton(btn));
+	public static boolean down(int btn) {
+		return btnPressed[specialButton(btn)] || Mouse.isButtonDown(specialButton(btn));
 	}
 	
-	protected static int getSpecialButton(int btn) {
+	protected static int specialButton(int btn) {
 		return btn >= 0 ? btn : btnPressed.length+btn;
 	}
 	

@@ -45,7 +45,7 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 		return new Circle(this);
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		return new Rectangle(pos.x-radius,pos.y-radius,radius*2,radius*2);
 	}
 	
@@ -76,7 +76,7 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 		return asPolygon((int)Math.ceil(Math.PI*radius/2));
 	}
 	public Polygon asPolygon(int precision) {
-		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;
+		if (lastPoly != null && lastPoly.pointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;
 		
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i).add(pos));
@@ -97,7 +97,7 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 		drawMulticolor(g,cPointCenter,cPointOut,(int)Math.ceil(Math.PI*radius/2));
 	}
 	public void drawMulticolor(Graphics g, Color cPointCenter, Color cPointOut, int precision) {
-		if (lastTriangleFan != null && lastTriangleFan.getPointCount() == precision && lastTFPrecision == precision && lastTFPos.equals(pos)) lastTriangleFan.draw(g);
+		if (lastTriangleFan != null && lastTriangleFan.pointCount() == precision && lastTFPrecision == precision && lastTFPos.equals(pos)) lastTriangleFan.draw(g);
 		
 		TriangleFan tf = new TriangleFan();
 		tf.addPoint(pos,cPointCenter);

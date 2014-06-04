@@ -42,11 +42,11 @@ public abstract class Renderable implements Comparable<Renderable> {
 		if (!Gamelib.modules().graphics()) return;
 		onDestroy();
 		GameActor.me.renderableRemove.add(this);
-		if (parent != null && !parent.isListUsed()) parent.renderables.remove(this);
+		if (parent != null && !parent.listUsed()) parent.renderables.remove(this);
 	}
 	protected void onDestroy() {}
 	
-	public final double getDepth() {
+	public final double depth() {
 		return depth;
 	}
 	public final void setDepth(double depth) {

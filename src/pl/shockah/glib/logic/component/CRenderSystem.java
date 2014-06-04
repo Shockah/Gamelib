@@ -11,7 +11,7 @@ public class CRenderSystem extends ComponentSystemByClass {
 	}
 	
 	protected void onUpdate() {
-		Graphics g = GameComponent.me.getGraphics();
+		Graphics g = GameComponent.me.graphics();
 		State state = State.get();
 		
 		if (state == null) return;
@@ -24,7 +24,7 @@ public class CRenderSystem extends ComponentSystemByClass {
 			state.renderTransitionPre(g);
 			if (state.shouldTransitionRender(g)) {
 				g.clear();
-				for (CRenderable component : getComponents(CRenderable.class)) component.render(g);
+				for (CRenderable component : components(CRenderable.class)) component.render(g);
 			}
 			state.preTransitionRender(g);
 			state.renderTransition(g);

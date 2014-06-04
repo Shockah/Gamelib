@@ -41,7 +41,7 @@ public class Line extends Shape implements IEasable<Line> {
 		return new Line(this);
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		double xmin = Math.min(pos1.x,pos2.x), xmax = Math.max(pos1.x,pos2.x);
 		double ymin = Math.min(pos1.y,pos2.y), ymax = Math.max(pos1.y,pos2.y);
 		return new Rectangle(xmin,ymin,xmax-xmin,ymax-ymin);

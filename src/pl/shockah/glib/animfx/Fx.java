@@ -20,7 +20,7 @@ public class Fx<T> implements Comparable<Fx<T>> {
 		return time < fx.time ? -1 : 1;
 	}
 	
-	@SuppressWarnings("unchecked") public T getState(Fx<?> fx, double d, Ease method) {
+	@SuppressWarnings("unchecked") public T state(Fx<?> fx, double d, Ease method) {
 		if (fx == null) fx = this;
 		if (step instanceof Integer) return (T)new Integer(method.ease((Integer)step,(Integer)fx.step,d));
 		if (step instanceof Float) return (T)new Float(method.ease((Float)step,(Float)fx.step,d));
@@ -28,7 +28,7 @@ public class Fx<T> implements Comparable<Fx<T>> {
 		throw new UnsupportedOperationException();
 	}
 	
-	public Ease getMethod(Timeline<T,?> timeline) {
+	public Ease method(Timeline<T,?> timeline) {
 		return method == null ? timeline.method : method;
 	}
 }

@@ -21,12 +21,12 @@ public final class TextHelper {
 			while (true) {
 				if (s.isEmpty()) break;
 				String s2 = s;
-				if (font.getWidth(s) > maxWidth) {
+				if (font.width(s) > maxWidth) {
 					String[] words = s.split("\\S+"), nwords = s.split("\\s+");
 					
 					for (int i = words.length; i >= 0; i--) {
 						String sret = implodeWords(words,nwords,i);
-						if (font.getWidth(sret) <= maxWidth) {
+						if (font.width(sret) <= maxWidth) {
 							s = s.substring(sret.length());
 							ret.add(sret);
 							break;
@@ -80,19 +80,19 @@ public final class TextHelper {
 	public static void drawWrapped(Graphics g, Font font, Vector2i v, CharSequence text, Vector2d alignScale, double maxWidth) {draw(g,font,v.x,v.y,wordwrap(font,text,maxWidth),alignScale);}
 	
 	public static void drawWrapped(Graphics g, Font font, double x, double y, CharSequence text, double maxWidth) {draw(g,font,x,y,wordwrap(font,text,maxWidth),ETextAlign.TopLeft);}
-	public static void drawWrapped(Graphics g, Font font, double x, double y, CharSequence text, ETextAlign align, double maxWidth) {draw(g,font,x,y,wordwrap(font,text,maxWidth),align.getScale());}
+	public static void drawWrapped(Graphics g, Font font, double x, double y, CharSequence text, ETextAlign align, double maxWidth) {draw(g,font,x,y,wordwrap(font,text,maxWidth),align.scale());}
 	public static void drawWrapped(Graphics g, Font font, double x, double y, CharSequence text, Vector2d alignScale, double maxWidth) {draw(g,font,x,y,wordwrap(font,text,maxWidth),alignScale);}
 	
 	public static void draw(Graphics g, Font font, double x, double y, CharSequence text) {draw(g,font,x,y,text,ETextAlign.TopLeft);}
-	public static void draw(Graphics g, Font font, double x, double y, CharSequence text, ETextAlign align) {draw(g,font,x,y,text,align.getScale());}
+	public static void draw(Graphics g, Font font, double x, double y, CharSequence text, ETextAlign align) {draw(g,font,x,y,text,align.scale());}
 	public static void draw(Graphics g, Font font, double x, double y, CharSequence text, Vector2d alignScale) {
 		if (text == null) return;
 		String[] ss = prepare(text).toString().split("\\r?\\n");
 		
 		Rectangle rect = new Rectangle(0,0,0,0);
-		double h = font.getHeight();
+		double h = font.height();
 		for (String s2 : ss) {
-			double w = font.getWidth(s2);
+			double w = font.width(s2);
 			if (w > rect.size.x) rect.size.x = w;
 			rect.size.y += h;
 		}
@@ -102,6 +102,6 @@ public final class TextHelper {
 	}
 	
 	private static void draw(Graphics g, Font font, double x, double y, Rectangle rect, String[] ss, double xAlignScale) {
-		for (int i = 0; i < ss.length; i++) font.draw(g,x+font.getWidth(ss[i])*xAlignScale,y+rect.pos.y+rect.size.y/ss.length*i,ss[i]);
+		for (int i = 0; i < ss.length; i++) font.draw(g,x+font.width(ss[i])*xAlignScale,y+rect.pos.y+rect.size.y/ss.length*i,ss[i]);
 	}
 }

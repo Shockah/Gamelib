@@ -16,11 +16,11 @@ public class BasicTriangulator implements ITriangulator {
 		if (!poly.contains(point)) poly.add(point);
 	}
 	
-	public int getPolyPointCount() {
+	public int polyPointCount() {
 		return poly.size();
 	}
 	
-	public Vector2d getPolyPoint(int index) {
+	public Vector2d polyPoint(int index) {
 		return new Vector2d(poly.get(index).x,poly.get(index).y);
 	}
 	
@@ -29,12 +29,12 @@ public class BasicTriangulator implements ITriangulator {
 		return process(poly,tris);
 	}
 	
-	public int getTriangleCount() {
+	public int triangleCount() {
 		if (!tried) triangulate();
 		return tris.size()/3;
 	}
 	
-	public Vector2d getTrianglePoint(int tri, int i) {
+	public Vector2d trianglePoint(int tri, int i) {
 		if (!tried) triangulate();
 		return tris.get((tri*3)+i);
 	}

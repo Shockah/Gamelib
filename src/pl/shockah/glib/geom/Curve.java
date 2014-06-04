@@ -62,17 +62,17 @@ public class Curve extends Shape implements IEasable<Curve> {
 	public Vector2d removeControlPoint(int index) {
 		return controlPoints.remove(index);
 	}
-	public Vector2d getControlPoint(int index) {
+	public Vector2d controlPoint(int index) {
 		return controlPoints.get(index);
 	}
-	public Vector2d[] getControlPoints() {
+	public Vector2d[] controlPoints() {
 		return controlPoints.toArray(new Vector2d[0]);
 	}
-	public int getControlPointCount() {
+	public int controlPointCount() {
 		return controlPoints.size();
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		double xmin = Math.min(pos1.x,pos2.x), xmax = Math.max(pos1.x,pos2.x);
 		double ymin = Math.min(pos1.y,pos2.y), ymax = Math.max(pos1.y,pos2.y);
 		return new Rectangle(xmin,ymin,xmax-xmin,ymax-ymin);

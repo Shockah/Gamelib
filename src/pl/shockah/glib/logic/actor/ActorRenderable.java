@@ -30,7 +30,7 @@ public abstract class ActorRenderable extends Actor {
 		super.destroy();
 	}
 	
-	protected final boolean isListUsed() {
+	protected final boolean listUsed() {
 		return listUsed;
 	}
 	

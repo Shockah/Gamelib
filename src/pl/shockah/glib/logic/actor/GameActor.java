@@ -39,7 +39,7 @@ public class GameActor extends Game {
 	
 	public void gameLoop() {
 		State state = State.get();
-		Graphics g = getGraphics();
+		Graphics g = graphics();
 		
 		state.updateTransition();
 		if (State.get() == null) return;

@@ -25,11 +25,11 @@ public abstract class AudioLoader {
 		} catch (Exception e) {}*/
 	}
 	
-	public static AudioLoader getAudioLoader(String format) {
-		for (AudioLoader al : loaders) if (al.isSupported(format)) return al;
+	public static AudioLoader audioLoader(String format) {
+		for (AudioLoader al : loaders) if (al.supported(format)) return al;
 		return null;
 	}
-	public static List<AudioLoader> getAll() {
+	public static List<AudioLoader> all() {
 		return Collections.unmodifiableList(loaders);
 	}
 	
@@ -47,7 +47,7 @@ public abstract class AudioLoader {
 		this.formats = new LinkedList<>(Arrays.asList(formats));
 	}
 	
-	public boolean isSupported(String format) {
+	public boolean supported(String format) {
 		return formats.contains(format);
 	}
 	

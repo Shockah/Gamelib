@@ -22,7 +22,7 @@ public class DrawPolygonTest extends State {
 		
 		Random rand = new Random();
 		for (int i = 0; i < 10; i++) {
-			Vector2d pos = i == 0 ? new Vector2d(400,300) : p.getPoints()[p.getPointCount()-1];
+			Vector2d pos = i == 0 ? new Vector2d(400,300) : p.points()[p.pointCount()-1];
 			p.addPoint(pos.Add((32+rand.nextDouble()*32)*(rand.nextBoolean() ? 1 : -1),(32+rand.nextDouble()*32)*(rand.nextBoolean() ? 1 : -1)));
 		}
 	}

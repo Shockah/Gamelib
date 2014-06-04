@@ -14,7 +14,7 @@ public abstract class Game {
 		this.initialState = initialState;
 	}
 	
-	public Graphics getGraphics() {
+	public Graphics graphics() {
 		return g;
 	}
 	

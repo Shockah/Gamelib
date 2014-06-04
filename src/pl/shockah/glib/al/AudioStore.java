@@ -14,7 +14,7 @@ public class AudioStore {
 	}
 	public static AudioInst music(Audio audio) {
 		if (musicSource == null) musicSource = new AudioSource();
-		if (!musicSource.isStopped()) musicSource.stop();
+		if (!musicSource.stopped()) musicSource.stop();
 		musicSource.reset(audio);
 		musicAudioi = new AudioInst(audio,musicSource);
 		return musicAudioi;
@@ -22,7 +22,7 @@ public class AudioStore {
 	
 	public static AudioInst sound(Audio audio) {
 		for (AudioSource source : sources) {
-			if (source.isStopped()) return new AudioInst(audio,source);
+			if (source.stopped()) return new AudioInst(audio,source);
 		}
 		
 		AudioSource source = new AudioSource();
@@ -32,7 +32,7 @@ public class AudioStore {
 	
 	public static void findNewSource(AudioInst audioi) {
 		for (AudioSource source : sources) {
-			if (source.isStopped()) {
+			if (source.stopped()) {
 				source.pairAudioInst(audioi);
 				return;
 			}

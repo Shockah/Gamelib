@@ -20,21 +20,21 @@ public class AssetLoader {
 		this.toLoad = toLoad;
 	}
 	
-	public int getLoadedCount() {
+	public int loadedCount() {
 		return loaded;
 	}
-	public int getToLoadCount() {
+	public int toLoadCount() {
 		return toLoad.size();
 	}
-	public int getTotalCount() {
+	public int totalCount() {
 		return loaded+toLoad.size();
 	}
 	public boolean finished() {
-		return getLoadedCount() == getTotalCount();
+		return loadedCount() == totalCount();
 	}
 	
 	public void update() {
-		update(1000/State.get().getFPS());
+		update(1000/State.get().fps());
 	}
 	public void update(int maxms) {
 		long time = getTime();
@@ -51,9 +51,9 @@ public class AssetLoader {
 		currentStatus = d;
 	}
 	
-	public double getStatus() {
-		double d = 1d*getLoadedCount()/getTotalCount();
-		d += currentStatus/getTotalCount();
+	public double status() {
+		double d = 1d*loadedCount()/totalCount();
+		d += currentStatus/totalCount();
 		return d;
 	}
 	

@@ -95,6 +95,13 @@ public class Vector2d extends Vector2 implements IEasable<Vector2d> {
 	public Vector2d div(Vector2 v) {return div(v.Xd(),v.Yd());}
 	public Vector2d Div(Vector2 v) {return Div(v.Xd(),v.Yd());}
 	
+	public Vector2d floor() {x = Math.floor(x); y = Math.floor(y); return this;}
+	public Vector2d Floor() {return copyMe().floor();}
+	public Vector2d round() {x = Math.round(x); y = Math.round(y); return this;}
+	public Vector2d Round() {return copyMe().round();}
+	public Vector2d ceil() {x = Math.ceil(x); y = Math.ceil(y); return this;}
+	public Vector2d Ceil() {return copyMe().ceil();}
+	
 	public Vector2d Vector(Vector2 v) {
 		return new Vector2d(v.Xd()-x,v.Yd()-y);
 	}

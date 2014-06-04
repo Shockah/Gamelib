@@ -18,37 +18,37 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		this.tex = tex;
 	}
 	
-	public Texture getTexture() {
+	public Texture texture() {
 		return tex;
 	}
 	
-	public Vector2i getTextureSize() {
-		return tex.getSize();
+	public Vector2i textureSize() {
+		return tex.size();
 	}
-	public int getTextureWidth() {
-		return tex.getWidth();
+	public int textureWidth() {
+		return tex.width();
 	}
-	public int getTextureHeight() {
-		return tex.getHeight();
+	public int textureHeight() {
+		return tex.height();
 	}
-	public Vector2i getTextureSizeFold() {
-		return tex.getSizeFold();
+	public Vector2i textureSizeFold() {
+		return tex.sizeFold();
 	}
-	public int getTextureWidthFold() {
-		return tex.getWidthFold();
+	public int textureWidthFold() {
+		return tex.widthFold();
 	}
-	public int getTextureHeightFold() {
-		return tex.getHeightFold();
+	public int textureHeightFold() {
+		return tex.heightFold();
 	}
-	public Rectangle getTextureRect() {
-		return new Rectangle(0,0,getTextureWidth(),getTextureHeight());
+	public Rectangle textureRect() {
+		return new Rectangle(0,0,textureWidth(),textureHeight());
 	}
 	
-	public Vector2i getSize() {return getTextureRect().size.toInt();}
-	public double getWidth() {return getTextureRect().size.x;}
-	public double getHeight() {return getTextureRect().size.y;}
-	public double getWidthScaled() {return getWidth()*scale.x;}
-	public double getHeightScaled() {return getHeight()*scale.y;}
+	public Vector2i size() {return textureRect().size.toInt();}
+	public double width() {return textureRect().size.x;}
+	public double height() {return textureRect().size.y;}
+	public double widthScaled() {return width()*scale.x;}
+	public double heightScaled() {return height()*scale.y;}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2 v) {drawTexture(g,v.Xd(),v.Yd());}
@@ -56,16 +56,16 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.preDraw();
 		
-		GL.bind(getTexture());
+		GL.bind(texture());
 		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
 		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
 		preDraw(g);
 		glBegin(GL_QUADS);
-			Rectangle texRect = getTextureRect();
+			Rectangle texRect = textureRect();
 			internalDrawImage(
 					0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,
-					texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold()
+					texRect.pos.x/textureWidthFold(),texRect.pos.y/textureHeightFold(),texRect.size.x/textureWidthFold(),texRect.size.y/textureHeightFold()
 			);
 		glEnd();
 		postDraw(g);
@@ -80,16 +80,16 @@ public abstract class TextureSupplier implements ITextureSupplier {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.preDraw();
 		
-		GL.bind(getTexture());
+		GL.bind(texture());
 		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
 		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
 		preDraw(g);
 		glBegin(GL_QUADS);
-			Rectangle texRect = getTextureRect();
+			Rectangle texRect = textureRect();
 			internalDrawImageMulticolor(
 					0,0,texRect.size.x*scale.x,texRect.size.y*scale.y,
-					texRect.pos.x/getTextureWidthFold(),texRect.pos.y/getTextureHeightFold(),texRect.size.x/getTextureWidthFold(),texRect.size.y/getTextureHeightFold(),
+					texRect.pos.x/textureWidthFold(),texRect.pos.y/textureHeightFold(),texRect.size.x/textureWidthFold(),texRect.size.y/textureHeightFold(),
 					cTopLeft,cTopRight,cBottomLeft,cBottomRight
 			);
 		glEnd();

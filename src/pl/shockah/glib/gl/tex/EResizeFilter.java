@@ -11,7 +11,7 @@ public enum EResizeFilter {
 		this.gl = gl;
 	}
 	
-	public int getGLConst() {
+	public int glConst() {
 		return gl;
 	}
 	public void set() {

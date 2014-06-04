@@ -52,7 +52,7 @@ public class TransitionThroughColor extends Transition {
 	public void render(Graphics g) {
 		g.setColor(color.setAlpha(alpha));
 		g.toggleAbsolute();
-		g.draw(new Rectangle(new Vector2d(),State.get().getDisplaySize()));
+		g.draw(new Rectangle(new Vector2d(),State.get().displaySize()));
 		g.toggleAbsolute();
 	}
 	

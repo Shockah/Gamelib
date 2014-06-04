@@ -10,7 +10,7 @@ public final class Entities {
 		return Collections.unmodifiableList(GameComponent.me.entities);
 	}
 	
-	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> getType(IFilter<Entity> filter, Class<T> cls) {
+	@SuppressWarnings("unchecked") public static <T extends Entity> List<T> type(IFilter<Entity> filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
 		for (Entity entity : GameComponent.me.entities) {
 			boolean b = true;
@@ -20,11 +20,11 @@ public final class Entities {
 		}
 		return list;
 	}
-	public static <T extends Entity> List<T> getType(Class<T> cls) {
-		return getType(null,cls);
+	public static <T extends Entity> List<T> type(Class<T> cls) {
+		return type(null,cls);
 	}
 	
-	@SafeVarargs public static List<Entity> getTypes(IFilter<Entity> filter, Class<? extends Entity>... entityClasses) {
+	@SafeVarargs public static List<Entity> types(IFilter<Entity> filter, Class<? extends Entity>... entityClasses) {
 		List<Entity> list = new LinkedList<>();
 		for (Entity entity : GameComponent.me.entities) {
 			boolean b = true;
@@ -42,7 +42,7 @@ public final class Entities {
 		}
 		return list;
 	}
-	@SafeVarargs public static List<Entity> getTypes(Class<? extends Entity>... entityClasses) {
-		return getTypes(null,entityClasses);
+	@SafeVarargs public static List<Entity> types(Class<? extends Entity>... entityClasses) {
+		return types(null,entityClasses);
 	}
 }

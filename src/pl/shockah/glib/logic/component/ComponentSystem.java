@@ -29,7 +29,7 @@ public abstract class ComponentSystem {
 		if (matches(entity)) cache.remove(entity);
 	}
 	
-	@SuppressWarnings("unchecked") public <T extends Component> List<T> getComponents(Class<T> cls) {
+	@SuppressWarnings("unchecked") public <T extends Component> List<T> components(Class<T> cls) {
 		List<T> list = new LinkedList<>();
 		for (Entity entity : cache) for (Component component : entity.components) if (cls.isAssignableFrom(component.getClass())) list.add((T)component);
 		return list;

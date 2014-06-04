@@ -8,7 +8,7 @@ package pl.shockah.glib.animfx;
 		super((T)step,time,method);
 	}
 	
-	public T getState(Fx<?> fx, double d, Ease method) {
+	public T state(Fx<?> fx, double d, Ease method) {
 		if (fx == null) fx = this;
 		return step.ease(((Fx<T>)fx).step,d,method);
 	}

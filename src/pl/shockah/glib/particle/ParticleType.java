@@ -23,7 +23,7 @@ public abstract class ParticleType {
 	}
 	protected void onRender(Particle p, Graphics g) {
 		image.rotation.angle = p.rotation;
-		image.scale = p.size.Div(image.getSize());
+		image.scale = p.size.Div(image.size());
 		
 		g.draw(image,p.pos);
 		

@@ -104,7 +104,7 @@ public class Shader {
 		return sdrId;
 	}
 	
-	private int getUniformLocation(String name) {
+	private int uniformLocation(String name) {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
 		
@@ -122,13 +122,13 @@ public class Shader {
 	public void setUniform(String name, float f) {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
-		glUniform1fARB(getUniformLocation(name),f);
+		glUniform1fARB(uniformLocation(name),f);
 		if (!equals(old)) GL.bind(old);
 	}
 	public void setUniform(String name, int i) {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
-		glUniform1iARB(getUniformLocation(name),i);
+		glUniform1iARB(uniformLocation(name),i);
 		if (!equals(old)) GL.bind(old);
 	}
 	
@@ -138,14 +138,14 @@ public class Shader {
 	public void setUniform(String name, float f1, float f2) {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
-		glUniform2fARB(getUniformLocation(name),f1,f2);
+		glUniform2fARB(uniformLocation(name),f1,f2);
 		if (!equals(old)) GL.bind(old);
 	}
 	public void setUniform(String name, Vector2i v) {setUniform(name,v.x,v.y);}
 	public void setUniform(String name, int i1, int i2) {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
-		glUniform2iARB(getUniformLocation(name),i1,i2);
+		glUniform2iARB(uniformLocation(name),i1,i2);
 		if (!equals(old)) GL.bind(old);
 	}
 	
@@ -157,7 +157,7 @@ public class Shader {
 	}
 	
 	public void setMixTexturing(boolean b) {mixTexturing = b;}
-	public boolean getMixTexturing() {return mixTexturing;}
+	public boolean mixTexturing() {return mixTexturing;}
 	
 	public void handleTexturing(boolean texturing) {
 		if (!mixTexturing) return;

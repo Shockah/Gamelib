@@ -31,7 +31,7 @@ public class ImageIOTextureLoader extends TextureLoader {
 	
 	public Texture load(InputStream is) throws IOException {
 		BufferedImage bi = ImageIO.read(is);
-		Vector2i fold = Texture.get2Fold(bi.getWidth(),bi.getHeight());
+		Vector2i fold = Texture.fold(bi.getWidth(),bi.getHeight());
 		ByteBuffer bb = convertImageData(bi,fold);
 		
 		int texId = glGenTextures();

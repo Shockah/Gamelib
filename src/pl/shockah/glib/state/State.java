@@ -62,7 +62,7 @@ public class State {
 	protected List<View> views = new LinkedList<>();
 	protected int fps = 60;
 	
-	public final Vector2i getDisplaySize() {
+	public final Vector2i displaySize() {
 		int w = 0, h = 0, xx, yy;
 		for (View view : views) {
 			xx = view.portPos.x+view.portSize.x;
@@ -73,7 +73,7 @@ public class State {
 		return new Vector2i(w,h);
 	}
 	
-	public final int getFPS() {
+	public final int fps() {
 		if (fps < 1) fps = 60;
 		return fps;
 	}
@@ -82,7 +82,7 @@ public class State {
 		onSetup();
 		if (!Gamelib.modules().graphics()) return;
 		if (views.isEmpty()) views.add(new View());
-		Gamelib.setDisplayMode(getDisplaySize());
+		Gamelib.setDisplayMode(displaySize());
 	}
 	protected void onSetup() {}
 	
@@ -116,7 +116,7 @@ public class State {
 	}
 	protected void onDisplayChange(Vector2i size, boolean fullscreen) {}
 	
-	public List<View> getViews() {
+	public List<View> views() {
 		return new LinkedList<>(views);
 	}
 }

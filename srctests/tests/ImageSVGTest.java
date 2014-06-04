@@ -23,7 +23,7 @@ public class ImageSVGTest extends State {
 	
 	protected void onCreate() {
 		try {
-			TextureLoader.getTextureLoader("SVG").setOption("width",384);
+			TextureLoader.textureLoader("SVG").setOption("width",384);
 			image = new Image(Texture.load("assets/imagesvg1.svg"));
 		} catch (IOException e) {e.printStackTrace();}
 		

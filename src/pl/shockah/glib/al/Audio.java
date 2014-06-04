@@ -37,13 +37,13 @@ public class Audio {
 	}
 	public static Audio load(InputStream is, String format) throws IOException {
 		if (format == null) {
-			for (AudioLoader al : AudioLoader.getAll()) try {
+			for (AudioLoader al : AudioLoader.all()) try {
 				Audio audio = al.load(is);
 				if (audio != null) return audio;
 			} catch (Exception e) {}
 			throw new UnsupportedOperationException("Unsupported audio format.");
 		} else {
-			AudioLoader al = AudioLoader.getAudioLoader(format);
+			AudioLoader al = AudioLoader.audioLoader(format);
 			if (al == null) throw new UnsupportedOperationException("Unsupported audio format: "+format+".");
 			return al.load(is);
 		}

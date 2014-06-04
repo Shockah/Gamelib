@@ -245,11 +245,11 @@ public class NeatTriangulator implements ITriangulator {
 		}
 	}
 	
-	public int getTriangleCount() {
+	public int triangleCount() {
 		return numTriangles;
 	}
 	
-	public Vector2d getTrianglePoint(int tri, int i) {
+	public Vector2d trianglePoint(int tri, int i) {
 		double xp = pointsX[triangles[tri].v[i]];
 		double yp = pointsY[triangles[tri].v[i]];
 		return new Vector2d(xp,yp);

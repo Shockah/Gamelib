@@ -32,7 +32,7 @@ public class SpriteSheet extends TextureSupplier {
 		this.spacingX = spacingX;
 		this.spacingY = spacingY;
 		
-		int w = tex.getWidth(), h = tex.getHeight();
+		int w = tex.width(), h = tex.height();
 		if (gridX < 0 || gridY < 0) {
 			gridX = gridX < 0 ? w/(-gridX) : w;
 			gridY = gridY < 0 ? h/(-gridY) : h;
@@ -48,14 +48,14 @@ public class SpriteSheet extends TextureSupplier {
 		}
 	}
 	
-	public int getColumns() {return grid.length;}
-	public int getRows() {return grid[0].length;}
-	public int getCount() {return getColumns()*getRows();}
+	public int columns() {return grid.length;}
+	public int rows() {return grid[0].length;}
+	public int count() {return columns()*rows();}
 	
-	public Image getImage(int x) {
-		return getImage(x%grid.length,x/grid.length);
+	public Image image(int x) {
+		return image(x%grid.length,x/grid.length);
 	}
-	public Image getImage(int x, int y) {
+	public Image image(int x, int y) {
 		return grid[x][y];
 	}
 	

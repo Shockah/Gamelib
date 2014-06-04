@@ -53,7 +53,7 @@ public final class GL {
 		return flipped;
 	}
 	
-	public static boolean[] getColorMask() {return new boolean[]{masking[0],masking[1],masking[2],masking[3]};}
+	public static boolean[] colorMask() {return new boolean[]{masking[0],masking[1],masking[2],masking[3]};}
 	public static void colorMask(boolean[] mask) {
 		if (masking == null || masking.length != 4) throw new IllegalArgumentException();
 		colorMask(mask[0],mask[1],mask[2],mask[3]);
@@ -117,9 +117,10 @@ public final class GL {
 			unbindTexture();
 			return;
 		}
-		if (boundTexture != null && boundTexture.getID() == tex.getID()) return;
+		if (tex.disposed()) throw new IllegalStateException("Texture already disposed");
+		if (boundTexture != null && boundTexture.id == tex.id) return;
 		if (boundTexture == null) glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D,tex.getID());
+		glBindTexture(GL_TEXTURE_2D,tex.id);
 		if (boundShader != null) boundShader.handleTexturing(true);
 		boundTexture = tex;
 		Debug.current.bindTexture++;
@@ -129,11 +130,12 @@ public final class GL {
 			unbindSurface();
 			return;
 		}
-		if (boundSurface != null && boundSurface.getID() == sur.getID()) return;
+		if (sur.disposed()) throw new IllegalStateException("Surface already disposed");
+		if (boundSurface != null && boundSurface.id == sur.id) return;
 		unbindTexture();
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,sur.getID());
-		initDisplay(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
-		enterOrtho(sur.image.getTextureWidth(),sur.image.getTextureHeight(),false);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT,sur.id);
+		initDisplay(sur.image.textureWidth(),sur.image.textureHeight(),false);
+		enterOrtho(sur.image.textureWidth(),sur.image.textureHeight(),false);
 		boundSurface = sur;
 		Debug.current.bindSurface++;
 	}
@@ -186,7 +188,7 @@ public final class GL {
 		glLineWidth(thickness);
 		GL.thickness = thickness;
 	}
-	public static float getThickness() {
+	public static float thickness() {
 		return thickness;
 	}
 	

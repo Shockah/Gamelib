@@ -9,11 +9,11 @@ public final class Actors {
 	public static List<Actor> get() {
 		return Collections.unmodifiableList(GameActor.me.actors);
 	}
-	public static List<Renderable> getRenderable() {
+	public static List<Renderable> renderable() {
 		return Collections.unmodifiableList(GameActor.me.renderable);
 	}
 	
-	@SuppressWarnings("unchecked") public static <T extends Actor> List<T> getType(IFilter<Actor> filter, Class<T> cls) {
+	@SuppressWarnings("unchecked") public static <T extends Actor> List<T> type(IFilter<Actor> filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
 		for (Actor actor : GameActor.me.actors) {
 			boolean b = true;
@@ -23,11 +23,11 @@ public final class Actors {
 		}
 		return list;
 	}
-	public static <T extends Actor> List<T> getType(Class<T> cls) {
-		return getType(null,cls);
+	public static <T extends Actor> List<T> type(Class<T> cls) {
+		return type(null,cls);
 	}
 	
-	@SafeVarargs public static List<Actor> getTypes(IFilter<Actor> filter, Class<? extends Actor>... actorClasses) {
+	@SafeVarargs public static List<Actor> types(IFilter<Actor> filter, Class<? extends Actor>... actorClasses) {
 		List<Actor> list = new LinkedList<>();
 		for (Actor actor : GameActor.me.actors) {
 			boolean b = true;
@@ -45,7 +45,7 @@ public final class Actors {
 		}
 		return list;
 	}
-	@SafeVarargs public static List<Actor> getTypes(Class<? extends Actor>... actorClasses) {
-		return getTypes(null,actorClasses);
+	@SafeVarargs public static List<Actor> types(Class<? extends Actor>... actorClasses) {
+		return types(null,actorClasses);
 	}
 }

@@ -35,7 +35,7 @@ public class StencilTest extends State {
 				image.rotation.angle += 1;
 			}
 			protected void onRender(Graphics g) {
-				Vector2i size = State.get().getDisplaySize();
+				Vector2i size = State.get().displaySize();
 				
 				StencilMask sm = new StencilMask(g,Stencil.Drop).proceed();
 				g.draw(new Circle(size.ToDouble().div(2).add(-48,0),48));

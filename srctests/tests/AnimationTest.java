@@ -61,10 +61,10 @@ public class AnimationTest extends State {
 				anim2.update();
 			}
 			protected void onRender(Graphics g) {
-				g.draw(image,linePos.getState(anim));
-				g.draw(image,linePos2.getState(anim));
-				g.draw(image,0,lineY.getState(anim2));
-				g.draw(image,100,lineY2.getState(anim2));
+				g.draw(image,linePos.state(anim));
+				g.draw(image,linePos2.state(anim));
+				g.draw(image,0,lineY.state(anim2));
+				g.draw(image,100,lineY2.state(anim2));
 			}
 		}.create();
 	}

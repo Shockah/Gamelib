@@ -20,9 +20,9 @@ public class Atlas extends TextureSupplier {
 		img = new Image(tex);
 	}
 	
-	public int getCount() {return map.size();}
+	public int count() {return map.size();}
 	
-	public Image getImage(Object key) {
+	public Image image(Object key) {
 		return map.get(key);
 	}
 	

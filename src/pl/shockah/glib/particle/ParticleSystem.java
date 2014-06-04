@@ -43,13 +43,13 @@ public class ParticleSystem extends ActorRenderable {
 		particles.add(pt);
 	}
 	
-	public boolean isEmpty() {
+	public boolean empty() {
 		return particles.isEmpty();
 	}
 	public int particleCount() {
 		return particles.size();
 	}
-	public List<Particle> getAll() {
+	public List<Particle> all() {
 		return Collections.unmodifiableList(particles);
 	}
 }

@@ -18,7 +18,7 @@ public class Surface {
 		int texId = glGenTextures();
 		int rbo = glGenRenderbuffersEXT();
 		Texture tex = new Texture(texId,w,h);
-		Vector2i fold = Texture.get2Fold(w,h);
+		Vector2i fold = Texture.fold(w,h);
 		Surface sur = new Surface(surId,new Image(tex));
 		
 		GL.unbindTexture();
@@ -40,13 +40,13 @@ public class Surface {
 		return sur;
 	}
 	
-	private final int surId;
+	public final int id;
 	private boolean disposed = false;
 	public final Image image;
 	public final Graphics g;
 	
 	public Surface(int surId, Image image) {
-		this.surId = surId;
+		this.id = surId;
 		this.image = image;
 		g = new GraphicsSurface(this);
 	}
@@ -54,12 +54,7 @@ public class Surface {
 	public boolean equals(Object other) {
 		if (!(other instanceof Surface)) return false;
 		Surface sur = (Surface)other;
-		return sur.surId == surId;
-	}
-	
-	public int getID() {
-		if (disposed) throw new IllegalStateException("Surface already disposed");
-		return surId;
+		return sur.id == id;
 	}
 	
 	public Image image() {
@@ -74,7 +69,7 @@ public class Surface {
 	protected void finalize() {dispose();}
 	public boolean disposed() {return disposed;}
 	public void dispose() {
-		glDeleteFramebuffersEXT(surId);
+		glDeleteFramebuffersEXT(id);
 		image.dispose();
 		disposed = true;
 	}

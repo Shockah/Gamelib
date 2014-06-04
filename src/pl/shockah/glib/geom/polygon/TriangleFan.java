@@ -22,7 +22,7 @@ public class TriangleFan extends Shape implements IPolygonable {
 		return tf;
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		
 		for (int i = 0; i < points.size(); i++) {
@@ -43,7 +43,7 @@ public class TriangleFan extends Shape implements IPolygonable {
 		return new Vector2d(x,y);
 	}
 	public Vector2d translateTo(double x, double y) {
-		Rectangle bb = getBoundingBox();
+		Rectangle bb = boundingBox();
 		return translate(x-bb.pos.x,y-bb.pos.y);
 	}
 	
@@ -64,13 +64,13 @@ public class TriangleFan extends Shape implements IPolygonable {
 	public Point removePoint(int index) {
 		return points.remove(index);
 	}
-	public Point getPoint(int index) {
+	public Point point(int index) {
 		return points.get(index);
 	}
-	public Point[] getPoints() {
+	public Point[] points() {
 		return points.toArray(new Point[0]);
 	}
-	public int getPointCount() {
+	public int pointCount() {
 		return points.size();
 	}
 	

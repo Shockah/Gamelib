@@ -43,13 +43,13 @@ public class KInput {
 		text.handleAll();
 	}
 	
-	public static boolean isPressed(int key) {
+	public static boolean pressed(int key) {
 		return keyPressed[key];
 	}
-	public static boolean isReleased(int key) {
+	public static boolean released(int key) {
 		return keyReleased[key];
 	}
-	public static boolean isDown(int key) {
+	public static boolean down(int key) {
 		return keyDown[key];
 	}
 }

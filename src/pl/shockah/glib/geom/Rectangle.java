@@ -53,7 +53,7 @@ public class Rectangle extends Shape implements IPolygonable,IEasable<Rectangle>
 		return new Rectangle(this);
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		return new Rectangle(this);
 	}
 	

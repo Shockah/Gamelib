@@ -65,16 +65,16 @@ public class AudioInst {
 		source.stop();
 	}
 	
-	public boolean isPlaying() {
+	public boolean playing() {
 		if (!readyCheck()) throw new ALAudioException();
-		return source.isPlaying();
+		return source.playing();
 	}
-	public boolean isPaused() {
+	public boolean paused() {
 		if (!readyCheck()) throw new ALAudioException();
-		return source.isPaused();
+		return source.paused();
 	}
-	public boolean isStopped() {
+	public boolean stopped() {
 		if (!readyCheck()) throw new ALAudioException();
-		return source.isStopped();
+		return source.stopped();
 	}
 }

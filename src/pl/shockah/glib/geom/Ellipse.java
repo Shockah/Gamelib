@@ -47,7 +47,7 @@ public class Ellipse extends Shape implements IPolygonable,IEasable<Ellipse> {
 		return new Ellipse(this);
 	}
 	
-	public Rectangle getBoundingBox() {
+	public Rectangle boundingBox() {
 		return new Rectangle(pos.x-radius.x,pos.y-radius.y,radius.x*2,radius.y*2);
 	}
 	
@@ -67,7 +67,7 @@ public class Ellipse extends Shape implements IPolygonable,IEasable<Ellipse> {
 		return asPolygon((int)Math.ceil(Math.PI*(radius.x+radius.y)/4));
 	}
 	public Polygon asPolygon(int precision) {
-		if (lastPoly != null && lastPoly.getPointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;
+		if (lastPoly != null && lastPoly.pointCount() == precision && lastPrecision == precision && lastPos.equals(pos)) return lastPoly;
 		
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) p.addPoint(new Vector2d(Math2.ldirX(radius.x,360d/precision*i),Math2.ldirY(radius.y,360d/precision*i)).add(pos));

@@ -14,7 +14,7 @@ public enum ETextAlign {
 		this.multY = multY;
 	}
 	
-	public Vector2d getScale() {
+	public Vector2d scale() {
 		return new Vector2d(multX,multY);
 	}
 }

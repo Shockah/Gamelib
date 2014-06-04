@@ -178,7 +178,7 @@ public class Graphics {
 		}
 		if (lastGraphics != this) return;
 		if (rect == null) glDisable(GL_SCISSOR_TEST); else {
-			Rectangle newr = new Rectangle((int)(rect.pos.x),(int)(GL.flipped() ? State.get().getDisplaySize().y-rect.pos.y-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
+			Rectangle newr = new Rectangle((int)(rect.pos.x),(int)(GL.flipped() ? State.get().displaySize().y-rect.pos.y-rect.size.y : rect.pos.y),(int)rect.size.x,(int)rect.size.y);
 			if (!newr.equals(lastClip)) {
 				glScissor(newr.pos.Xi(),newr.pos.Yi(),newr.size.Xi(),newr.size.Yi());
 				lastClip = newr;
@@ -295,7 +295,7 @@ public class Graphics {
 			redirect = null;
 		} else redirect.clearRedirect();
 	}
-	public final Graphics getRedirect() {
+	public final Graphics redirect() {
 		return redirect;
 	}
 	
@@ -371,8 +371,9 @@ public class Graphics {
 			redirect.draw(gll,x,y);
 			return;
 		}
+		if (gll.disposed()) throw new IllegalStateException("GLList already disposed");
 		if (x != 0 || y != 0) glTranslated(x,y,0);
-		glCallList(gll.getID());
+		glCallList(gll.id);
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
 	}
 	
@@ -395,9 +396,9 @@ public class Graphics {
 		draw(new Rectangle(x,y,1,1));
 	}
 	
-	public Vector2d getMousePos() {
-		if (redirect != null) return redirect.getMousePos();
-		return MInput.getPos().toDouble();
+	public Vector2d mousePos() {
+		if (redirect != null) return redirect.mousePos();
+		return MInput.pos().toDouble();
 	}
 	
 	public void drawAbsolute() {

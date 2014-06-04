@@ -27,31 +27,31 @@ public class TextureVertexBuilder extends TextureSupplier {
 		vertexCoord = new Vector2d[splitX+1][splitY+1];
 		vertexColor = new Color[splitX+1][splitY+1];
 		
-		Rectangle texRect = getTextureRect();
+		Rectangle texRect = textureRect();
 		for (int x = 0; x < vertexPos.length; x++) for (int y = 0; y < vertexPos[0].length; y++) {
 			vertexPos[x][y] = new Vector2d(texRect.size.x*scale.x/(vertexPos.length-1)*x,texRect.size.y*scale.y/(vertexPos[0].length-1)*y);
-			vertexCoord[x][y] = new Vector2d(texRect.size.x/getTextureWidthFold()/(vertexPos.length-1)*x,texRect.size.y/getTextureHeightFold()/(vertexPos[0].length-1)*y);
+			vertexCoord[x][y] = new Vector2d(texRect.size.x/textureWidthFold()/(vertexPos.length-1)*x,texRect.size.y/textureHeightFold()/(vertexPos[0].length-1)*y);
 		}
 	}
 	
 	public void reset(boolean pos, boolean coord, boolean color) {
-		Rectangle texRect = getTextureRect();
+		Rectangle texRect = textureRect();
 		for (int x = 0; x < vertexPos.length; x++) for (int y = 0; y < vertexPos[0].length; y++) reset(x,y,texRect,pos,coord,color);
 	}
-	public void reset(int xx, int yy, boolean pos, boolean coord, boolean color) {reset(xx,yy,getTextureRect(),pos,coord,color);}
+	public void reset(int xx, int yy, boolean pos, boolean coord, boolean color) {reset(xx,yy,textureRect(),pos,coord,color);}
 	private void reset(int xx, int yy, Rectangle texRect, boolean pos, boolean coord, boolean color) {
 		if (pos) vertexPos[xx][yy].set(texRect.size.x*scale.x/(vertexPos.length-1)*xx,texRect.size.y*scale.y/(vertexPos[0].length-1)*yy);
-		if (coord) vertexCoord[xx][yy].set(texRect.size.x/getTextureWidthFold()/(vertexPos.length-1)*xx,texRect.size.y/getTextureHeightFold()/(vertexPos[0].length-1)*yy);
+		if (coord) vertexCoord[xx][yy].set(texRect.size.x/textureWidthFold()/(vertexPos.length-1)*xx,texRect.size.y/textureHeightFold()/(vertexPos[0].length-1)*yy);
 		if (color) vertexColor[xx][yy] = null;
 	}
 	
-	public Vector2d getVertexPos(int xx, int yy) {
+	public Vector2d vertexPos(int xx, int yy) {
 		return vertexPos[xx][yy];
 	}
-	public Vector2d getVertexTexCoord(int xx, int yy) {
+	public Vector2d vertexTexCoord(int xx, int yy) {
 		return vertexCoord[xx][yy];
 	}
-	public Color getVertexColor(int xx, int yy) {
+	public Color vertexColor(int xx, int yy) {
 		return vertexColor[xx][yy];
 	}
 	public void setVertexColor(int xx, int yy, Color c) {
@@ -62,7 +62,7 @@ public class TextureVertexBuilder extends TextureSupplier {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
 		g.preDraw();
 		
-		GL.bind(getTexture());
+		GL.bind(texture());
 		if (offset.x != 0 || offset.y != 0) glTranslated(-offset.x*scale.x,-offset.y*scale.y,0);
 		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
@@ -91,7 +91,7 @@ public class TextureVertexBuilder extends TextureSupplier {
 			while (cx < 0) cx += 1; while (cx >= 1) cx -= 1;
 			while (cy < 0) cy += 1; while (cy >= 1) cy -= 1;
 		}
-		Vector2i size = getTexture().getSize(), sizeFold = getTexture().getSizeFold();
+		Vector2i size = texture().size(), sizeFold = texture().sizeFold();
 		GL.texCoord2d(1d*size.x/sizeFold.x*cx,1d*size.y/sizeFold.y*cy);
 	}
 	

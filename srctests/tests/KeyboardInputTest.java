@@ -22,8 +22,8 @@ public class KeyboardInputTest extends State {
 			
 			protected void onUpdate() {
 				oldPos = pos;
-				double xx = ((KInput.isDown(Keyboard.KEY_RIGHT) ? 1 : 0)-(KInput.isDown(Keyboard.KEY_LEFT) ? 1 : 0))*4;
-				double yy = ((KInput.isDown(Keyboard.KEY_DOWN) ? 1 : 0)-(KInput.isDown(Keyboard.KEY_UP) ? 1 : 0))*4;
+				double xx = ((KInput.down(Keyboard.KEY_RIGHT) ? 1 : 0)-(KInput.down(Keyboard.KEY_LEFT) ? 1 : 0))*4;
+				double yy = ((KInput.down(Keyboard.KEY_DOWN) ? 1 : 0)-(KInput.down(Keyboard.KEY_UP) ? 1 : 0))*4;
 				pos = pos.add(xx,yy);
 			}
 			

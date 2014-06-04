@@ -24,11 +24,11 @@ public abstract class TextureLoader {
 		} catch (Exception e) {}
 	}
 	
-	public static TextureLoader getTextureLoader(String format) {
-		for (TextureLoader tl : loaders) if (tl.isSupported(format)) return tl;
+	public static TextureLoader textureLoader(String format) {
+		for (TextureLoader tl : loaders) if (tl.supported(format)) return tl;
 		return null;
 	}
-	public static List<TextureLoader> getAll() {
+	public static List<TextureLoader> all() {
 		return Collections.unmodifiableList(loaders);
 	}
 	
@@ -46,7 +46,7 @@ public abstract class TextureLoader {
 		this.formats = new LinkedList<>(Arrays.asList(formats));
 	}
 	
-	public boolean isSupported(String format) {
+	public boolean supported(String format) {
 		return formats.contains(format);
 	}
 	

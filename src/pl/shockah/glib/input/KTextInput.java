@@ -36,7 +36,7 @@ public class KTextInput {
 			sb.deleteCharAt(sb.length()-1);
 			return true;
 		}
-		if (key == Keyboard.KEY_V && KInput.isDown(Keyboard.KEY_LCONTROL)) {
+		if (key == Keyboard.KEY_V && KInput.down(Keyboard.KEY_LCONTROL)) {
 			String clip = Sys.getClipboard();
 			if (clip != null) sb.append(clip);
 			return clip != null;

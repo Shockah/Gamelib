@@ -52,7 +52,7 @@ public class Hypnodots2 extends State {
 						
 						anim.setTime(val);
 						g.setColor(Color.fromHSB(angle/180f,1f,1f).alpha(1f/shadows*j));
-						g.draw(new Circle(250+Math2.ldirX(line.getState(anim)*225f,angle),250+Math2.ldirY(line.getState(anim)*225f,angle),5).asPolygon(16));
+						g.draw(new Circle(250+Math2.ldirX(line.state(anim)*225f,angle),250+Math2.ldirY(line.state(anim)*225f,angle),5).asPolygon(16));
 					}
 				}
 			}

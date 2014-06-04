@@ -53,7 +53,7 @@ public class CurveTest extends State {
 				
 				g.setColor(Color.White);
 				c = new Curve(50,300,250,300);
-				c.addControlPoint(150,300+linePos1.getState(anim1));
+				c.addControlPoint(150,300+linePos1.state(anim1));
 				c.draw(g);
 				p = new Polygon();
 				for (Vector2d point : c.getAllPoints()) {
@@ -61,12 +61,12 @@ public class CurveTest extends State {
 					p.addPoint(point);
 				}
 				g.setColor(Color.White.alpha(1f/3f));
-				for (Line l : p.getLines(false)) l.draw(g);
+				for (Line l : p.lines(false)) l.draw(g);
 				
 				g.setColor(Color.White);
 				c = new Curve(450,300,750,300);
-				c.addControlPoint(550,300+linePos2.getState(anim2));
-				c.addControlPoint(650,300+linePos3.getState(anim3));
+				c.addControlPoint(550,300+linePos2.state(anim2));
+				c.addControlPoint(650,300+linePos3.state(anim3));
 				c.draw(g);
 				p = new Polygon();
 				for (Vector2d point : c.getAllPoints()) {
@@ -74,7 +74,7 @@ public class CurveTest extends State {
 					p.addPoint(point);
 				}
 				g.setColor(Color.White.alpha(1f/3f));
-				for (Line l : p.getLines(false)) l.draw(g);
+				for (Line l : p.lines(false)) l.draw(g);
 			}
 		}.create();
 	}

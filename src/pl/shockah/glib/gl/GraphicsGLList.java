@@ -11,7 +11,8 @@ public class GraphicsGLList extends Graphics {
 	
 	protected void onBind() {
 		if (list.finalized) throw new IllegalStateException("GLList already finalized");
-		glNewList(list.getID(),GL_COMPILE);
+		if (list.disposed()) throw new IllegalStateException("GLList already disposed");
+		glNewList(list.id,GL_COMPILE);
 		list.compiling = true;
 	}
 	

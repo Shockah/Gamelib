@@ -90,7 +90,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		if (fontHeight <= 0) fontHeight = 1;
 	}
 	
-	private BufferedImage getFontImage(char ch) {
+	private BufferedImage fontImage(char ch) {
 		BufferedImage tempfontImage = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D)tempfontImage.getGraphics();
 		if (antiAlias) g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
@@ -134,7 +134,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 			int customCharsLength = customCharsArray != null ? customCharsArray.length : 0; 
 			for (int i = 0; i < 256 + customCharsLength; i++) {
 				char ch = i < 256 ? (char) i : customCharsArray[i-256];
-				BufferedImage fontImage = getFontImage(ch);
+				BufferedImage fontImage = fontImage(ch);
 				IntObject newIntObject = new IntObject();
 
 				newIntObject.width = fontImage.getWidth();
@@ -167,12 +167,12 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	private void drawQuad(double drawX, double drawY, double drawX2, double drawY2, double srcX, double srcY, double srcX2, double srcY2) {
 		double DrawWidth = drawX2-drawX;
 		double DrawHeight = drawY2-drawY;
-		double TextureSrcX = srcX/texture.getWidth();
-		double TextureSrcY = srcY/texture.getHeight();
+		double TextureSrcX = srcX/texture.width();
+		double TextureSrcY = srcY/texture.height();
 		double SrcWidth = srcX2-srcX;
 		double SrcHeight = srcY2-srcY;
-		double RenderWidth = SrcWidth/texture.getWidth();
-		double RenderHeight = SrcHeight/texture.getHeight();
+		double RenderWidth = SrcWidth/texture.width();
+		double RenderHeight = SrcHeight/texture.height();
 
 		glTexCoord2d(TextureSrcX,TextureSrcY+RenderHeight);
 		glVertex2d(drawX,drawY);
@@ -184,7 +184,7 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		glVertex2d(drawX+DrawWidth,drawY);
 	}
 
-	public int getWidth(String whatchars) {
+	public int width(String whatchars) {
 		IntObject intObject = null;
 		int charCurrent;
 		
@@ -205,9 +205,9 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		return totalwidth+7;
 	}
 
-	public int getHeight() {return fontHeight;}
-	public int getHeight(String HeightString) {return fontHeight;}
-	public int getLineHeight() {return fontHeight;}
+	public int height() {return fontHeight;}
+	public int height(String HeightString) {return fontHeight;}
+	public int lineHeight() {return fontHeight;}
 	
 	public void draw(Graphics g, Vector2 v, CharSequence text) {draw(g,v.Xd(),v.Yd(),text);}
 	public void draw(Graphics g, double x, double y, CharSequence text) {
@@ -509,33 +509,33 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 		return new byte[] {(byte)(value >>> 24),(byte)(value >>> 16),(byte)(value >>> 8),(byte)value};
 	}
 	
-	public Texture getTexture() {
+	public Texture texture() {
 		return texture;
 	}
 	
-	public Vector2i getTextureSize() {
-		return getTexture().getSize();
+	public Vector2i textureSize() {
+		return texture().size();
 	}
-	public int getTextureWidth() {
-		return getTexture().getWidth();
+	public int textureWidth() {
+		return texture().width();
 	}
-	public int getTextureHeight() {
-		return getTexture().getHeight();
+	public int textureHeight() {
+		return texture().height();
 	}
-	public Rectangle getTextureRect() {
-		return new Rectangle(0,0,getTextureWidth(),getTextureHeight());
+	public Rectangle textureRect() {
+		return new Rectangle(0,0,textureWidth(),textureHeight());
 	}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2 v) {drawTexture(g,v.Xd(),v.Yd());}
 	public void drawTexture(Graphics g, double x, double y) {
 		if (disposed()) throw new IllegalStateException("Texture already disposed");
-		GL.bind(getTexture());
+		GL.bind(texture());
 		if (x != 0 || y != 0) glTranslated(x,y,0);
 		
 		glBegin(GL_QUADS);
-		Rectangle texRect = getTextureRect();
-		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/getTextureWidth(),texRect.pos.y/getHeight(),texRect.size.x/getTextureWidth(),texRect.size.y/getHeight());
+		Rectangle texRect = textureRect();
+		internalDrawImage(0,0,texRect.size.x,texRect.size.y,texRect.pos.x/textureWidth(),texRect.pos.y/height(),texRect.size.x/textureWidth(),texRect.size.y/height());
 		glEnd();
 		
 		if (x != 0 || y != 0) glTranslated(-x,-y,0);
@@ -553,8 +553,8 @@ public class TrueTypeFont extends pl.shockah.glib.gl.font.Font implements ITextu
 	}
 	
 	protected void finalize() {dispose();}
-	public boolean disposed() {return getTexture().disposed();}
-	public void dispose() {getTexture().dispose();}
+	public boolean disposed() {return texture().disposed();}
+	public void dispose() {texture().dispose();}
 	
 	private static class PixelStoreState {
 		public int unpackRowLength;

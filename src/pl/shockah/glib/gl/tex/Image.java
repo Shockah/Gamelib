@@ -36,8 +36,8 @@ public class Image extends TextureSupplier {
 	}
 	
 	public Image part(int x, int y, int w, int h) {
-		Rectangle rect = getTextureRect();
-		Image img = new Image2(getTexture(),(int)(rect.pos.x+x),(int)(rect.pos.y+y),w,h);
+		Rectangle rect = textureRect();
+		Image img = new Image2(texture(),(int)(rect.pos.x+x),(int)(rect.pos.y+y),w,h);
 		img.offset.set(offset);
 		img.rotation.angle = rotation.angle;
 		img.rotation.center.set(rotation.center);
@@ -48,7 +48,7 @@ public class Image extends TextureSupplier {
 	}
 	
 	public void center() {
-		offset = getTextureRect().size.div(2);
+		offset = textureRect().size.div(2);
 		rotation.center();
 	}
 	
@@ -57,7 +57,7 @@ public class Image extends TextureSupplier {
 		public double angle = 0;
 		
 		public void center() {
-			center = getTextureRect().size.div(2);
+			center = textureRect().size.div(2);
 		}
 	}
 	
@@ -72,7 +72,7 @@ public class Image extends TextureSupplier {
 			this.h = h;
 		}
 		
-		public Rectangle getTextureRect() {
+		public Rectangle textureRect() {
 			return new Rectangle(x,y,w,h);
 		}
 	}

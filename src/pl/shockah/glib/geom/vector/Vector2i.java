@@ -95,6 +95,13 @@ public class Vector2i extends Vector2 implements IEasable<Vector2i> {
 	public Vector2i div(Vector2 v) {return div(v.Xi(),v.Yi());}
 	public Vector2i Div(Vector2 v) {return Div(v.Xi(),v.Yi());}
 	
+	public Vector2i floor() {x = (int)Math.floor(x); y = (int)Math.floor(y); return this;}
+	public Vector2i Floor() {return copyMe().floor();}
+	public Vector2i round() {x = Math.round(x); y = Math.round(y); return this;}
+	public Vector2i Round() {return copyMe().round();}
+	public Vector2i ceil() {x = (int)Math.ceil(x); y = (int)Math.ceil(y); return this;}
+	public Vector2i Ceil() {return copyMe().ceil();}
+	
 	public Vector2i Vector(Vector2 v) {
 		return new Vector2i(v.Xi()-x,v.Yi()-y);
 	}

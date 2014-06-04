@@ -8,15 +8,15 @@ public class Key {
 	}
 	
 	public boolean pressed() {
-		for (int i = 0; i < checkFor.length; i++) if (KInput.isPressed(checkFor[i])) return true;
+		for (int i = 0; i < checkFor.length; i++) if (KInput.pressed(checkFor[i])) return true;
 		return false;
 	}
 	public boolean released() {
-		for (int i = 0; i < checkFor.length; i++) if (KInput.isReleased(checkFor[i])) return true;
+		for (int i = 0; i < checkFor.length; i++) if (KInput.released(checkFor[i])) return true;
 		return false;
 	}
 	public boolean down() {
-		for (int i = 0; i < checkFor.length; i++) if (KInput.isDown(checkFor[i])) return true;
+		for (int i = 0; i < checkFor.length; i++) if (KInput.down(checkFor[i])) return true;
 		return false;
 	}
 }
