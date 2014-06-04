@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 import pl.shockah.FileIO;
+import pl.shockah.IDoable;
 import pl.shockah.glib.LoadableProcessor;
 import pl.shockah.glib.geom.vector.Vector2d;
 import pl.shockah.glib.geom.vector.Vector2f;
@@ -145,6 +146,13 @@ public class Shader {
 		Shader old = GL.boundShader();
 		if (!equals(old)) GL.bind(this);
 		glUniform2iARB(getUniformLocation(name),i1,i2);
+		if (!equals(old)) GL.bind(old);
+	}
+	
+	public void doWith(IDoable<Shader> ido) {
+		Shader old = GL.boundShader();
+		if (!equals(old)) GL.bind(this);
+		ido.doWith(this);
 		if (!equals(old)) GL.bind(old);
 	}
 	
