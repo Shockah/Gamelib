@@ -1,91 +1,80 @@
 package pl.shockah.glib.al;
 
-import static org.lwjgl.openal.AL10.*;
-
 public class AudioInst {
 	public final Audio audio;
-	public int id = -1;
-	protected float gain = 1f, pitch = 1f;
-	protected boolean dirty = true;
+	protected AudioSource source = null;
 	
 	protected AudioInst(Audio audio) {
 		this.audio = audio;
 	}
+	protected AudioInst(Audio audio, AudioSource source) {
+		this.audio = audio;
+		source.pairAudioInst(this);
+	}
 	
-	public void play() {play(false);}
-	public void play(boolean loop) {
-		findSlot();
-		stop();
-		
-		alSourcef(id,AL_BUFFER,audio.getID());
-		alSourcef(id,AL_GAIN,gain);
-		alSourcef(id,AL_PITCH,pitch);
-		alSourcef(id,AL_LOOPING,loop ? 1 : 0);
-		alSourcePlay(id);
+	public boolean readyCheck() {
+		if (audio.disposed()) return false;
+		if (source == null || source.disposed()) AudioStore.findNewSource(this);
+		return true;
+	}
+	
+	public float gain() {
+		if (!readyCheck()) throw new ALAudioException();
+		return source.gain();
+	}
+	public AudioInst gain(float gain) {
+		if (!readyCheck()) throw new ALAudioException();
+		source.gain(gain);
+		return this;
+	}
+	
+	public float pitch() {
+		if (!readyCheck()) throw new ALAudioException();
+		return source.pitch();
+	}
+	public AudioInst pitch(float pitch) {
+		if (!readyCheck()) throw new ALAudioException();
+		source.pitch(pitch);
+		return this;
+	}
+	
+	public boolean looping() {
+		if (!readyCheck()) throw new ALAudioException();
+		return source.looping();
+	}
+	public AudioInst looping(boolean looping) {
+		if (!readyCheck()) throw new ALAudioException();
+		source.looping(looping);
+		return this;
+	}
+	
+	public void play() {
+		if (!readyCheck()) throw new ALAudioException();
+		source.play();
 	}
 	public void pause() {
-		if (isPlaying()) alSourcePause(id);
+		if (!readyCheck()) throw new ALAudioException();
+		source.pause();
 	}
-	/*public void resume() {
-		if (isPaused()) alSourcePlay(id);
+	public void resume() {
+		if (!readyCheck()) throw new ALAudioException();
+		source.resume();
 	}
-	public void togglePause() {
-		if (isPaused()) resume(); else pause();
-	}*/
 	public void stop() {
-		if (isStopped()) return;
-		alSourceStop(id);
+		if (!readyCheck()) throw new ALAudioException();
+		source.stop();
 	}
 	
 	public boolean isPlaying() {
-		findSlot();
-		return alGetSourcei(id,AL_SOURCE_STATE) == AL_PLAYING;
+		if (!readyCheck()) throw new ALAudioException();
+		return source.isPlaying();
 	}
-	/*public boolean isPaused() {
-		findSlot();
-		return alGetSourcei(id,4112) == 4115;
-	}*/
+	public boolean isPaused() {
+		if (!readyCheck()) throw new ALAudioException();
+		return source.isPaused();
+	}
 	public boolean isStopped() {
-		return isStopped(true);
-	}
-	protected boolean isStopped(boolean findSlot) {
-		if (findSlot) findSlot();
-		int state = alGetSourcei(id,AL_SOURCE_STATE);
-		return state != AL_PLAYING/* && state != 4115*/;
-	}
-	
-	public AudioInst setGain(float gain) {
-		this.gain = gain;
-		if (!isStopped()) alSourcef(id,AL_GAIN,gain);
-		return this;
-	}
-	public float getGain() {
-		return gain;
-	}
-	
-	public AudioInst setPitch(float pitch) {
-		this.pitch = pitch;
-		if (!isStopped()) alSourcef(id,AL_PITCH,pitch);
-		return this;
-	}
-	public float getPitch() {
-		return pitch;
-	}
-	
-	protected void findSlot() {
-		if (!dirty) return;
-		for (AudioInst ai : AudioStore.sounds.get(audio)) {
-			if (ai.dirty) continue;
-			if (ai.isStopped(false)) ai.dirty = true;
-			id = ai.id;
-			dirty = false;
-			return;
-		}
-		id = alGenSources();
-		dirty = false;
-	}
-	
-	public void finalize() {
-		if (!dirty) alDeleteSources(id);
+		if (!readyCheck()) throw new ALAudioException();
+		return source.isStopped();
 	}
 }

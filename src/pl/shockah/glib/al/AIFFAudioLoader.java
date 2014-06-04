@@ -129,8 +129,8 @@ public class AIFFAudioLoader extends AudioLoader {
 		AiffData data = AiffData.create(is);
 		if (data == null) throw new IOException();
 		
-		Audio audio = new Audio(alGenBuffers());
-		alBufferData(audio.getID(),data.format,data.data,data.samplerate);
+		Audio audio = new Audio();
+		alBufferData(audio.id,data.format,data.data,data.samplerate);
 		return audio;
 	}
 }

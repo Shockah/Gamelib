@@ -49,29 +49,21 @@ public class Audio {
 		}
 	}
 	
-	protected final int audioId;
+	public final int id;
 	protected boolean disposed = false;
 	
-	public Audio(int audioId) {
-		this.audioId = audioId;
+	public Audio() {
+		this(alGenBuffers());
 	}
-	
-	public boolean equals(Object other) {
-		if (!(other instanceof Audio)) return false;
-		Audio audio = (Audio)other;
-		return audio.audioId == audioId;
-	}
-	
-	public int getID() {
-		if (disposed) throw new IllegalStateException("Audio already disposed");
-		return audioId;
+	public Audio(int id) {
+		this.id = id;
 	}
 	
 	public boolean disposed() {
 		return disposed;
 	}
 	public void dispose() {
-		alDeleteBuffers(getID());
+		alDeleteBuffers(id);
 		disposed = true;
 	}
 	protected void finalize() {
@@ -83,16 +75,6 @@ public class Audio {
 	}
 	public AudioInst sound() {
 		return AudioStore.sound(this);
-	}
-	
-	public void play() {
-		sound().play();
-	}
-	public void play(float gain, float pitch) {
-		sound().setGain(gain).setPitch(pitch).play();
-	}
-	public void play(float pitch) {
-		sound().setPitch(pitch).play();
 	}
 	
 	@Target(ElementType.FIELD) @Retention(RetentionPolicy.RUNTIME) public static @interface Loadable {

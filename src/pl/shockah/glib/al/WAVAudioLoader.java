@@ -122,8 +122,8 @@ public class WAVAudioLoader extends AudioLoader {
 		WaveData data = WaveData.create(is);
 		if (data == null) throw new IOException();
 		
-		Audio audio = new Audio(alGenBuffers());
-		alBufferData(audio.getID(),data.format,data.data,data.samplerate);
+		Audio audio = new Audio();
+		alBufferData(audio.id,data.format,data.data,data.samplerate);
 		return audio;
 	}
 }

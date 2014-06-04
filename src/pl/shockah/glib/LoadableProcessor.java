@@ -17,7 +17,6 @@ import pl.shockah.FileIO;
 import pl.shockah.Pair;
 import pl.shockah.glib.al.Audio;
 import pl.shockah.glib.al.AudioLoader;
-import pl.shockah.glib.al.AudioNull;
 import pl.shockah.glib.gl.Shader;
 import pl.shockah.glib.gl.font.Font;
 import pl.shockah.glib.gl.font.TrueTypeFont;
@@ -116,13 +115,7 @@ public final class LoadableProcessor {
 			if (Gamelib.modules().graphics() && ttfLoadable != null) ret.add(new TrueTypeFontLoadAction(fo,ttfLoadable));
 			
 			Audio.Loadable audioLoadable = fld.getAnnotation(Audio.Loadable.class);
-			if (Gamelib.modules().sound()) {
-				if (audioLoadable != null) ret.add(new AudioLoadAction(fo,audioLoadable,aoptints));
-			} else {
-				try {
-					fo.set(new AudioNull());
-				} catch (Exception e) {}
-			}
+			if (Gamelib.modules().sound() && audioLoadable != null) ret.add(new AudioLoadAction(fo,audioLoadable,aoptints));
 			
 			if (handler != null) handler.handle(ret,fld,o);
 		}
