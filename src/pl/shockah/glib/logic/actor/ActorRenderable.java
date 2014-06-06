@@ -36,7 +36,8 @@ public abstract class ActorRenderable extends Actor {
 	
 	public final ActorRenderable setDepth(double depth) {
 		if (!Gamelib.modules().graphics()) return this;
-		for (Renderable r : renderables) r.setDepth(depth);
+		baseDepth = depth;
+		for (Renderable r : renderables) if (r.usingBaseDepth) r.setDepth(depth);
 		return this;
 	}
 	

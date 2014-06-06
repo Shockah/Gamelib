@@ -6,19 +6,26 @@ import pl.shockah.glib.gl.Graphics;
 public abstract class Renderable implements Comparable<Renderable> {
 	protected final ActorRenderable parent;
 	private double depth = 0;
+	public final boolean usingBaseDepth;
 	
 	public Renderable() {
-		this(null);
+		parent = null;
+		usingBaseDepth = false;
 	}
 	public Renderable(double depth) {
-		this(null,depth);
+		parent = null;
+		this.depth = depth;
+		usingBaseDepth = false;
 	}
 	public Renderable(ActorRenderable er) {
-		this(er,er.baseDepth);
+		parent = er;
+		depth = er.baseDepth;
+		usingBaseDepth = true;
 	}
 	public Renderable(ActorRenderable er, double depth) {
 		parent = er;
 		this.depth = depth;
+		usingBaseDepth = false;
 	}
 	
 	public final int compareTo(Renderable r) {
