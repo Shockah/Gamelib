@@ -1,9 +1,9 @@
 package pl.shockah.glib.gl.color;
 
-import static org.lwjgl.opengl.GL11.*;
 import pl.shockah.Math2;
-import pl.shockah.glib.animfx.IEasable;
 import pl.shockah.glib.animfx.Ease;
+import pl.shockah.glib.animfx.IEasable;
+import pl.shockah.glib.gl.Graphics;
 
 public abstract class Color implements IEasable<Color> {
 	public static final Color
@@ -196,8 +196,8 @@ public abstract class Color implements IEasable<Color> {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void bind() {
-		glColor4f(Rf(),Gf(),Bf(),Af());
+	public void set(Graphics g) {
+		g.setColor(this);
 	}
 	
 	public Color alpha(float alpha) {

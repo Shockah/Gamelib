@@ -109,7 +109,7 @@ public final class GL {
 	public static void bind(Color c) {
 		if (c.equals(boundColor)) return;
 		boundColor = c;
-		boundColor.bind();
+		glColor4f(c.Rf(),c.Gf(),c.Bf(),c.Af());
 	}
 	
 	public static void bind(Texture tex) {
