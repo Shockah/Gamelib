@@ -13,7 +13,7 @@ public final class Actors {
 		return Collections.unmodifiableList(GameActor.me.renderable);
 	}
 	
-	@SuppressWarnings("unchecked") public static <T extends Actor> List<T> type(IFilter<Actor> filter, Class<T> cls) {
+	@SuppressWarnings("unchecked") public static <T> List<T> type(IFilter<Actor> filter, Class<T> cls) {
 		List<T> list = new LinkedList<>();
 		for (Actor actor : GameActor.me.actors) {
 			boolean b = true;
@@ -23,18 +23,18 @@ public final class Actors {
 		}
 		return list;
 	}
-	public static <T extends Actor> List<T> type(Class<T> cls) {
+	public static <T> List<T> type(Class<T> cls) {
 		return type(null,cls);
 	}
 	
-	@SafeVarargs public static List<Actor> types(IFilter<Actor> filter, Class<? extends Actor>... actorClasses) {
+	@SafeVarargs public static List<Actor> types(IFilter<Actor> filter, Class<?>... actorClasses) {
 		List<Actor> list = new LinkedList<>();
 		for (Actor actor : GameActor.me.actors) {
 			boolean b = true;
 			if (b && filter != null) if (!filter.accept(actor)) b = false;
 			if (b && actorClasses.length != 0) {
 				b = false;
-				for (Class<? extends Actor> cls : actorClasses) {
+				for (Class<?> cls : actorClasses) {
 					if (cls.isAssignableFrom(actor.getClass())) {
 						b = true;
 						break;
@@ -45,7 +45,7 @@ public final class Actors {
 		}
 		return list;
 	}
-	@SafeVarargs public static List<Actor> types(Class<? extends Actor>... actorClasses) {
+	@SafeVarargs public static List<Actor> types(Class<?>... actorClasses) {
 		return types(null,actorClasses);
 	}
 }
