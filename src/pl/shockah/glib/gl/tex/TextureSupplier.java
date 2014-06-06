@@ -51,7 +51,14 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public double heightScaled() {return height()*scale.y;}
 	
 	public void setPixelScale(double x, double y) {
-		scale.set(1d / width() * x, 1d / height() * y);
+		setPixelScaleX(x);
+		setPixelScaleY(y);
+	}
+	public void setPixelScaleX(double x) {
+		scale.x = x <= 0 ? 1 : 1d / width() * x;
+	}
+	public void setPixelScaleY(double y) {
+		scale.y = y <= 0 ? 1 : 1d / height() * y;
 	}
 	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
