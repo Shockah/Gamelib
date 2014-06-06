@@ -50,6 +50,10 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	public double widthScaled() {return width()*scale.x;}
 	public double heightScaled() {return height()*scale.y;}
 	
+	public void setPixelScale(double x, double y) {
+		scale.set(1d / width() * x, 1d / height() * y);
+	}
+	
 	public void drawTexture(Graphics g) {drawTexture(g,0,0);}
 	public void drawTexture(Graphics g, Vector2 v) {drawTexture(g,v.Xd(),v.Yd());}
 	public void drawTexture(Graphics g, double x, double y) {
