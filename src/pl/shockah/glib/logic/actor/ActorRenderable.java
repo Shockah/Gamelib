@@ -18,7 +18,7 @@ public abstract class ActorRenderable extends Actor {
 	
 	public final void create(Vector2 pos) {
 		super.create(pos);
-		register();
+		createRenderables();
 	}
 	public final void destroy() {
 		if (Gamelib.modules().graphics()) {
@@ -45,11 +45,11 @@ public abstract class ActorRenderable extends Actor {
 	}
 	protected void onRender(Graphics g) {}
 	
-	private final void register() {
+	private final void createRenderables() {
 		if (!Gamelib.modules().graphics()) return;
-		onRegister();
+		onCreateRenderables();
 	}
-	protected void onRegister() {
+	protected void onCreateRenderables() {
 		new RenderableDefault(this).create();
 	}
 }
