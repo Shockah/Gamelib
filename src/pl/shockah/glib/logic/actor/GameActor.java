@@ -6,6 +6,7 @@ import pl.shockah.SortedLinkedList;
 import pl.shockah.glib.Gamelib;
 import pl.shockah.glib.gl.GL;
 import pl.shockah.glib.gl.Graphics;
+import pl.shockah.glib.gl.color.Color;
 import pl.shockah.glib.logic.Game;
 import pl.shockah.glib.state.State;
 
@@ -20,6 +21,7 @@ public class GameActor extends Game {
 		renderable = new SortedLinkedList<>(),
 		renderableAdd = new SortedLinkedList<>(),
 		renderableRemove = new SortedLinkedList<>();
+	public boolean autoResetColor = true;
 	
 	public GameActor(State initialState) {
 		super(initialState);
@@ -65,11 +67,18 @@ public class GameActor extends Game {
 				renderable.addAll(renderableAdd);
 				renderableRemove.clear();
 				renderableAdd.clear();
+				if (autoResetColor) g.setColor(Color.White);
 				g.clear();
-				for (Renderable r : renderable) r.render(g);
+				for (Renderable r : renderable) {
+					if (autoResetColor) g.setColor(Color.White);
+					r.render(g);
+				}
 			}
+			if (autoResetColor) g.setColor(Color.White);
 			state.preTransitionRender(g);
+			if (autoResetColor) g.setColor(Color.White);
 			state.renderTransition(g);
+			if (autoResetColor) g.setColor(Color.White);
 			state.postRender(g);
 			GL.loadIdentity();
 		}
