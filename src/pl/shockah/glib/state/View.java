@@ -15,6 +15,9 @@ public final class View {
 	public View(Vector2 size) {
 		this(new Vector2i(),size,new Vector2i(),size);
 	}
+	public View(State state) {
+		this(new Vector2i(),state.preferredSize(),new Vector2i(),state.preferredSize());
+	}
 	public View(Vector2 portPos, Vector2 portSize, Vector2 pos, Vector2 size) {
 		this.portPos = portPos.toInt();
 		this.portSize = portSize.toInt();

@@ -81,10 +81,11 @@ public class State {
 	public final void setup() {
 		onSetup();
 		if (!Gamelib.modules().graphics()) return;
-		if (views.isEmpty()) views.add(new View());
+		if (views.isEmpty()) views.add(new View(this));
 		Gamelib.setDisplayMode(displaySize());
 	}
 	protected void onSetup() {}
+	protected Vector2i preferredSize() {return new Vector2i(800, 600);}
 	
 	public final void create() {
 		onCreate();
