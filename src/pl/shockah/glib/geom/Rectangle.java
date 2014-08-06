@@ -12,6 +12,19 @@ import pl.shockah.glib.gl.Graphics;
 import pl.shockah.glib.gl.color.Color;
 
 public class Rectangle extends Shape implements IPolygonable,IEasable<Rectangle> {
+	public static Rectangle newCentered(double x, double y, double w, double h) {
+		return new Rectangle(x - w * .5d, y - h * .5d, w, h);
+	}
+	public static Rectangle newCentered(double x, double y, Vector2 size) {
+		return new Rectangle(x - size.Xd() * .5d, y - size.Yd() * .5d, size);
+	}
+	public static Rectangle newCentered(Vector2 pos, double w, double h) {
+		return new Rectangle(pos.Xd() - w * .5d, pos.Yd() - h * .5d, w, h);
+	}
+	public static Rectangle newCentered(Vector2 pos, Vector2 size) {
+		return new Rectangle(pos.Xd() - size.Xd() * .5d, pos.Yd() - size.Yd() * .5d, size);
+	}
+	
 	public Vector2d pos, size;
 	
 	public Rectangle(double w, double h) {
