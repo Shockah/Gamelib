@@ -135,4 +135,14 @@ public class Vector2f extends Vector2 implements IEasable<Vector2f> {
 	public Vector2f ease(Vector2f v, double d, Ease method) {
 		return new Vector2f(method.ease(x,v.x,d),method.ease(y,v.y,d));
 	}
+	
+	/*
+	 * for use with Xtend
+	 */
+	public Vector2f operator_plus() {return new Vector2f(this);}
+	public Vector2f operator_plus(final Vector2 v) {return Add(v);}
+	public Vector2f operator_minus() {return Negate();}
+	public Vector2f operator_minus(final Vector2 v) {return Sub(v);}
+	public Vector2f operator_multiply(final Vector2 v) {return Scale(v);}
+	public Vector2f operator_divide(final Vector2 v) {return Div(v);}
 }
