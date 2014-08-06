@@ -213,7 +213,7 @@ public final class Gamelib {
 		gameLoop();
 		if (modules.sound()) AL.destroy();
 		if (modules.graphics()) Display.destroy();
-		System.exit(0);
+		if (windowAWT != null) windowAWT.dispose();
 	}
 	public static void stop() {
 		isRunning = false;
@@ -284,8 +284,8 @@ public final class Gamelib {
 		if (modules.graphics()) GL.unbind();
 		Debug.advance();
 		updateDelta();
-		if (modules.graphics() && closeRequested()) isRunning = false;
-		if (modules.graphics()) {
+		if (closeRequested()) isRunning = false;
+		if (modules.graphics() && isRunning) {
 			Display.update();
 			if (displayChanged) {
 				State state = State.get();

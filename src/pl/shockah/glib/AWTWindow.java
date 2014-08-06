@@ -2,6 +2,7 @@ package pl.shockah.glib;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
@@ -12,7 +13,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import pl.shockah.glib.geom.vector.Vector2i;
 
-public final class AWTWindow extends JFrame implements WindowListener {
+public final class AWTWindow extends Frame implements WindowListener {
 	private static final long serialVersionUID = 1673765420259835870L;
 	
 	protected final Canvas canvas;
@@ -41,7 +42,7 @@ public final class AWTWindow extends JFrame implements WindowListener {
 		try {
 			SwingUtilities.invokeLater(new Runnable(){
 				public void run() {
-					getContentPane().setPreferredSize(new Dimension(dm.getWidth(),dm.getHeight()));
+					setPreferredSize(new Dimension(dm.getWidth(),dm.getHeight()));
 					pack();
 					setLocationRelativeTo(null);
 				}
