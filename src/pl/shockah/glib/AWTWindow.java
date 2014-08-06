@@ -8,7 +8,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import pl.shockah.glib.geom.vector.Vector2i;
@@ -39,15 +38,9 @@ public final class AWTWindow extends Frame implements WindowListener {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	public void updateSize(final DisplayMode dm) {
-		try {
-			SwingUtilities.invokeLater(new Runnable(){
-				public void run() {
-					setPreferredSize(new Dimension(dm.getWidth(),dm.getHeight()));
-					pack();
-					setLocationRelativeTo(null);
-				}
-			});
-		} catch (Exception e) {e.printStackTrace();}
+		canvas.setSize(new Dimension(dm.getWidth(),dm.getHeight()));
+		pack();
+		setLocationRelativeTo(null);
 	}
 	
 	public boolean maximized() {
