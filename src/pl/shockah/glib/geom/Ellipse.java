@@ -50,6 +50,9 @@ public class Ellipse extends Shape implements IPolygonable,IEasable<Ellipse> {
 	public Rectangle boundingBox() {
 		return new Rectangle(pos.x-radius.x,pos.y-radius.y,radius.x*2,radius.y*2);
 	}
+	public Vector2d center() {
+		return pos.copyMe();
+	}
 	
 	public Vector2d translate(double x, double y) {
 		pos.x += x;

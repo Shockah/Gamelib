@@ -34,6 +34,9 @@ public class TriangleFan extends Shape implements IPolygonable {
 		}
 		return new Rectangle(x1,y1,x2-x1,y2-y1);
 	}
+	public Vector2d center() {
+		return boundingBox().center();
+	}
 	
 	public Vector2d translate(double x, double y) {
 		for (Point p : points) {

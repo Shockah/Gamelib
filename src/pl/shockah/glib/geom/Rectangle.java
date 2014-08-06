@@ -56,6 +56,9 @@ public class Rectangle extends Shape implements IPolygonable,IEasable<Rectangle>
 	public Rectangle boundingBox() {
 		return new Rectangle(this);
 	}
+	public Vector2d center() {
+		return pos.Add(size.Scale(.5d));
+	}
 	
 	public Vector2d translate(double x, double y) {
 		pos.add(x,y);

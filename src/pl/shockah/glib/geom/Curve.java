@@ -77,6 +77,9 @@ public class Curve extends Shape implements IEasable<Curve> {
 		double ymin = Math.min(pos1.y,pos2.y), ymax = Math.max(pos1.y,pos2.y);
 		return new Rectangle(xmin,ymin,xmax-xmin,ymax-ymin);
 	}
+	public Vector2d center() {
+		return pos1.ease(pos2,.5d);
+	}
 	
 	public Vector2d translate(double x, double y) {
 		pos1.add(x,y);

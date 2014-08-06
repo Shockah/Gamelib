@@ -8,6 +8,7 @@ public abstract class Shape {
 	public abstract Shape copy();
 	
 	public abstract Rectangle boundingBox();
+	public abstract Vector2d center();
 	
 	public Vector2d translate(Vector2 v) {return translate(v.Xd(),v.Yd());}
 	public abstract Vector2d translate(double x, double y);

@@ -48,6 +48,9 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 	public Rectangle boundingBox() {
 		return new Rectangle(pos.x-radius,pos.y-radius,radius*2,radius*2);
 	}
+	public Vector2d center() {
+		return pos.copyMe();
+	}
 	
 	public Vector2d translate(double x, double y) {
 		pos.x += x;
