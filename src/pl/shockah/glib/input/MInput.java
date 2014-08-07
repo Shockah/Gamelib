@@ -49,7 +49,7 @@ public class MInput {
 			}
 		}
 		
-		mouseScroll = Mouse.getEventDWheel();
+		mouseScroll = Mouse.getDWheel() / 120;
 	}
 	
 	public static Vector2i pos() {
