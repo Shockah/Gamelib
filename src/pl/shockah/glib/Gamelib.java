@@ -208,7 +208,7 @@ public final class Gamelib {
 		
 		modules.lock();
 		isRunning = true;
-		Display.setTitle(windowTitle);
+		if (modules.graphics()) Display.setTitle(windowTitle);
 		game.setup();
 		gameLoop();
 		if (modules.sound()) AL.destroy();
@@ -220,6 +220,12 @@ public final class Gamelib {
 	}
 	public static boolean isRunning() {
 		return isRunning;
+	}
+	public static void setTitle(String title) {
+		if (modules.graphics()) {
+			if (windowAWT != null) windowAWT.setTitle(title);
+			Display.setTitle(title);
+		}
 	}
 	
 	public static void resetGL() {
