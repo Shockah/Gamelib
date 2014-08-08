@@ -159,7 +159,12 @@ public abstract class Ease {
 		public static final Ease
 			In = new EaseEase(){
 				protected double ease(double t, double b, double c, double d) {
-					return -c * (Math.sqrt(1 - (t/=d)*t) - 1) + b;
+					//totally breaks when using doubles; casting to floats instead
+					float tt = (float)t;
+					float bb = (float)b;
+					float cc = (float)c;
+					float dd = (float)d;
+					return -cc * ((float)Math.sqrt(1 - (tt/=dd)*tt) - 1) + bb;
 				}
 			},
 			Out = new EaseEase(){
