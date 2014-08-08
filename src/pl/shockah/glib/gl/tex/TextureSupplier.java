@@ -45,6 +45,7 @@ public abstract class TextureSupplier implements ITextureSupplier {
 	}
 	
 	public Vector2i size() {return textureRect().size.toInt();}
+	public Vector2d sizeScaled() {return textureRect().size.Scale(scale);}
 	public double width() {return textureRect().size.x;}
 	public double height() {return textureRect().size.y;}
 	public double widthScaled() {return width()*scale.x;}
