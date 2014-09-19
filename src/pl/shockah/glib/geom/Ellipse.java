@@ -16,6 +16,7 @@ public class Ellipse extends Shape implements IPolygonable,IEasable<Ellipse> {
 	protected int lastPrecision = -1;
 	protected Polygon lastPoly = null;
 	
+	public Ellipse(double radiusH, double radiusV) {this(0, 0, radiusH, radiusV);}
 	public Ellipse(double x, double y, double radiusH, double radiusV) {
 		pos = new Vector2d(x,y);
 		radius = new Vector2d(radiusH,radiusV);
@@ -75,7 +76,7 @@ public class Ellipse extends Shape implements IPolygonable,IEasable<Ellipse> {
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) p.addPoint(new Vector2d(Math2.ldirX(radius.x,360d/precision*i),Math2.ldirY(radius.y,360d/precision*i)).add(pos));
 		
-		lastPos = pos;
+		lastPos = pos.copyMe();
 		lastPrecision = precision;
 		return lastPoly = p;
 	}

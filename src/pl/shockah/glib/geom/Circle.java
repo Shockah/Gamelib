@@ -19,6 +19,7 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 	protected Polygon lastPoly = null;
 	protected TriangleFan lastTriangleFan = null;
 	
+	public Circle(double radius) {this(0, 0, radius);}
 	public Circle(double x, double y, double radius) {
 		pos = new Vector2d(x,y);
 		this.radius = radius;
@@ -90,7 +91,7 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 		Polygon p = new Polygon.NoHoles();
 		for (int i = 0; i < precision; i++) p.addPoint(Vector2d.make(radius,360d/precision*i).add(pos));
 		
-		lastPos = pos;
+		lastPos = pos.copyMe();
 		lastPrecision = precision;
 		return lastPoly = p;
 	}
