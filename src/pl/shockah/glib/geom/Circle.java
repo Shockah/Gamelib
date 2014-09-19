@@ -68,9 +68,15 @@ public class Circle extends Shape implements IPolygonable,IEasable<Circle> {
 		if (shape instanceof Circle) {
 			Circle circle = (Circle)shape;
 			return pos.distanceSquared(circle.pos) < Math.pow(radius+circle.radius,2);
-		} else if (shape instanceof Rectangle) {
-			if (secondTry) return super.collides(shape);
-			return shape.collides(this,true);
+		} else if (shape instanceof Line) {
+			Line line = (Line)shape;
+			Vector2d proj = line.pos1.ProjectOnto(line.pos2);
+			double len = line.pos1.distance(line.pos2);
+			if (line.pos1.distance(proj) <= len - radius && line.pos2.distance(proj) <= len - radius) {
+				Vector2d v = pos.Sub(proj);
+				if (v.length() <= radius) return true;
+			}
+			return false;
 		}
 		return super.collides(shape);
 	}

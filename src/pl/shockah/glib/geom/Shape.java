@@ -19,7 +19,8 @@ public abstract class Shape {
 		return collides(shape,false);
 	}
 	protected boolean collides(Shape shape, boolean secondTry) {
-		throw new UnsupportedOperationException();
+		if (secondTry) throw new UnsupportedOperationException();
+		return shape.collides(this, true);
 	}
 	
 	public void draw(Graphics g) {draw(g,true);}
