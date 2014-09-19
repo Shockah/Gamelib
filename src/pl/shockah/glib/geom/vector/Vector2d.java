@@ -129,6 +129,15 @@ public class Vector2d extends Vector2 implements IEasable<Vector2d> {
 		return Math2.deltaAngle(direction(),angle);
 	}
 	
+	public Vector2d projectOnto(Vector2 v) {
+		Vector2d vd = v.ToDouble();
+		return scale(vd).div(vd.scale(vd));
+	}
+	public Vector2d ProjectOnto(Vector2 v) {
+		Vector2d vd = v.ToDouble();
+		return Scale(vd).div(vd.scale(vd));
+	}
+	
 	public Vector2d ease(Vector2d v, double d) {
 		return ease(v,d,Ease.Linear);
 	}

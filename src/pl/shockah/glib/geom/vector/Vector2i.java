@@ -136,6 +136,15 @@ public class Vector2i extends Vector2 implements IEasable<Vector2i> {
 		return new Vector2i(method.ease(x,v.x,d),method.ease(y,v.y,d));
 	}
 	
+	public Vector2i projectOnto(Vector2 v) {
+		Vector2i vi = v.ToInt();
+		return scale(vi).div(vi.scale(vi));
+	}
+	public Vector2i ProjectOnto(Vector2 v) {
+		Vector2i vi = v.ToInt();
+		return Scale(vi).div(vi.scale(vi));
+	}
+	
 	/*
 	 * for use with Xtend
 	 */

@@ -129,6 +129,15 @@ public class Vector2f extends Vector2 implements IEasable<Vector2f> {
 		return Math2.deltaAngle(direction(),angle);
 	}
 	
+	public Vector2f projectOnto(Vector2 v) {
+		Vector2f vf = v.ToFloat();
+		return scale(vf).div(vf.scale(vf));
+	}
+	public Vector2f ProjectOnto(Vector2 v) {
+		Vector2f vf = v.ToFloat();
+		return Scale(vf).div(vf.scale(vf));
+	}
+	
 	public Vector2f ease(Vector2f v, double d) {
 		return ease(v,d,Ease.Linear);
 	}
